@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2JurisdictionMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2Jurisdiction" >
+    <id column="jur_id" property="jurId" jdbcType="VARCHAR" />
+    <result column="jur_name" property="jurName" jdbcType="VARCHAR" />
+    <result column="juri_url" property="juriUrl" jdbcType="VARCHAR" />
+    <result column="jur_icon" property="jurIcon" jdbcType="VARCHAR" />
+    <result column="jur_parent_id" property="jurParentId" jdbcType="VARCHAR" />
+    <result column="jur_component" property="jurComponent" jdbcType="VARCHAR" />
+    <result column="jur_create_time" property="jurCreateTime" jdbcType="TIMESTAMP" />
+    <result column="jur_update_time" property="jurUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="jur_del_flag" property="jurDelFlag" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    jur_id, jur_name, juri_url, jur_icon, jur_parent_id, jur_component, jur_create_time, 
+    jur_update_time, jur_del_flag, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2JurisdictionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_jurisdiction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_jurisdiction
+    where jur_id = #{jurId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from k2_jurisdiction
+    where jur_id = #{jurId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2JurisdictionExample" >
+    delete from k2_jurisdiction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2Jurisdiction" >
+    insert into k2_jurisdiction (jur_id, jur_name, juri_url, 
+      jur_icon, jur_parent_id, jur_component, 
+      jur_create_time, jur_update_time, jur_del_flag, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{jurId,jdbcType=VARCHAR}, #{jurName,jdbcType=VARCHAR}, #{juriUrl,jdbcType=VARCHAR}, 
+      #{jurIcon,jdbcType=VARCHAR}, #{jurParentId,jdbcType=VARCHAR}, #{jurComponent,jdbcType=VARCHAR}, 
+      #{jurCreateTime,jdbcType=TIMESTAMP}, #{jurUpdateTime,jdbcType=TIMESTAMP}, #{jurDelFlag,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2Jurisdiction" >
+    insert into k2_jurisdiction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jurId != null" >
+        jur_id,
+      </if>
+      <if test="jurName != null" >
+        jur_name,
+      </if>
+      <if test="juriUrl != null" >
+        juri_url,
+      </if>
+      <if test="jurIcon != null" >
+        jur_icon,
+      </if>
+      <if test="jurParentId != null" >
+        jur_parent_id,
+      </if>
+      <if test="jurComponent != null" >
+        jur_component,
+      </if>
+      <if test="jurCreateTime != null" >
+        jur_create_time,
+      </if>
+      <if test="jurUpdateTime != null" >
+        jur_update_time,
+      </if>
+      <if test="jurDelFlag != null" >
+        jur_del_flag,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jurId != null" >
+        #{jurId,jdbcType=VARCHAR},
+      </if>
+      <if test="jurName != null" >
+        #{jurName,jdbcType=VARCHAR},
+      </if>
+      <if test="juriUrl != null" >
+        #{juriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jurIcon != null" >
+        #{jurIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="jurParentId != null" >
+        #{jurParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="jurComponent != null" >
+        #{jurComponent,jdbcType=VARCHAR},
+      </if>
+      <if test="jurCreateTime != null" >
+        #{jurCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jurUpdateTime != null" >
+        #{jurUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jurDelFlag != null" >
+        #{jurDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2JurisdictionExample" resultType="java.lang.Integer" >
+    select count(*) from k2_jurisdiction
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_jurisdiction
+    <set >
+      <if test="record.jurId != null" >
+        jur_id = #{record.jurId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurName != null" >
+        jur_name = #{record.jurName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.juriUrl != null" >
+        juri_url = #{record.juriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurIcon != null" >
+        jur_icon = #{record.jurIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurParentId != null" >
+        jur_parent_id = #{record.jurParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurComponent != null" >
+        jur_component = #{record.jurComponent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurCreateTime != null" >
+        jur_create_time = #{record.jurCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jurUpdateTime != null" >
+        jur_update_time = #{record.jurUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jurDelFlag != null" >
+        jur_del_flag = #{record.jurDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_jurisdiction
+    set jur_id = #{record.jurId,jdbcType=VARCHAR},
+      jur_name = #{record.jurName,jdbcType=VARCHAR},
+      juri_url = #{record.juriUrl,jdbcType=VARCHAR},
+      jur_icon = #{record.jurIcon,jdbcType=VARCHAR},
+      jur_parent_id = #{record.jurParentId,jdbcType=VARCHAR},
+      jur_component = #{record.jurComponent,jdbcType=VARCHAR},
+      jur_create_time = #{record.jurCreateTime,jdbcType=TIMESTAMP},
+      jur_update_time = #{record.jurUpdateTime,jdbcType=TIMESTAMP},
+      jur_del_flag = #{record.jurDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2Jurisdiction" >
+    update k2_jurisdiction
+    <set >
+      <if test="jurName != null" >
+        jur_name = #{jurName,jdbcType=VARCHAR},
+      </if>
+      <if test="juriUrl != null" >
+        juri_url = #{juriUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jurIcon != null" >
+        jur_icon = #{jurIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="jurParentId != null" >
+        jur_parent_id = #{jurParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="jurComponent != null" >
+        jur_component = #{jurComponent,jdbcType=VARCHAR},
+      </if>
+      <if test="jurCreateTime != null" >
+        jur_create_time = #{jurCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jurUpdateTime != null" >
+        jur_update_time = #{jurUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jurDelFlag != null" >
+        jur_del_flag = #{jurDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jur_id = #{jurId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2Jurisdiction" >
+    update k2_jurisdiction
+    set jur_name = #{jurName,jdbcType=VARCHAR},
+      juri_url = #{juriUrl,jdbcType=VARCHAR},
+      jur_icon = #{jurIcon,jdbcType=VARCHAR},
+      jur_parent_id = #{jurParentId,jdbcType=VARCHAR},
+      jur_component = #{jurComponent,jdbcType=VARCHAR},
+      jur_create_time = #{jurCreateTime,jdbcType=TIMESTAMP},
+      jur_update_time = #{jurUpdateTime,jdbcType=TIMESTAMP},
+      jur_del_flag = #{jurDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where jur_id = #{jurId,jdbcType=VARCHAR}
+  </update>
+</mapper>

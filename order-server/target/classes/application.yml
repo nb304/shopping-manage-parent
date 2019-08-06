@@ -1,0 +1,21 @@
+#设置当前的端口号
+server:
+  port: 8888
+
+spring:
+  application:
+    #设置当前的服务的名称
+    name: order-server
+
+eureka:
+  instance:
+    #不配置的话是本机的机器名注册上去  配置了的话是本机的ip地址注册上去
+    #如果与这里的解释不相同有可能是多块网卡干扰了
+    prefer-ip-address: true
+
+  client:
+    service-url:
+      #服务注册中心的配置内容，指定服务注册中心的位置 将当前服务注册到注册中心中
+      defaultZone: http://king2:king2@localhost:9999/eureka/
+
+

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2SystemFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2SystemFeedback" >
+    <id column="system_feedback_id" property="systemFeedbackId" jdbcType="INTEGER" />
+    <result column="feedback_number" property="feedbackNumber" jdbcType="VARCHAR" />
+    <result column="is_common" property="isCommon" jdbcType="INTEGER" />
+    <result column="belong_user_id" property="belongUserId" jdbcType="INTEGER" />
+    <result column="feedback_username" property="feedbackUsername" jdbcType="VARCHAR" />
+    <result column="feedback_state" property="feedbackState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2SystemFeedback" extends="BaseResultMap" >
+    <result column="feedback_content" property="feedbackContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    system_feedback_id, feedback_number, is_common, belong_user_id, feedback_username, 
+    feedback_state, create_time, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    feedback_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2SystemFeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_system_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2SystemFeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_system_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_system_feedback
+    where system_feedback_id = #{systemFeedbackId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_system_feedback
+    where system_feedback_id = #{systemFeedbackId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2SystemFeedbackExample" >
+    delete from k2_system_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2SystemFeedback" >
+    insert into k2_system_feedback (system_feedback_id, feedback_number, 
+      is_common, belong_user_id, feedback_username, 
+      feedback_state, create_time, retain1, 
+      retain2, retain3, retain4, 
+      retain5, feedback_content)
+    values (#{systemFeedbackId,jdbcType=INTEGER}, #{feedbackNumber,jdbcType=VARCHAR}, 
+      #{isCommon,jdbcType=INTEGER}, #{belongUserId,jdbcType=INTEGER}, #{feedbackUsername,jdbcType=VARCHAR}, 
+      #{feedbackState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{retain1,jdbcType=VARCHAR}, 
+      #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, 
+      #{retain5,jdbcType=VARCHAR}, #{feedbackContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2SystemFeedback" >
+    insert into k2_system_feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="systemFeedbackId != null" >
+        system_feedback_id,
+      </if>
+      <if test="feedbackNumber != null" >
+        feedback_number,
+      </if>
+      <if test="isCommon != null" >
+        is_common,
+      </if>
+      <if test="belongUserId != null" >
+        belong_user_id,
+      </if>
+      <if test="feedbackUsername != null" >
+        feedback_username,
+      </if>
+      <if test="feedbackState != null" >
+        feedback_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="feedbackContent != null" >
+        feedback_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="systemFeedbackId != null" >
+        #{systemFeedbackId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackNumber != null" >
+        #{feedbackNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isCommon != null" >
+        #{isCommon,jdbcType=INTEGER},
+      </if>
+      <if test="belongUserId != null" >
+        #{belongUserId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackUsername != null" >
+        #{feedbackUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackState != null" >
+        #{feedbackState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackContent != null" >
+        #{feedbackContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2SystemFeedbackExample" resultType="java.lang.Integer" >
+    select count(*) from k2_system_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_system_feedback
+    <set >
+      <if test="record.systemFeedbackId != null" >
+        system_feedback_id = #{record.systemFeedbackId,jdbcType=INTEGER},
+      </if>
+      <if test="record.feedbackNumber != null" >
+        feedback_number = #{record.feedbackNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isCommon != null" >
+        is_common = #{record.isCommon,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongUserId != null" >
+        belong_user_id = #{record.belongUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.feedbackUsername != null" >
+        feedback_username = #{record.feedbackUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackState != null" >
+        feedback_state = #{record.feedbackState,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackContent != null" >
+        feedback_content = #{record.feedbackContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_system_feedback
+    set system_feedback_id = #{record.systemFeedbackId,jdbcType=INTEGER},
+      feedback_number = #{record.feedbackNumber,jdbcType=VARCHAR},
+      is_common = #{record.isCommon,jdbcType=INTEGER},
+      belong_user_id = #{record.belongUserId,jdbcType=INTEGER},
+      feedback_username = #{record.feedbackUsername,jdbcType=VARCHAR},
+      feedback_state = #{record.feedbackState,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      feedback_content = #{record.feedbackContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_system_feedback
+    set system_feedback_id = #{record.systemFeedbackId,jdbcType=INTEGER},
+      feedback_number = #{record.feedbackNumber,jdbcType=VARCHAR},
+      is_common = #{record.isCommon,jdbcType=INTEGER},
+      belong_user_id = #{record.belongUserId,jdbcType=INTEGER},
+      feedback_username = #{record.feedbackUsername,jdbcType=VARCHAR},
+      feedback_state = #{record.feedbackState,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2SystemFeedback" >
+    update k2_system_feedback
+    <set >
+      <if test="feedbackNumber != null" >
+        feedback_number = #{feedbackNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isCommon != null" >
+        is_common = #{isCommon,jdbcType=INTEGER},
+      </if>
+      <if test="belongUserId != null" >
+        belong_user_id = #{belongUserId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackUsername != null" >
+        feedback_username = #{feedbackUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackState != null" >
+        feedback_state = #{feedbackState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackContent != null" >
+        feedback_content = #{feedbackContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where system_feedback_id = #{systemFeedbackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2SystemFeedback" >
+    update k2_system_feedback
+    set feedback_number = #{feedbackNumber,jdbcType=VARCHAR},
+      is_common = #{isCommon,jdbcType=INTEGER},
+      belong_user_id = #{belongUserId,jdbcType=INTEGER},
+      feedback_username = #{feedbackUsername,jdbcType=VARCHAR},
+      feedback_state = #{feedbackState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      feedback_content = #{feedbackContent,jdbcType=LONGVARCHAR}
+    where system_feedback_id = #{systemFeedbackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2SystemFeedback" >
+    update k2_system_feedback
+    set feedback_number = #{feedbackNumber,jdbcType=VARCHAR},
+      is_common = #{isCommon,jdbcType=INTEGER},
+      belong_user_id = #{belongUserId,jdbcType=INTEGER},
+      feedback_username = #{feedbackUsername,jdbcType=VARCHAR},
+      feedback_state = #{feedbackState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where system_feedback_id = #{systemFeedbackId,jdbcType=INTEGER}
+  </update>
+</mapper>

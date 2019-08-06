@@ -17,7 +17,11 @@
     <description>当前是一个服务注册中心</description>
 
     <dependencies>
-
+        <!-- 安全框架依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
     </dependencies>
 
 

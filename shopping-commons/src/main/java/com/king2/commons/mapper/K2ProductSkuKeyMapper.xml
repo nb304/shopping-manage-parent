@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductSkuKeyMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductSkuKey" >
+    <id column="product_sku_key_id" property="productSkuKeyId" jdbcType="INTEGER" />
+    <result column="product_sku_key_name" property="productSkuKeyName" jdbcType="VARCHAR" />
+    <result column="belong_product_id" property="belongProductId" jdbcType="INTEGER" />
+    <result column="belong_category_id" property="belongCategoryId" jdbcType="INTEGER" />
+    <result column="is_system_create" property="isSystemCreate" jdbcType="INTEGER" />
+    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
+    <result column="belong_store_id" property="belongStoreId" jdbcType="INTEGER" />
+    <result column="sku_key_state" property="skuKeyState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_sku_key_id, product_sku_key_name, belong_product_id, belong_category_id, 
+    is_system_create, create_userid, belong_store_id, sku_key_state, create_time, retain1, 
+    retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductSkuKeyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_sku_key
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_sku_key
+    where product_sku_key_id = #{productSkuKeyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_sku_key
+    where product_sku_key_id = #{productSkuKeyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductSkuKeyExample" >
+    delete from k2_product_sku_key
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductSkuKey" >
+    insert into k2_product_sku_key (product_sku_key_id, product_sku_key_name, 
+      belong_product_id, belong_category_id, is_system_create, 
+      create_userid, belong_store_id, sku_key_state, 
+      create_time, retain1, retain2, 
+      retain3, retain4, retain5
+      )
+    values (#{productSkuKeyId,jdbcType=INTEGER}, #{productSkuKeyName,jdbcType=VARCHAR}, 
+      #{belongProductId,jdbcType=INTEGER}, #{belongCategoryId,jdbcType=INTEGER}, #{isSystemCreate,jdbcType=INTEGER}, 
+      #{createUserid,jdbcType=INTEGER}, #{belongStoreId,jdbcType=INTEGER}, #{skuKeyState,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductSkuKey" >
+    insert into k2_product_sku_key
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productSkuKeyId != null" >
+        product_sku_key_id,
+      </if>
+      <if test="productSkuKeyName != null" >
+        product_sku_key_name,
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id,
+      </if>
+      <if test="belongCategoryId != null" >
+        belong_category_id,
+      </if>
+      <if test="isSystemCreate != null" >
+        is_system_create,
+      </if>
+      <if test="createUserid != null" >
+        create_userid,
+      </if>
+      <if test="belongStoreId != null" >
+        belong_store_id,
+      </if>
+      <if test="skuKeyState != null" >
+        sku_key_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productSkuKeyId != null" >
+        #{productSkuKeyId,jdbcType=INTEGER},
+      </if>
+      <if test="productSkuKeyName != null" >
+        #{productSkuKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProductId != null" >
+        #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="belongCategoryId != null" >
+        #{belongCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isSystemCreate != null" >
+        #{isSystemCreate,jdbcType=INTEGER},
+      </if>
+      <if test="createUserid != null" >
+        #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="belongStoreId != null" >
+        #{belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="skuKeyState != null" >
+        #{skuKeyState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductSkuKeyExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_sku_key
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_sku_key
+    <set >
+      <if test="record.productSkuKeyId != null" >
+        product_sku_key_id = #{record.productSkuKeyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSkuKeyName != null" >
+        product_sku_key_name = #{record.productSkuKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongProductId != null" >
+        belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongCategoryId != null" >
+        belong_category_id = #{record.belongCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSystemCreate != null" >
+        is_system_create = #{record.isSystemCreate,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUserid != null" >
+        create_userid = #{record.createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongStoreId != null" >
+        belong_store_id = #{record.belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.skuKeyState != null" >
+        sku_key_state = #{record.skuKeyState,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_sku_key
+    set product_sku_key_id = #{record.productSkuKeyId,jdbcType=INTEGER},
+      product_sku_key_name = #{record.productSkuKeyName,jdbcType=VARCHAR},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      belong_category_id = #{record.belongCategoryId,jdbcType=INTEGER},
+      is_system_create = #{record.isSystemCreate,jdbcType=INTEGER},
+      create_userid = #{record.createUserid,jdbcType=INTEGER},
+      belong_store_id = #{record.belongStoreId,jdbcType=INTEGER},
+      sku_key_state = #{record.skuKeyState,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductSkuKey" >
+    update k2_product_sku_key
+    <set >
+      <if test="productSkuKeyName != null" >
+        product_sku_key_name = #{productSkuKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="belongCategoryId != null" >
+        belong_category_id = #{belongCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isSystemCreate != null" >
+        is_system_create = #{isSystemCreate,jdbcType=INTEGER},
+      </if>
+      <if test="createUserid != null" >
+        create_userid = #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="belongStoreId != null" >
+        belong_store_id = #{belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="skuKeyState != null" >
+        sku_key_state = #{skuKeyState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_sku_key_id = #{productSkuKeyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductSkuKey" >
+    update k2_product_sku_key
+    set product_sku_key_name = #{productSkuKeyName,jdbcType=VARCHAR},
+      belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      belong_category_id = #{belongCategoryId,jdbcType=INTEGER},
+      is_system_create = #{isSystemCreate,jdbcType=INTEGER},
+      create_userid = #{createUserid,jdbcType=INTEGER},
+      belong_store_id = #{belongStoreId,jdbcType=INTEGER},
+      sku_key_state = #{skuKeyState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where product_sku_key_id = #{productSkuKeyId,jdbcType=INTEGER}
+  </update>
+</mapper>

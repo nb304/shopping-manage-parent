@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2OrderAfterSalesMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2OrderAfterSales" >
+    <id column="as_id" property="asId" jdbcType="INTEGER" />
+    <result column="as_type" property="asType" jdbcType="VARCHAR" />
+    <result column="as_desc" property="asDesc" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="as_dealWith_time" property="asDealwithTime" jdbcType="TIMESTAMP" />
+    <result column="as_dealWith_desc" property="asDealwithDesc" jdbcType="VARCHAR" />
+    <result column="as_dealWith_flag" property="asDealwithFlag" jdbcType="INTEGER" />
+    <result column="as_dealWith_account" property="asDealwithAccount" jdbcType="VARCHAR" />
+    <result column="as_create_time" property="asCreateTime" jdbcType="TIMESTAMP" />
+    <result column="as_del_flag" property="asDelFlag" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2OrderAfterSales" extends="BaseResultMap" >
+    <result column="as_imgUrl" property="asImgurl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    as_id, as_type, as_desc, member_id, order_number, as_dealWith_time, as_dealWith_desc, 
+    as_dealWith_flag, as_dealWith_account, as_create_time, as_del_flag, retain1, retain2, 
+    retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    as_imgUrl
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2OrderAfterSalesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_order_after_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2OrderAfterSalesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_order_after_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_order_after_sales
+    where as_id = #{asId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_order_after_sales
+    where as_id = #{asId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2OrderAfterSalesExample" >
+    delete from k2_order_after_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2OrderAfterSales" >
+    insert into k2_order_after_sales (as_id, as_type, as_desc, 
+      member_id, order_number, as_dealWith_time, 
+      as_dealWith_desc, as_dealWith_flag, as_dealWith_account, 
+      as_create_time, as_del_flag, retain1, 
+      retain2, retain3, retain4, 
+      retain5, as_imgUrl)
+    values (#{asId,jdbcType=INTEGER}, #{asType,jdbcType=VARCHAR}, #{asDesc,jdbcType=VARCHAR}, 
+      #{memberId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{asDealwithTime,jdbcType=TIMESTAMP}, 
+      #{asDealwithDesc,jdbcType=VARCHAR}, #{asDealwithFlag,jdbcType=INTEGER}, #{asDealwithAccount,jdbcType=VARCHAR}, 
+      #{asCreateTime,jdbcType=TIMESTAMP}, #{asDelFlag,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, 
+      #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, 
+      #{retain5,jdbcType=VARCHAR}, #{asImgurl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2OrderAfterSales" >
+    insert into k2_order_after_sales
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="asId != null" >
+        as_id,
+      </if>
+      <if test="asType != null" >
+        as_type,
+      </if>
+      <if test="asDesc != null" >
+        as_desc,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="asDealwithTime != null" >
+        as_dealWith_time,
+      </if>
+      <if test="asDealwithDesc != null" >
+        as_dealWith_desc,
+      </if>
+      <if test="asDealwithFlag != null" >
+        as_dealWith_flag,
+      </if>
+      <if test="asDealwithAccount != null" >
+        as_dealWith_account,
+      </if>
+      <if test="asCreateTime != null" >
+        as_create_time,
+      </if>
+      <if test="asDelFlag != null" >
+        as_del_flag,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="asImgurl != null" >
+        as_imgUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="asId != null" >
+        #{asId,jdbcType=INTEGER},
+      </if>
+      <if test="asType != null" >
+        #{asType,jdbcType=VARCHAR},
+      </if>
+      <if test="asDesc != null" >
+        #{asDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="asDealwithTime != null" >
+        #{asDealwithTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asDealwithDesc != null" >
+        #{asDealwithDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="asDealwithFlag != null" >
+        #{asDealwithFlag,jdbcType=INTEGER},
+      </if>
+      <if test="asDealwithAccount != null" >
+        #{asDealwithAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="asCreateTime != null" >
+        #{asCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asDelFlag != null" >
+        #{asDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="asImgurl != null" >
+        #{asImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2OrderAfterSalesExample" resultType="java.lang.Integer" >
+    select count(*) from k2_order_after_sales
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_order_after_sales
+    <set >
+      <if test="record.asId != null" >
+        as_id = #{record.asId,jdbcType=INTEGER},
+      </if>
+      <if test="record.asType != null" >
+        as_type = #{record.asType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asDesc != null" >
+        as_desc = #{record.asDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberId != null" >
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asDealwithTime != null" >
+        as_dealWith_time = #{record.asDealwithTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.asDealwithDesc != null" >
+        as_dealWith_desc = #{record.asDealwithDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asDealwithFlag != null" >
+        as_dealWith_flag = #{record.asDealwithFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.asDealwithAccount != null" >
+        as_dealWith_account = #{record.asDealwithAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asCreateTime != null" >
+        as_create_time = #{record.asCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.asDelFlag != null" >
+        as_del_flag = #{record.asDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.asImgurl != null" >
+        as_imgUrl = #{record.asImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_order_after_sales
+    set as_id = #{record.asId,jdbcType=INTEGER},
+      as_type = #{record.asType,jdbcType=VARCHAR},
+      as_desc = #{record.asDesc,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      as_dealWith_time = #{record.asDealwithTime,jdbcType=TIMESTAMP},
+      as_dealWith_desc = #{record.asDealwithDesc,jdbcType=VARCHAR},
+      as_dealWith_flag = #{record.asDealwithFlag,jdbcType=INTEGER},
+      as_dealWith_account = #{record.asDealwithAccount,jdbcType=VARCHAR},
+      as_create_time = #{record.asCreateTime,jdbcType=TIMESTAMP},
+      as_del_flag = #{record.asDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      as_imgUrl = #{record.asImgurl,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_order_after_sales
+    set as_id = #{record.asId,jdbcType=INTEGER},
+      as_type = #{record.asType,jdbcType=VARCHAR},
+      as_desc = #{record.asDesc,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      as_dealWith_time = #{record.asDealwithTime,jdbcType=TIMESTAMP},
+      as_dealWith_desc = #{record.asDealwithDesc,jdbcType=VARCHAR},
+      as_dealWith_flag = #{record.asDealwithFlag,jdbcType=INTEGER},
+      as_dealWith_account = #{record.asDealwithAccount,jdbcType=VARCHAR},
+      as_create_time = #{record.asCreateTime,jdbcType=TIMESTAMP},
+      as_del_flag = #{record.asDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2OrderAfterSales" >
+    update k2_order_after_sales
+    <set >
+      <if test="asType != null" >
+        as_type = #{asType,jdbcType=VARCHAR},
+      </if>
+      <if test="asDesc != null" >
+        as_desc = #{asDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="asDealwithTime != null" >
+        as_dealWith_time = #{asDealwithTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asDealwithDesc != null" >
+        as_dealWith_desc = #{asDealwithDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="asDealwithFlag != null" >
+        as_dealWith_flag = #{asDealwithFlag,jdbcType=INTEGER},
+      </if>
+      <if test="asDealwithAccount != null" >
+        as_dealWith_account = #{asDealwithAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="asCreateTime != null" >
+        as_create_time = #{asCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asDelFlag != null" >
+        as_del_flag = #{asDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="asImgurl != null" >
+        as_imgUrl = #{asImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where as_id = #{asId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2OrderAfterSales" >
+    update k2_order_after_sales
+    set as_type = #{asType,jdbcType=VARCHAR},
+      as_desc = #{asDesc,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      as_dealWith_time = #{asDealwithTime,jdbcType=TIMESTAMP},
+      as_dealWith_desc = #{asDealwithDesc,jdbcType=VARCHAR},
+      as_dealWith_flag = #{asDealwithFlag,jdbcType=INTEGER},
+      as_dealWith_account = #{asDealwithAccount,jdbcType=VARCHAR},
+      as_create_time = #{asCreateTime,jdbcType=TIMESTAMP},
+      as_del_flag = #{asDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      as_imgUrl = #{asImgurl,jdbcType=LONGVARCHAR}
+    where as_id = #{asId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2OrderAfterSales" >
+    update k2_order_after_sales
+    set as_type = #{asType,jdbcType=VARCHAR},
+      as_desc = #{asDesc,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      as_dealWith_time = #{asDealwithTime,jdbcType=TIMESTAMP},
+      as_dealWith_desc = #{asDealwithDesc,jdbcType=VARCHAR},
+      as_dealWith_flag = #{asDealwithFlag,jdbcType=INTEGER},
+      as_dealWith_account = #{asDealwithAccount,jdbcType=VARCHAR},
+      as_create_time = #{asCreateTime,jdbcType=TIMESTAMP},
+      as_del_flag = #{asDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where as_id = #{asId,jdbcType=INTEGER}
+  </update>
+</mapper>

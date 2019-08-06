@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductCategory" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_season_id" property="categorySeasonId" jdbcType="VARCHAR" />
+    <result column="category_is_parent" property="categoryIsParent" jdbcType="INTEGER" />
+    <result column="category_parent_id" property="categoryParentId" jdbcType="INTEGER" />
+    <result column="category_state" property="categoryState" jdbcType="INTEGER" />
+    <result column="category_userid" property="categoryUserid" jdbcType="INTEGER" />
+    <result column="category_create_time" property="categoryCreateTime" jdbcType="TIMESTAMP" />
+    <result column="category_update_userid" property="categoryUpdateUserid" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    category_id, category_name, category_season_id, category_is_parent, category_parent_id, 
+    category_state, category_userid, category_create_time, category_update_userid, retain1, 
+    retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductCategoryExample" >
+    delete from k2_product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductCategory" >
+    insert into k2_product_category (category_id, category_name, category_season_id, 
+      category_is_parent, category_parent_id, category_state, 
+      category_userid, category_create_time, category_update_userid, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categorySeasonId,jdbcType=VARCHAR}, 
+      #{categoryIsParent,jdbcType=INTEGER}, #{categoryParentId,jdbcType=INTEGER}, #{categoryState,jdbcType=INTEGER}, 
+      #{categoryUserid,jdbcType=INTEGER}, #{categoryCreateTime,jdbcType=TIMESTAMP}, #{categoryUpdateUserid,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductCategory" >
+    insert into k2_product_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="categorySeasonId != null" >
+        category_season_id,
+      </if>
+      <if test="categoryIsParent != null" >
+        category_is_parent,
+      </if>
+      <if test="categoryParentId != null" >
+        category_parent_id,
+      </if>
+      <if test="categoryState != null" >
+        category_state,
+      </if>
+      <if test="categoryUserid != null" >
+        category_userid,
+      </if>
+      <if test="categoryCreateTime != null" >
+        category_create_time,
+      </if>
+      <if test="categoryUpdateUserid != null" >
+        category_update_userid,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categorySeasonId != null" >
+        #{categorySeasonId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryIsParent != null" >
+        #{categoryIsParent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryParentId != null" >
+        #{categoryParentId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryState != null" >
+        #{categoryState,jdbcType=INTEGER},
+      </if>
+      <if test="categoryUserid != null" >
+        #{categoryUserid,jdbcType=INTEGER},
+      </if>
+      <if test="categoryCreateTime != null" >
+        #{categoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="categoryUpdateUserid != null" >
+        #{categoryUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductCategoryExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_category
+    <set >
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryName != null" >
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categorySeasonId != null" >
+        category_season_id = #{record.categorySeasonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryIsParent != null" >
+        category_is_parent = #{record.categoryIsParent,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryParentId != null" >
+        category_parent_id = #{record.categoryParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryState != null" >
+        category_state = #{record.categoryState,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryUserid != null" >
+        category_userid = #{record.categoryUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryCreateTime != null" >
+        category_create_time = #{record.categoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.categoryUpdateUserid != null" >
+        category_update_userid = #{record.categoryUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_category
+    set category_id = #{record.categoryId,jdbcType=INTEGER},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      category_season_id = #{record.categorySeasonId,jdbcType=VARCHAR},
+      category_is_parent = #{record.categoryIsParent,jdbcType=INTEGER},
+      category_parent_id = #{record.categoryParentId,jdbcType=INTEGER},
+      category_state = #{record.categoryState,jdbcType=INTEGER},
+      category_userid = #{record.categoryUserid,jdbcType=INTEGER},
+      category_create_time = #{record.categoryCreateTime,jdbcType=TIMESTAMP},
+      category_update_userid = #{record.categoryUpdateUserid,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductCategory" >
+    update k2_product_category
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categorySeasonId != null" >
+        category_season_id = #{categorySeasonId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryIsParent != null" >
+        category_is_parent = #{categoryIsParent,jdbcType=INTEGER},
+      </if>
+      <if test="categoryParentId != null" >
+        category_parent_id = #{categoryParentId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryState != null" >
+        category_state = #{categoryState,jdbcType=INTEGER},
+      </if>
+      <if test="categoryUserid != null" >
+        category_userid = #{categoryUserid,jdbcType=INTEGER},
+      </if>
+      <if test="categoryCreateTime != null" >
+        category_create_time = #{categoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="categoryUpdateUserid != null" >
+        category_update_userid = #{categoryUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductCategory" >
+    update k2_product_category
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      category_season_id = #{categorySeasonId,jdbcType=VARCHAR},
+      category_is_parent = #{categoryIsParent,jdbcType=INTEGER},
+      category_parent_id = #{categoryParentId,jdbcType=INTEGER},
+      category_state = #{categoryState,jdbcType=INTEGER},
+      category_userid = #{categoryUserid,jdbcType=INTEGER},
+      category_create_time = #{categoryCreateTime,jdbcType=TIMESTAMP},
+      category_update_userid = #{categoryUpdateUserid,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

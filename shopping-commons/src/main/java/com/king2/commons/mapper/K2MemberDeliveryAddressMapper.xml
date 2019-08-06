@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2MemberDeliveryAddressMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2MemberDeliveryAddress" >
+    <id column="da_id" property="daId" jdbcType="INTEGER" />
+    <result column="member_account" property="memberAccount" jdbcType="VARCHAR" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="da_telphone" property="daTelphone" jdbcType="VARCHAR" />
+    <result column="da_country" property="daCountry" jdbcType="VARCHAR" />
+    <result column="da_province" property="daProvince" jdbcType="VARCHAR" />
+    <result column="da_city" property="daCity" jdbcType="VARCHAR" />
+    <result column="da_area" property="daArea" jdbcType="VARCHAR" />
+    <result column="da_street" property="daStreet" jdbcType="VARCHAR" />
+    <result column="da_zip" property="daZip" jdbcType="VARCHAR" />
+    <result column="da_def_address" property="daDefAddress" jdbcType="INTEGER" />
+    <result column="da_create_time" property="daCreateTime" jdbcType="TIMESTAMP" />
+    <result column="da_del_flag" property="daDelFlag" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    da_id, member_account, member_name, da_telphone, da_country, da_province, da_city, 
+    da_area, da_street, da_zip, da_def_address, da_create_time, da_del_flag, retain1, 
+    retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddressExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_member_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_member_delivery_address
+    where da_id = #{daId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_member_delivery_address
+    where da_id = #{daId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddressExample" >
+    delete from k2_member_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddress" >
+    insert into k2_member_delivery_address (da_id, member_account, member_name, 
+      da_telphone, da_country, da_province, 
+      da_city, da_area, da_street, 
+      da_zip, da_def_address, da_create_time, 
+      da_del_flag, retain1, retain2, 
+      retain3, retain4, retain5
+      )
+    values (#{daId,jdbcType=INTEGER}, #{memberAccount,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, 
+      #{daTelphone,jdbcType=VARCHAR}, #{daCountry,jdbcType=VARCHAR}, #{daProvince,jdbcType=VARCHAR}, 
+      #{daCity,jdbcType=VARCHAR}, #{daArea,jdbcType=VARCHAR}, #{daStreet,jdbcType=VARCHAR}, 
+      #{daZip,jdbcType=VARCHAR}, #{daDefAddress,jdbcType=INTEGER}, #{daCreateTime,jdbcType=TIMESTAMP}, 
+      #{daDelFlag,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddress" >
+    insert into k2_member_delivery_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="daId != null" >
+        da_id,
+      </if>
+      <if test="memberAccount != null" >
+        member_account,
+      </if>
+      <if test="memberName != null" >
+        member_name,
+      </if>
+      <if test="daTelphone != null" >
+        da_telphone,
+      </if>
+      <if test="daCountry != null" >
+        da_country,
+      </if>
+      <if test="daProvince != null" >
+        da_province,
+      </if>
+      <if test="daCity != null" >
+        da_city,
+      </if>
+      <if test="daArea != null" >
+        da_area,
+      </if>
+      <if test="daStreet != null" >
+        da_street,
+      </if>
+      <if test="daZip != null" >
+        da_zip,
+      </if>
+      <if test="daDefAddress != null" >
+        da_def_address,
+      </if>
+      <if test="daCreateTime != null" >
+        da_create_time,
+      </if>
+      <if test="daDelFlag != null" >
+        da_del_flag,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="daId != null" >
+        #{daId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccount != null" >
+        #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="daTelphone != null" >
+        #{daTelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="daCountry != null" >
+        #{daCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="daProvince != null" >
+        #{daProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="daCity != null" >
+        #{daCity,jdbcType=VARCHAR},
+      </if>
+      <if test="daArea != null" >
+        #{daArea,jdbcType=VARCHAR},
+      </if>
+      <if test="daStreet != null" >
+        #{daStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="daZip != null" >
+        #{daZip,jdbcType=VARCHAR},
+      </if>
+      <if test="daDefAddress != null" >
+        #{daDefAddress,jdbcType=INTEGER},
+      </if>
+      <if test="daCreateTime != null" >
+        #{daCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="daDelFlag != null" >
+        #{daDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddressExample" resultType="java.lang.Integer" >
+    select count(*) from k2_member_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_member_delivery_address
+    <set >
+      <if test="record.daId != null" >
+        da_id = #{record.daId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberAccount != null" >
+        member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberName != null" >
+        member_name = #{record.memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daTelphone != null" >
+        da_telphone = #{record.daTelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daCountry != null" >
+        da_country = #{record.daCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daProvince != null" >
+        da_province = #{record.daProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daCity != null" >
+        da_city = #{record.daCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daArea != null" >
+        da_area = #{record.daArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daStreet != null" >
+        da_street = #{record.daStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daZip != null" >
+        da_zip = #{record.daZip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daDefAddress != null" >
+        da_def_address = #{record.daDefAddress,jdbcType=INTEGER},
+      </if>
+      <if test="record.daCreateTime != null" >
+        da_create_time = #{record.daCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.daDelFlag != null" >
+        da_del_flag = #{record.daDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_member_delivery_address
+    set da_id = #{record.daId,jdbcType=INTEGER},
+      member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      member_name = #{record.memberName,jdbcType=VARCHAR},
+      da_telphone = #{record.daTelphone,jdbcType=VARCHAR},
+      da_country = #{record.daCountry,jdbcType=VARCHAR},
+      da_province = #{record.daProvince,jdbcType=VARCHAR},
+      da_city = #{record.daCity,jdbcType=VARCHAR},
+      da_area = #{record.daArea,jdbcType=VARCHAR},
+      da_street = #{record.daStreet,jdbcType=VARCHAR},
+      da_zip = #{record.daZip,jdbcType=VARCHAR},
+      da_def_address = #{record.daDefAddress,jdbcType=INTEGER},
+      da_create_time = #{record.daCreateTime,jdbcType=TIMESTAMP},
+      da_del_flag = #{record.daDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddress" >
+    update k2_member_delivery_address
+    <set >
+      <if test="memberAccount != null" >
+        member_account = #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="daTelphone != null" >
+        da_telphone = #{daTelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="daCountry != null" >
+        da_country = #{daCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="daProvince != null" >
+        da_province = #{daProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="daCity != null" >
+        da_city = #{daCity,jdbcType=VARCHAR},
+      </if>
+      <if test="daArea != null" >
+        da_area = #{daArea,jdbcType=VARCHAR},
+      </if>
+      <if test="daStreet != null" >
+        da_street = #{daStreet,jdbcType=VARCHAR},
+      </if>
+      <if test="daZip != null" >
+        da_zip = #{daZip,jdbcType=VARCHAR},
+      </if>
+      <if test="daDefAddress != null" >
+        da_def_address = #{daDefAddress,jdbcType=INTEGER},
+      </if>
+      <if test="daCreateTime != null" >
+        da_create_time = #{daCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="daDelFlag != null" >
+        da_del_flag = #{daDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where da_id = #{daId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2MemberDeliveryAddress" >
+    update k2_member_delivery_address
+    set member_account = #{memberAccount,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      da_telphone = #{daTelphone,jdbcType=VARCHAR},
+      da_country = #{daCountry,jdbcType=VARCHAR},
+      da_province = #{daProvince,jdbcType=VARCHAR},
+      da_city = #{daCity,jdbcType=VARCHAR},
+      da_area = #{daArea,jdbcType=VARCHAR},
+      da_street = #{daStreet,jdbcType=VARCHAR},
+      da_zip = #{daZip,jdbcType=VARCHAR},
+      da_def_address = #{daDefAddress,jdbcType=INTEGER},
+      da_create_time = #{daCreateTime,jdbcType=TIMESTAMP},
+      da_del_flag = #{daDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where da_id = #{daId,jdbcType=INTEGER}
+  </update>
+</mapper>

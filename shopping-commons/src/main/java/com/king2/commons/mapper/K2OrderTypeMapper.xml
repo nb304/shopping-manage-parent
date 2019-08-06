@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2OrderTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2OrderType" >
+    <id column="oy_id" property="oyId" jdbcType="INTEGER" />
+    <result column="oy_number" property="oyNumber" jdbcType="VARCHAR" />
+    <result column="oy_name" property="oyName" jdbcType="VARCHAR" />
+    <result column="oy_member" property="oyMember" jdbcType="VARCHAR" />
+    <result column="oy_create_time" property="oyCreateTime" jdbcType="TIMESTAMP" />
+    <result column="oy_del_flag" property="oyDelFlag" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oy_id, oy_number, oy_name, oy_member, oy_create_time, oy_del_flag, retain1, retain2, 
+    retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2OrderTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_order_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_order_type
+    where oy_id = #{oyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_order_type
+    where oy_id = #{oyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2OrderTypeExample" >
+    delete from k2_order_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2OrderType" >
+    insert into k2_order_type (oy_id, oy_number, oy_name, 
+      oy_member, oy_create_time, oy_del_flag, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{oyId,jdbcType=INTEGER}, #{oyNumber,jdbcType=VARCHAR}, #{oyName,jdbcType=VARCHAR}, 
+      #{oyMember,jdbcType=VARCHAR}, #{oyCreateTime,jdbcType=TIMESTAMP}, #{oyDelFlag,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2OrderType" >
+    insert into k2_order_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oyId != null" >
+        oy_id,
+      </if>
+      <if test="oyNumber != null" >
+        oy_number,
+      </if>
+      <if test="oyName != null" >
+        oy_name,
+      </if>
+      <if test="oyMember != null" >
+        oy_member,
+      </if>
+      <if test="oyCreateTime != null" >
+        oy_create_time,
+      </if>
+      <if test="oyDelFlag != null" >
+        oy_del_flag,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oyId != null" >
+        #{oyId,jdbcType=INTEGER},
+      </if>
+      <if test="oyNumber != null" >
+        #{oyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oyName != null" >
+        #{oyName,jdbcType=VARCHAR},
+      </if>
+      <if test="oyMember != null" >
+        #{oyMember,jdbcType=VARCHAR},
+      </if>
+      <if test="oyCreateTime != null" >
+        #{oyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oyDelFlag != null" >
+        #{oyDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2OrderTypeExample" resultType="java.lang.Integer" >
+    select count(*) from k2_order_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_order_type
+    <set >
+      <if test="record.oyId != null" >
+        oy_id = #{record.oyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.oyNumber != null" >
+        oy_number = #{record.oyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oyName != null" >
+        oy_name = #{record.oyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oyMember != null" >
+        oy_member = #{record.oyMember,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oyCreateTime != null" >
+        oy_create_time = #{record.oyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.oyDelFlag != null" >
+        oy_del_flag = #{record.oyDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_order_type
+    set oy_id = #{record.oyId,jdbcType=INTEGER},
+      oy_number = #{record.oyNumber,jdbcType=VARCHAR},
+      oy_name = #{record.oyName,jdbcType=VARCHAR},
+      oy_member = #{record.oyMember,jdbcType=VARCHAR},
+      oy_create_time = #{record.oyCreateTime,jdbcType=TIMESTAMP},
+      oy_del_flag = #{record.oyDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2OrderType" >
+    update k2_order_type
+    <set >
+      <if test="oyNumber != null" >
+        oy_number = #{oyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oyName != null" >
+        oy_name = #{oyName,jdbcType=VARCHAR},
+      </if>
+      <if test="oyMember != null" >
+        oy_member = #{oyMember,jdbcType=VARCHAR},
+      </if>
+      <if test="oyCreateTime != null" >
+        oy_create_time = #{oyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oyDelFlag != null" >
+        oy_del_flag = #{oyDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oy_id = #{oyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2OrderType" >
+    update k2_order_type
+    set oy_number = #{oyNumber,jdbcType=VARCHAR},
+      oy_name = #{oyName,jdbcType=VARCHAR},
+      oy_member = #{oyMember,jdbcType=VARCHAR},
+      oy_create_time = #{oyCreateTime,jdbcType=TIMESTAMP},
+      oy_del_flag = #{oyDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where oy_id = #{oyId,jdbcType=INTEGER}
+  </update>
+</mapper>

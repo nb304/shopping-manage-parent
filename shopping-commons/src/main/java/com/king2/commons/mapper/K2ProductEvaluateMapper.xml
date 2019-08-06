@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductEvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductEvaluate" >
+    <id column="product_evaluate_id" property="productEvaluateId" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="product_evaluate_userid" property="productEvaluateUserid" jdbcType="INTEGER" />
+    <result column="product_evaluate_username" property="productEvaluateUsername" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="belong_product_id" property="belongProductId" jdbcType="INTEGER" />
+    <result column="belong_product_name" property="belongProductName" jdbcType="VARCHAR" />
+    <result column="belong_store_id" property="belongStoreId" jdbcType="INTEGER" />
+    <result column="product_evaluate_state" property="productEvaluateState" jdbcType="INTEGER" />
+    <result column="is_read" property="isRead" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2ProductEvaluateWithBLOBs" extends="BaseResultMap" >
+    <result column="product_evaluate_content" property="productEvaluateContent" jdbcType="LONGVARCHAR" />
+    <result column="product_evaluate_image" property="productEvaluateImage" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_evaluate_id, order_number, product_evaluate_userid, product_evaluate_username, 
+    create_time, belong_product_id, belong_product_name, belong_store_id, product_evaluate_state, 
+    is_read, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    product_evaluate_content, product_evaluate_image
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductEvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product_evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductEvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product_evaluate
+    where product_evaluate_id = #{productEvaluateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_evaluate
+    where product_evaluate_id = #{productEvaluateId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductEvaluateExample" >
+    delete from k2_product_evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductEvaluateWithBLOBs" >
+    insert into k2_product_evaluate (product_evaluate_id, order_number, product_evaluate_userid, 
+      product_evaluate_username, create_time, 
+      belong_product_id, belong_product_name, belong_store_id, 
+      product_evaluate_state, is_read, retain1, 
+      retain2, retain3, retain4, 
+      retain5, product_evaluate_content, product_evaluate_image
+      )
+    values (#{productEvaluateId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{productEvaluateUserid,jdbcType=INTEGER}, 
+      #{productEvaluateUsername,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{belongProductId,jdbcType=INTEGER}, #{belongProductName,jdbcType=VARCHAR}, #{belongStoreId,jdbcType=INTEGER}, 
+      #{productEvaluateState,jdbcType=INTEGER}, #{isRead,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, 
+      #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, 
+      #{retain5,jdbcType=VARCHAR}, #{productEvaluateContent,jdbcType=LONGVARCHAR}, #{productEvaluateImage,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductEvaluateWithBLOBs" >
+    insert into k2_product_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productEvaluateId != null" >
+        product_evaluate_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="productEvaluateUserid != null" >
+        product_evaluate_userid,
+      </if>
+      <if test="productEvaluateUsername != null" >
+        product_evaluate_username,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id,
+      </if>
+      <if test="belongProductName != null" >
+        belong_product_name,
+      </if>
+      <if test="belongStoreId != null" >
+        belong_store_id,
+      </if>
+      <if test="productEvaluateState != null" >
+        product_evaluate_state,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="productEvaluateContent != null" >
+        product_evaluate_content,
+      </if>
+      <if test="productEvaluateImage != null" >
+        product_evaluate_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productEvaluateId != null" >
+        #{productEvaluateId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productEvaluateUserid != null" >
+        #{productEvaluateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productEvaluateUsername != null" >
+        #{productEvaluateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongProductId != null" >
+        #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="belongProductName != null" >
+        #{belongProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongStoreId != null" >
+        #{belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="productEvaluateState != null" >
+        #{productEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="productEvaluateContent != null" >
+        #{productEvaluateContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productEvaluateImage != null" >
+        #{productEvaluateImage,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductEvaluateExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_evaluate
+    <set >
+      <if test="record.productEvaluateId != null" >
+        product_evaluate_id = #{record.productEvaluateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productEvaluateUserid != null" >
+        product_evaluate_userid = #{record.productEvaluateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productEvaluateUsername != null" >
+        product_evaluate_username = #{record.productEvaluateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.belongProductId != null" >
+        belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongProductName != null" >
+        belong_product_name = #{record.belongProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongStoreId != null" >
+        belong_store_id = #{record.belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productEvaluateState != null" >
+        product_evaluate_state = #{record.productEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRead != null" >
+        is_read = #{record.isRead,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productEvaluateContent != null" >
+        product_evaluate_content = #{record.productEvaluateContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.productEvaluateImage != null" >
+        product_evaluate_image = #{record.productEvaluateImage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_product_evaluate
+    set product_evaluate_id = #{record.productEvaluateId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      product_evaluate_userid = #{record.productEvaluateUserid,jdbcType=INTEGER},
+      product_evaluate_username = #{record.productEvaluateUsername,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      belong_product_name = #{record.belongProductName,jdbcType=VARCHAR},
+      belong_store_id = #{record.belongStoreId,jdbcType=INTEGER},
+      product_evaluate_state = #{record.productEvaluateState,jdbcType=INTEGER},
+      is_read = #{record.isRead,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      product_evaluate_content = #{record.productEvaluateContent,jdbcType=LONGVARCHAR},
+      product_evaluate_image = #{record.productEvaluateImage,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_evaluate
+    set product_evaluate_id = #{record.productEvaluateId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      product_evaluate_userid = #{record.productEvaluateUserid,jdbcType=INTEGER},
+      product_evaluate_username = #{record.productEvaluateUsername,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      belong_product_name = #{record.belongProductName,jdbcType=VARCHAR},
+      belong_store_id = #{record.belongStoreId,jdbcType=INTEGER},
+      product_evaluate_state = #{record.productEvaluateState,jdbcType=INTEGER},
+      is_read = #{record.isRead,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductEvaluateWithBLOBs" >
+    update k2_product_evaluate
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productEvaluateUserid != null" >
+        product_evaluate_userid = #{productEvaluateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productEvaluateUsername != null" >
+        product_evaluate_username = #{productEvaluateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="belongProductName != null" >
+        belong_product_name = #{belongProductName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongStoreId != null" >
+        belong_store_id = #{belongStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="productEvaluateState != null" >
+        product_evaluate_state = #{productEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="productEvaluateContent != null" >
+        product_evaluate_content = #{productEvaluateContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productEvaluateImage != null" >
+        product_evaluate_image = #{productEvaluateImage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where product_evaluate_id = #{productEvaluateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductEvaluateWithBLOBs" >
+    update k2_product_evaluate
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      product_evaluate_userid = #{productEvaluateUserid,jdbcType=INTEGER},
+      product_evaluate_username = #{productEvaluateUsername,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      belong_product_name = #{belongProductName,jdbcType=VARCHAR},
+      belong_store_id = #{belongStoreId,jdbcType=INTEGER},
+      product_evaluate_state = #{productEvaluateState,jdbcType=INTEGER},
+      is_read = #{isRead,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      product_evaluate_content = #{productEvaluateContent,jdbcType=LONGVARCHAR},
+      product_evaluate_image = #{productEvaluateImage,jdbcType=LONGVARCHAR}
+    where product_evaluate_id = #{productEvaluateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductEvaluate" >
+    update k2_product_evaluate
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      product_evaluate_userid = #{productEvaluateUserid,jdbcType=INTEGER},
+      product_evaluate_username = #{productEvaluateUsername,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      belong_product_name = #{belongProductName,jdbcType=VARCHAR},
+      belong_store_id = #{belongStoreId,jdbcType=INTEGER},
+      product_evaluate_state = #{productEvaluateState,jdbcType=INTEGER},
+      is_read = #{isRead,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where product_evaluate_id = #{productEvaluateId,jdbcType=INTEGER}
+  </update>
+</mapper>

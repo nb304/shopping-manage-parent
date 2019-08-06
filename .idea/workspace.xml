@@ -1,7 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="19db6267-6323-4548-b07b-14074cc50880" name="Default Changelist" comment="" />
+    <list default="true" id="19db6267-6323-4548-b07b-14074cc50880" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_3_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_2_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_autoconfigure_2_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_starter_2_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_1_5_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/config/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/controller/TestDemoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-server/src/main/resources/unlock.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/JedisIsNullException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/Lock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/impl/DfsRedisLock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ApplyPurchaseMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ApplyPurchaseMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ByGeneralizeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ByGeneralizeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CategorySeasonMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CategorySeasonMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChinaAreaMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChinaAreaMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CouponParallelismProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CouponParallelismProductMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CouponUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CouponUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CurrentDayHandleSqlSizeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CurrentDayHandleSqlSizeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2FeedbackAccessoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2FeedbackAccessoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2GeneralizeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2GeneralizeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2InventoryMessMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2InventoryMessMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2JurisdictionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2JurisdictionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberDeliveryAddressMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberDeliveryAddressMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberLoginRecordMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberLoginRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MemberMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MessageMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2MessageMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OneRotaryNewsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OneRotaryNewsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderAfterSalesMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderAfterSalesMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderLogisticsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderLogisticsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderStateMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderStateMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderTradingMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderTradingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderTypeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2OrderTypeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductBrandMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductBrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductCategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductCategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductCouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductCouponMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductEvaluateMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductEvaluateMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSketchMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSketchMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuKeyMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuKeyMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuPriceandkcMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuPriceandkcMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuValueMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSkuValueMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSpuMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ProductSpuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2PurchaseOrderMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2PurchaseOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2PurchaseProductMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2PurchaseProductMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RoleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RoleParallelismJurisdictionMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RoleParallelismJurisdictionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RotaryNewsImageInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RotaryNewsImageInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RotaryNewsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2RotaryNewsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ServiceMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ServiceMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StoreCategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StoreCategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StoreCheckMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StoreCheckMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StroeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2StroeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2SystemCommonStateMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2SystemCommonStateMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2SystemFeedbackMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2SystemFeedbackMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2UserFeedbackMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2UserFeedbackMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ApplyPurchase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ApplyPurchaseExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ByGeneralize.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ByGeneralizeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeason.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeasonExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChatInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChatInfoExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChinaArea.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChinaAreaExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponParallelismProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponParallelismProductExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponUserExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CurrentDayHandleSqlSize.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CurrentDayHandleSqlSizeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2FeedbackAccessory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2FeedbackAccessoryExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Generalize.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2GeneralizeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2InventoryMess.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2InventoryMessExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Jurisdiction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2JurisdictionExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberDeliveryAddress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberDeliveryAddressExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberLoginRecord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberLoginRecordExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MessageExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OneRotaryNews.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OneRotaryNewsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OneRotaryNewsWithBLOBs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderAfterSales.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderAfterSalesExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderLogistics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderLogisticsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderStateExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderTrading.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderTradingExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderTypeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductBrand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductBrandExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductCategoryExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductCoupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductCouponExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductEvaluate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductEvaluateExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductEvaluateWithBLOBs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSketch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSketchExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuKey.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuKeyExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuPriceandkc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuPriceandkcExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSkuValueExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSpu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductSpuExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ProductWithBLOBs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2PurchaseOrder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2PurchaseOrderExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2PurchaseProduct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2PurchaseProductExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RoleExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RoleParallelismJurisdiction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RoleParallelismJurisdictionExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNews.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNewsExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNewsImageInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNewsImageInfoExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNewsImageInfoWithBLOBs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Service.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ServiceExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2StoreCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2StoreCategoryExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2StoreCheck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2StoreCheckExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Stroe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2StroeExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2SystemCommonState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2SystemCommonStateExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2SystemFeedback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2SystemFeedbackExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2UserFeedback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2UserFeedbackExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/result/SystemResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/CookieUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/JsonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/MD5Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shopping-manage-parent.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shopping-manage-parent.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/eureka-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/eureka-server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-server/order-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/order-server/order-server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-server/product-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/product-server/product-server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/product-server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-commons/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-commons/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-commons/shopping-commons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-commons/shopping-commons.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/pojo/K2Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/pojo/K2MemberExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberExample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/UserManageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/UserManageUtil.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/eureka-server/target/" />
     <ignored path="$PROJECT_DIR$/order-server/target/" />
@@ -14,86 +235,79 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4484">
-              <caret line="239" selection-start-line="239" selection-end-line="239" />
+            <state relative-caret-position="88">
+              <caret line="31" column="30" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="30" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eureka-server/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eureka-server/src/main/java/com/king2/eurekaserver/EurekaServerApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/order-server/pom.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/order-server/src/main/java/com/king2/orderserver/entiry/SystemResult.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/product-server/pom.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/ProductServerApplication.java">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shopping-commons/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/UserManageUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#781#782#0" expanded="true" />
-                <element signature="e#808#809#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="326">
+              <caret line="27" column="10" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/pojo/K2Member.java">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CategorySeasonMapper.java">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChinaAreaMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="32" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="32" />
+            <state relative-caret-position="88">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeason.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/MD5Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="14" column="45" lean-forward="true" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/CookieUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="814">
+              <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -107,18 +321,41 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>su</find>
+      <find>security</find>
+      <find>mybatis</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/UserJedisIsNullException.java" />
         <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/UserManageException.java" />
         <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/pojo/K2Member.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/result/SystemResult.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/JsonUtils.java" />
+        <option value="$PROJECT_DIR$/product-server/pom.xml" />
+        <option value="$PROJECT_DIR$/product-server/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/com/king2/productserver/controller/TestDemoController.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/CookieUtils.java" />
+        <option value="$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/config/RedisConfig.java" />
+        <option value="$PROJECT_DIR$/product-server/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/controller/TestDemoController.java" />
         <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/UserManageUtil.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/Lock.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/JedisIsNullException.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/impl/DfsRedisLock.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ByGeneralizeMapper.java" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeason.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/shopping-commons/pom.xml" />
+        <option value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/MD5Utils.java" />
       </list>
     </option>
   </component>
@@ -141,23 +378,30 @@
       <expand>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="shopping_manage_parent" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="shopping-commons" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="shopping-commons" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
         </path>
       </expand>
       <select />
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="151" />
+    <option name="y" value="96" />
+    <option name="width" value="1175" />
+    <option name="height" value="975" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
+      <flattenPackages ProjectPane="true" />
+      <hideEmptyPackages ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -168,35 +412,116 @@
               <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
               <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="productserver" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="product-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping-commons" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping-commons" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping-commons" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopping-manage-parent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopping-manage-parent" type="462c0819:PsiDirectoryNode" />
+              <item name="shopping-commons" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\shopping-manage-parent\shopping-commons\src\main\java\com\king2\commons\utils" />
+      <recent name="D:\code\shopping-manage-parent\shopping-commons\src\main\java\com\king2\commons\pojo" />
+      <recent name="D:\code\shopping-manage-parent\shopping-commons\src\main\java\com\king2\commons\mapper" />
+      <recent name="D:\code\shopping-manage-parent\product-server\src\main\resources" />
       <recent name="D:\code\shopping-manage-parent\shopping-commons\src\main\java\com\king2\commons\exceptions" />
-      <recent name="D:\code\shopping-manage-parent\product-server" />
-      <recent name="D:\code\shopping-manage-parent\order-server" />
-      <recent name="D:\code\shopping-manage-parent\eureka-server" />
-      <recent name="D:\code\shopping-manage-parent" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -211,7 +536,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.EurekaServerApplication">
+  <component name="RunManager" selected="Spring Boot.ProductServerApplication">
     <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="eureka-server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.king2.eurekaserver.EurekaServerApplication" />
@@ -245,6 +570,8 @@
       <option name="presentableId" value="Default" />
       <updated>1565010241914</updated>
       <workItem from="1565010243224" duration="3685000" />
+      <workItem from="1565053664513" duration="8319000" />
+      <workItem from="1565070441084" duration="3858000" />
     </task>
     <task id="LOCAL-00001" summary="搭建了基础后台模块">
       <created>1565012198065</created>
@@ -257,7 +584,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3685000" />
+    <option name="totallyTimeSpent" value="15862000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -269,30 +596,31 @@
       <window_info id="Learn" order="4" />
       <window_info id="Web" order="5" side_tool="true" />
       <window_info id="Designer" order="6" />
-      <window_info content_ui="combo" id="Project" order="7" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="7" visible="true" weight="0.25603217" />
       <window_info id="Structure" order="8" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="0" />
-      <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="2" sideWeight="0.50067025" side_tool="true" visible="true" weight="0.5127479" />
-      <window_info anchor="bottom" id="Messages" order="3" />
-      <window_info anchor="bottom" id="Java Enterprise" order="4" />
-      <window_info anchor="bottom" id="Database Changes" order="5" />
-      <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Message" order="8" />
-      <window_info anchor="bottom" id="Find" order="9" />
-      <window_info anchor="bottom" id="Run" order="10" />
-      <window_info anchor="bottom" id="Debug" order="11" sideWeight="0.49932975" visible="true" weight="0.5127479" />
-      <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="14" />
+      <window_info anchor="bottom" id="Statistic" order="0" />
+      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50067025" side_tool="true" weight="0.47733712" />
+      <window_info anchor="bottom" id="Messages" order="4" />
+      <window_info anchor="bottom" id="Java Enterprise" order="5" />
+      <window_info anchor="bottom" id="Database Changes" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Spring" order="8" />
+      <window_info anchor="bottom" id="Message" order="9" />
+      <window_info anchor="bottom" id="Find" order="10" />
+      <window_info anchor="bottom" id="Run" order="11" sideWeight="0.49932975" weight="0.27053824" />
+      <window_info anchor="bottom" id="Debug" order="12" sideWeight="0.49932975" weight="0.26912183" />
+      <window_info anchor="bottom" id="Cvs" order="13" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="14" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="15" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Database" order="2" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="right" id="Theme Preview" order="4" />
       <window_info anchor="right" id="Bean Validation" order="5" />
-      <window_info anchor="right" id="Maven" order="6" weight="0.0650134" />
+      <window_info anchor="right" id="Maven" order="6" visible="true" weight="0.11595174" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="8" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="9" weight="0.25" />
@@ -305,74 +633,605 @@
     <MESSAGE value="搭建了基础后台模块" />
     <option name="LAST_COMMIT_MESSAGE" value="搭建了基础后台模块" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/controller/TestDemoController.java</url>
+          <line>38</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/JsonUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4484">
-          <caret line="239" selection-start-line="239" selection-end-line="239" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/eureka-server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="198">
+          <caret line="37" column="14" lean-forward="true" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/eureka-server/src/main/java/com/king2/eurekaserver/EurekaServerApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
+        <state relative-caret-position="220">
           <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/order-server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/order-server/src/main/java/com/king2/orderserver/entiry/SystemResult.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/product-server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/ProductServerApplication.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping-commons/pom.xml">
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/config/RedisConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/UserManageException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="-107">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
           <folding>
-            <element signature="e#319#320#0" expanded="true" />
-            <element signature="e#342#343#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/pojo/K2Member.java">
+    <entry file="file://$PROJECT_DIR$/eureka-server/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/resources/application-prod.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://D:/shopjar/org/springframework/spring-webmvc/5.1.5.RELEASE/spring-webmvc-5.1.5.RELEASE.jar!/org/springframework/web/servlet/mvc/method/annotation/ServletInvocableHandlerMethod.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="32" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="32" />
+        <state relative-caret-position="146">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/shopjar/org/springframework/spring-web/5.1.5.RELEASE/spring-web-5.1.5.RELEASE.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="58" column="35" lean-forward="true" selection-start-line="58" selection-start-column="35" selection-end-line="58" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eureka-server/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eureka-server/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/ProductServerApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+          <folding>
+            <element signature="e#380#381#0" expanded="true" />
+            <element signature="e#455#456#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/java/com/king2/productserver/controller/TestDemoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="43" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/UserManageUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+        <state relative-caret-position="198">
+          <caret line="81" column="41" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#781#782#0" expanded="true" />
-            <element signature="e#808#809#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/UserManageException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/exceptions/JedisIsNullException.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/resources/unlock.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/impl/DfsRedisLock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="88" column="9" lean-forward="true" selection-start-line="88" selection-start-column="9" selection-end-line="88" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/lock/Lock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Order.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2MemberLoginRecordExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-374">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OrderAfterSales.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding>
+            <element signature="e#1299#1300#0" expanded="true" />
+            <element signature="e#1326#1327#0" expanded="true" />
+            <element signature="e#1423#1424#0" expanded="true" />
+            <element signature="e#1455#1456#0" expanded="true" />
+            <element signature="e#1588#1589#0" expanded="true" />
+            <element signature="e#1617#1618#0" expanded="true" />
+            <element signature="e#1759#1760#0" expanded="true" />
+            <element signature="e#1826#1827#0" expanded="true" />
+            <element signature="e#1919#1920#0" expanded="true" />
+            <element signature="e#1948#1949#0" expanded="true" />
+            <element signature="e#2050#2051#0" expanded="true" />
+            <element signature="e#2117#2118#0" expanded="true" />
+            <element signature="e#2237#2238#0" expanded="true" />
+            <element signature="e#2268#2269#0" expanded="true" />
+            <element signature="e#2399#2400#0" expanded="true" />
+            <element signature="e#2439#2440#0" expanded="true" />
+            <element signature="e#2538#2539#0" expanded="true" />
+            <element signature="e#2572#2573#0" expanded="true" />
+            <element signature="e#2875#2876#0" expanded="true" />
+            <element signature="e#2912#2913#0" expanded="true" />
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3088#3089#0" expanded="true" />
+            <element signature="e#3198#3199#0" expanded="true" />
+            <element signature="e#3235#3236#0" expanded="true" />
+            <element signature="e#3605#3606#0" expanded="true" />
+            <element signature="e#3642#3643#0" expanded="true" />
+            <element signature="e#3811#3812#0" expanded="true" />
+            <element signature="e#3863#3864#0" expanded="true" />
+            <element signature="e#3985#3986#0" expanded="true" />
+            <element signature="e#4025#4026#0" expanded="true" />
+            <element signature="e#4372#4373#0" expanded="true" />
+            <element signature="e#4407#4408#0" expanded="true" />
+            <element signature="e#4527#4528#0" expanded="true" />
+            <element signature="e#4575#4576#0" expanded="true" />
+            <element signature="e#4708#4709#0" expanded="true" />
+            <element signature="e#4740#4741#0" expanded="true" />
+            <element signature="e#4884#4885#0" expanded="true" />
+            <element signature="e#4926#4927#0" expanded="true" />
+            <element signature="e#5018#5019#0" expanded="true" />
+            <element signature="e#5048#5049#0" expanded="true" />
+            <element signature="e#5151#5152#0" expanded="true" />
+            <element signature="e#5221#5222#0" expanded="true" />
+            <element signature="e#5313#5314#0" expanded="true" />
+            <element signature="e#5343#5344#0" expanded="true" />
+            <element signature="e#5446#5447#0" expanded="true" />
+            <element signature="e#5516#5517#0" expanded="true" />
+            <element signature="e#5608#5609#0" expanded="true" />
+            <element signature="e#5638#5639#0" expanded="true" />
+            <element signature="e#5741#5742#0" expanded="true" />
+            <element signature="e#5811#5812#0" expanded="true" />
+            <element signature="e#5903#5904#0" expanded="true" />
+            <element signature="e#5933#5934#0" expanded="true" />
+            <element signature="e#6036#6037#0" expanded="true" />
+            <element signature="e#6106#6107#0" expanded="true" />
+            <element signature="e#6198#6199#0" expanded="true" />
+            <element signature="e#6228#6229#0" expanded="true" />
+            <element signature="e#6331#6332#0" expanded="true" />
+            <element signature="e#6401#6402#0" expanded="true" />
+            <element signature="e#6528#6529#0" expanded="true" />
+            <element signature="e#6559#6560#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2OneRotaryNews.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding>
+            <element signature="e#978#979#0" expanded="true" />
+            <element signature="e#1016#1017#0" expanded="true" />
+            <element signature="e#1146#1147#0" expanded="true" />
+            <element signature="e#1200#1201#0" expanded="true" />
+            <element signature="e#1313#1314#0" expanded="true" />
+            <element signature="e#1353#1354#0" expanded="true" />
+            <element signature="e#1701#1702#0" expanded="true" />
+            <element signature="e#1743#1744#0" expanded="true" />
+            <element signature="e#2112#2113#0" expanded="true" />
+            <element signature="e#2157#2158#0" expanded="true" />
+            <element signature="e#2495#2496#0" expanded="true" />
+            <element signature="e#2538#2539#0" expanded="true" />
+            <element signature="e#2680#2681#0" expanded="true" />
+            <element signature="e#2744#2745#0" expanded="true" />
+            <element signature="e#2839#2840#0" expanded="true" />
+            <element signature="e#2872#2873#0" expanded="true" />
+            <element signature="e#2980#2981#0" expanded="true" />
+            <element signature="e#3024#3025#0" expanded="true" />
+            <element signature="e#3172#3173#0" expanded="true" />
+            <element signature="e#3213#3214#0" expanded="true" />
+            <element signature="e#3380#3381#0" expanded="true" />
+            <element signature="e#3440#3441#0" expanded="true" />
+            <element signature="e#3532#3533#0" expanded="true" />
+            <element signature="e#3562#3563#0" expanded="true" />
+            <element signature="e#3665#3666#0" expanded="true" />
+            <element signature="e#3735#3736#0" expanded="true" />
+            <element signature="e#3827#3828#0" expanded="true" />
+            <element signature="e#3857#3858#0" expanded="true" />
+            <element signature="e#3960#3961#0" expanded="true" />
+            <element signature="e#4030#4031#0" expanded="true" />
+            <element signature="e#4122#4123#0" expanded="true" />
+            <element signature="e#4152#4153#0" expanded="true" />
+            <element signature="e#4255#4256#0" expanded="true" />
+            <element signature="e#4325#4326#0" expanded="true" />
+            <element signature="e#4417#4418#0" expanded="true" />
+            <element signature="e#4447#4448#0" expanded="true" />
+            <element signature="e#4550#4551#0" expanded="true" />
+            <element signature="e#4620#4621#0" expanded="true" />
+            <element signature="e#4712#4713#0" expanded="true" />
+            <element signature="e#4742#4743#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding>
+            <element signature="e#795#796#0" expanded="true" />
+            <element signature="e#827#828#0" expanded="true" />
+            <element signature="e#937#938#0" expanded="true" />
+            <element signature="e#979#980#0" expanded="true" />
+            <element signature="e#1074#1075#0" expanded="true" />
+            <element signature="e#1107#1108#0" expanded="true" />
+            <element signature="e#1215#1216#0" expanded="true" />
+            <element signature="e#1259#1260#0" expanded="true" />
+            <element signature="e#1381#1382#0" expanded="true" />
+            <element signature="e#1410#1411#0" expanded="true" />
+            <element signature="e#1541#1542#0" expanded="true" />
+            <element signature="e#1577#1578#0" expanded="true" />
+            <element signature="e#1694#1695#0" expanded="true" />
+            <element signature="e#1722#1723#0" expanded="true" />
+            <element signature="e#1848#1849#0" expanded="true" />
+            <element signature="e#1882#1883#0" expanded="true" />
+            <element signature="e#1974#1975#0" expanded="true" />
+            <element signature="e#2004#2005#0" expanded="true" />
+            <element signature="e#2107#2108#0" expanded="true" />
+            <element signature="e#2177#2178#0" expanded="true" />
+            <element signature="e#2269#2270#0" expanded="true" />
+            <element signature="e#2299#2300#0" expanded="true" />
+            <element signature="e#2402#2403#0" expanded="true" />
+            <element signature="e#2472#2473#0" expanded="true" />
+            <element signature="e#2564#2565#0" expanded="true" />
+            <element signature="e#2594#2595#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="e#2767#2768#0" expanded="true" />
+            <element signature="e#2859#2860#0" expanded="true" />
+            <element signature="e#2889#2890#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3062#3063#0" expanded="true" />
+            <element signature="e#3154#3155#0" expanded="true" />
+            <element signature="e#3184#3185#0" expanded="true" />
+            <element signature="e#3287#3288#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#3464#3465#0" expanded="true" />
+            <element signature="e#3501#3502#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ApplyPurchase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ApplyPurchaseExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ByGeneralize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-110">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ByGeneralizeExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChatInfoExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChinaAreaExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2RotaryNewsImageInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ByGeneralizeMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product-server/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding>
+            <element signature="e#927#928#0" expanded="true" />
+            <element signature="e#962#963#0" expanded="true" />
+            <element signature="e#1091#1092#0" expanded="true" />
+            <element signature="e#1139#1140#0" expanded="true" />
+            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1769#1770#0" expanded="true" />
+            <element signature="e#1798#1799#0" expanded="true" />
+            <element signature="e#1925#1926#0" expanded="true" />
+            <element signature="e#1961#1962#0" expanded="true" />
+            <element signature="e#2068#2069#0" expanded="true" />
+            <element signature="e#2099#2100#0" expanded="true" />
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2290#2291#0" expanded="true" />
+            <element signature="e#2385#2386#0" expanded="true" />
+            <element signature="e#2418#2419#0" expanded="true" />
+            <element signature="e#2526#2527#0" expanded="true" />
+            <element signature="e#2570#2571#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="e#2725#2726#0" expanded="true" />
+            <element signature="e#2861#2862#0" expanded="true" />
+            <element signature="e#2895#2896#0" expanded="true" />
+            <element signature="e#2987#2988#0" expanded="true" />
+            <element signature="e#3017#3018#0" expanded="true" />
+            <element signature="e#3120#3121#0" expanded="true" />
+            <element signature="e#3190#3191#0" expanded="true" />
+            <element signature="e#3282#3283#0" expanded="true" />
+            <element signature="e#3312#3313#0" expanded="true" />
+            <element signature="e#3415#3416#0" expanded="true" />
+            <element signature="e#3485#3486#0" expanded="true" />
+            <element signature="e#3577#3578#0" expanded="true" />
+            <element signature="e#3607#3608#0" expanded="true" />
+            <element signature="e#3710#3711#0" expanded="true" />
+            <element signature="e#3780#3781#0" expanded="true" />
+            <element signature="e#3872#3873#0" expanded="true" />
+            <element signature="e#3902#3903#0" expanded="true" />
+            <element signature="e#4005#4006#0" expanded="true" />
+            <element signature="e#4075#4076#0" expanded="true" />
+            <element signature="e#4167#4168#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeasonExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ApplyPurchaseMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="24" column="78" selection-start-line="24" selection-start-column="78" selection-end-line="24" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="31" column="30" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/shopjar/org/mybatis/spring/boot/mybatis-spring-boot-starter/2.0.0/mybatis-spring-boot-starter-2.0.0.pom">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="27" column="10" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2Member.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+          <folding>
+            <element signature="e#1312#1313#0" expanded="true" />
+            <element signature="e#1343#1344#0" expanded="true" />
+            <element signature="e#1454#1455#0" expanded="true" />
+            <element signature="e#1494#1495#0" expanded="true" />
+            <element signature="e#1597#1598#0" expanded="true" />
+            <element signature="e#1633#1634#0" expanded="true" />
+            <element signature="e#1945#1946#0" expanded="true" />
+            <element signature="e#1982#1983#0" expanded="true" />
+            <element signature="e#2292#2293#0" expanded="true" />
+            <element signature="e#2325#2326#0" expanded="true" />
+            <element signature="e#2435#2436#0" expanded="true" />
+            <element signature="e#2514#2515#0" expanded="true" />
+            <element signature="e#2613#2614#0" expanded="true" />
+            <element signature="e#2647#2648#0" expanded="true" />
+            <element signature="e#2941#2942#0" expanded="true" />
+            <element signature="e#2973#2974#0" expanded="true" />
+            <element signature="e#3084#3085#0" expanded="true" />
+            <element signature="e#3160#3161#0" expanded="true" />
+            <element signature="e#3263#3264#0" expanded="true" />
+            <element signature="e#3299#3300#0" expanded="true" />
+            <element signature="e#3620#3621#0" expanded="true" />
+            <element signature="e#3652#3653#0" expanded="true" />
+            <element signature="e#3778#3779#0" expanded="true" />
+            <element signature="e#3820#3821#0" expanded="true" />
+            <element signature="e#3931#3932#0" expanded="true" />
+            <element signature="e#3969#3970#0" expanded="true" />
+            <element signature="e#4305#4306#0" expanded="true" />
+            <element signature="e#4342#4343#0" expanded="true" />
+            <element signature="e#4662#4663#0" expanded="true" />
+            <element signature="e#4696#4697#0" expanded="true" />
+            <element signature="e#5003#5004#0" expanded="true" />
+            <element signature="e#5042#5043#0" expanded="true" />
+            <element signature="e#5172#5173#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5362#5363#0" expanded="true" />
+            <element signature="e#5396#5397#0" expanded="true" />
+            <element signature="e#5544#5545#0" expanded="true" />
+            <element signature="e#5590#5591#0" expanded="true" />
+            <element signature="e#5682#5683#0" expanded="true" />
+            <element signature="e#5712#5713#0" expanded="true" />
+            <element signature="e#5815#5816#0" expanded="true" />
+            <element signature="e#5885#5886#0" expanded="true" />
+            <element signature="e#5977#5978#0" expanded="true" />
+            <element signature="e#6007#6008#0" expanded="true" />
+            <element signature="e#6110#6111#0" expanded="true" />
+            <element signature="e#6180#6181#0" expanded="true" />
+            <element signature="e#6272#6273#0" expanded="true" />
+            <element signature="e#6302#6303#0" expanded="true" />
+            <element signature="e#6405#6406#0" expanded="true" />
+            <element signature="e#6475#6476#0" expanded="true" />
+            <element signature="e#6567#6568#0" expanded="true" />
+            <element signature="e#6597#6598#0" expanded="true" />
+            <element signature="e#6700#6701#0" expanded="true" />
+            <element signature="e#6770#6771#0" expanded="true" />
+            <element signature="e#6862#6863#0" expanded="true" />
+            <element signature="e#6892#6893#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CouponUserExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChinaArea.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2CategorySeasonMapper.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChinaAreaMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://D:/shopjar/org/mybatis/mybatis/3.5.0/mybatis-3.5.0.jar!/org/apache/ibatis/annotations/Param.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/mapper/K2ChatInfoMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2ChatInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/pojo/K2CategorySeason.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/MD5Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="14" column="45" lean-forward="true" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping-commons/src/main/java/com/king2/commons/utils/CookieUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
         </state>
       </provider>
     </entry>

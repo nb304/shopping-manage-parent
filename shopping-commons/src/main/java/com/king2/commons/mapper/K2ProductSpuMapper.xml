@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductSpuMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductSpu" >
+    <id column="product_spu_id" property="productSpuId" jdbcType="INTEGER" />
+    <result column="product_spu_name" property="productSpuName" jdbcType="VARCHAR" />
+    <result column="product_spu_value" property="productSpuValue" jdbcType="VARCHAR" />
+    <result column="product_spu_order" property="productSpuOrder" jdbcType="INTEGER" />
+    <result column="product_spu_state" property="productSpuState" jdbcType="INTEGER" />
+    <result column="belong_product_id" property="belongProductId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_spu_id, product_spu_name, product_spu_value, product_spu_order, product_spu_state, 
+    belong_product_id, create_time, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductSpuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_spu
+    where product_spu_id = #{productSpuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_spu
+    where product_spu_id = #{productSpuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductSpuExample" >
+    delete from k2_product_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductSpu" >
+    insert into k2_product_spu (product_spu_id, product_spu_name, product_spu_value, 
+      product_spu_order, product_spu_state, belong_product_id, 
+      create_time, retain1, retain2, 
+      retain3, retain4, retain5
+      )
+    values (#{productSpuId,jdbcType=INTEGER}, #{productSpuName,jdbcType=VARCHAR}, #{productSpuValue,jdbcType=VARCHAR}, 
+      #{productSpuOrder,jdbcType=INTEGER}, #{productSpuState,jdbcType=INTEGER}, #{belongProductId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductSpu" >
+    insert into k2_product_spu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productSpuId != null" >
+        product_spu_id,
+      </if>
+      <if test="productSpuName != null" >
+        product_spu_name,
+      </if>
+      <if test="productSpuValue != null" >
+        product_spu_value,
+      </if>
+      <if test="productSpuOrder != null" >
+        product_spu_order,
+      </if>
+      <if test="productSpuState != null" >
+        product_spu_state,
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productSpuId != null" >
+        #{productSpuId,jdbcType=INTEGER},
+      </if>
+      <if test="productSpuName != null" >
+        #{productSpuName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpuValue != null" >
+        #{productSpuValue,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpuOrder != null" >
+        #{productSpuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="productSpuState != null" >
+        #{productSpuState,jdbcType=INTEGER},
+      </if>
+      <if test="belongProductId != null" >
+        #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductSpuExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_spu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_spu
+    <set >
+      <if test="record.productSpuId != null" >
+        product_spu_id = #{record.productSpuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSpuName != null" >
+        product_spu_name = #{record.productSpuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSpuValue != null" >
+        product_spu_value = #{record.productSpuValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSpuOrder != null" >
+        product_spu_order = #{record.productSpuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSpuState != null" >
+        product_spu_state = #{record.productSpuState,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongProductId != null" >
+        belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_spu
+    set product_spu_id = #{record.productSpuId,jdbcType=INTEGER},
+      product_spu_name = #{record.productSpuName,jdbcType=VARCHAR},
+      product_spu_value = #{record.productSpuValue,jdbcType=VARCHAR},
+      product_spu_order = #{record.productSpuOrder,jdbcType=INTEGER},
+      product_spu_state = #{record.productSpuState,jdbcType=INTEGER},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductSpu" >
+    update k2_product_spu
+    <set >
+      <if test="productSpuName != null" >
+        product_spu_name = #{productSpuName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpuValue != null" >
+        product_spu_value = #{productSpuValue,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpuOrder != null" >
+        product_spu_order = #{productSpuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="productSpuState != null" >
+        product_spu_state = #{productSpuState,jdbcType=INTEGER},
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_spu_id = #{productSpuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductSpu" >
+    update k2_product_spu
+    set product_spu_name = #{productSpuName,jdbcType=VARCHAR},
+      product_spu_value = #{productSpuValue,jdbcType=VARCHAR},
+      product_spu_order = #{productSpuOrder,jdbcType=INTEGER},
+      product_spu_state = #{productSpuState,jdbcType=INTEGER},
+      belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where product_spu_id = #{productSpuId,jdbcType=INTEGER}
+  </update>
+</mapper>
