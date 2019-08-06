@@ -1,4 +1,5 @@
 package com.king2.commons.lock.impl;
+
 import com.king2.commons.exceptions.JedisIsNullException;
 import com.king2.commons.lock.Lock;
 import org.apache.commons.io.FileUtils;
@@ -25,20 +26,21 @@ public class DfsRedisLock implements Lock {
 
     /**
      * 提供代参构造
+     *
      * @param Redis_KEY
      * @param timeout
      * @param jedis
      */
-    public DfsRedisLock(String Redis_KEY , Integer timeout , Jedis jedis) throws Exception{
-        if(!StringUtils.isEmpty(Redis_KEY)) {
+    public DfsRedisLock(String Redis_KEY, Integer timeout, Jedis jedis) throws Exception {
+        if (!StringUtils.isEmpty(Redis_KEY)) {
             this.KEY = Redis_KEY;
         }
-        if(timeout != null && timeout != 0) {
+        if (timeout != null && timeout != 0) {
             this.timeout = timeout.longValue();
         }
-        if(jedis == null) {
+        if (jedis == null) {
             throw new JedisIsNullException();
-        } else  {
+        } else {
             this.jedis = jedis;
         }
     }
@@ -61,7 +63,7 @@ public class DfsRedisLock implements Lock {
             // 尝试加锁
             String addRedisLockFlag = jedis.set(KEY, value, "NX", "PX", timeout);
             // 判断是否加锁成功
-            if("OK".equals(addRedisLockFlag)) {
+            if ("OK".equals(addRedisLockFlag)) {
                 // 加锁成功
                 local.set(value);
                 // 退出
@@ -72,6 +74,7 @@ public class DfsRedisLock implements Lock {
 
     /**
      * 尝试加锁(只尝试一次)  失败返回false  成功返回true
+     *
      * @return
      */
     @Override
@@ -81,7 +84,7 @@ public class DfsRedisLock implements Lock {
         // 尝试加锁
         String addRedisLockFlag = jedis.set(KEY, value, "NX", "PX", timeout);
         // 判断是否加锁成功
-        if("OK".equals(addRedisLockFlag)) {
+        if ("OK".equals(addRedisLockFlag)) {
             // 加锁成功
             local.set(value);
             // 退出
@@ -92,12 +95,13 @@ public class DfsRedisLock implements Lock {
 
     /**
      * 解锁  解锁也是需要原子性的 所以我们用lua脚本完成
+     *
      * @return
      */
     @Override
-    public boolean unlock(String luaPath) throws Exception{
+    public boolean unlock(String srcipt) throws Exception {
         // 读取lua脚本
-        String srcipt = FileUtils.readFileToString(new File(luaPath));
+        // String srcipt = FileUtils.readFileToString(new File(luaPath));
         Object eval = jedis.eval(srcipt, Arrays.asList(KEY), Arrays.asList(local.get()));
         return true;
     }

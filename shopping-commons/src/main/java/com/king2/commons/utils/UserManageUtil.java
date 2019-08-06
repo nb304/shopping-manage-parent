@@ -57,6 +57,7 @@ public class UserManageUtil {
         if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
             return null;
         }
+
         // 获取用户在redis中的信息
         String userJson = jedis.hget(account, token);
         // 判断是否存在该用户信息
@@ -88,7 +89,6 @@ public class UserManageUtil {
      * -----------------------------------------------------
      */
     public SystemResult refresh(K2Member k2Member, String token) {
-
         // 判断用户是否登录
         Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
         if (CollectionUtils.isEmpty(userMap)) {
