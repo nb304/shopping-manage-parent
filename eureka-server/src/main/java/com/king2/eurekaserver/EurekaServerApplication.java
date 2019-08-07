@@ -16,15 +16,15 @@ public class EurekaServerApplication {
         SpringApplication.run(EurekaServerApplication.class, args);
     }
 
-
-    //Spring Cloud 2.0 以上的security默认启用了csrf检验，要在eureka server端配置security的csrf检验为false。
+    //Spring Cloud 2.0 以上的security默认启用了csrf检验，会导致其他服务注册不到eureka服务中心上
     @EnableWebSecurity
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             super.configure(http);
-            http.csrf().disable();
-        }}
+            http.csrf().disable();//关闭csrf
+        }
+    }
 
 }
 

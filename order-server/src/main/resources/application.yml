@@ -13,9 +13,40 @@ eureka:
     #如果与这里的解释不相同有可能是多块网卡干扰了
     prefer-ip-address: true
 
+    # 心跳机制每三秒向服务端发送健康情况
+    lease-renewal-interval-in-seconds: 3
+    # 当心跳停止过7秒后就可以让服务中心那边按规定时间清楚无效的服务
+    lease-expiration-duration-in-seconds: 7
+
   client:
+    # 开启健康检查 （依赖spring-boot-starter-actuator）
+    healthcheck:
+      enabled: true
+
+    # 是否将eureka自身作为应用注册到eureka注册中心,默认为true
+    registerWithEureka: true
+
+    # 客户端从Eureka Server集群里更新Eureka Server信息的频率
+    eureka-service-url-poll-interval-seconds: 6
+
     service-url:
       #服务注册中心的配置内容，指定服务注册中心的位置 将当前服务注册到注册中心中
       defaultZone: http://king2:king2@localhost:9999/eureka/
 
+
+#启动当前服务对应的断容器功能
+feign:
+  hystrix:
+    enabled: true
+
+
+#(PRODUCT-SERVER是远程客户端的服务)配置消费服务对应的Ribbon负载均衡策略 轮询、随机、权重 https://blog.csdn.net/johnf_nash/article/details/89045566
+#PRODUCT-SERVER:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+##                                  com.netflix.loadbalancer.RandomRule #随机
+##                                  com.netflix.loadbalancer.RoundRobinRule #配置规则 轮询
+##                                  com.netflix.loadbalancer.RetryRule #配置规则 重试
+##                                  com.netflix.loadbalancer.WeightedResponseTimeRule #配置规则 响应时间权重
+##                                  com.netflix.loadbalancer.BestAvailableRule #配置规则 最空闲连接策略
 

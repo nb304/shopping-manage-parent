@@ -5,8 +5,7 @@ import com.king2.commons.lock.Lock;
 import com.king2.commons.lock.impl.DfsRedisLock;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
-import freemarker.template.SimpleDate;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
 import java.util.Date;

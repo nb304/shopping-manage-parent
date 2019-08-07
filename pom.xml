@@ -20,7 +20,6 @@
 
 
     <properties>
-        <log-path>/Users/gino/Documents/00_java</log-path>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -33,6 +32,7 @@
         <mysql.connector.version>8.0.16</mysql.connector.version>
         <poi.version>3.17</poi.version>
         <hutool.version>4.5.11</hutool.version>
+        <swagger2.version>2.8.0</swagger2.version>
 
     </properties>
 
@@ -66,6 +66,14 @@
                 <version>${mysql.connector.version}</version>
             </dependency>
             <!-- 结束:mysql 驱动 -->
+
+            <!--开始：mybatis依赖-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!--结束：mybatis依赖-->
 
             <!-- 开始:druid 连接池 -->
             <dependency>
@@ -102,6 +110,17 @@
                 <version>${poi.version}</version>
             </dependency>
 
+            <dependency><!--添加Swagger2依赖 -->
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <dependency><!--添加Swagger-UI依赖 -->
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -121,26 +140,6 @@
         </dependency>
         <!-- 结束:web模块 -->
 
-        <!-- 开始:mybatis 依赖 -->
-        <!--<dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>-->
-
-        <!-- 开始:mysql 驱动 -->
-        <!--<dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>-->
-        <!-- 结束:mysql 驱动 -->
-
-        <!-- 开始:druid 连接池 -->
-        <!--<dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>-->
-        <!-- 结束:druid 连接池 -->
-
         <!-- redis依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -152,16 +151,13 @@
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
         </dependency>
-        <!-- activemq依赖 -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-activemq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-        </dependency>-->
 
+        <!--测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- 开始:hutool 工具类 验证码  poi打印 加密等工具包  -->
         <dependency>
@@ -170,19 +166,11 @@
         </dependency>
         <!-- 结束:hutool -->
 
-
         <!--Lombok  无效手动创建繁琐代码 @Data 放在类上就自动创建了get/set-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <!--测试依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!--配置文件处理器 -->
@@ -192,22 +180,23 @@
             <optional>true</optional>
         </dependency>
 
-        <!--引入eureka注册中心服务依赖包-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
-
-        <!--监控 -->
+        <!-- 监控系统健康情况的工具 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!--断路器依赖 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        <!--
+            RESTFul接口文档：通过接口访问文档：http://localhost:8762/swagger-ui.html，8762为当前你自己服务的端口访问
+            尽量使用高版本2.7及以上版本,不然 Feign 声明式服务调用不起作用
+        -->
+        <dependency><!--添加Swagger2依赖 -->
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency><!--添加Swagger-UI依赖 -->
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
 

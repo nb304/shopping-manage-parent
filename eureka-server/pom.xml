@@ -17,11 +17,18 @@
     <description>当前是一个服务注册中心</description>
 
     <dependencies>
+        <!--引入eureka注册中心服务依赖包-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+
         <!-- 安全框架依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
     </dependencies>
 
 

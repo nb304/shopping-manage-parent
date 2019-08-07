@@ -22,6 +22,26 @@
 
     <dependencies>
 
+
+<!--        <dependency> 下次引用 引用你这个要配置数据库
+            <groupId>com.king2</groupId>
+            <artifactId>shopping-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>-->
+
+
+        <!--引入eureka客户端依赖包  包含了负载均衡ribbon, 对应还有断融器hystrix 等依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!--使用声明式Feign服务调用依赖包 ,使用的简化了调用服务的方式及步骤 包含了负载均衡ribbon, -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
