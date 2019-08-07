@@ -153,14 +153,14 @@
             <version>2.9.0</version>
         </dependency>
         <!-- activemq依赖 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-pool</artifactId>
-        </dependency>
+        </dependency>-->
 
 
         <!-- 开始:hutool 工具类 验证码  poi打印 加密等工具包  -->

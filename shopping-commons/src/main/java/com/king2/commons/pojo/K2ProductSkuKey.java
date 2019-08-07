@@ -49,6 +49,11 @@ public class K2ProductSkuKey {
     private Date createTime;
 
     /**
+     * 排序规则
+     */
+    private Integer skuKeyOrder;
+
+    /**
      * 保留字段1
      */
     private String retain1;
@@ -215,6 +220,22 @@ public class K2ProductSkuKey {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    /**
+     * 排序规则
+     * @return sku_key_order 排序规则
+     */
+    public Integer getSkuKeyOrder() {
+        return skuKeyOrder;
+    }
+
+    /**
+     * 排序规则
+     * @param skuKeyOrder 排序规则
+     */
+    public void setSkuKeyOrder(Integer skuKeyOrder) {
+        this.skuKeyOrder = skuKeyOrder;
     }
 
     /**

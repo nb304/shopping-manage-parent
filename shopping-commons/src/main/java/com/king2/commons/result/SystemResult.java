@@ -3,61 +3,62 @@ package com.king2.commons.result;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*================================================================
-è¯´æ˜ï¼šä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+ËµÃ÷£ºÒµÎñ²Ù×÷ÏìÓ¦½á¹û
 
-ä½œè€…          æ—¶é—´            æ³¨é‡Š
-ä¿çƒ¨       2018.5.22	     åˆ›å»º
+×÷Õß          Ê±¼ä            ×¢ÊÍ
+ÓáìÇ       2018.5.22	     ´´½¨
 ==================================================================*/
-public class SystemResult {
+public class SystemResult implements Serializable {
 
-	// å®šä¹‰jacksonå¯¹è±¡
+	// ¶¨Òåjackson¶ÔÏó
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
-	// å“åº”ä¸šåŠ¡çŠ¶æ€
-	// 200 ä¸ºæ“ä½œæˆåŠŸ
-	// 100 ä¸ºæ•°æ®æ ¡éªŒå¼‚å¸¸
-	// 404 ä¸ºæ‰¾ä¸åˆ°è·¯å¾„
-	// 500 ä¸ºç¨‹åºå†…éƒ¨é”™è¯¯
+	// ÏìÓ¦ÒµÎñ×´Ì¬
+	// 200 Îª²Ù×÷³É¹¦
+	// 100 ÎªÊı¾İĞ£ÑéÒì³£
+	// 404 ÎªÕÒ²»µ½Â·¾¶
+	// 500 Îª³ÌĞòÄÚ²¿´íÎó
 	private Integer status;
 
-	// å“åº”æ¶ˆæ¯
-	// é»˜è®¤ä¸ºæ“ä½œæˆåŠŸ
+	// ÏìÓ¦ÏûÏ¢
+	// Ä¬ÈÏÎª²Ù×÷³É¹¦
 	private String msg;
 
-	// å“åº”ä¸­çš„æ•°æ®
+	// ÏìÓ¦ÖĞµÄÊı¾İ
 	private Object data;
 	
 	/**=================================================================
-     * åŠŸèƒ½ï¼šæ„å»ºå“åº”ç»“æœ
+     * ¹¦ÄÜ£º¹¹½¨ÏìÓ¦½á¹û
      * 
-     * å‚æ•°ï¼šstatus			Integer		çŠ¶æ€ç 
-     *		msg				String		å“åº”æ¶ˆæ¯
-     *		data			Object		å“åº”æ•°æ®
+     * ²ÎÊı£ºstatus			Integer		×´Ì¬Âë
+     *		msg				String		ÏìÓ¦ÏûÏ¢
+     *		data			Object		ÏìÓ¦Êı¾İ
      *
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult build(Integer status, String msg, Object data) {
 		return new SystemResult(status, msg, data);
 	}
 	
 	/**=================================================================
-     * åŠŸèƒ½ï¼šè¿”å›æˆåŠŸä¿¡æ¯ï¼Œä¸å¸¦æ¶ˆæ¯ï¼Œå¸¦æ•°æ®
+     * ¹¦ÄÜ£º·µ»Ø³É¹¦ĞÅÏ¢£¬²»´øÏûÏ¢£¬´øÊı¾İ
      * 
-     * å‚æ•°ï¼šdata			Object		å“åº”æ•°æ®
+     * ²ÎÊı£ºdata			Object		ÏìÓ¦Êı¾İ
      * 
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult ok(Object data) {
 		return new SystemResult(data);
 	}
 	
 	/**=================================================================
-     * åŠŸèƒ½ï¼šè¿”å›æˆåŠŸä¿¡æ¯ï¼Œä¸å¸¦æ¶ˆæ¯ã€æ•°æ®
+     * ¹¦ÄÜ£º·µ»Ø³É¹¦ĞÅÏ¢£¬²»´øÏûÏ¢¡¢Êı¾İ
      * 
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult ok() {
 		return new SystemResult(null);
@@ -68,12 +69,12 @@ public class SystemResult {
 	}
 	
 	/**=================================================================
-     * åŠŸèƒ½ï¼šæ„å»ºå“åº”ç»“æœï¼Œä¸å¸¦æ•°æ®
+     * ¹¦ÄÜ£º¹¹½¨ÏìÓ¦½á¹û£¬²»´øÊı¾İ
      * 
-     * å‚æ•°ï¼šstatus			Integer		çŠ¶æ€ç 
-     *		msg				String		å“åº”æ¶ˆæ¯
+     * ²ÎÊı£ºstatus			Integer		×´Ì¬Âë
+     *		msg				String		ÏìÓ¦ÏûÏ¢
      *
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult build(Integer status, String msg) {
 		return new SystemResult(status, msg, null);
@@ -87,7 +88,7 @@ public class SystemResult {
 
 	public SystemResult(Object data) {
 		this.status = 200;
-		this.msg = "æ“ä½œæˆåŠŸ";
+		this.msg = "²Ù×÷³É¹¦";
 		this.data = data;
 	}
 
@@ -116,12 +117,12 @@ public class SystemResult {
 	}
 
 	/**=================================================================
-     * åŠŸèƒ½ï¼šå°†jsonç»“æœé›†è½¬åŒ–ä¸ºSystemResultå¯¹è±¡(Objectä¸æ˜¯é›†åˆå¯¹è±¡çš„è½¬åŒ–)
+     * ¹¦ÄÜ£º½«json½á¹û¼¯×ª»¯ÎªSystemResult¶ÔÏó(Object²»ÊÇ¼¯ºÏ¶ÔÏóµÄ×ª»¯)
      * 
-     * å‚æ•°ï¼šjsonData			String		jsonæ•°æ®
-     *		clazz			Class		SystemResultä¸­çš„objectç±»å‹
+     * ²ÎÊı£ºjsonData			String		jsonÊı¾İ
+     *		clazz			Class		SystemResultÖĞµÄobjectÀàĞÍ
      *
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult formatToPojo(String jsonData, Class<?> clazz) {
 		try {
@@ -145,11 +146,11 @@ public class SystemResult {
 	}
 
 	/**=================================================================
-     * åŠŸèƒ½ï¼šå°†jsonç»“æœé›†è½¬åŒ–ä¸ºSystemResultå¯¹è±¡(æ²¡æœ‰objectå¯¹è±¡çš„è½¬åŒ–)
+     * ¹¦ÄÜ£º½«json½á¹û¼¯×ª»¯ÎªSystemResult¶ÔÏó(Ã»ÓĞobject¶ÔÏóµÄ×ª»¯)
      * 
-     * å‚æ•°ï¼šjsonData			String		jsonæ•°æ®
+     * ²ÎÊı£ºjsonData			String		jsonÊı¾İ
      *
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult format(String json) {
 		try {
@@ -161,12 +162,12 @@ public class SystemResult {
 	}
 
 	/**=================================================================
-     * åŠŸèƒ½ï¼šå°†jsonç»“æœé›†è½¬åŒ–ä¸ºSystemResultå¯¹è±¡(Objectæ˜¯é›†åˆå¯¹è±¡çš„è½¬åŒ–)
+     * ¹¦ÄÜ£º½«json½á¹û¼¯×ª»¯ÎªSystemResult¶ÔÏó(ObjectÊÇ¼¯ºÏ¶ÔÏóµÄ×ª»¯)
      * 
-     * å‚æ•°ï¼šjsonData			String		jsonæ•°æ®
-     *		clazz			Class		é›†åˆä¸­çš„ç±»å‹
+     * ²ÎÊı£ºjsonData			String		jsonÊı¾İ
+     *		clazz			Class		¼¯ºÏÖĞµÄÀàĞÍ
      *
-     * è¿”å›ï¼šSystemResult		ä¸šåŠ¡æ“ä½œå“åº”ç»“æœ
+     * ·µ»Ø£ºSystemResult		ÒµÎñ²Ù×÷ÏìÓ¦½á¹û
      ===================================================================*/
 	public static SystemResult formatToList(String jsonData, Class<?> clazz) {
 		try {

@@ -74,7 +74,7 @@ public class K2ProductSkuKeyExample {
     }
 
     /**
-     * k2_product_sku_key 2019-08-06
+     * k2_product_sku_key 2019-08-07
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -667,6 +667,66 @@ public class K2ProductSkuKeyExample {
             return (Criteria) this;
         }
 
+        public Criteria andSkuKeyOrderIsNull() {
+            addCriterion("sku_key_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderIsNotNull() {
+            addCriterion("sku_key_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderEqualTo(Integer value) {
+            addCriterion("sku_key_order =", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderNotEqualTo(Integer value) {
+            addCriterion("sku_key_order <>", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderGreaterThan(Integer value) {
+            addCriterion("sku_key_order >", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sku_key_order >=", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderLessThan(Integer value) {
+            addCriterion("sku_key_order <", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("sku_key_order <=", value, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderIn(List<Integer> values) {
+            addCriterion("sku_key_order in", values, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderNotIn(List<Integer> values) {
+            addCriterion("sku_key_order not in", values, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderBetween(Integer value1, Integer value2) {
+            addCriterion("sku_key_order between", value1, value2, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuKeyOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("sku_key_order not between", value1, value2, "skuKeyOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andRetain1IsNull() {
             addCriterion("retain1 is null");
             return (Criteria) this;
@@ -1029,7 +1089,7 @@ public class K2ProductSkuKeyExample {
     }
 
     /**
-     * k2_product_sku_key 2019-08-06
+     * k2_product_sku_key 2019-08-07
      */
     public static class Criterion {
         private String condition;
