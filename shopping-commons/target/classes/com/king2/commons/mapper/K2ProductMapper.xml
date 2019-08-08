@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2Product" >
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_number" property="productNumber" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_brand_id" property="productBrandId" jdbcType="INTEGER" />
+    <result column="product_one_category_id" property="productOneCategoryId" jdbcType="INTEGER" />
+    <result column="product_two_category_id" property="productTwoCategoryId" jdbcType="INTEGER" />
+    <result column="product_bazaar_price" property="productBazaarPrice" jdbcType="DECIMAL" />
+    <result column="product_system_price" property="productSystemPrice" jdbcType="DECIMAL" />
+    <result column="product_order_rule" property="productOrderRule" jdbcType="INTEGER" />
+    <result column="product_unit" property="productUnit" jdbcType="VARCHAR" />
+    <result column="product_sketch_id" property="productSketchId" jdbcType="INTEGER" />
+    <result column="product_if_support" property="productIfSupport" jdbcType="INTEGER" />
+    <result column="product_support_day" property="productSupportDay" jdbcType="INTEGER" />
+    <result column="product_state" property="productState" jdbcType="INTEGER" />
+    <result column="product_create_time" property="productCreateTime" jdbcType="TIMESTAMP" />
+    <result column="product_create_userid" property="productCreateUserid" jdbcType="INTEGER" />
+    <result column="product_create_username" property="productCreateUsername" jdbcType="VARCHAR" />
+    <result column="product_update_time" property="productUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="product_update_userid" property="productUpdateUserid" jdbcType="INTEGER" />
+    <result column="product_update_username" property="productUpdateUsername" jdbcType="VARCHAR" />
+    <result column="product_store_id" property="productStoreId" jdbcType="INTEGER" />
+    <result column="product_retain1" property="productRetain1" jdbcType="VARCHAR" />
+    <result column="product_retain2" property="productRetain2" jdbcType="VARCHAR" />
+    <result column="product_retain3" property="productRetain3" jdbcType="VARCHAR" />
+    <result column="product_retain4" property="productRetain4" jdbcType="VARCHAR" />
+    <result column="product_retain5" property="productRetain5" jdbcType="VARCHAR" />
+    <result column="product_retain6" property="productRetain6" jdbcType="VARCHAR" />
+    <result column="product_retain7" property="productRetain7" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2ProductWithBLOBs" extends="BaseResultMap" >
+    <result column="product_points" property="productPoints" jdbcType="LONGVARCHAR" />
+    <result column="product_image" property="productImage" jdbcType="LONGVARCHAR" />
+    <result column="product_image_describe" property="productImageDescribe" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_id, product_number, product_name, product_brand_id, product_one_category_id, 
+    product_two_category_id, product_bazaar_price, product_system_price, product_order_rule, 
+    product_unit, product_sketch_id, product_if_support, product_support_day, product_state, 
+    product_create_time, product_create_userid, product_create_username, product_update_time, 
+    product_update_userid, product_update_username, product_store_id, product_retain1, 
+    product_retain2, product_retain3, product_retain4, product_retain5, product_retain6, 
+    product_retain7
+  </sql>
+  <sql id="Blob_Column_List" >
+    product_points, product_image, product_image_describe
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductExample" >
+    delete from k2_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductWithBLOBs" >
+    insert into k2_product (product_id, product_number, product_name, 
+      product_brand_id, product_one_category_id, product_two_category_id, 
+      product_bazaar_price, product_system_price, 
+      product_order_rule, product_unit, product_sketch_id, 
+      product_if_support, product_support_day, product_state, 
+      product_create_time, product_create_userid, 
+      product_create_username, product_update_time, 
+      product_update_userid, product_update_username, 
+      product_store_id, product_retain1, product_retain2, 
+      product_retain3, product_retain4, product_retain5, 
+      product_retain6, product_retain7, product_points, 
+      product_image, product_image_describe
+      )
+    values (#{productId,jdbcType=INTEGER}, #{productNumber,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productBrandId,jdbcType=INTEGER}, #{productOneCategoryId,jdbcType=INTEGER}, #{productTwoCategoryId,jdbcType=INTEGER}, 
+      #{productBazaarPrice,jdbcType=DECIMAL}, #{productSystemPrice,jdbcType=DECIMAL}, 
+      #{productOrderRule,jdbcType=INTEGER}, #{productUnit,jdbcType=VARCHAR}, #{productSketchId,jdbcType=INTEGER}, 
+      #{productIfSupport,jdbcType=INTEGER}, #{productSupportDay,jdbcType=INTEGER}, #{productState,jdbcType=INTEGER}, 
+      #{productCreateTime,jdbcType=TIMESTAMP}, #{productCreateUserid,jdbcType=INTEGER}, 
+      #{productCreateUsername,jdbcType=VARCHAR}, #{productUpdateTime,jdbcType=TIMESTAMP}, 
+      #{productUpdateUserid,jdbcType=INTEGER}, #{productUpdateUsername,jdbcType=VARCHAR}, 
+      #{productStoreId,jdbcType=INTEGER}, #{productRetain1,jdbcType=VARCHAR}, #{productRetain2,jdbcType=VARCHAR}, 
+      #{productRetain3,jdbcType=VARCHAR}, #{productRetain4,jdbcType=VARCHAR}, #{productRetain5,jdbcType=VARCHAR}, 
+      #{productRetain6,jdbcType=VARCHAR}, #{productRetain7,jdbcType=VARCHAR}, #{productPoints,jdbcType=LONGVARCHAR}, 
+      #{productImage,jdbcType=LONGVARCHAR}, #{productImageDescribe,jdbcType=LONGVARCHAR}
+      )
+
+    <selectKey keyProperty="productId" order="AFTER" resultType="int">       select last_insert_id()     </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductWithBLOBs" >
+    insert into k2_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productNumber != null" >
+        product_number,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productBrandId != null" >
+        product_brand_id,
+      </if>
+      <if test="productOneCategoryId != null" >
+        product_one_category_id,
+      </if>
+      <if test="productTwoCategoryId != null" >
+        product_two_category_id,
+      </if>
+      <if test="productBazaarPrice != null" >
+        product_bazaar_price,
+      </if>
+      <if test="productSystemPrice != null" >
+        product_system_price,
+      </if>
+      <if test="productOrderRule != null" >
+        product_order_rule,
+      </if>
+      <if test="productUnit != null" >
+        product_unit,
+      </if>
+      <if test="productSketchId != null" >
+        product_sketch_id,
+      </if>
+      <if test="productIfSupport != null" >
+        product_if_support,
+      </if>
+      <if test="productSupportDay != null" >
+        product_support_day,
+      </if>
+      <if test="productState != null" >
+        product_state,
+      </if>
+      <if test="productCreateTime != null" >
+        product_create_time,
+      </if>
+      <if test="productCreateUserid != null" >
+        product_create_userid,
+      </if>
+      <if test="productCreateUsername != null" >
+        product_create_username,
+      </if>
+      <if test="productUpdateTime != null" >
+        product_update_time,
+      </if>
+      <if test="productUpdateUserid != null" >
+        product_update_userid,
+      </if>
+      <if test="productUpdateUsername != null" >
+        product_update_username,
+      </if>
+      <if test="productStoreId != null" >
+        product_store_id,
+      </if>
+      <if test="productRetain1 != null" >
+        product_retain1,
+      </if>
+      <if test="productRetain2 != null" >
+        product_retain2,
+      </if>
+      <if test="productRetain3 != null" >
+        product_retain3,
+      </if>
+      <if test="productRetain4 != null" >
+        product_retain4,
+      </if>
+      <if test="productRetain5 != null" >
+        product_retain5,
+      </if>
+      <if test="productRetain6 != null" >
+        product_retain6,
+      </if>
+      <if test="productRetain7 != null" >
+        product_retain7,
+      </if>
+      <if test="productPoints != null" >
+        product_points,
+      </if>
+      <if test="productImage != null" >
+        product_image,
+      </if>
+      <if test="productImageDescribe != null" >
+        product_image_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productNumber != null" >
+        #{productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productBrandId != null" >
+        #{productBrandId,jdbcType=INTEGER},
+      </if>
+      <if test="productOneCategoryId != null" >
+        #{productOneCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productTwoCategoryId != null" >
+        #{productTwoCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productBazaarPrice != null" >
+        #{productBazaarPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productSystemPrice != null" >
+        #{productSystemPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productOrderRule != null" >
+        #{productOrderRule,jdbcType=INTEGER},
+      </if>
+      <if test="productUnit != null" >
+        #{productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="productSketchId != null" >
+        #{productSketchId,jdbcType=INTEGER},
+      </if>
+      <if test="productIfSupport != null" >
+        #{productIfSupport,jdbcType=INTEGER},
+      </if>
+      <if test="productSupportDay != null" >
+        #{productSupportDay,jdbcType=INTEGER},
+      </if>
+      <if test="productState != null" >
+        #{productState,jdbcType=INTEGER},
+      </if>
+      <if test="productCreateTime != null" >
+        #{productCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCreateUserid != null" >
+        #{productCreateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productCreateUsername != null" >
+        #{productCreateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="productUpdateTime != null" >
+        #{productUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productUpdateUserid != null" >
+        #{productUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productUpdateUsername != null" >
+        #{productUpdateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="productStoreId != null" >
+        #{productStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="productRetain1 != null" >
+        #{productRetain1,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain2 != null" >
+        #{productRetain2,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain3 != null" >
+        #{productRetain3,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain4 != null" >
+        #{productRetain4,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain5 != null" >
+        #{productRetain5,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain6 != null" >
+        #{productRetain6,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain7 != null" >
+        #{productRetain7,jdbcType=VARCHAR},
+      </if>
+      <if test="productPoints != null" >
+        #{productPoints,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productImage != null" >
+        #{productImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productImageDescribe != null" >
+        #{productImageDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product
+    <set >
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productNumber != null" >
+        product_number = #{record.productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productBrandId != null" >
+        product_brand_id = #{record.productBrandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productOneCategoryId != null" >
+        product_one_category_id = #{record.productOneCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productTwoCategoryId != null" >
+        product_two_category_id = #{record.productTwoCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productBazaarPrice != null" >
+        product_bazaar_price = #{record.productBazaarPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productSystemPrice != null" >
+        product_system_price = #{record.productSystemPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productOrderRule != null" >
+        product_order_rule = #{record.productOrderRule,jdbcType=INTEGER},
+      </if>
+      <if test="record.productUnit != null" >
+        product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSketchId != null" >
+        product_sketch_id = #{record.productSketchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productIfSupport != null" >
+        product_if_support = #{record.productIfSupport,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSupportDay != null" >
+        product_support_day = #{record.productSupportDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.productState != null" >
+        product_state = #{record.productState,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCreateTime != null" >
+        product_create_time = #{record.productCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.productCreateUserid != null" >
+        product_create_userid = #{record.productCreateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCreateUsername != null" >
+        product_create_username = #{record.productCreateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productUpdateTime != null" >
+        product_update_time = #{record.productUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.productUpdateUserid != null" >
+        product_update_userid = #{record.productUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productUpdateUsername != null" >
+        product_update_username = #{record.productUpdateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productStoreId != null" >
+        product_store_id = #{record.productStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productRetain1 != null" >
+        product_retain1 = #{record.productRetain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain2 != null" >
+        product_retain2 = #{record.productRetain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain3 != null" >
+        product_retain3 = #{record.productRetain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain4 != null" >
+        product_retain4 = #{record.productRetain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain5 != null" >
+        product_retain5 = #{record.productRetain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain6 != null" >
+        product_retain6 = #{record.productRetain6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRetain7 != null" >
+        product_retain7 = #{record.productRetain7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productPoints != null" >
+        product_points = #{record.productPoints,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.productImage != null" >
+        product_image = #{record.productImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.productImageDescribe != null" >
+        product_image_describe = #{record.productImageDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_product
+    set product_id = #{record.productId,jdbcType=INTEGER},
+      product_number = #{record.productNumber,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_brand_id = #{record.productBrandId,jdbcType=INTEGER},
+      product_one_category_id = #{record.productOneCategoryId,jdbcType=INTEGER},
+      product_two_category_id = #{record.productTwoCategoryId,jdbcType=INTEGER},
+      product_bazaar_price = #{record.productBazaarPrice,jdbcType=DECIMAL},
+      product_system_price = #{record.productSystemPrice,jdbcType=DECIMAL},
+      product_order_rule = #{record.productOrderRule,jdbcType=INTEGER},
+      product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      product_sketch_id = #{record.productSketchId,jdbcType=INTEGER},
+      product_if_support = #{record.productIfSupport,jdbcType=INTEGER},
+      product_support_day = #{record.productSupportDay,jdbcType=INTEGER},
+      product_state = #{record.productState,jdbcType=INTEGER},
+      product_create_time = #{record.productCreateTime,jdbcType=TIMESTAMP},
+      product_create_userid = #{record.productCreateUserid,jdbcType=INTEGER},
+      product_create_username = #{record.productCreateUsername,jdbcType=VARCHAR},
+      product_update_time = #{record.productUpdateTime,jdbcType=TIMESTAMP},
+      product_update_userid = #{record.productUpdateUserid,jdbcType=INTEGER},
+      product_update_username = #{record.productUpdateUsername,jdbcType=VARCHAR},
+      product_store_id = #{record.productStoreId,jdbcType=INTEGER},
+      product_retain1 = #{record.productRetain1,jdbcType=VARCHAR},
+      product_retain2 = #{record.productRetain2,jdbcType=VARCHAR},
+      product_retain3 = #{record.productRetain3,jdbcType=VARCHAR},
+      product_retain4 = #{record.productRetain4,jdbcType=VARCHAR},
+      product_retain5 = #{record.productRetain5,jdbcType=VARCHAR},
+      product_retain6 = #{record.productRetain6,jdbcType=VARCHAR},
+      product_retain7 = #{record.productRetain7,jdbcType=VARCHAR},
+      product_points = #{record.productPoints,jdbcType=LONGVARCHAR},
+      product_image = #{record.productImage,jdbcType=LONGVARCHAR},
+      product_image_describe = #{record.productImageDescribe,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product
+    set product_id = #{record.productId,jdbcType=INTEGER},
+      product_number = #{record.productNumber,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_brand_id = #{record.productBrandId,jdbcType=INTEGER},
+      product_one_category_id = #{record.productOneCategoryId,jdbcType=INTEGER},
+      product_two_category_id = #{record.productTwoCategoryId,jdbcType=INTEGER},
+      product_bazaar_price = #{record.productBazaarPrice,jdbcType=DECIMAL},
+      product_system_price = #{record.productSystemPrice,jdbcType=DECIMAL},
+      product_order_rule = #{record.productOrderRule,jdbcType=INTEGER},
+      product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      product_sketch_id = #{record.productSketchId,jdbcType=INTEGER},
+      product_if_support = #{record.productIfSupport,jdbcType=INTEGER},
+      product_support_day = #{record.productSupportDay,jdbcType=INTEGER},
+      product_state = #{record.productState,jdbcType=INTEGER},
+      product_create_time = #{record.productCreateTime,jdbcType=TIMESTAMP},
+      product_create_userid = #{record.productCreateUserid,jdbcType=INTEGER},
+      product_create_username = #{record.productCreateUsername,jdbcType=VARCHAR},
+      product_update_time = #{record.productUpdateTime,jdbcType=TIMESTAMP},
+      product_update_userid = #{record.productUpdateUserid,jdbcType=INTEGER},
+      product_update_username = #{record.productUpdateUsername,jdbcType=VARCHAR},
+      product_store_id = #{record.productStoreId,jdbcType=INTEGER},
+      product_retain1 = #{record.productRetain1,jdbcType=VARCHAR},
+      product_retain2 = #{record.productRetain2,jdbcType=VARCHAR},
+      product_retain3 = #{record.productRetain3,jdbcType=VARCHAR},
+      product_retain4 = #{record.productRetain4,jdbcType=VARCHAR},
+      product_retain5 = #{record.productRetain5,jdbcType=VARCHAR},
+      product_retain6 = #{record.productRetain6,jdbcType=VARCHAR},
+      product_retain7 = #{record.productRetain7,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductWithBLOBs" >
+    update k2_product
+    <set >
+      <if test="productNumber != null" >
+        product_number = #{productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productBrandId != null" >
+        product_brand_id = #{productBrandId,jdbcType=INTEGER},
+      </if>
+      <if test="productOneCategoryId != null" >
+        product_one_category_id = #{productOneCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productTwoCategoryId != null" >
+        product_two_category_id = #{productTwoCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="productBazaarPrice != null" >
+        product_bazaar_price = #{productBazaarPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productSystemPrice != null" >
+        product_system_price = #{productSystemPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productOrderRule != null" >
+        product_order_rule = #{productOrderRule,jdbcType=INTEGER},
+      </if>
+      <if test="productUnit != null" >
+        product_unit = #{productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="productSketchId != null" >
+        product_sketch_id = #{productSketchId,jdbcType=INTEGER},
+      </if>
+      <if test="productIfSupport != null" >
+        product_if_support = #{productIfSupport,jdbcType=INTEGER},
+      </if>
+      <if test="productSupportDay != null" >
+        product_support_day = #{productSupportDay,jdbcType=INTEGER},
+      </if>
+      <if test="productState != null" >
+        product_state = #{productState,jdbcType=INTEGER},
+      </if>
+      <if test="productCreateTime != null" >
+        product_create_time = #{productCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCreateUserid != null" >
+        product_create_userid = #{productCreateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productCreateUsername != null" >
+        product_create_username = #{productCreateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="productUpdateTime != null" >
+        product_update_time = #{productUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productUpdateUserid != null" >
+        product_update_userid = #{productUpdateUserid,jdbcType=INTEGER},
+      </if>
+      <if test="productUpdateUsername != null" >
+        product_update_username = #{productUpdateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="productStoreId != null" >
+        product_store_id = #{productStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="productRetain1 != null" >
+        product_retain1 = #{productRetain1,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain2 != null" >
+        product_retain2 = #{productRetain2,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain3 != null" >
+        product_retain3 = #{productRetain3,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain4 != null" >
+        product_retain4 = #{productRetain4,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain5 != null" >
+        product_retain5 = #{productRetain5,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain6 != null" >
+        product_retain6 = #{productRetain6,jdbcType=VARCHAR},
+      </if>
+      <if test="productRetain7 != null" >
+        product_retain7 = #{productRetain7,jdbcType=VARCHAR},
+      </if>
+      <if test="productPoints != null" >
+        product_points = #{productPoints,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productImage != null" >
+        product_image = #{productImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="productImageDescribe != null" >
+        product_image_describe = #{productImageDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductWithBLOBs" >
+    update k2_product
+    set product_number = #{productNumber,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_brand_id = #{productBrandId,jdbcType=INTEGER},
+      product_one_category_id = #{productOneCategoryId,jdbcType=INTEGER},
+      product_two_category_id = #{productTwoCategoryId,jdbcType=INTEGER},
+      product_bazaar_price = #{productBazaarPrice,jdbcType=DECIMAL},
+      product_system_price = #{productSystemPrice,jdbcType=DECIMAL},
+      product_order_rule = #{productOrderRule,jdbcType=INTEGER},
+      product_unit = #{productUnit,jdbcType=VARCHAR},
+      product_sketch_id = #{productSketchId,jdbcType=INTEGER},
+      product_if_support = #{productIfSupport,jdbcType=INTEGER},
+      product_support_day = #{productSupportDay,jdbcType=INTEGER},
+      product_state = #{productState,jdbcType=INTEGER},
+      product_create_time = #{productCreateTime,jdbcType=TIMESTAMP},
+      product_create_userid = #{productCreateUserid,jdbcType=INTEGER},
+      product_create_username = #{productCreateUsername,jdbcType=VARCHAR},
+      product_update_time = #{productUpdateTime,jdbcType=TIMESTAMP},
+      product_update_userid = #{productUpdateUserid,jdbcType=INTEGER},
+      product_update_username = #{productUpdateUsername,jdbcType=VARCHAR},
+      product_store_id = #{productStoreId,jdbcType=INTEGER},
+      product_retain1 = #{productRetain1,jdbcType=VARCHAR},
+      product_retain2 = #{productRetain2,jdbcType=VARCHAR},
+      product_retain3 = #{productRetain3,jdbcType=VARCHAR},
+      product_retain4 = #{productRetain4,jdbcType=VARCHAR},
+      product_retain5 = #{productRetain5,jdbcType=VARCHAR},
+      product_retain6 = #{productRetain6,jdbcType=VARCHAR},
+      product_retain7 = #{productRetain7,jdbcType=VARCHAR},
+      product_points = #{productPoints,jdbcType=LONGVARCHAR},
+      product_image = #{productImage,jdbcType=LONGVARCHAR},
+      product_image_describe = #{productImageDescribe,jdbcType=LONGVARCHAR}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2Product" >
+    update k2_product
+    set product_number = #{productNumber,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_brand_id = #{productBrandId,jdbcType=INTEGER},
+      product_one_category_id = #{productOneCategoryId,jdbcType=INTEGER},
+      product_two_category_id = #{productTwoCategoryId,jdbcType=INTEGER},
+      product_bazaar_price = #{productBazaarPrice,jdbcType=DECIMAL},
+      product_system_price = #{productSystemPrice,jdbcType=DECIMAL},
+      product_order_rule = #{productOrderRule,jdbcType=INTEGER},
+      product_unit = #{productUnit,jdbcType=VARCHAR},
+      product_sketch_id = #{productSketchId,jdbcType=INTEGER},
+      product_if_support = #{productIfSupport,jdbcType=INTEGER},
+      product_support_day = #{productSupportDay,jdbcType=INTEGER},
+      product_state = #{productState,jdbcType=INTEGER},
+      product_create_time = #{productCreateTime,jdbcType=TIMESTAMP},
+      product_create_userid = #{productCreateUserid,jdbcType=INTEGER},
+      product_create_username = #{productCreateUsername,jdbcType=VARCHAR},
+      product_update_time = #{productUpdateTime,jdbcType=TIMESTAMP},
+      product_update_userid = #{productUpdateUserid,jdbcType=INTEGER},
+      product_update_username = #{productUpdateUsername,jdbcType=VARCHAR},
+      product_store_id = #{productStoreId,jdbcType=INTEGER},
+      product_retain1 = #{productRetain1,jdbcType=VARCHAR},
+      product_retain2 = #{productRetain2,jdbcType=VARCHAR},
+      product_retain3 = #{productRetain3,jdbcType=VARCHAR},
+      product_retain4 = #{productRetain4,jdbcType=VARCHAR},
+      product_retain5 = #{productRetain5,jdbcType=VARCHAR},
+      product_retain6 = #{productRetain6,jdbcType=VARCHAR},
+      product_retain7 = #{productRetain7,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+</mapper>

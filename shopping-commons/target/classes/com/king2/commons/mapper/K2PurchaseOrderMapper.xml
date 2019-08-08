@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2PurchaseOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2PurchaseOrder" >
+    <id column="po_id" property="poId" jdbcType="INTEGER" />
+    <result column="po_number" property="poNumber" jdbcType="VARCHAR" />
+    <result column="po_name" property="poName" jdbcType="VARCHAR" />
+    <result column="po_desc" property="poDesc" jdbcType="VARCHAR" />
+    <result column="po_time" property="poTime" jdbcType="TIMESTAMP" />
+    <result column="po_count_number" property="poCountNumber" jdbcType="INTEGER" />
+    <result column="po_count_price" property="poCountPrice" jdbcType="DECIMAL" />
+    <result column="po_address" property="poAddress" jdbcType="VARCHAR" />
+    <result column="po_factory_name" property="poFactoryName" jdbcType="VARCHAR" />
+    <result column="po_factory_phone" property="poFactoryPhone" jdbcType="VARCHAR" />
+    <result column="member_account" property="memberAccount" jdbcType="VARCHAR" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="po_create_time" property="poCreateTime" jdbcType="TIMESTAMP" />
+    <result column="po_del_flag" property="poDelFlag" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2PurchaseOrder" extends="BaseResultMap" >
+    <result column="po_imgUrl" property="poImgurl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    po_id, po_number, po_name, po_desc, po_time, po_count_number, po_count_price, po_address, 
+    po_factory_name, po_factory_phone, member_account, member_name, po_create_time, po_del_flag, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    po_imgUrl
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2PurchaseOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2PurchaseOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_purchase_order
+    where po_id = #{poId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_purchase_order
+    where po_id = #{poId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2PurchaseOrderExample" >
+    delete from k2_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2PurchaseOrder" >
+    insert into k2_purchase_order (po_id, po_number, po_name, 
+      po_desc, po_time, po_count_number, 
+      po_count_price, po_address, po_factory_name, 
+      po_factory_phone, member_account, member_name, 
+      po_create_time, po_del_flag, retain1, 
+      retain2, retain3, retain4, 
+      retain5, po_imgUrl)
+    values (#{poId,jdbcType=INTEGER}, #{poNumber,jdbcType=VARCHAR}, #{poName,jdbcType=VARCHAR}, 
+      #{poDesc,jdbcType=VARCHAR}, #{poTime,jdbcType=TIMESTAMP}, #{poCountNumber,jdbcType=INTEGER}, 
+      #{poCountPrice,jdbcType=DECIMAL}, #{poAddress,jdbcType=VARCHAR}, #{poFactoryName,jdbcType=VARCHAR}, 
+      #{poFactoryPhone,jdbcType=VARCHAR}, #{memberAccount,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, 
+      #{poCreateTime,jdbcType=TIMESTAMP}, #{poDelFlag,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, 
+      #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, 
+      #{retain5,jdbcType=VARCHAR}, #{poImgurl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2PurchaseOrder" >
+    insert into k2_purchase_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="poId != null" >
+        po_id,
+      </if>
+      <if test="poNumber != null" >
+        po_number,
+      </if>
+      <if test="poName != null" >
+        po_name,
+      </if>
+      <if test="poDesc != null" >
+        po_desc,
+      </if>
+      <if test="poTime != null" >
+        po_time,
+      </if>
+      <if test="poCountNumber != null" >
+        po_count_number,
+      </if>
+      <if test="poCountPrice != null" >
+        po_count_price,
+      </if>
+      <if test="poAddress != null" >
+        po_address,
+      </if>
+      <if test="poFactoryName != null" >
+        po_factory_name,
+      </if>
+      <if test="poFactoryPhone != null" >
+        po_factory_phone,
+      </if>
+      <if test="memberAccount != null" >
+        member_account,
+      </if>
+      <if test="memberName != null" >
+        member_name,
+      </if>
+      <if test="poCreateTime != null" >
+        po_create_time,
+      </if>
+      <if test="poDelFlag != null" >
+        po_del_flag,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="poImgurl != null" >
+        po_imgUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="poId != null" >
+        #{poId,jdbcType=INTEGER},
+      </if>
+      <if test="poNumber != null" >
+        #{poNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="poName != null" >
+        #{poName,jdbcType=VARCHAR},
+      </if>
+      <if test="poDesc != null" >
+        #{poDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="poTime != null" >
+        #{poTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poCountNumber != null" >
+        #{poCountNumber,jdbcType=INTEGER},
+      </if>
+      <if test="poCountPrice != null" >
+        #{poCountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="poAddress != null" >
+        #{poAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poFactoryName != null" >
+        #{poFactoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="poFactoryPhone != null" >
+        #{poFactoryPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAccount != null" >
+        #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="poCreateTime != null" >
+        #{poCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDelFlag != null" >
+        #{poDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="poImgurl != null" >
+        #{poImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2PurchaseOrderExample" resultType="java.lang.Integer" >
+    select count(*) from k2_purchase_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_purchase_order
+    <set >
+      <if test="record.poId != null" >
+        po_id = #{record.poId,jdbcType=INTEGER},
+      </if>
+      <if test="record.poNumber != null" >
+        po_number = #{record.poNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poName != null" >
+        po_name = #{record.poName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poDesc != null" >
+        po_desc = #{record.poDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poTime != null" >
+        po_time = #{record.poTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poCountNumber != null" >
+        po_count_number = #{record.poCountNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.poCountPrice != null" >
+        po_count_price = #{record.poCountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.poAddress != null" >
+        po_address = #{record.poAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poFactoryName != null" >
+        po_factory_name = #{record.poFactoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poFactoryPhone != null" >
+        po_factory_phone = #{record.poFactoryPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberAccount != null" >
+        member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberName != null" >
+        member_name = #{record.memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poCreateTime != null" >
+        po_create_time = #{record.poCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poDelFlag != null" >
+        po_del_flag = #{record.poDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poImgurl != null" >
+        po_imgUrl = #{record.poImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_purchase_order
+    set po_id = #{record.poId,jdbcType=INTEGER},
+      po_number = #{record.poNumber,jdbcType=VARCHAR},
+      po_name = #{record.poName,jdbcType=VARCHAR},
+      po_desc = #{record.poDesc,jdbcType=VARCHAR},
+      po_time = #{record.poTime,jdbcType=TIMESTAMP},
+      po_count_number = #{record.poCountNumber,jdbcType=INTEGER},
+      po_count_price = #{record.poCountPrice,jdbcType=DECIMAL},
+      po_address = #{record.poAddress,jdbcType=VARCHAR},
+      po_factory_name = #{record.poFactoryName,jdbcType=VARCHAR},
+      po_factory_phone = #{record.poFactoryPhone,jdbcType=VARCHAR},
+      member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      member_name = #{record.memberName,jdbcType=VARCHAR},
+      po_create_time = #{record.poCreateTime,jdbcType=TIMESTAMP},
+      po_del_flag = #{record.poDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      po_imgUrl = #{record.poImgurl,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_purchase_order
+    set po_id = #{record.poId,jdbcType=INTEGER},
+      po_number = #{record.poNumber,jdbcType=VARCHAR},
+      po_name = #{record.poName,jdbcType=VARCHAR},
+      po_desc = #{record.poDesc,jdbcType=VARCHAR},
+      po_time = #{record.poTime,jdbcType=TIMESTAMP},
+      po_count_number = #{record.poCountNumber,jdbcType=INTEGER},
+      po_count_price = #{record.poCountPrice,jdbcType=DECIMAL},
+      po_address = #{record.poAddress,jdbcType=VARCHAR},
+      po_factory_name = #{record.poFactoryName,jdbcType=VARCHAR},
+      po_factory_phone = #{record.poFactoryPhone,jdbcType=VARCHAR},
+      member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      member_name = #{record.memberName,jdbcType=VARCHAR},
+      po_create_time = #{record.poCreateTime,jdbcType=TIMESTAMP},
+      po_del_flag = #{record.poDelFlag,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2PurchaseOrder" >
+    update k2_purchase_order
+    <set >
+      <if test="poNumber != null" >
+        po_number = #{poNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="poName != null" >
+        po_name = #{poName,jdbcType=VARCHAR},
+      </if>
+      <if test="poDesc != null" >
+        po_desc = #{poDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="poTime != null" >
+        po_time = #{poTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poCountNumber != null" >
+        po_count_number = #{poCountNumber,jdbcType=INTEGER},
+      </if>
+      <if test="poCountPrice != null" >
+        po_count_price = #{poCountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="poAddress != null" >
+        po_address = #{poAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poFactoryName != null" >
+        po_factory_name = #{poFactoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="poFactoryPhone != null" >
+        po_factory_phone = #{poFactoryPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAccount != null" >
+        member_account = #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="poCreateTime != null" >
+        po_create_time = #{poCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poDelFlag != null" >
+        po_del_flag = #{poDelFlag,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="poImgurl != null" >
+        po_imgUrl = #{poImgurl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where po_id = #{poId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2PurchaseOrder" >
+    update k2_purchase_order
+    set po_number = #{poNumber,jdbcType=VARCHAR},
+      po_name = #{poName,jdbcType=VARCHAR},
+      po_desc = #{poDesc,jdbcType=VARCHAR},
+      po_time = #{poTime,jdbcType=TIMESTAMP},
+      po_count_number = #{poCountNumber,jdbcType=INTEGER},
+      po_count_price = #{poCountPrice,jdbcType=DECIMAL},
+      po_address = #{poAddress,jdbcType=VARCHAR},
+      po_factory_name = #{poFactoryName,jdbcType=VARCHAR},
+      po_factory_phone = #{poFactoryPhone,jdbcType=VARCHAR},
+      member_account = #{memberAccount,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      po_create_time = #{poCreateTime,jdbcType=TIMESTAMP},
+      po_del_flag = #{poDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      po_imgUrl = #{poImgurl,jdbcType=LONGVARCHAR}
+    where po_id = #{poId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2PurchaseOrder" >
+    update k2_purchase_order
+    set po_number = #{poNumber,jdbcType=VARCHAR},
+      po_name = #{poName,jdbcType=VARCHAR},
+      po_desc = #{poDesc,jdbcType=VARCHAR},
+      po_time = #{poTime,jdbcType=TIMESTAMP},
+      po_count_number = #{poCountNumber,jdbcType=INTEGER},
+      po_count_price = #{poCountPrice,jdbcType=DECIMAL},
+      po_address = #{poAddress,jdbcType=VARCHAR},
+      po_factory_name = #{poFactoryName,jdbcType=VARCHAR},
+      po_factory_phone = #{poFactoryPhone,jdbcType=VARCHAR},
+      member_account = #{memberAccount,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      po_create_time = #{poCreateTime,jdbcType=TIMESTAMP},
+      po_del_flag = #{poDelFlag,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where po_id = #{poId,jdbcType=INTEGER}
+  </update>
+</mapper>

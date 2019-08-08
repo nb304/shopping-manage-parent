@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ByGeneralizeMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ByGeneralize" >
+    <id column="by_generalize_id" property="byGeneralizeId" jdbcType="INTEGER" />
+    <result column="generalize_id" property="generalizeId" jdbcType="INTEGER" />
+    <result column="by_generalize_user_id" property="byGeneralizeUserId" jdbcType="INTEGER" />
+    <result column="by_generalize_user_name" property="byGeneralizeUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="generalize_award" property="generalizeAward" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    by_generalize_id, generalize_id, by_generalize_user_id, by_generalize_user_name, 
+    create_time, generalize_award, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ByGeneralizeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_by_generalize
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_by_generalize
+    where by_generalize_id = #{byGeneralizeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_by_generalize
+    where by_generalize_id = #{byGeneralizeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ByGeneralizeExample" >
+    delete from k2_by_generalize
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ByGeneralize" >
+    insert into k2_by_generalize (by_generalize_id, generalize_id, by_generalize_user_id, 
+      by_generalize_user_name, create_time, generalize_award, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{byGeneralizeId,jdbcType=INTEGER}, #{generalizeId,jdbcType=INTEGER}, #{byGeneralizeUserId,jdbcType=INTEGER}, 
+      #{byGeneralizeUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{generalizeAward,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ByGeneralize" >
+    insert into k2_by_generalize
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="byGeneralizeId != null" >
+        by_generalize_id,
+      </if>
+      <if test="generalizeId != null" >
+        generalize_id,
+      </if>
+      <if test="byGeneralizeUserId != null" >
+        by_generalize_user_id,
+      </if>
+      <if test="byGeneralizeUserName != null" >
+        by_generalize_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="generalizeAward != null" >
+        generalize_award,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="byGeneralizeId != null" >
+        #{byGeneralizeId,jdbcType=INTEGER},
+      </if>
+      <if test="generalizeId != null" >
+        #{generalizeId,jdbcType=INTEGER},
+      </if>
+      <if test="byGeneralizeUserId != null" >
+        #{byGeneralizeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="byGeneralizeUserName != null" >
+        #{byGeneralizeUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="generalizeAward != null" >
+        #{generalizeAward,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ByGeneralizeExample" resultType="java.lang.Integer" >
+    select count(*) from k2_by_generalize
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_by_generalize
+    <set >
+      <if test="record.byGeneralizeId != null" >
+        by_generalize_id = #{record.byGeneralizeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.generalizeId != null" >
+        generalize_id = #{record.generalizeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.byGeneralizeUserId != null" >
+        by_generalize_user_id = #{record.byGeneralizeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.byGeneralizeUserName != null" >
+        by_generalize_user_name = #{record.byGeneralizeUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.generalizeAward != null" >
+        generalize_award = #{record.generalizeAward,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_by_generalize
+    set by_generalize_id = #{record.byGeneralizeId,jdbcType=INTEGER},
+      generalize_id = #{record.generalizeId,jdbcType=INTEGER},
+      by_generalize_user_id = #{record.byGeneralizeUserId,jdbcType=INTEGER},
+      by_generalize_user_name = #{record.byGeneralizeUserName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      generalize_award = #{record.generalizeAward,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ByGeneralize" >
+    update k2_by_generalize
+    <set >
+      <if test="generalizeId != null" >
+        generalize_id = #{generalizeId,jdbcType=INTEGER},
+      </if>
+      <if test="byGeneralizeUserId != null" >
+        by_generalize_user_id = #{byGeneralizeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="byGeneralizeUserName != null" >
+        by_generalize_user_name = #{byGeneralizeUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="generalizeAward != null" >
+        generalize_award = #{generalizeAward,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where by_generalize_id = #{byGeneralizeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ByGeneralize" >
+    update k2_by_generalize
+    set generalize_id = #{generalizeId,jdbcType=INTEGER},
+      by_generalize_user_id = #{byGeneralizeUserId,jdbcType=INTEGER},
+      by_generalize_user_name = #{byGeneralizeUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      generalize_award = #{generalizeAward,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where by_generalize_id = #{byGeneralizeId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -94,7 +94,24 @@ public class K2Member {
     private String retain5;
 
     /**
+     * 请求过来的用户MAC地址
+     */
+    private String reqeustUserMac;
+
+    /**
+     * 请求过来的用户MAC地址
+     */
+    public String getReqeustUserMac() {
+        return reqeustUserMac;
+    }
+
+    public void setReqeustUserMac(String reqeustUserMac) {
+        this.reqeustUserMac = reqeustUserMac;
+    }
+
+    /**
      * 成员表自增主键
+     *
      * @return member_id 成员表自增主键
      */
     public Integer getMemberId() {
@@ -103,6 +120,7 @@ public class K2Member {
 
     /**
      * 成员表自增主键
+     *
      * @param memberId 成员表自增主键
      */
     public void setMemberId(Integer memberId) {
@@ -111,6 +129,7 @@ public class K2Member {
 
     /**
      * 成员账号
+     *
      * @return member_account 成员账号
      */
     public String getMemberAccount() {
@@ -119,6 +138,7 @@ public class K2Member {
 
     /**
      * 成员账号
+     *
      * @param memberAccount 成员账号
      */
     public void setMemberAccount(String memberAccount) {
@@ -127,6 +147,7 @@ public class K2Member {
 
     /**
      * 成员密码
+     *
      * @return member_password 成员密码
      */
     public String getMemberPassword() {
@@ -135,6 +156,7 @@ public class K2Member {
 
     /**
      * 成员密码
+     *
      * @param memberPassword 成员密码
      */
     public void setMemberPassword(String memberPassword) {
@@ -143,6 +165,7 @@ public class K2Member {
 
     /**
      * 成员名字
+     *
      * @return member_name 成员名字
      */
     public String getMemberName() {
@@ -151,6 +174,7 @@ public class K2Member {
 
     /**
      * 成员名字
+     *
      * @param memberName 成员名字
      */
     public void setMemberName(String memberName) {
@@ -159,6 +183,7 @@ public class K2Member {
 
     /**
      * 成员电话
+     *
      * @return member_phone 成员电话
      */
     public String getMemberPhone() {
@@ -167,6 +192,7 @@ public class K2Member {
 
     /**
      * 成员电话
+     *
      * @param memberPhone 成员电话
      */
     public void setMemberPhone(String memberPhone) {
@@ -175,6 +201,7 @@ public class K2Member {
 
     /**
      * 成员身份证号
+     *
      * @return member_uid 成员身份证号
      */
     public String getMemberUid() {
@@ -183,6 +210,7 @@ public class K2Member {
 
     /**
      * 成员身份证号
+     *
      * @param memberUid 成员身份证号
      */
     public void setMemberUid(String memberUid) {
@@ -191,6 +219,7 @@ public class K2Member {
 
     /**
      * 成员住址
+     *
      * @return member_address 成员住址
      */
     public String getMemberAddress() {
@@ -199,6 +228,7 @@ public class K2Member {
 
     /**
      * 成员住址
+     *
      * @param memberAddress 成员住址
      */
     public void setMemberAddress(String memberAddress) {
@@ -207,6 +237,7 @@ public class K2Member {
 
     /**
      * 成员性别 1:男  0:女
+     *
      * @return member_sex 成员性别 1:男  0:女
      */
     public Integer getMemberSex() {
@@ -215,6 +246,7 @@ public class K2Member {
 
     /**
      * 成员性别 1:男  0:女
+     *
      * @param memberSex 成员性别 1:男  0:女
      */
     public void setMemberSex(Integer memberSex) {
@@ -223,6 +255,7 @@ public class K2Member {
 
     /**
      * 成员个性签名
+     *
      * @return member_signature 成员个性签名
      */
     public String getMemberSignature() {
@@ -231,6 +264,7 @@ public class K2Member {
 
     /**
      * 成员个性签名
+     *
      * @param memberSignature 成员个性签名
      */
     public void setMemberSignature(String memberSignature) {
@@ -239,6 +273,7 @@ public class K2Member {
 
     /**
      * 成员头像图片路径
+     *
      * @return member_portrait 成员头像图片路径
      */
     public String getMemberPortrait() {
@@ -247,6 +282,7 @@ public class K2Member {
 
     /**
      * 成员头像图片路径
+     *
      * @param memberPortrait 成员头像图片路径
      */
     public void setMemberPortrait(String memberPortrait) {
@@ -255,6 +291,7 @@ public class K2Member {
 
     /**
      * 邮箱地址
+     *
      * @return member_email 邮箱地址
      */
     public String getMemberEmail() {
@@ -263,6 +300,7 @@ public class K2Member {
 
     /**
      * 邮箱地址
+     *
      * @param memberEmail 邮箱地址
      */
     public void setMemberEmail(String memberEmail) {
@@ -271,6 +309,7 @@ public class K2Member {
 
     /**
      * 成员创建时间
+     *
      * @return member_create_time 成员创建时间
      */
     public Date getMemberCreateTime() {
@@ -279,6 +318,7 @@ public class K2Member {
 
     /**
      * 成员创建时间
+     *
      * @param memberCreateTime 成员创建时间
      */
     public void setMemberCreateTime(Date memberCreateTime) {
@@ -287,6 +327,7 @@ public class K2Member {
 
     /**
      * 成员状态: 1:锁定  2:删除 3:正常
+     *
      * @return member_state 成员状态: 1:锁定  2:删除 3:正常
      */
     public Integer getMemberState() {
@@ -295,6 +336,7 @@ public class K2Member {
 
     /**
      * 成员状态: 1:锁定  2:删除 3:正常
+     *
      * @param memberState 成员状态: 1:锁定  2:删除 3:正常
      */
     public void setMemberState(Integer memberState) {
@@ -303,6 +345,7 @@ public class K2Member {
 
     /**
      * 保留字段1
+     *
      * @return retain1 保留字段1
      */
     public String getRetain1() {
@@ -311,6 +354,7 @@ public class K2Member {
 
     /**
      * 保留字段1
+     *
      * @param retain1 保留字段1
      */
     public void setRetain1(String retain1) {
@@ -319,6 +363,7 @@ public class K2Member {
 
     /**
      * 保留字段2
+     *
      * @return retain2 保留字段2
      */
     public String getRetain2() {
@@ -327,6 +372,7 @@ public class K2Member {
 
     /**
      * 保留字段2
+     *
      * @param retain2 保留字段2
      */
     public void setRetain2(String retain2) {
@@ -335,6 +381,7 @@ public class K2Member {
 
     /**
      * 保留字段3
+     *
      * @return retain3 保留字段3
      */
     public String getRetain3() {
@@ -343,6 +390,7 @@ public class K2Member {
 
     /**
      * 保留字段3
+     *
      * @param retain3 保留字段3
      */
     public void setRetain3(String retain3) {
@@ -351,6 +399,7 @@ public class K2Member {
 
     /**
      * 保留字段4
+     *
      * @return retain4 保留字段4
      */
     public String getRetain4() {
@@ -359,6 +408,7 @@ public class K2Member {
 
     /**
      * 保留字段4
+     *
      * @param retain4 保留字段4
      */
     public void setRetain4(String retain4) {
@@ -367,6 +417,7 @@ public class K2Member {
 
     /**
      * 保留字段5
+     *
      * @return retain5 保留字段5
      */
     public String getRetain5() {
@@ -375,6 +426,7 @@ public class K2Member {
 
     /**
      * 保留字段5
+     *
      * @param retain5 保留字段5
      */
     public void setRetain5(String retain5) {

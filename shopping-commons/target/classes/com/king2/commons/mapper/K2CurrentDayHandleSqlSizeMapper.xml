@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2CurrentDayHandleSqlSizeMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2CurrentDayHandleSqlSize" >
+    <id column="sql_size_id" property="sqlSizeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="add_product_size" property="addProductSize" jdbcType="INTEGER" />
+    <result column="add_brand__size" property="addBrandSize" jdbcType="INTEGER" />
+    <result column="add_category_size" property="addCategorySize" jdbcType="INTEGER" />
+    <result column="add_feedback_size" property="addFeedbackSize" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sql_size_id, user_id, add_product_size, add_brand__size, add_category_size, add_feedback_size, 
+    create_time, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSizeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_current_day_handle_sql_size
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_current_day_handle_sql_size
+    where sql_size_id = #{sqlSizeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_current_day_handle_sql_size
+    where sql_size_id = #{sqlSizeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSizeExample" >
+    delete from k2_current_day_handle_sql_size
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSize" >
+    insert into k2_current_day_handle_sql_size (sql_size_id, user_id, add_product_size, 
+      add_brand__size, add_category_size, add_feedback_size, 
+      create_time, retain1, retain2, 
+      retain3, retain4, retain5
+      )
+    values (#{sqlSizeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addProductSize,jdbcType=INTEGER}, 
+      #{addBrandSize,jdbcType=INTEGER}, #{addCategorySize,jdbcType=INTEGER}, #{addFeedbackSize,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSize" >
+    insert into k2_current_day_handle_sql_size
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sqlSizeId != null" >
+        sql_size_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="addProductSize != null" >
+        add_product_size,
+      </if>
+      <if test="addBrandSize != null" >
+        add_brand__size,
+      </if>
+      <if test="addCategorySize != null" >
+        add_category_size,
+      </if>
+      <if test="addFeedbackSize != null" >
+        add_feedback_size,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sqlSizeId != null" >
+        #{sqlSizeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addProductSize != null" >
+        #{addProductSize,jdbcType=INTEGER},
+      </if>
+      <if test="addBrandSize != null" >
+        #{addBrandSize,jdbcType=INTEGER},
+      </if>
+      <if test="addCategorySize != null" >
+        #{addCategorySize,jdbcType=INTEGER},
+      </if>
+      <if test="addFeedbackSize != null" >
+        #{addFeedbackSize,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSizeExample" resultType="java.lang.Integer" >
+    select count(*) from k2_current_day_handle_sql_size
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_current_day_handle_sql_size
+    <set >
+      <if test="record.sqlSizeId != null" >
+        sql_size_id = #{record.sqlSizeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.addProductSize != null" >
+        add_product_size = #{record.addProductSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.addBrandSize != null" >
+        add_brand__size = #{record.addBrandSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.addCategorySize != null" >
+        add_category_size = #{record.addCategorySize,jdbcType=INTEGER},
+      </if>
+      <if test="record.addFeedbackSize != null" >
+        add_feedback_size = #{record.addFeedbackSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_current_day_handle_sql_size
+    set sql_size_id = #{record.sqlSizeId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      add_product_size = #{record.addProductSize,jdbcType=INTEGER},
+      add_brand__size = #{record.addBrandSize,jdbcType=INTEGER},
+      add_category_size = #{record.addCategorySize,jdbcType=INTEGER},
+      add_feedback_size = #{record.addFeedbackSize,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSize" >
+    update k2_current_day_handle_sql_size
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addProductSize != null" >
+        add_product_size = #{addProductSize,jdbcType=INTEGER},
+      </if>
+      <if test="addBrandSize != null" >
+        add_brand__size = #{addBrandSize,jdbcType=INTEGER},
+      </if>
+      <if test="addCategorySize != null" >
+        add_category_size = #{addCategorySize,jdbcType=INTEGER},
+      </if>
+      <if test="addFeedbackSize != null" >
+        add_feedback_size = #{addFeedbackSize,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sql_size_id = #{sqlSizeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2CurrentDayHandleSqlSize" >
+    update k2_current_day_handle_sql_size
+    set user_id = #{userId,jdbcType=INTEGER},
+      add_product_size = #{addProductSize,jdbcType=INTEGER},
+      add_brand__size = #{addBrandSize,jdbcType=INTEGER},
+      add_category_size = #{addCategorySize,jdbcType=INTEGER},
+      add_feedback_size = #{addFeedbackSize,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where sql_size_id = #{sqlSizeId,jdbcType=INTEGER}
+  </update>
+</mapper>

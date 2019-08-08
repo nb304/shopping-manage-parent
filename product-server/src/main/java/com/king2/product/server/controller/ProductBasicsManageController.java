@@ -45,15 +45,15 @@ public class ProductBasicsManageController {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
+    @ApiImplicitParams
+            ({
+                    @ApiImplicitParam(name = "skuJson", value = "商品SKU的JSON数据串", required = true, dataType = "string"),
+                    @ApiImplicitParam(name = "productInfo", value = "本次的商品的JSON数据", required = true, dataType = "string"),
+                    @ApiImplicitParam(name = "state", value = "判断添加本次SKU时，是否需要添加商品", required = true, dataType = "string")
+            })
     @ApiOperation(value = "添加商品的SKU信息", notes = "")
     @PostMapping("/add/sku")
     @ResponseBody
-    @ApiImplicitParams(
-            {
-                    @ApiImplicitParam(name = "skuJson", value = "商品的SKU的JSON信息串", required = true, dataType = "string"),
-                    @ApiImplicitParam(name = "productInfo", value = "本次的商品信息", required = true, dataType = "string"),
-                    @ApiImplicitParam(name = "state", value = "判断本次添加SKU时，是否需要添加商品", required = true, dataType = "string")
-            })
     public SystemResult addProductSku(
             @NotBlank(message = "请填写SKU的信息") String skuJson,
             @NotBlank(message = "请填写商品信息") String productInfo,
@@ -69,4 +69,7 @@ public class ProductBasicsManageController {
         SystemResult systemResult = productBasicsManageService.addProductSku(skuJson, productInfo, state, k2Member);
         return systemResult;
     }
+
+
+    
 }

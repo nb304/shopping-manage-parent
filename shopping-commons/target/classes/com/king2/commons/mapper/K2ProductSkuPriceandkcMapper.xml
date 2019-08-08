@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductSkuPriceandkcMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    <id column="sku_priceandkc_id" property="skuPriceandkcId" jdbcType="INTEGER" />
+    <result column="belong_product_id" property="belongProductId" jdbcType="INTEGER" />
+    <result column="product_sku_price" property="productSkuPrice" jdbcType="DECIMAL" />
+    <result column="product_sku_kc" property="productSkuKc" jdbcType="INTEGER" />
+    <result column="product_sku_value_ids" property="productSkuValueIds" jdbcType="VARCHAR" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2ProductSkuPriceandkc" extends="BaseResultMap" >
+    <result column="sku_priceandkc_valuelistid" property="skuPriceandkcValuelistid" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sku_priceandkc_id, belong_product_id, product_sku_price, product_sku_kc, product_sku_value_ids, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    sku_priceandkc_valuelistid
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkcExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product_sku_priceandkc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkcExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_sku_priceandkc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_product_sku_priceandkc
+    where sku_priceandkc_id = #{skuPriceandkcId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_sku_priceandkc
+    where sku_priceandkc_id = #{skuPriceandkcId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkcExample" >
+    delete from k2_product_sku_priceandkc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    insert into k2_product_sku_priceandkc (sku_priceandkc_id, belong_product_id, 
+      product_sku_price, product_sku_kc, product_sku_value_ids, 
+      retain1, retain2, retain3, 
+      retain4, retain5, sku_priceandkc_valuelistid
+      )
+    values (#{skuPriceandkcId,jdbcType=INTEGER}, #{belongProductId,jdbcType=INTEGER}, 
+      #{productSkuPrice,jdbcType=DECIMAL}, #{productSkuKc,jdbcType=INTEGER}, #{productSkuValueIds,jdbcType=VARCHAR}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}, #{skuPriceandkcValuelistid,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    insert into k2_product_sku_priceandkc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="skuPriceandkcId != null" >
+        sku_priceandkc_id,
+      </if>
+      <if test="belongProductId != null" >
+        belong_product_id,
+      </if>
+      <if test="productSkuPrice != null" >
+        product_sku_price,
+      </if>
+      <if test="productSkuKc != null" >
+        product_sku_kc,
+      </if>
+      <if test="productSkuValueIds != null" >
+        product_sku_value_ids,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="skuPriceandkcValuelistid != null" >
+        sku_priceandkc_valuelistid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="skuPriceandkcId != null" >
+        #{skuPriceandkcId,jdbcType=INTEGER},
+      </if>
+      <if test="belongProductId != null" >
+        #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="productSkuPrice != null" >
+        #{productSkuPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productSkuKc != null" >
+        #{productSkuKc,jdbcType=INTEGER},
+      </if>
+      <if test="productSkuValueIds != null" >
+        #{productSkuValueIds,jdbcType=VARCHAR},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="skuPriceandkcValuelistid != null" >
+        #{skuPriceandkcValuelistid,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkcExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_sku_priceandkc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_sku_priceandkc
+    <set >
+      <if test="record.skuPriceandkcId != null" >
+        sku_priceandkc_id = #{record.skuPriceandkcId,jdbcType=INTEGER},
+      </if>
+      <if test="record.belongProductId != null" >
+        belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSkuPrice != null" >
+        product_sku_price = #{record.productSkuPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productSkuKc != null" >
+        product_sku_kc = #{record.productSkuKc,jdbcType=INTEGER},
+      </if>
+      <if test="record.productSkuValueIds != null" >
+        product_sku_value_ids = #{record.productSkuValueIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuPriceandkcValuelistid != null" >
+        sku_priceandkc_valuelistid = #{record.skuPriceandkcValuelistid,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_product_sku_priceandkc
+    set sku_priceandkc_id = #{record.skuPriceandkcId,jdbcType=INTEGER},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      product_sku_price = #{record.productSkuPrice,jdbcType=DECIMAL},
+      product_sku_kc = #{record.productSkuKc,jdbcType=INTEGER},
+      product_sku_value_ids = #{record.productSkuValueIds,jdbcType=VARCHAR},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      sku_priceandkc_valuelistid = #{record.skuPriceandkcValuelistid,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_sku_priceandkc
+    set sku_priceandkc_id = #{record.skuPriceandkcId,jdbcType=INTEGER},
+      belong_product_id = #{record.belongProductId,jdbcType=INTEGER},
+      product_sku_price = #{record.productSkuPrice,jdbcType=DECIMAL},
+      product_sku_kc = #{record.productSkuKc,jdbcType=INTEGER},
+      product_sku_value_ids = #{record.productSkuValueIds,jdbcType=VARCHAR},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    update k2_product_sku_priceandkc
+    <set >
+      <if test="belongProductId != null" >
+        belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      </if>
+      <if test="productSkuPrice != null" >
+        product_sku_price = #{productSkuPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productSkuKc != null" >
+        product_sku_kc = #{productSkuKc,jdbcType=INTEGER},
+      </if>
+      <if test="productSkuValueIds != null" >
+        product_sku_value_ids = #{productSkuValueIds,jdbcType=VARCHAR},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="skuPriceandkcValuelistid != null" >
+        sku_priceandkc_valuelistid = #{skuPriceandkcValuelistid,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where sku_priceandkc_id = #{skuPriceandkcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    update k2_product_sku_priceandkc
+    set belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      product_sku_price = #{productSkuPrice,jdbcType=DECIMAL},
+      product_sku_kc = #{productSkuKc,jdbcType=INTEGER},
+      product_sku_value_ids = #{productSkuValueIds,jdbcType=VARCHAR},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      sku_priceandkc_valuelistid = #{skuPriceandkcValuelistid,jdbcType=LONGVARCHAR}
+    where sku_priceandkc_id = #{skuPriceandkcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductSkuPriceandkc" >
+    update k2_product_sku_priceandkc
+    set belong_product_id = #{belongProductId,jdbcType=INTEGER},
+      product_sku_price = #{productSkuPrice,jdbcType=DECIMAL},
+      product_sku_kc = #{productSkuKc,jdbcType=INTEGER},
+      product_sku_value_ids = #{productSkuValueIds,jdbcType=VARCHAR},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where sku_priceandkc_id = #{skuPriceandkcId,jdbcType=INTEGER}
+  </update>
+</mapper>

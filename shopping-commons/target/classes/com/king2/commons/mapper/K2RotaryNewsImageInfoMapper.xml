@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2RotaryNewsImageInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2RotaryNewsImageInfo" >
+    <id column="rotary_image_info_id" property="rotaryImageInfoId" jdbcType="INTEGER" />
+    <result column="rotary_image_info_name" property="rotaryImageInfoName" jdbcType="VARCHAR" />
+    <result column="rotary_image_info_source" property="rotaryImageInfoSource" jdbcType="VARCHAR" />
+    <result column="rotary_start_time" property="rotaryStartTime" jdbcType="TIMESTAMP" />
+    <result column="rotary_end_time" property="rotaryEndTime" jdbcType="TIMESTAMP" />
+    <result column="rotary_create_time" property="rotaryCreateTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="is_one" property="isOne" jdbcType="INTEGER" />
+    <result column="rotary_image_state" property="rotaryImageState" jdbcType="INTEGER" />
+    <result column="rotary_id" property="rotaryId" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2RotaryNewsImageInfoWithBLOBs" extends="BaseResultMap" >
+    <result column="rotary_image" property="rotaryImage" jdbcType="LONGVARCHAR" />
+    <result column="rotary_image_url" property="rotaryImageUrl" jdbcType="LONGVARCHAR" />
+    <result column="rotary_describe" property="rotaryDescribe" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rotary_image_info_id, rotary_image_info_name, rotary_image_info_source, rotary_start_time, 
+    rotary_end_time, rotary_create_time, create_user_id, is_one, rotary_image_state, 
+    rotary_id, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    rotary_image, rotary_image_url, rotary_describe
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_rotary_news_image_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_rotary_news_image_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_rotary_news_image_info
+    where rotary_image_info_id = #{rotaryImageInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_rotary_news_image_info
+    where rotary_image_info_id = #{rotaryImageInfoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoExample" >
+    delete from k2_rotary_news_image_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoWithBLOBs" >
+    insert into k2_rotary_news_image_info (rotary_image_info_id, rotary_image_info_name, 
+      rotary_image_info_source, rotary_start_time, 
+      rotary_end_time, rotary_create_time, create_user_id, 
+      is_one, rotary_image_state, rotary_id, 
+      retain1, retain2, retain3, 
+      retain4, retain5, rotary_image, 
+      rotary_image_url, rotary_describe)
+    values (#{rotaryImageInfoId,jdbcType=INTEGER}, #{rotaryImageInfoName,jdbcType=VARCHAR}, 
+      #{rotaryImageInfoSource,jdbcType=VARCHAR}, #{rotaryStartTime,jdbcType=TIMESTAMP}, 
+      #{rotaryEndTime,jdbcType=TIMESTAMP}, #{rotaryCreateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{isOne,jdbcType=INTEGER}, #{rotaryImageState,jdbcType=INTEGER}, #{rotaryId,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}, #{rotaryImage,jdbcType=LONGVARCHAR}, 
+      #{rotaryImageUrl,jdbcType=LONGVARCHAR}, #{rotaryDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoWithBLOBs" >
+    insert into k2_rotary_news_image_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rotaryImageInfoId != null" >
+        rotary_image_info_id,
+      </if>
+      <if test="rotaryImageInfoName != null" >
+        rotary_image_info_name,
+      </if>
+      <if test="rotaryImageInfoSource != null" >
+        rotary_image_info_source,
+      </if>
+      <if test="rotaryStartTime != null" >
+        rotary_start_time,
+      </if>
+      <if test="rotaryEndTime != null" >
+        rotary_end_time,
+      </if>
+      <if test="rotaryCreateTime != null" >
+        rotary_create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="isOne != null" >
+        is_one,
+      </if>
+      <if test="rotaryImageState != null" >
+        rotary_image_state,
+      </if>
+      <if test="rotaryId != null" >
+        rotary_id,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="rotaryImage != null" >
+        rotary_image,
+      </if>
+      <if test="rotaryImageUrl != null" >
+        rotary_image_url,
+      </if>
+      <if test="rotaryDescribe != null" >
+        rotary_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rotaryImageInfoId != null" >
+        #{rotaryImageInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="rotaryImageInfoName != null" >
+        #{rotaryImageInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryImageInfoSource != null" >
+        #{rotaryImageInfoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryStartTime != null" >
+        #{rotaryStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rotaryEndTime != null" >
+        #{rotaryEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rotaryCreateTime != null" >
+        #{rotaryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isOne != null" >
+        #{isOne,jdbcType=INTEGER},
+      </if>
+      <if test="rotaryImageState != null" >
+        #{rotaryImageState,jdbcType=INTEGER},
+      </if>
+      <if test="rotaryId != null" >
+        #{rotaryId,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryImage != null" >
+        #{rotaryImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rotaryImageUrl != null" >
+        #{rotaryImageUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rotaryDescribe != null" >
+        #{rotaryDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoExample" resultType="java.lang.Integer" >
+    select count(*) from k2_rotary_news_image_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_rotary_news_image_info
+    <set >
+      <if test="record.rotaryImageInfoId != null" >
+        rotary_image_info_id = #{record.rotaryImageInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rotaryImageInfoName != null" >
+        rotary_image_info_name = #{record.rotaryImageInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rotaryImageInfoSource != null" >
+        rotary_image_info_source = #{record.rotaryImageInfoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rotaryStartTime != null" >
+        rotary_start_time = #{record.rotaryStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rotaryEndTime != null" >
+        rotary_end_time = #{record.rotaryEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rotaryCreateTime != null" >
+        rotary_create_time = #{record.rotaryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isOne != null" >
+        is_one = #{record.isOne,jdbcType=INTEGER},
+      </if>
+      <if test="record.rotaryImageState != null" >
+        rotary_image_state = #{record.rotaryImageState,jdbcType=INTEGER},
+      </if>
+      <if test="record.rotaryId != null" >
+        rotary_id = #{record.rotaryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rotaryImage != null" >
+        rotary_image = #{record.rotaryImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.rotaryImageUrl != null" >
+        rotary_image_url = #{record.rotaryImageUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.rotaryDescribe != null" >
+        rotary_describe = #{record.rotaryDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_rotary_news_image_info
+    set rotary_image_info_id = #{record.rotaryImageInfoId,jdbcType=INTEGER},
+      rotary_image_info_name = #{record.rotaryImageInfoName,jdbcType=VARCHAR},
+      rotary_image_info_source = #{record.rotaryImageInfoSource,jdbcType=VARCHAR},
+      rotary_start_time = #{record.rotaryStartTime,jdbcType=TIMESTAMP},
+      rotary_end_time = #{record.rotaryEndTime,jdbcType=TIMESTAMP},
+      rotary_create_time = #{record.rotaryCreateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      is_one = #{record.isOne,jdbcType=INTEGER},
+      rotary_image_state = #{record.rotaryImageState,jdbcType=INTEGER},
+      rotary_id = #{record.rotaryId,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      rotary_image = #{record.rotaryImage,jdbcType=LONGVARCHAR},
+      rotary_image_url = #{record.rotaryImageUrl,jdbcType=LONGVARCHAR},
+      rotary_describe = #{record.rotaryDescribe,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_rotary_news_image_info
+    set rotary_image_info_id = #{record.rotaryImageInfoId,jdbcType=INTEGER},
+      rotary_image_info_name = #{record.rotaryImageInfoName,jdbcType=VARCHAR},
+      rotary_image_info_source = #{record.rotaryImageInfoSource,jdbcType=VARCHAR},
+      rotary_start_time = #{record.rotaryStartTime,jdbcType=TIMESTAMP},
+      rotary_end_time = #{record.rotaryEndTime,jdbcType=TIMESTAMP},
+      rotary_create_time = #{record.rotaryCreateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      is_one = #{record.isOne,jdbcType=INTEGER},
+      rotary_image_state = #{record.rotaryImageState,jdbcType=INTEGER},
+      rotary_id = #{record.rotaryId,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoWithBLOBs" >
+    update k2_rotary_news_image_info
+    <set >
+      <if test="rotaryImageInfoName != null" >
+        rotary_image_info_name = #{rotaryImageInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryImageInfoSource != null" >
+        rotary_image_info_source = #{rotaryImageInfoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryStartTime != null" >
+        rotary_start_time = #{rotaryStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rotaryEndTime != null" >
+        rotary_end_time = #{rotaryEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rotaryCreateTime != null" >
+        rotary_create_time = #{rotaryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="isOne != null" >
+        is_one = #{isOne,jdbcType=INTEGER},
+      </if>
+      <if test="rotaryImageState != null" >
+        rotary_image_state = #{rotaryImageState,jdbcType=INTEGER},
+      </if>
+      <if test="rotaryId != null" >
+        rotary_id = #{rotaryId,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="rotaryImage != null" >
+        rotary_image = #{rotaryImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rotaryImageUrl != null" >
+        rotary_image_url = #{rotaryImageUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rotaryDescribe != null" >
+        rotary_describe = #{rotaryDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where rotary_image_info_id = #{rotaryImageInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfoWithBLOBs" >
+    update k2_rotary_news_image_info
+    set rotary_image_info_name = #{rotaryImageInfoName,jdbcType=VARCHAR},
+      rotary_image_info_source = #{rotaryImageInfoSource,jdbcType=VARCHAR},
+      rotary_start_time = #{rotaryStartTime,jdbcType=TIMESTAMP},
+      rotary_end_time = #{rotaryEndTime,jdbcType=TIMESTAMP},
+      rotary_create_time = #{rotaryCreateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      is_one = #{isOne,jdbcType=INTEGER},
+      rotary_image_state = #{rotaryImageState,jdbcType=INTEGER},
+      rotary_id = #{rotaryId,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      rotary_image = #{rotaryImage,jdbcType=LONGVARCHAR},
+      rotary_image_url = #{rotaryImageUrl,jdbcType=LONGVARCHAR},
+      rotary_describe = #{rotaryDescribe,jdbcType=LONGVARCHAR}
+    where rotary_image_info_id = #{rotaryImageInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2RotaryNewsImageInfo" >
+    update k2_rotary_news_image_info
+    set rotary_image_info_name = #{rotaryImageInfoName,jdbcType=VARCHAR},
+      rotary_image_info_source = #{rotaryImageInfoSource,jdbcType=VARCHAR},
+      rotary_start_time = #{rotaryStartTime,jdbcType=TIMESTAMP},
+      rotary_end_time = #{rotaryEndTime,jdbcType=TIMESTAMP},
+      rotary_create_time = #{rotaryCreateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      is_one = #{isOne,jdbcType=INTEGER},
+      rotary_image_state = #{rotaryImageState,jdbcType=INTEGER},
+      rotary_id = #{rotaryId,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where rotary_image_info_id = #{rotaryImageInfoId,jdbcType=INTEGER}
+  </update>
+</mapper>

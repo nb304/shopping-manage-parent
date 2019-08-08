@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2StoreCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2StoreCheck" >
+    <id column="store_check_id" property="storeCheckId" jdbcType="INTEGER" />
+    <result column="store_check_number" property="storeCheckNumber" jdbcType="VARCHAR" />
+    <result column="store_check_storeName" property="storeCheckStorename" jdbcType="VARCHAR" />
+    <result column="store_check_name" property="storeCheckName" jdbcType="VARCHAR" />
+    <result column="store_check_phone" property="storeCheckPhone" jdbcType="INTEGER" />
+    <result column="store_check_card" property="storeCheckCard" jdbcType="INTEGER" />
+    <result column="store_check_zfb" property="storeCheckZfb" jdbcType="INTEGER" />
+    <result column="store_check_user_id" property="storeCheckUserId" jdbcType="INTEGER" />
+    <result column="store_check_username" property="storeCheckUsername" jdbcType="VARCHAR" />
+    <result column="store_check_state" property="storeCheckState" jdbcType="INTEGER" />
+    <result column="store_check_dispose_id" property="storeCheckDisposeId" jdbcType="INTEGER" />
+    <result column="store_check_dispose_name" property="storeCheckDisposeName" jdbcType="VARCHAR" />
+    <result column="store_check_create_time" property="storeCheckCreateTime" jdbcType="TIMESTAMP" />
+    <result column="store_check_handle_time" property="storeCheckHandleTime" jdbcType="TIMESTAMP" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    store_check_id, store_check_number, store_check_storeName, store_check_name, store_check_phone, 
+    store_check_card, store_check_zfb, store_check_user_id, store_check_username, store_check_state, 
+    store_check_dispose_id, store_check_dispose_name, store_check_create_time, store_check_handle_time, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2StoreCheckExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_store_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_store_check
+    where store_check_id = #{storeCheckId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_store_check
+    where store_check_id = #{storeCheckId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2StoreCheckExample" >
+    delete from k2_store_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2StoreCheck" >
+    insert into k2_store_check (store_check_id, store_check_number, store_check_storeName, 
+      store_check_name, store_check_phone, store_check_card, 
+      store_check_zfb, store_check_user_id, store_check_username, 
+      store_check_state, store_check_dispose_id, store_check_dispose_name, 
+      store_check_create_time, store_check_handle_time, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{storeCheckId,jdbcType=INTEGER}, #{storeCheckNumber,jdbcType=VARCHAR}, #{storeCheckStorename,jdbcType=VARCHAR}, 
+      #{storeCheckName,jdbcType=VARCHAR}, #{storeCheckPhone,jdbcType=INTEGER}, #{storeCheckCard,jdbcType=INTEGER}, 
+      #{storeCheckZfb,jdbcType=INTEGER}, #{storeCheckUserId,jdbcType=INTEGER}, #{storeCheckUsername,jdbcType=VARCHAR}, 
+      #{storeCheckState,jdbcType=INTEGER}, #{storeCheckDisposeId,jdbcType=INTEGER}, #{storeCheckDisposeName,jdbcType=VARCHAR}, 
+      #{storeCheckCreateTime,jdbcType=TIMESTAMP}, #{storeCheckHandleTime,jdbcType=TIMESTAMP}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2StoreCheck" >
+    insert into k2_store_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="storeCheckId != null" >
+        store_check_id,
+      </if>
+      <if test="storeCheckNumber != null" >
+        store_check_number,
+      </if>
+      <if test="storeCheckStorename != null" >
+        store_check_storeName,
+      </if>
+      <if test="storeCheckName != null" >
+        store_check_name,
+      </if>
+      <if test="storeCheckPhone != null" >
+        store_check_phone,
+      </if>
+      <if test="storeCheckCard != null" >
+        store_check_card,
+      </if>
+      <if test="storeCheckZfb != null" >
+        store_check_zfb,
+      </if>
+      <if test="storeCheckUserId != null" >
+        store_check_user_id,
+      </if>
+      <if test="storeCheckUsername != null" >
+        store_check_username,
+      </if>
+      <if test="storeCheckState != null" >
+        store_check_state,
+      </if>
+      <if test="storeCheckDisposeId != null" >
+        store_check_dispose_id,
+      </if>
+      <if test="storeCheckDisposeName != null" >
+        store_check_dispose_name,
+      </if>
+      <if test="storeCheckCreateTime != null" >
+        store_check_create_time,
+      </if>
+      <if test="storeCheckHandleTime != null" >
+        store_check_handle_time,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="storeCheckId != null" >
+        #{storeCheckId,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckNumber != null" >
+        #{storeCheckNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckStorename != null" >
+        #{storeCheckStorename,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckName != null" >
+        #{storeCheckName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckPhone != null" >
+        #{storeCheckPhone,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckCard != null" >
+        #{storeCheckCard,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckZfb != null" >
+        #{storeCheckZfb,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckUserId != null" >
+        #{storeCheckUserId,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckUsername != null" >
+        #{storeCheckUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckState != null" >
+        #{storeCheckState,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckDisposeId != null" >
+        #{storeCheckDisposeId,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckDisposeName != null" >
+        #{storeCheckDisposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckCreateTime != null" >
+        #{storeCheckCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeCheckHandleTime != null" >
+        #{storeCheckHandleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2StoreCheckExample" resultType="java.lang.Integer" >
+    select count(*) from k2_store_check
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_store_check
+    <set >
+      <if test="record.storeCheckId != null" >
+        store_check_id = #{record.storeCheckId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckNumber != null" >
+        store_check_number = #{record.storeCheckNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckStorename != null" >
+        store_check_storeName = #{record.storeCheckStorename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckName != null" >
+        store_check_name = #{record.storeCheckName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckPhone != null" >
+        store_check_phone = #{record.storeCheckPhone,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckCard != null" >
+        store_check_card = #{record.storeCheckCard,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckZfb != null" >
+        store_check_zfb = #{record.storeCheckZfb,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckUserId != null" >
+        store_check_user_id = #{record.storeCheckUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckUsername != null" >
+        store_check_username = #{record.storeCheckUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckState != null" >
+        store_check_state = #{record.storeCheckState,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckDisposeId != null" >
+        store_check_dispose_id = #{record.storeCheckDisposeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeCheckDisposeName != null" >
+        store_check_dispose_name = #{record.storeCheckDisposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCheckCreateTime != null" >
+        store_check_create_time = #{record.storeCheckCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.storeCheckHandleTime != null" >
+        store_check_handle_time = #{record.storeCheckHandleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_store_check
+    set store_check_id = #{record.storeCheckId,jdbcType=INTEGER},
+      store_check_number = #{record.storeCheckNumber,jdbcType=VARCHAR},
+      store_check_storeName = #{record.storeCheckStorename,jdbcType=VARCHAR},
+      store_check_name = #{record.storeCheckName,jdbcType=VARCHAR},
+      store_check_phone = #{record.storeCheckPhone,jdbcType=INTEGER},
+      store_check_card = #{record.storeCheckCard,jdbcType=INTEGER},
+      store_check_zfb = #{record.storeCheckZfb,jdbcType=INTEGER},
+      store_check_user_id = #{record.storeCheckUserId,jdbcType=INTEGER},
+      store_check_username = #{record.storeCheckUsername,jdbcType=VARCHAR},
+      store_check_state = #{record.storeCheckState,jdbcType=INTEGER},
+      store_check_dispose_id = #{record.storeCheckDisposeId,jdbcType=INTEGER},
+      store_check_dispose_name = #{record.storeCheckDisposeName,jdbcType=VARCHAR},
+      store_check_create_time = #{record.storeCheckCreateTime,jdbcType=TIMESTAMP},
+      store_check_handle_time = #{record.storeCheckHandleTime,jdbcType=TIMESTAMP},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2StoreCheck" >
+    update k2_store_check
+    <set >
+      <if test="storeCheckNumber != null" >
+        store_check_number = #{storeCheckNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckStorename != null" >
+        store_check_storeName = #{storeCheckStorename,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckName != null" >
+        store_check_name = #{storeCheckName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckPhone != null" >
+        store_check_phone = #{storeCheckPhone,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckCard != null" >
+        store_check_card = #{storeCheckCard,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckZfb != null" >
+        store_check_zfb = #{storeCheckZfb,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckUserId != null" >
+        store_check_user_id = #{storeCheckUserId,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckUsername != null" >
+        store_check_username = #{storeCheckUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckState != null" >
+        store_check_state = #{storeCheckState,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckDisposeId != null" >
+        store_check_dispose_id = #{storeCheckDisposeId,jdbcType=INTEGER},
+      </if>
+      <if test="storeCheckDisposeName != null" >
+        store_check_dispose_name = #{storeCheckDisposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCheckCreateTime != null" >
+        store_check_create_time = #{storeCheckCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeCheckHandleTime != null" >
+        store_check_handle_time = #{storeCheckHandleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where store_check_id = #{storeCheckId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2StoreCheck" >
+    update k2_store_check
+    set store_check_number = #{storeCheckNumber,jdbcType=VARCHAR},
+      store_check_storeName = #{storeCheckStorename,jdbcType=VARCHAR},
+      store_check_name = #{storeCheckName,jdbcType=VARCHAR},
+      store_check_phone = #{storeCheckPhone,jdbcType=INTEGER},
+      store_check_card = #{storeCheckCard,jdbcType=INTEGER},
+      store_check_zfb = #{storeCheckZfb,jdbcType=INTEGER},
+      store_check_user_id = #{storeCheckUserId,jdbcType=INTEGER},
+      store_check_username = #{storeCheckUsername,jdbcType=VARCHAR},
+      store_check_state = #{storeCheckState,jdbcType=INTEGER},
+      store_check_dispose_id = #{storeCheckDisposeId,jdbcType=INTEGER},
+      store_check_dispose_name = #{storeCheckDisposeName,jdbcType=VARCHAR},
+      store_check_create_time = #{storeCheckCreateTime,jdbcType=TIMESTAMP},
+      store_check_handle_time = #{storeCheckHandleTime,jdbcType=TIMESTAMP},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where store_check_id = #{storeCheckId,jdbcType=INTEGER}
+  </update>
+</mapper>

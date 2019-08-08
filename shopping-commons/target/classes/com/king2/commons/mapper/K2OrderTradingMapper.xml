@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2OrderTradingMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2OrderTrading" >
+    <id column="trading_id" property="tradingId" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="trading_number" property="tradingNumber" jdbcType="VARCHAR" />
+    <result column="trading_type" property="tradingType" jdbcType="INTEGER" />
+    <result column="trading_member_account" property="tradingMemberAccount" jdbcType="VARCHAR" />
+    <result column="trading_price" property="tradingPrice" jdbcType="DECIMAL" />
+    <result column="trading_source" property="tradingSource" jdbcType="VARCHAR" />
+    <result column="trading_completion_time" property="tradingCompletionTime" jdbcType="TIMESTAMP" />
+    <result column="trading_desc" property="tradingDesc" jdbcType="VARCHAR" />
+    <result column="trading_create_time" property="tradingCreateTime" jdbcType="TIMESTAMP" />
+    <result column="trading_status" property="tradingStatus" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    trading_id, order_number, trading_number, trading_type, trading_member_account, trading_price, 
+    trading_source, trading_completion_time, trading_desc, trading_create_time, trading_status, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2OrderTradingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_order_trading
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_order_trading
+    where trading_id = #{tradingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_order_trading
+    where trading_id = #{tradingId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2OrderTradingExample" >
+    delete from k2_order_trading
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2OrderTrading" >
+    insert into k2_order_trading (trading_id, order_number, trading_number, 
+      trading_type, trading_member_account, trading_price, 
+      trading_source, trading_completion_time, 
+      trading_desc, trading_create_time, trading_status, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{tradingId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{tradingNumber,jdbcType=VARCHAR}, 
+      #{tradingType,jdbcType=INTEGER}, #{tradingMemberAccount,jdbcType=VARCHAR}, #{tradingPrice,jdbcType=DECIMAL}, 
+      #{tradingSource,jdbcType=VARCHAR}, #{tradingCompletionTime,jdbcType=TIMESTAMP}, 
+      #{tradingDesc,jdbcType=VARCHAR}, #{tradingCreateTime,jdbcType=TIMESTAMP}, #{tradingStatus,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2OrderTrading" >
+    insert into k2_order_trading
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tradingId != null" >
+        trading_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="tradingNumber != null" >
+        trading_number,
+      </if>
+      <if test="tradingType != null" >
+        trading_type,
+      </if>
+      <if test="tradingMemberAccount != null" >
+        trading_member_account,
+      </if>
+      <if test="tradingPrice != null" >
+        trading_price,
+      </if>
+      <if test="tradingSource != null" >
+        trading_source,
+      </if>
+      <if test="tradingCompletionTime != null" >
+        trading_completion_time,
+      </if>
+      <if test="tradingDesc != null" >
+        trading_desc,
+      </if>
+      <if test="tradingCreateTime != null" >
+        trading_create_time,
+      </if>
+      <if test="tradingStatus != null" >
+        trading_status,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tradingId != null" >
+        #{tradingId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingNumber != null" >
+        #{tradingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingType != null" >
+        #{tradingType,jdbcType=INTEGER},
+      </if>
+      <if test="tradingMemberAccount != null" >
+        #{tradingMemberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingPrice != null" >
+        #{tradingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingSource != null" >
+        #{tradingSource,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingCompletionTime != null" >
+        #{tradingCompletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradingDesc != null" >
+        #{tradingDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingCreateTime != null" >
+        #{tradingCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradingStatus != null" >
+        #{tradingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2OrderTradingExample" resultType="java.lang.Integer" >
+    select count(*) from k2_order_trading
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_order_trading
+    <set >
+      <if test="record.tradingId != null" >
+        trading_id = #{record.tradingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradingNumber != null" >
+        trading_number = #{record.tradingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradingType != null" >
+        trading_type = #{record.tradingType,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradingMemberAccount != null" >
+        trading_member_account = #{record.tradingMemberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradingPrice != null" >
+        trading_price = #{record.tradingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tradingSource != null" >
+        trading_source = #{record.tradingSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradingCompletionTime != null" >
+        trading_completion_time = #{record.tradingCompletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tradingDesc != null" >
+        trading_desc = #{record.tradingDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradingCreateTime != null" >
+        trading_create_time = #{record.tradingCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tradingStatus != null" >
+        trading_status = #{record.tradingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_order_trading
+    set trading_id = #{record.tradingId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      trading_number = #{record.tradingNumber,jdbcType=VARCHAR},
+      trading_type = #{record.tradingType,jdbcType=INTEGER},
+      trading_member_account = #{record.tradingMemberAccount,jdbcType=VARCHAR},
+      trading_price = #{record.tradingPrice,jdbcType=DECIMAL},
+      trading_source = #{record.tradingSource,jdbcType=VARCHAR},
+      trading_completion_time = #{record.tradingCompletionTime,jdbcType=TIMESTAMP},
+      trading_desc = #{record.tradingDesc,jdbcType=VARCHAR},
+      trading_create_time = #{record.tradingCreateTime,jdbcType=TIMESTAMP},
+      trading_status = #{record.tradingStatus,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2OrderTrading" >
+    update k2_order_trading
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingNumber != null" >
+        trading_number = #{tradingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingType != null" >
+        trading_type = #{tradingType,jdbcType=INTEGER},
+      </if>
+      <if test="tradingMemberAccount != null" >
+        trading_member_account = #{tradingMemberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingPrice != null" >
+        trading_price = #{tradingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradingSource != null" >
+        trading_source = #{tradingSource,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingCompletionTime != null" >
+        trading_completion_time = #{tradingCompletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradingDesc != null" >
+        trading_desc = #{tradingDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingCreateTime != null" >
+        trading_create_time = #{tradingCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradingStatus != null" >
+        trading_status = #{tradingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where trading_id = #{tradingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2OrderTrading" >
+    update k2_order_trading
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      trading_number = #{tradingNumber,jdbcType=VARCHAR},
+      trading_type = #{tradingType,jdbcType=INTEGER},
+      trading_member_account = #{tradingMemberAccount,jdbcType=VARCHAR},
+      trading_price = #{tradingPrice,jdbcType=DECIMAL},
+      trading_source = #{tradingSource,jdbcType=VARCHAR},
+      trading_completion_time = #{tradingCompletionTime,jdbcType=TIMESTAMP},
+      trading_desc = #{tradingDesc,jdbcType=VARCHAR},
+      trading_create_time = #{tradingCreateTime,jdbcType=TIMESTAMP},
+      trading_status = #{tradingStatus,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where trading_id = #{tradingId,jdbcType=INTEGER}
+  </update>
+</mapper>

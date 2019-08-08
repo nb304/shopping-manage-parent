@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2Order" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+    <result column="order_settlement_status" property="orderSettlementStatus" jdbcType="INTEGER" />
+    <result column="order_after_status" property="orderAfterStatus" jdbcType="INTEGER" />
+    <result column="product_amount_total" property="productAmountTotal" jdbcType="DECIMAL" />
+    <result column="order_amount_total" property="orderAmountTotal" jdbcType="DECIMAL" />
+    <result column="order_discount_amount" property="orderDiscountAmount" jdbcType="DECIMAL" />
+    <result column="order_logistics_fee" property="orderLogisticsFee" jdbcType="DECIMAL" />
+    <result column="order_other_amount" property="orderOtherAmount" jdbcType="DECIMAL" />
+    <result column="order_other_desc" property="orderOtherDesc" jdbcType="VARCHAR" />
+    <result column="order_shipping_address" property="orderShippingAddress" jdbcType="VARCHAR" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_number" property="productNumber" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="INTEGER" />
+    <result column="member_account" property="memberAccount" jdbcType="VARCHAR" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="order_settlement_time" property="orderSettlementTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="TIMESTAMP" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="order_del_falg" property="orderDelFalg" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, order_number, order_type, order_state, order_settlement_status, order_after_status, 
+    product_amount_total, order_amount_total, order_discount_amount, order_logistics_fee, 
+    order_other_amount, order_other_desc, order_shipping_address, store_id, store_name, 
+    product_id, product_number, product_name, member_id, member_account, member_name, 
+    product_count, order_settlement_time, pay_time, delivery_time, created_time, update_time, 
+    delete_time, order_del_falg, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2OrderExample" >
+    delete from k2_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2Order" >
+    insert into k2_order (order_id, order_number, order_type, 
+      order_state, order_settlement_status, order_after_status, 
+      product_amount_total, order_amount_total, order_discount_amount, 
+      order_logistics_fee, order_other_amount, order_other_desc, 
+      order_shipping_address, store_id, store_name, 
+      product_id, product_number, product_name, 
+      member_id, member_account, member_name, 
+      product_count, order_settlement_time, pay_time, 
+      delivery_time, created_time, update_time, 
+      delete_time, order_del_falg, retain1, 
+      retain2, retain3, retain4, 
+      retain5)
+    values (#{orderId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, 
+      #{orderState,jdbcType=VARCHAR}, #{orderSettlementStatus,jdbcType=INTEGER}, #{orderAfterStatus,jdbcType=INTEGER}, 
+      #{productAmountTotal,jdbcType=DECIMAL}, #{orderAmountTotal,jdbcType=DECIMAL}, #{orderDiscountAmount,jdbcType=DECIMAL}, 
+      #{orderLogisticsFee,jdbcType=DECIMAL}, #{orderOtherAmount,jdbcType=DECIMAL}, #{orderOtherDesc,jdbcType=VARCHAR}, 
+      #{orderShippingAddress,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, 
+      #{productId,jdbcType=INTEGER}, #{productNumber,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{memberId,jdbcType=INTEGER}, #{memberAccount,jdbcType=VARCHAR}, #{memberName,jdbcType=VARCHAR}, 
+      #{productCount,jdbcType=INTEGER}, #{orderSettlementTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{deliveryTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{orderDelFalg,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, 
+      #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, 
+      #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2Order" >
+    insert into k2_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="orderSettlementStatus != null" >
+        order_settlement_status,
+      </if>
+      <if test="orderAfterStatus != null" >
+        order_after_status,
+      </if>
+      <if test="productAmountTotal != null" >
+        product_amount_total,
+      </if>
+      <if test="orderAmountTotal != null" >
+        order_amount_total,
+      </if>
+      <if test="orderDiscountAmount != null" >
+        order_discount_amount,
+      </if>
+      <if test="orderLogisticsFee != null" >
+        order_logistics_fee,
+      </if>
+      <if test="orderOtherAmount != null" >
+        order_other_amount,
+      </if>
+      <if test="orderOtherDesc != null" >
+        order_other_desc,
+      </if>
+      <if test="orderShippingAddress != null" >
+        order_shipping_address,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="storeName != null" >
+        store_name,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productNumber != null" >
+        product_number,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="memberAccount != null" >
+        member_account,
+      </if>
+      <if test="memberName != null" >
+        member_name,
+      </if>
+      <if test="productCount != null" >
+        product_count,
+      </if>
+      <if test="orderSettlementTime != null" >
+        order_settlement_time,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="orderDelFalg != null" >
+        order_del_falg,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSettlementStatus != null" >
+        #{orderSettlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderAfterStatus != null" >
+        #{orderAfterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productAmountTotal != null" >
+        #{productAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmountTotal != null" >
+        #{orderAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDiscountAmount != null" >
+        #{orderDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderLogisticsFee != null" >
+        #{orderLogisticsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOtherAmount != null" >
+        #{orderOtherAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOtherDesc != null" >
+        #{orderOtherDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderShippingAddress != null" >
+        #{orderShippingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productNumber != null" >
+        #{productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccount != null" >
+        #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCount != null" >
+        #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderSettlementTime != null" >
+        #{orderSettlementTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderDelFalg != null" >
+        #{orderDelFalg,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2OrderExample" resultType="java.lang.Integer" >
+    select count(*) from k2_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderState != null" >
+        order_state = #{record.orderState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSettlementStatus != null" >
+        order_settlement_status = #{record.orderSettlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderAfterStatus != null" >
+        order_after_status = #{record.orderAfterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.productAmountTotal != null" >
+        product_amount_total = #{record.productAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderAmountTotal != null" >
+        order_amount_total = #{record.orderAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderDiscountAmount != null" >
+        order_discount_amount = #{record.orderDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderLogisticsFee != null" >
+        order_logistics_fee = #{record.orderLogisticsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderOtherAmount != null" >
+        order_other_amount = #{record.orderOtherAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderOtherDesc != null" >
+        order_other_desc = #{record.orderOtherDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderShippingAddress != null" >
+        order_shipping_address = #{record.orderShippingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeId != null" >
+        store_id = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeName != null" >
+        store_name = #{record.storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productNumber != null" >
+        product_number = #{record.productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberId != null" >
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberAccount != null" >
+        member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberName != null" >
+        member_name = #{record.memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCount != null" >
+        product_count = #{record.productCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderSettlementTime != null" >
+        order_settlement_time = #{record.orderSettlementTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryTime != null" >
+        delivery_time = #{record.deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderDelFalg != null" >
+        order_del_falg = #{record.orderDelFalg,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_order
+    set order_id = #{record.orderId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=VARCHAR},
+      order_state = #{record.orderState,jdbcType=VARCHAR},
+      order_settlement_status = #{record.orderSettlementStatus,jdbcType=INTEGER},
+      order_after_status = #{record.orderAfterStatus,jdbcType=INTEGER},
+      product_amount_total = #{record.productAmountTotal,jdbcType=DECIMAL},
+      order_amount_total = #{record.orderAmountTotal,jdbcType=DECIMAL},
+      order_discount_amount = #{record.orderDiscountAmount,jdbcType=DECIMAL},
+      order_logistics_fee = #{record.orderLogisticsFee,jdbcType=DECIMAL},
+      order_other_amount = #{record.orderOtherAmount,jdbcType=DECIMAL},
+      order_other_desc = #{record.orderOtherDesc,jdbcType=VARCHAR},
+      order_shipping_address = #{record.orderShippingAddress,jdbcType=VARCHAR},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      store_name = #{record.storeName,jdbcType=VARCHAR},
+      product_id = #{record.productId,jdbcType=INTEGER},
+      product_number = #{record.productNumber,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      member_account = #{record.memberAccount,jdbcType=VARCHAR},
+      member_name = #{record.memberName,jdbcType=VARCHAR},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      order_settlement_time = #{record.orderSettlementTime,jdbcType=TIMESTAMP},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      delivery_time = #{record.deliveryTime,jdbcType=TIMESTAMP},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      order_del_falg = #{record.orderDelFalg,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2Order" >
+    update k2_order
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSettlementStatus != null" >
+        order_settlement_status = #{orderSettlementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderAfterStatus != null" >
+        order_after_status = #{orderAfterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productAmountTotal != null" >
+        product_amount_total = #{productAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmountTotal != null" >
+        order_amount_total = #{orderAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDiscountAmount != null" >
+        order_discount_amount = #{orderDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderLogisticsFee != null" >
+        order_logistics_fee = #{orderLogisticsFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOtherAmount != null" >
+        order_other_amount = #{orderOtherAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOtherDesc != null" >
+        order_other_desc = #{orderOtherDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderShippingAddress != null" >
+        order_shipping_address = #{orderShippingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="storeName != null" >
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productNumber != null" >
+        product_number = #{productNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccount != null" >
+        member_account = #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCount != null" >
+        product_count = #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderSettlementTime != null" >
+        order_settlement_time = #{orderSettlementTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderDelFalg != null" >
+        order_del_falg = #{orderDelFalg,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2Order" >
+    update k2_order
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      order_state = #{orderState,jdbcType=VARCHAR},
+      order_settlement_status = #{orderSettlementStatus,jdbcType=INTEGER},
+      order_after_status = #{orderAfterStatus,jdbcType=INTEGER},
+      product_amount_total = #{productAmountTotal,jdbcType=DECIMAL},
+      order_amount_total = #{orderAmountTotal,jdbcType=DECIMAL},
+      order_discount_amount = #{orderDiscountAmount,jdbcType=DECIMAL},
+      order_logistics_fee = #{orderLogisticsFee,jdbcType=DECIMAL},
+      order_other_amount = #{orderOtherAmount,jdbcType=DECIMAL},
+      order_other_desc = #{orderOtherDesc,jdbcType=VARCHAR},
+      order_shipping_address = #{orderShippingAddress,jdbcType=VARCHAR},
+      store_id = #{storeId,jdbcType=INTEGER},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      product_number = #{productNumber,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=INTEGER},
+      member_account = #{memberAccount,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      product_count = #{productCount,jdbcType=INTEGER},
+      order_settlement_time = #{orderSettlementTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      order_del_falg = #{orderDelFalg,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

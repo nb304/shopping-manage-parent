@@ -171,7 +171,6 @@ public class ShoppingNumberManage {
             return new SystemResult(100, "程序内部异常", null);
         } finally {
             // 解锁
-            lock.unlock(this.SCRIPT);
             JEDIS.close();
         }
     }

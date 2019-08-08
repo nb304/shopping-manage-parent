@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2OrderLogisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2OrderLogistics" >
+    <id column="ol_id" property="olId" jdbcType="INTEGER" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="ol_number" property="olNumber" jdbcType="VARCHAR" />
+    <result column="ol_name" property="olName" jdbcType="VARCHAR" />
+    <result column="ol_create_time" property="olCreateTime" jdbcType="TIMESTAMP" />
+    <result column="ol_delivery_time" property="olDeliveryTime" jdbcType="TIMESTAMP" />
+    <result column="ol_type" property="olType" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2OrderLogistics" extends="BaseResultMap" >
+    <result column="ol_desc" property="olDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ol_id, order_number, ol_number, ol_name, ol_create_time, ol_delivery_time, ol_type, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    ol_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2OrderLogisticsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_order_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2OrderLogisticsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_order_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_order_logistics
+    where ol_id = #{olId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_order_logistics
+    where ol_id = #{olId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2OrderLogisticsExample" >
+    delete from k2_order_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2OrderLogistics" >
+    insert into k2_order_logistics (ol_id, order_number, ol_number, 
+      ol_name, ol_create_time, ol_delivery_time, 
+      ol_type, retain1, retain2, 
+      retain3, retain4, retain5, 
+      ol_desc)
+    values (#{olId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{olNumber,jdbcType=VARCHAR}, 
+      #{olName,jdbcType=VARCHAR}, #{olCreateTime,jdbcType=TIMESTAMP}, #{olDeliveryTime,jdbcType=TIMESTAMP}, 
+      #{olType,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}, 
+      #{olDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2OrderLogistics" >
+    insert into k2_order_logistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="olId != null" >
+        ol_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="olNumber != null" >
+        ol_number,
+      </if>
+      <if test="olName != null" >
+        ol_name,
+      </if>
+      <if test="olCreateTime != null" >
+        ol_create_time,
+      </if>
+      <if test="olDeliveryTime != null" >
+        ol_delivery_time,
+      </if>
+      <if test="olType != null" >
+        ol_type,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="olDesc != null" >
+        ol_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="olId != null" >
+        #{olId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="olNumber != null" >
+        #{olNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="olName != null" >
+        #{olName,jdbcType=VARCHAR},
+      </if>
+      <if test="olCreateTime != null" >
+        #{olCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="olDeliveryTime != null" >
+        #{olDeliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="olType != null" >
+        #{olType,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="olDesc != null" >
+        #{olDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2OrderLogisticsExample" resultType="java.lang.Integer" >
+    select count(*) from k2_order_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_order_logistics
+    <set >
+      <if test="record.olId != null" >
+        ol_id = #{record.olId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olNumber != null" >
+        ol_number = #{record.olNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olName != null" >
+        ol_name = #{record.olName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olCreateTime != null" >
+        ol_create_time = #{record.olCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.olDeliveryTime != null" >
+        ol_delivery_time = #{record.olDeliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.olType != null" >
+        ol_type = #{record.olType,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olDesc != null" >
+        ol_desc = #{record.olDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_order_logistics
+    set ol_id = #{record.olId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      ol_number = #{record.olNumber,jdbcType=VARCHAR},
+      ol_name = #{record.olName,jdbcType=VARCHAR},
+      ol_create_time = #{record.olCreateTime,jdbcType=TIMESTAMP},
+      ol_delivery_time = #{record.olDeliveryTime,jdbcType=TIMESTAMP},
+      ol_type = #{record.olType,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      ol_desc = #{record.olDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_order_logistics
+    set ol_id = #{record.olId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      ol_number = #{record.olNumber,jdbcType=VARCHAR},
+      ol_name = #{record.olName,jdbcType=VARCHAR},
+      ol_create_time = #{record.olCreateTime,jdbcType=TIMESTAMP},
+      ol_delivery_time = #{record.olDeliveryTime,jdbcType=TIMESTAMP},
+      ol_type = #{record.olType,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2OrderLogistics" >
+    update k2_order_logistics
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="olNumber != null" >
+        ol_number = #{olNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="olName != null" >
+        ol_name = #{olName,jdbcType=VARCHAR},
+      </if>
+      <if test="olCreateTime != null" >
+        ol_create_time = #{olCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="olDeliveryTime != null" >
+        ol_delivery_time = #{olDeliveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="olType != null" >
+        ol_type = #{olType,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="olDesc != null" >
+        ol_desc = #{olDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ol_id = #{olId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2OrderLogistics" >
+    update k2_order_logistics
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      ol_number = #{olNumber,jdbcType=VARCHAR},
+      ol_name = #{olName,jdbcType=VARCHAR},
+      ol_create_time = #{olCreateTime,jdbcType=TIMESTAMP},
+      ol_delivery_time = #{olDeliveryTime,jdbcType=TIMESTAMP},
+      ol_type = #{olType,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      ol_desc = #{olDesc,jdbcType=LONGVARCHAR}
+    where ol_id = #{olId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2OrderLogistics" >
+    update k2_order_logistics
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      ol_number = #{olNumber,jdbcType=VARCHAR},
+      ol_name = #{olName,jdbcType=VARCHAR},
+      ol_create_time = #{olCreateTime,jdbcType=TIMESTAMP},
+      ol_delivery_time = #{olDeliveryTime,jdbcType=TIMESTAMP},
+      ol_type = #{olType,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where ol_id = #{olId,jdbcType=INTEGER}
+  </update>
+</mapper>

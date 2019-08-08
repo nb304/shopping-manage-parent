@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductCoupon" >
+    <id column="product_coupon_id" property="productCouponId" jdbcType="INTEGER" />
+    <result column="product_coupon_name" property="productCouponName" jdbcType="VARCHAR" />
+    <result column="product_coupon_type" property="productCouponType" jdbcType="INTEGER" />
+    <result column="product_coupon_doorsill" property="productCouponDoorsill" jdbcType="DECIMAL" />
+    <result column="product_coupon_price" property="productCouponPrice" jdbcType="DECIMAL" />
+    <result column="product_coupon_size" property="productCouponSize" jdbcType="INTEGER" />
+    <result column="product_coupon_start_time" property="productCouponStartTime" jdbcType="TIMESTAMP" />
+    <result column="product_coupon_end_time" property="productCouponEndTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="product_coupon_state" property="productCouponState" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_coupon_id, product_coupon_name, product_coupon_type, product_coupon_doorsill, 
+    product_coupon_price, product_coupon_size, product_coupon_start_time, product_coupon_end_time, 
+    create_time, create_user_id, product_coupon_state, retain1, retain2, retain3, retain4, 
+    retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductCouponExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_coupon
+    where product_coupon_id = #{productCouponId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_coupon
+    where product_coupon_id = #{productCouponId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductCouponExample" >
+    delete from k2_product_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductCoupon" >
+    insert into k2_product_coupon (product_coupon_id, product_coupon_name, 
+      product_coupon_type, product_coupon_doorsill, 
+      product_coupon_price, product_coupon_size, 
+      product_coupon_start_time, product_coupon_end_time, 
+      create_time, create_user_id, product_coupon_state, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{productCouponId,jdbcType=INTEGER}, #{productCouponName,jdbcType=VARCHAR}, 
+      #{productCouponType,jdbcType=INTEGER}, #{productCouponDoorsill,jdbcType=DECIMAL}, 
+      #{productCouponPrice,jdbcType=DECIMAL}, #{productCouponSize,jdbcType=INTEGER}, 
+      #{productCouponStartTime,jdbcType=TIMESTAMP}, #{productCouponEndTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{productCouponState,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductCoupon" >
+    insert into k2_product_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productCouponId != null" >
+        product_coupon_id,
+      </if>
+      <if test="productCouponName != null" >
+        product_coupon_name,
+      </if>
+      <if test="productCouponType != null" >
+        product_coupon_type,
+      </if>
+      <if test="productCouponDoorsill != null" >
+        product_coupon_doorsill,
+      </if>
+      <if test="productCouponPrice != null" >
+        product_coupon_price,
+      </if>
+      <if test="productCouponSize != null" >
+        product_coupon_size,
+      </if>
+      <if test="productCouponStartTime != null" >
+        product_coupon_start_time,
+      </if>
+      <if test="productCouponEndTime != null" >
+        product_coupon_end_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="productCouponState != null" >
+        product_coupon_state,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productCouponId != null" >
+        #{productCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponName != null" >
+        #{productCouponName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCouponType != null" >
+        #{productCouponType,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponDoorsill != null" >
+        #{productCouponDoorsill,jdbcType=DECIMAL},
+      </if>
+      <if test="productCouponPrice != null" >
+        #{productCouponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productCouponSize != null" >
+        #{productCouponSize,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponStartTime != null" >
+        #{productCouponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCouponEndTime != null" >
+        #{productCouponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponState != null" >
+        #{productCouponState,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductCouponExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_coupon
+    <set >
+      <if test="record.productCouponId != null" >
+        product_coupon_id = #{record.productCouponId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCouponName != null" >
+        product_coupon_name = #{record.productCouponName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCouponType != null" >
+        product_coupon_type = #{record.productCouponType,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCouponDoorsill != null" >
+        product_coupon_doorsill = #{record.productCouponDoorsill,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productCouponPrice != null" >
+        product_coupon_price = #{record.productCouponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productCouponSize != null" >
+        product_coupon_size = #{record.productCouponSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCouponStartTime != null" >
+        product_coupon_start_time = #{record.productCouponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.productCouponEndTime != null" >
+        product_coupon_end_time = #{record.productCouponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCouponState != null" >
+        product_coupon_state = #{record.productCouponState,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_coupon
+    set product_coupon_id = #{record.productCouponId,jdbcType=INTEGER},
+      product_coupon_name = #{record.productCouponName,jdbcType=VARCHAR},
+      product_coupon_type = #{record.productCouponType,jdbcType=INTEGER},
+      product_coupon_doorsill = #{record.productCouponDoorsill,jdbcType=DECIMAL},
+      product_coupon_price = #{record.productCouponPrice,jdbcType=DECIMAL},
+      product_coupon_size = #{record.productCouponSize,jdbcType=INTEGER},
+      product_coupon_start_time = #{record.productCouponStartTime,jdbcType=TIMESTAMP},
+      product_coupon_end_time = #{record.productCouponEndTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      product_coupon_state = #{record.productCouponState,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductCoupon" >
+    update k2_product_coupon
+    <set >
+      <if test="productCouponName != null" >
+        product_coupon_name = #{productCouponName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCouponType != null" >
+        product_coupon_type = #{productCouponType,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponDoorsill != null" >
+        product_coupon_doorsill = #{productCouponDoorsill,jdbcType=DECIMAL},
+      </if>
+      <if test="productCouponPrice != null" >
+        product_coupon_price = #{productCouponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productCouponSize != null" >
+        product_coupon_size = #{productCouponSize,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponStartTime != null" >
+        product_coupon_start_time = #{productCouponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCouponEndTime != null" >
+        product_coupon_end_time = #{productCouponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="productCouponState != null" >
+        product_coupon_state = #{productCouponState,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_coupon_id = #{productCouponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductCoupon" >
+    update k2_product_coupon
+    set product_coupon_name = #{productCouponName,jdbcType=VARCHAR},
+      product_coupon_type = #{productCouponType,jdbcType=INTEGER},
+      product_coupon_doorsill = #{productCouponDoorsill,jdbcType=DECIMAL},
+      product_coupon_price = #{productCouponPrice,jdbcType=DECIMAL},
+      product_coupon_size = #{productCouponSize,jdbcType=INTEGER},
+      product_coupon_start_time = #{productCouponStartTime,jdbcType=TIMESTAMP},
+      product_coupon_end_time = #{productCouponEndTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      product_coupon_state = #{productCouponState,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where product_coupon_id = #{productCouponId,jdbcType=INTEGER}
+  </update>
+</mapper>

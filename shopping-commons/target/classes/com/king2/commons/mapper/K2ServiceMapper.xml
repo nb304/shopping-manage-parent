@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2Service" >
+    <id column="service_id" property="serviceId" jdbcType="INTEGER" />
+    <result column="service_number" property="serviceNumber" jdbcType="VARCHAR" />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_nick_name" property="serviceNickName" jdbcType="VARCHAR" />
+    <result column="service_scope" property="serviceScope" jdbcType="VARCHAR" />
+    <result column="service_phone" property="servicePhone" jdbcType="INTEGER" />
+    <result column="service_user_name" property="serviceUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    service_id, service_number, service_name, service_nick_name, service_scope, service_phone, 
+    service_user_name, create_time, create_user_id, state, retain1, retain2, retain3, 
+    retain4, retain5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ServiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_service
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_service
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ServiceExample" >
+    delete from k2_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2Service" >
+    insert into k2_service (service_id, service_number, service_name, 
+      service_nick_name, service_scope, service_phone, 
+      service_user_name, create_time, create_user_id, 
+      state, retain1, retain2, 
+      retain3, retain4, retain5
+      )
+    values (#{serviceId,jdbcType=INTEGER}, #{serviceNumber,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, 
+      #{serviceNickName,jdbcType=VARCHAR}, #{serviceScope,jdbcType=VARCHAR}, #{servicePhone,jdbcType=INTEGER}, 
+      #{serviceUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
+      #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2Service" >
+    insert into k2_service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="serviceNumber != null" >
+        service_number,
+      </if>
+      <if test="serviceName != null" >
+        service_name,
+      </if>
+      <if test="serviceNickName != null" >
+        service_nick_name,
+      </if>
+      <if test="serviceScope != null" >
+        service_scope,
+      </if>
+      <if test="servicePhone != null" >
+        service_phone,
+      </if>
+      <if test="serviceUserName != null" >
+        service_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceNumber != null" >
+        #{serviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceName != null" >
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceNickName != null" >
+        #{serviceNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceScope != null" >
+        #{serviceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="servicePhone != null" >
+        #{servicePhone,jdbcType=INTEGER},
+      </if>
+      <if test="serviceUserName != null" >
+        #{serviceUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ServiceExample" resultType="java.lang.Integer" >
+    select count(*) from k2_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_service
+    <set >
+      <if test="record.serviceId != null" >
+        service_id = #{record.serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceNumber != null" >
+        service_number = #{record.serviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceName != null" >
+        service_name = #{record.serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceNickName != null" >
+        service_nick_name = #{record.serviceNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceScope != null" >
+        service_scope = #{record.serviceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servicePhone != null" >
+        service_phone = #{record.servicePhone,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceUserName != null" >
+        service_user_name = #{record.serviceUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_service
+    set service_id = #{record.serviceId,jdbcType=INTEGER},
+      service_number = #{record.serviceNumber,jdbcType=VARCHAR},
+      service_name = #{record.serviceName,jdbcType=VARCHAR},
+      service_nick_name = #{record.serviceNickName,jdbcType=VARCHAR},
+      service_scope = #{record.serviceScope,jdbcType=VARCHAR},
+      service_phone = #{record.servicePhone,jdbcType=INTEGER},
+      service_user_name = #{record.serviceUserName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2Service" >
+    update k2_service
+    <set >
+      <if test="serviceNumber != null" >
+        service_number = #{serviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceName != null" >
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceNickName != null" >
+        service_nick_name = #{serviceNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceScope != null" >
+        service_scope = #{serviceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="servicePhone != null" >
+        service_phone = #{servicePhone,jdbcType=INTEGER},
+      </if>
+      <if test="serviceUserName != null" >
+        service_user_name = #{serviceUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2Service" >
+    update k2_service
+    set service_number = #{serviceNumber,jdbcType=VARCHAR},
+      service_name = #{serviceName,jdbcType=VARCHAR},
+      service_nick_name = #{serviceNickName,jdbcType=VARCHAR},
+      service_scope = #{serviceScope,jdbcType=VARCHAR},
+      service_phone = #{servicePhone,jdbcType=INTEGER},
+      service_user_name = #{serviceUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </update>
+</mapper>

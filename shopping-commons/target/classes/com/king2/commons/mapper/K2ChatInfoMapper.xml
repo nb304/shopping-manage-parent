@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ChatInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ChatInfo" >
+    <id column="chat_info_id" property="chatInfoId" jdbcType="INTEGER" />
+    <result column="chat_info_user_id1" property="chatInfoUserId1" jdbcType="INTEGER" />
+    <result column="chat_info_user_id2" property="chatInfoUserId2" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="user1_state" property="user1State" jdbcType="INTEGER" />
+    <result column="user2_state" property="user2State" jdbcType="INTEGER" />
+    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
+    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
+    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
+    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
+    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.king2.commons.pojo.K2ChatInfo" extends="BaseResultMap" >
+    <result column="chat_info_content" property="chatInfoContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    chat_info_id, chat_info_user_id1, chat_info_user_id2, create_time, user1_state, user2_state, 
+    retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <sql id="Blob_Column_List" >
+    chat_info_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.king2.commons.pojo.K2ChatInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_chat_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ChatInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_chat_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from k2_chat_info
+    where chat_info_id = #{chatInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_chat_info
+    where chat_info_id = #{chatInfoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ChatInfoExample" >
+    delete from k2_chat_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ChatInfo" >
+    insert into k2_chat_info (chat_info_id, chat_info_user_id1, chat_info_user_id2, 
+      create_time, user1_state, user2_state, 
+      retain1, retain2, retain3, 
+      retain4, retain5, chat_info_content
+      )
+    values (#{chatInfoId,jdbcType=INTEGER}, #{chatInfoUserId1,jdbcType=INTEGER}, #{chatInfoUserId2,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{user1State,jdbcType=INTEGER}, #{user2State,jdbcType=INTEGER}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}, #{chatInfoContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ChatInfo" >
+    insert into k2_chat_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chatInfoId != null" >
+        chat_info_id,
+      </if>
+      <if test="chatInfoUserId1 != null" >
+        chat_info_user_id1,
+      </if>
+      <if test="chatInfoUserId2 != null" >
+        chat_info_user_id2,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="user1State != null" >
+        user1_state,
+      </if>
+      <if test="user2State != null" >
+        user2_state,
+      </if>
+      <if test="retain1 != null" >
+        retain1,
+      </if>
+      <if test="retain2 != null" >
+        retain2,
+      </if>
+      <if test="retain3 != null" >
+        retain3,
+      </if>
+      <if test="retain4 != null" >
+        retain4,
+      </if>
+      <if test="retain5 != null" >
+        retain5,
+      </if>
+      <if test="chatInfoContent != null" >
+        chat_info_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chatInfoId != null" >
+        #{chatInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="chatInfoUserId1 != null" >
+        #{chatInfoUserId1,jdbcType=INTEGER},
+      </if>
+      <if test="chatInfoUserId2 != null" >
+        #{chatInfoUserId2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user1State != null" >
+        #{user1State,jdbcType=INTEGER},
+      </if>
+      <if test="user2State != null" >
+        #{user2State,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="chatInfoContent != null" >
+        #{chatInfoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ChatInfoExample" resultType="java.lang.Integer" >
+    select count(*) from k2_chat_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_chat_info
+    <set >
+      <if test="record.chatInfoId != null" >
+        chat_info_id = #{record.chatInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chatInfoUserId1 != null" >
+        chat_info_user_id1 = #{record.chatInfoUserId1,jdbcType=INTEGER},
+      </if>
+      <if test="record.chatInfoUserId2 != null" >
+        chat_info_user_id2 = #{record.chatInfoUserId2,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.user1State != null" >
+        user1_state = #{record.user1State,jdbcType=INTEGER},
+      </if>
+      <if test="record.user2State != null" >
+        user2_state = #{record.user2State,jdbcType=INTEGER},
+      </if>
+      <if test="record.retain1 != null" >
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null" >
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null" >
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null" >
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chatInfoContent != null" >
+        chat_info_content = #{record.chatInfoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update k2_chat_info
+    set chat_info_id = #{record.chatInfoId,jdbcType=INTEGER},
+      chat_info_user_id1 = #{record.chatInfoUserId1,jdbcType=INTEGER},
+      chat_info_user_id2 = #{record.chatInfoUserId2,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      user1_state = #{record.user1State,jdbcType=INTEGER},
+      user2_state = #{record.user2State,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR},
+      chat_info_content = #{record.chatInfoContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_chat_info
+    set chat_info_id = #{record.chatInfoId,jdbcType=INTEGER},
+      chat_info_user_id1 = #{record.chatInfoUserId1,jdbcType=INTEGER},
+      chat_info_user_id2 = #{record.chatInfoUserId2,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      user1_state = #{record.user1State,jdbcType=INTEGER},
+      user2_state = #{record.user2State,jdbcType=INTEGER},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ChatInfo" >
+    update k2_chat_info
+    <set >
+      <if test="chatInfoUserId1 != null" >
+        chat_info_user_id1 = #{chatInfoUserId1,jdbcType=INTEGER},
+      </if>
+      <if test="chatInfoUserId2 != null" >
+        chat_info_user_id2 = #{chatInfoUserId2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user1State != null" >
+        user1_state = #{user1State,jdbcType=INTEGER},
+      </if>
+      <if test="user2State != null" >
+        user2_state = #{user2State,jdbcType=INTEGER},
+      </if>
+      <if test="retain1 != null" >
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null" >
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null" >
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null" >
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null" >
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+      <if test="chatInfoContent != null" >
+        chat_info_content = #{chatInfoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where chat_info_id = #{chatInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.king2.commons.pojo.K2ChatInfo" >
+    update k2_chat_info
+    set chat_info_user_id1 = #{chatInfoUserId1,jdbcType=INTEGER},
+      chat_info_user_id2 = #{chatInfoUserId2,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user1_state = #{user1State,jdbcType=INTEGER},
+      user2_state = #{user2State,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR},
+      chat_info_content = #{chatInfoContent,jdbcType=LONGVARCHAR}
+    where chat_info_id = #{chatInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ChatInfo" >
+    update k2_chat_info
+    set chat_info_user_id1 = #{chatInfoUserId1,jdbcType=INTEGER},
+      chat_info_user_id2 = #{chatInfoUserId2,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user1_state = #{user1State,jdbcType=INTEGER},
+      user2_state = #{user2State,jdbcType=INTEGER},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where chat_info_id = #{chatInfoId,jdbcType=INTEGER}
+  </update>
+</mapper>
