@@ -1,7 +1,7 @@
 package com.king2.commons.utils;
 
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 
@@ -87,7 +87,7 @@ public class CPUUtil {
         } else if (os.startsWith("linux")) {
             cpuId = CPUUtil.getCPUID_linux();
         }
-        if(!StringUtils.isNotEmpty(cpuId)){
+        if(!StringUtils.isEmpty(cpuId)){
             cpuId="null";
         }
         return cpuId;

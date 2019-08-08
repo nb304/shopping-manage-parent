@@ -131,6 +131,8 @@
     values (#{productSketchId,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
       #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}, 
       #{productSketchValue,jdbcType=LONGVARCHAR})
+
+    <selectKey keyProperty="productSketchId" order="AFTER" resultType="int">       select last_insert_id()     </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductSketch" >
     insert into k2_product_sketch

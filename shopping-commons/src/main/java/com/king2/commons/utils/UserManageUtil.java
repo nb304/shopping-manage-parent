@@ -6,6 +6,7 @@ import com.king2.commons.result.SystemResult;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class UserManageUtil {
     /**
      * 创建jedis模板
      */
-    private Jedis jedis = null;
+    private JedisPool jedisPool = null;
 
     /**
      * -----------------------------------------------------
@@ -32,11 +33,11 @@ public class UserManageUtil {
      * 返回: UserManageUtil               返回用户工具类
      * -----------------------------------------------------
      */
-    public UserManageUtil(Jedis jedis) throws Exception {
-        if (jedis == null) {
-            throw new UserManageException("Jedis实例不能为null,请检查是否注入成功。");
+    public UserManageUtil(JedisPool jedisPool) throws Exception {
+        if (jedisPool == null) {
+            throw new UserManageException("JedisPoll实例不能为null,请检查是否注入成功。");
         }
-        this.jedis = jedis;
+        this.jedisPool = jedisPool;
     }
 
     /**
@@ -53,6 +54,8 @@ public class UserManageUtil {
      * -----------------------------------------------------
      */
     public SystemResult getUserInfoByAccountAndToken(String account, String token) {
+        // 获取jedis实例
+        Jedis jedis = jedisPool.getResource();
         // 判断accout是否为空
         if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
             return null;
@@ -88,7 +91,8 @@ public class UserManageUtil {
      * 状态码：200登录成功、201登录成功，但是前面已经有人登录、100异常
      * -----------------------------------------------------
      */
-    public SystemResult refresh(K2Member k2Member, String token) {
+    public SystemResult refresh(K2Member k2Member, String token) throws Exception {
+        Jedis jedis = jedisPool.getResource();
         // 判断用户是否登录
         Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
         if (CollectionUtils.isEmpty(userMap)) {

@@ -7,6 +7,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,15 +16,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*=======================================================
-	说明:     商品编号的队列信息
+	说明:     商城后台通用的编号工具类
 
 	作者		时间					注释
   	俞烨		2019.08.06   			创建
 =======================================================*/
 public class ShoppingNumberManage {
 
-    // 创建jedis模板对象
-    private Jedis JEDIS;
+    // 创建jedis连接池对象
+    private JedisPool jedisPool;
     // 创建jedis解锁的脚本
     private String SCRIPT;
     // 编号存在redis中的key
@@ -36,16 +37,16 @@ public class ShoppingNumberManage {
     /**
      * 提供商城系统生成唯一编号的操作类,最多存入36长度的编号
      *
-     * @param jedis    jedis实例
-     * @param script   lua脚本解锁串
-     * @param redisKey 该编号存在于redis中的key
-     * @param prefix   该编号的前缀符号"限制2个长度"
-     * @param size     编号的长度
+     * @param jedisPool jedis连接池实例
+     * @param script    lua脚本解锁串
+     * @param redisKey  该编号存在于redis中的key
+     * @param prefix    该编号的前缀符号"限制2个长度"
+     * @param size      编号的长度
      * @throws Exception
      */
-    public ShoppingNumberManage(Jedis jedis, String script, String redisKey, String prefix, int size) throws Exception {
-        if (jedis == null || StringUtils.isEmpty(script)) {
-            throw new JedisIsNullException("redis实例为空或者解锁的脚本为空,请检查代码");
+    public ShoppingNumberManage(JedisPool jedisPool, String script, String redisKey, String prefix, int size) throws Exception {
+        if (jedisPool == null || StringUtils.isEmpty(script)) {
+            throw new JedisIsNullException("jedisPool实例为空或者解锁的脚本为空,请检查代码");
         } else if (StringUtils.isEmpty(redisKey)) {
             throw new RuntimeException("编号存在redis中的key不能为空");
         } else if (!StringUtils.isEmpty(prefix) && prefix.length() == 2) {
@@ -54,7 +55,7 @@ public class ShoppingNumberManage {
             throw new RuntimeException("编号的长度必须大于10");
         }
 
-        this.JEDIS = jedis;
+        this.jedisPool = jedisPool;
         this.SCRIPT = script;
         this.NUMBER_REDIS_KEY = redisKey;
         this.SIZE = size;
@@ -66,42 +67,32 @@ public class ShoppingNumberManage {
      * <p>
      * 参数:
      * size         int                 添加几次
-     * lockTimeOut  int             锁的过期时间单位毫秒
      * <p>
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    public SystemResult addProductNumber(int addSize, int lockTimeOut) throws Exception {
+    public SystemResult addProductNumber(int addSize) throws Exception {
 
-        // 开启锁
-        Lock lock = new DfsRedisLock(this.NUMBER_REDIS_KEY + "_LOCK", lockTimeOut, this.JEDIS);
-        lock.lock();
-        try {
-            ConcurrentLinkedQueue<String> numberQueue = new ConcurrentLinkedQueue<>();
-            // 创建hashMap保证唯一
-            Map<String, String> numberMap = new HashMap<>();
-            /**
-             *   调用方法 往map里面设置参数
-             *    numberMap为map的实例
-             *    size 往map里面添加几个参数
-             */
-            addShoppingNumberGetToMap(numberMap, addSize);
-            // 获取成功 遍历Map值存入Queue中
-            for (Map.Entry<String, String> entry : numberMap.entrySet()) {
-                numberQueue.add(entry.getValue());
-            }
-            // 重新存入redis中
-            JEDIS.set(NUMBER_REDIS_KEY, JsonUtils.objectToJson(numberQueue));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new SystemResult(100, "系统异常", null);
-        } finally {
-            // 解锁
-            lock.unlock(this.SCRIPT);
+        // 获取jedis实例
+        Jedis JEDIS = jedisPool.getResource();
+        ConcurrentLinkedQueue<String> numberQueue = new ConcurrentLinkedQueue<>();
+        // 创建hashMap保证唯一
+        Map<String, String> numberMap = new HashMap<>();
+        /**
+         *   调用方法 往map里面设置参数
+         *    numberMap为map的实例
+         *    size 往map里面添加几个参数
+         */
+        addShoppingNumberGetToMap(numberMap, addSize);
+        // 获取成功 遍历Map值存入Queue中
+        for (Map.Entry<String, String> entry : numberMap.entrySet()) {
+            numberQueue.add(entry.getValue());
         }
+        // 重新存入redis中
+        JEDIS.set(NUMBER_REDIS_KEY, JsonUtils.objectToJson(numberQueue));
+        JEDIS.close();
         return new SystemResult("成功");
     }
-
 
     /**
      * -----------------------------------------------------
@@ -113,7 +104,7 @@ public class ShoppingNumberManage {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    public void addShoppingNumberGetToMap(Map<String, String> map, int size) {
+    private void addShoppingNumberGetToMap(Map<String, String> map, int size) {
 
         /*
             根据编号长度 计算出UUID中需要截取的位数
@@ -147,26 +138,32 @@ public class ShoppingNumberManage {
      */
     public SystemResult getNumberByRedisKey(String redisKey, int lockTimeOut) throws Exception {
 
+        // 获取jedis实例
+        Jedis JEDIS = jedisPool.getResource();
+
         // 加锁
         // 开启锁
-        Lock lock = new DfsRedisLock(this.NUMBER_REDIS_KEY + "_LOCK", lockTimeOut, this.JEDIS);
+        Lock lock = new DfsRedisLock(this.NUMBER_REDIS_KEY + "_LOCK", lockTimeOut, JEDIS);
         lock.lock();
         try {
             // 根据key获取编号
             String numbers = JEDIS.get(redisKey);
             if (StringUtils.isEmpty(numbers)) {
-                return new SystemResult(202, "编码为空", null);
+                addProductNumber(10000);
+                numbers = JEDIS.get(redisKey);
             }
             // 不等于空说明编号列表中还有数据
             ConcurrentLinkedQueue numberQueue = JsonUtils.jsonToPojo(numbers, ConcurrentLinkedQueue.class);
             if (numberQueue.isEmpty()) {
                 // 编码为空 重新生成
-                SystemResult systemResult = addProductNumber(10000, 0);
+                SystemResult systemResult = addProductNumber(10000);
                 if (systemResult.getStatus() != 200) return systemResult;
             }
             Object poll = numberQueue.poll();
             // 取出数据后 重新写入redis
-            JEDIS.set(redisKey, JsonUtils.objectToJson(numberQueue));
+            Jedis resource = jedisPool.getResource();
+            resource.set(redisKey, JsonUtils.objectToJson(numberQueue));
+            resource.close();
             // 返回数据
             return new SystemResult(poll);
         } catch (Exception e) {
@@ -175,6 +172,7 @@ public class ShoppingNumberManage {
         } finally {
             // 解锁
             lock.unlock(this.SCRIPT);
+            JEDIS.close();
         }
     }
 }

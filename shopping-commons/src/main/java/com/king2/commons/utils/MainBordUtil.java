@@ -1,6 +1,7 @@
 package com.king2.commons.utils;
 
-import org.apache.commons.lang3.StringUtils;
+
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 
@@ -77,7 +78,7 @@ public class MainBordUtil {
         } else if (os.startsWith("linux")) {
             mainBordId = getMainBordId_linux();
         }
-        if(!StringUtils.isNotEmpty(mainBordId)){
+        if(!StringUtils.isEmpty(mainBordId)){
             mainBordId="null";
         }
         return mainBordId;

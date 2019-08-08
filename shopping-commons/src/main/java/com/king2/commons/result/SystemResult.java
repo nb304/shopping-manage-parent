@@ -3,16 +3,15 @@ package com.king2.commons.result;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.Serializable;
 import java.util.List;
 
 /*================================================================
 说明：业务操作响应结果
 
 作者          时间            注释
-俞烨       2018.5.22	     创建
+温为菁       2018.5.22	     创建
 ==================================================================*/
-public class SystemResult implements Serializable {
+public class SystemResult {
 
 	// 定义jackson对象
 	private static final ObjectMapper MAPPER = new ObjectMapper();

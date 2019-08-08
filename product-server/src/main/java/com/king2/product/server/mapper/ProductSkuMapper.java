@@ -1,5 +1,6 @@
 package com.king2.product.server.mapper;
 
+import com.king2.commons.pojo.K2ProductSkuPriceandkc;
 import com.king2.commons.pojo.K2ProductSkuValue;
 import com.king2.product.server.dto.ProductSkuDto;
 import org.apache.ibatis.annotations.Insert;
@@ -50,7 +51,7 @@ public interface ProductSkuMapper {
      * -----------------------------------------------------
      */
     @Insert("<script>" +
-            "INSERT INTO k2_product_sku_key(sku_value,sku_key_id)" +
+            "INSERT INTO k2_product_sku_value(sku_value,sku_key_id)" +
             "VALUES" +
             "<foreach collection='list' item='item' separator=','>" +
             "(#{item.skuValue},#{item.skuKeyId})" +
@@ -58,4 +59,26 @@ public interface ProductSkuMapper {
             "</script>")
     @Options(useGeneratedKeys = true, keyProperty = "productSkuValueId")
     void batchInsertSkuValue(@Param("list") List<K2ProductSkuValue> k2ProductSkuValues);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  批量添加商品SKU-Value的库存价格信息
+     * <p>
+     * 参数:
+     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>            SKU-vakue的库存价格POJO的数据集合
+     * <p>
+     * 返回: void
+     * -----------------------------------------------------
+     */
+    @Insert("<script>" +
+            "INSERT INTO k2_product_sku_priceandkc(sku_priceandkc_valuelistid,belong_product_id," +
+            "product_sku_price,product_sku_kc)" +
+            "VALUES" +
+            "<foreach collection='list' item='item' separator=','>" +
+            "(#{item.skuPriceandkcValuelistid},#{item.belongProductId}," +
+            "#{item.productSkuPrice},#{item.productSkuKc})" +
+            "</foreach>" +
+            "</script>")
+    @Options(useGeneratedKeys = true, keyProperty = "skuPriceandkcId")
+    void batchInsertSkuValueKc(@Param("list") List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs);
 }

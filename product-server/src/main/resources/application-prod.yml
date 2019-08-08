@@ -22,3 +22,8 @@ spring:                                                  # 数据源配置
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+mybatis:
+  mapper-locations: classpath:com.king2.commons.mapper/*.xml
+  type-aliases-package: com.king2.commons.pojo  # 实体类位置
+  configuration:
+    map-underscore-to-camel-case: true

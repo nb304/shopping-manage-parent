@@ -1,6 +1,6 @@
 package com.king2.commons.utils;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -79,7 +79,7 @@ public class DiskUtil {
         } else if (os.startsWith("linux")) {
             return getIdentifierByLinux();
         }
-        if(!StringUtils.isNotEmpty(diskId)){
+        if(!StringUtils.isEmpty(diskId)){
             diskId="null";
         }
         return diskId;

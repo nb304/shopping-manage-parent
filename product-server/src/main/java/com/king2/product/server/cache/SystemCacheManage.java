@@ -15,7 +15,7 @@ public class SystemCacheManage {
     // 提供给别人访问的实例和方法
     private static SystemCacheManage systemCacheManage = new SystemCacheManage();
 
-    private static SystemCacheManage getInstance() {
+    public static SystemCacheManage getInstance() {
         return systemCacheManage;
     }
 

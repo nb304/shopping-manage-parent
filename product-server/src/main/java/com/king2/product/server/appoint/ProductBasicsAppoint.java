@@ -2,14 +2,13 @@ package com.king2.product.server.appoint;
 
 import com.king2.commons.getnumber.ShoppingNumberManage;
 import com.king2.commons.mapper.K2ProductMapper;
-import com.king2.commons.pojo.K2Member;
-import com.king2.commons.pojo.K2Product;
-import com.king2.commons.pojo.K2ProductExample;
-import com.king2.commons.pojo.K2ProductWithBLOBs;
+import com.king2.commons.mapper.K2ProductSketchMapper;
+import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.commons.utils.RedisUtil;
 import com.king2.product.server.cache.SystemCacheManage;
+import com.king2.product.server.pojo.ProductSkuPojo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 import redis.clients.jedis.Jedis;
@@ -37,7 +36,7 @@ public class ProductBasicsAppoint {
      * 返回: UserManageUtil              返回调用者的数据
      * -----------------------------------------------------
      */
-    public static SystemResult checkJsonWhetherGotoClass(String jsonInfo, Class clazz, String errorMsg) {
+    private static SystemResult checkJsonWhetherGotoClass(String jsonInfo, Class clazz, String errorMsg) {
 
         // 判断Json数据是否为空
         if (StringUtils.isEmpty(jsonInfo) || clazz == null) {
@@ -47,11 +46,42 @@ public class ProductBasicsAppoint {
         // 转换数据
         try {
             Object o = JsonUtils.jsonToPojo(jsonInfo, clazz);
+//            if(o == null)   return new SystemResult(100, "转换失败：参数无效", null);
             return new SystemResult(o);
         } catch (Exception e) {
             return new SystemResult(100, errorMsg + "转换失败：类型与预期的不匹配", null);
         }
     }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  校验传输过来的SKUjson数据是否可以转换成对应的集合对象
+     * <p>
+     * 参数:
+     * jsonInfo         String          JSON数据
+     * clazz            Class           需要转换的类型
+     * <p>
+     * 返回: UserManageUtil              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public static SystemResult checkSkuJsonGotoLists(String jsonInfo) {
+
+        // 判断Json数据是否为空
+        if (StringUtils.isEmpty(jsonInfo)) {
+            return new SystemResult(100, "转换失败：参数有空值", null);
+        }
+
+        // 转换数据
+        try {
+            List<ProductSkuPojo> productSkuPojos = JsonUtils.jsonToList(jsonInfo, ProductSkuPojo.class);
+//            if(o == null)   return new SystemResult(100, "转换失败：参数无效", null);
+            return new SystemResult(productSkuPojos);
+        } catch (Exception e) {
+            return new SystemResult(100, "转换失败：类型与预期的不匹配", null);
+        }
+    }
+
 
     /**
      * -----------------------------------------------------
@@ -67,7 +97,7 @@ public class ProductBasicsAppoint {
      * 返回: UserManageUtil              返回调用者的数据
      * -----------------------------------------------------
      */
-    public static SystemResult getProductInfoByPJson(String productJson, Jedis jedis, String scrpit, String redisKey,
+    private static SystemResult getProductInfoByPJson(String productJson, JedisPool jedisPool, String scrpit, String redisKey,
                                                      K2ProductMapper k2ProductMapper, K2Member k2Member) throws Exception {
 
         // 校验商品信息是否为空
@@ -75,7 +105,7 @@ public class ProductBasicsAppoint {
             return new SystemResult(100, "商品信息为空,请检查商品的参数", null);
         }
         // 获取商品的唯一编号
-        SystemResult onlyProductNumber = getOnlyProductNumber(jedis, scrpit, redisKey, k2ProductMapper);
+        SystemResult onlyProductNumber = getOnlyProductNumber(jedisPool, scrpit, redisKey, k2ProductMapper);
         if (onlyProductNumber.getStatus() != 200) return onlyProductNumber;
         // 商品的编号
         String number = onlyProductNumber.getData() + "";
@@ -139,6 +169,11 @@ public class ProductBasicsAppoint {
         if (k2Product.getProductSystemPrice() == null || k2Product.getProductSystemPrice().floatValue() > 9999999.99 ||
                 k2Product.getProductSystemPrice().floatValue() < 1) {
             return new SystemResult(100, "商品系统价格错误,金额范围在1~9999999.99之间", null);
+        }
+
+        // 校验商品简述
+        if (StringUtils.isEmpty(k2Product.getProductSketchContentl()) || k2Product.getProductSketchContentl().length() > 1000) {
+            return new SystemResult(100, "商品简述错误,简述范围在1~1000字符之间", null);
         }
 
         // 校验商品排序规则
@@ -212,10 +247,10 @@ public class ProductBasicsAppoint {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    public static SystemResult getOnlyProductNumber(Jedis jedis, String scrpit, String redisKey, K2ProductMapper k2ProductMapper) throws Exception {
+    private static SystemResult getOnlyProductNumber(JedisPool jedisPool, String scrpit, String redisKey, K2ProductMapper k2ProductMapper) throws Exception {
         while (true) {
             // 首先获取一个商品编号
-            ShoppingNumberManage numberManage = new ShoppingNumberManage(jedis, scrpit, redisKey, "SP", 11);
+            ShoppingNumberManage numberManage = new ShoppingNumberManage(jedisPool, scrpit, redisKey, "SP", 11);
             SystemResult numberByRedisKey = numberManage.getNumberByRedisKey(redisKey, 0);
             if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
             // 获取编号
@@ -259,7 +294,7 @@ public class ProductBasicsAppoint {
      * -----------------------------------------------------
      */
     public static SystemResult addProduct(JedisPool jedisPool, String productInfo, String PRODUCT_NUMBER_REDIS_KEY,
-                                          K2ProductMapper k2ProductMapper, K2Member k2Member, String state) throws Exception {
+                                          K2ProductMapper k2ProductMapper, K2Member k2Member, String state, K2ProductSketchMapper k2ProductSketchMapper) throws Exception {
 
         // 商品的数据
         K2ProductWithBLOBs k2Product = null;
@@ -272,10 +307,16 @@ public class ProductBasicsAppoint {
             // 获取jedis模板
             Jedis resource = RedisUtil.getJedisByJedisPool(jedisPool);
             // 交给委托类 返回一个商品对象
-            SystemResult productResult = ProductBasicsAppoint.getProductInfoByPJson(productInfo, resource, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member);
+            SystemResult productResult = ProductBasicsAppoint.getProductInfoByPJson(productInfo, jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member);
             if (productResult.getStatus() != 200) return productResult;
             // 取出商品信息
             k2Product = (K2ProductWithBLOBs) productResult.getData();
+            // 添加商品的简述信息
+            K2ProductSketch sketch = new K2ProductSketch();
+            sketch.setProductSketchValue(k2Product.getProductSketchContentl());
+            k2ProductSketchMapper.insert(sketch);
+            // 添加商品信息
+            k2Product.setProductSketchId(sketch.getProductSketchId());
             k2ProductMapper.insert(k2Product);
         }
         return new SystemResult(k2Product);

@@ -60,6 +60,11 @@ public class K2Product {
     private Integer productSketchId;
 
     /**
+     * 商品简述
+     */
+    private String productSketchContentl;
+
+    /**
      * 是否支持无理由退款退货 ---1支持  2不支持
      */
     private Integer productIfSupport;
@@ -326,6 +331,14 @@ public class K2Product {
      */
     public Integer getProductIfSupport() {
         return productIfSupport;
+    }
+
+    public String getProductSketchContentl() {
+        return productSketchContentl;
+    }
+
+    public void setProductSketchContentl(String productSketchContentl) {
+        this.productSketchContentl = productSketchContentl;
     }
 
     /**

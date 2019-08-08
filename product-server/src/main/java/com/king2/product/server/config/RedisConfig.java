@@ -23,7 +23,7 @@ public class RedisConfig {
         config.setMaxIdle(properties.getJedis().getPool().getMaxIdle());
         config.setMaxTotal(properties.getJedis().getPool().getMaxActive());
         config.setMaxWaitMillis(properties.getJedis().getPool().getMaxWait().toMillis());
-        JedisPool pool = new JedisPool(config, properties.getHost(), properties.getPort(), 5000);
+        JedisPool pool = new JedisPool(config, properties.getHost(), properties.getPort(), 50000,"king2redispass");
         return pool;
     }
 }

@@ -2,9 +2,11 @@ package com.king2.product.server.appoint;
 
 import com.king2.commons.pojo.K2ProductSkuPriceandkc;
 import com.king2.commons.pojo.K2ProductSkuValue;
+import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +28,10 @@ public class ProductSkuValueKcAppoint {
      * 参数:
      * k2ProductSkuValues          List<K2ProductSkuValue>          SKU-Value的集合数据
      * <p>
-     * 返回: UserManageUtil              返回调用者的数据
+     * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    public static SystemResult getProductSkuValueKcDatas(List<K2ProductSkuValue> k2ProductSkuValues) {
+    public static SystemResult getProductSkuValueKcDatas(List<K2ProductSkuValue> k2ProductSkuValues, K2ProductWithBLOBs k2ProductWithBLOBs) {
 
 
         // 对集合数据进行分组
@@ -39,13 +41,37 @@ public class ProductSkuValueKcAppoint {
         // 创建SKU的价格库存信息
         List<K2ProductSkuPriceandkc> kcs = new ArrayList<>();
         // 进行笛卡尔积分类
-        dlej((List<List<K2ProductSkuValue>>) orderResult.getData(), kcs);
+        dkej((List<List<K2ProductSkuValue>>) orderResult.getData(), kcs);
 
-        // 分类成功  返回给调用者
-        return new SystemResult(kcs);
+        // 分类成功  设置其他参数信息
+        SystemResult systemResult = setSkuKcValues(kcs, k2ProductWithBLOBs);
+        return systemResult;
     }
 
-    public static void main(String[] args) {
+    /**
+     * -----------------------------------------------------
+     * 功能:  设置SKU值库存和价格
+     * <p>
+     * 参数:
+     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>          SKU-Value的库存集合数据
+     * k2ProductWithBLOBs               K2ProductWithBLOBs                    商品数据
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public static SystemResult setSkuKcValues(List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs, K2ProductWithBLOBs k2ProductWithBLOBs) {
+        // 创建bigDecimal
+        BigDecimal bigDecimal = new BigDecimal(0);
+        for (int i = 0; i < k2ProductSkuPriceandkcs.size(); i++) {
+            k2ProductSkuPriceandkcs.get(i).setBelongProductId(k2ProductWithBLOBs.getProductId());
+            k2ProductSkuPriceandkcs.get(i).setProductSkuKc(0);
+            k2ProductSkuPriceandkcs.get(i).setProductSkuPrice(bigDecimal);
+        }
+        return new SystemResult(k2ProductSkuPriceandkcs);
+    }
+
+    // 测试DKEJ
+    /*public static void main(String[] args) {
         List<K2ProductSkuValue> k2ProductSkuValues = new ArrayList<>();
 
         int id = 0;
@@ -67,8 +93,7 @@ public class ProductSkuValueKcAppoint {
 
         SystemResult productSkuValueKcDatas = getProductSkuValueKcDatas(k2ProductSkuValues);
         System.out.println();
-    }
-
+    }*/
 
     /**
      * -----------------------------------------------------
@@ -103,7 +128,7 @@ public class ProductSkuValueKcAppoint {
      * 返回: UserManageUtil              返回调用者的数据
      * -----------------------------------------------------
      */
-    public static void dlej(List<List<K2ProductSkuValue>> valueLists, List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs) {
+    public static void dkej(List<List<K2ProductSkuValue>> valueLists, List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs) {
         // 数组
         K2ProductSkuValue[][] lqq = {};
         // 指针 数组的长度-1
@@ -137,7 +162,7 @@ public class ProductSkuValueKcAppoint {
                     kcIds += "," + lqq[j][counter[j]].getProductSkuValueId().toString();
                 }
             }
-            kc.setProductSkuValueIds(kcIds);
+            kc.setSkuPriceandkcValuelistid(kcIds);
             k2ProductSkuPriceandkcs.add(kc);
             handle(counter, counterIndex, lqq);
         }
