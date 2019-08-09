@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.JedisPool;
 
 import java.util.List;
@@ -52,6 +53,15 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     @Autowired
     private K2ProductSketchMapper k2ProductSketchMapper;
 
+    // 注入远程调用模板对象
+    @Autowired
+    private RestTemplate restTemplate;
+
+    // 注入缓存服务器地址
+    @Value("${CACHE_SERVER_URL}")
+    private String CACHE_SERVER_URL;
+
+
     /**
      * -----------------------------------------------------
      * 功能:  添加商品的SKU
@@ -75,7 +85,8 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             因为商品的SKU开销很大 我们需要将数据存放到数据库当中去，存放的时候需要指定商品信息
             所以我们根据传入过来的state 判断本次是否需要添加商品信息
          */
-        SystemResult addProductResult = ProductBasicsAppoint.addProduct(jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, state, k2ProductSketchMapper);
+        SystemResult addProductResult = ProductBasicsAppoint.addProduct
+                (jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, state, k2ProductSketchMapper, restTemplate, CACHE_SERVER_URL);
         if (addProductResult.getStatus() != 200) return addProductResult;
         // 获取商品的数据
         K2ProductWithBLOBs k2ProductWithBLOBs = (K2ProductWithBLOBs) addProductResult.getData();

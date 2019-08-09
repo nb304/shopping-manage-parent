@@ -1,6 +1,7 @@
 package com.king2.product.server.appoint;
 
 import com.king2.commons.getnumber.ShoppingNumberManage;
+import com.king2.commons.getnumber.ShoppingNumberPojo;
 import com.king2.commons.mapper.K2ProductMapper;
 import com.king2.commons.mapper.K2ProductSketchMapper;
 import com.king2.commons.pojo.*;
@@ -10,7 +11,10 @@ import com.king2.commons.utils.RedisUtil;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -23,6 +27,7 @@ import java.util.List;
 	作者		时间					注释
   	俞烨		2019.08.06   			创建
 =======================================================*/
+@Component
 public class ProductBasicsAppoint {
 
     /**
@@ -82,6 +87,9 @@ public class ProductBasicsAppoint {
         }
     }
 
+    // 注入JedisPool连接池
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * -----------------------------------------------------
@@ -98,14 +106,14 @@ public class ProductBasicsAppoint {
      * -----------------------------------------------------
      */
     private static SystemResult getProductInfoByPJson(String productJson, JedisPool jedisPool, String scrpit, String redisKey,
-                                                     K2ProductMapper k2ProductMapper, K2Member k2Member) throws Exception {
+                                                      K2ProductMapper k2ProductMapper, K2Member k2Member, RestTemplate restTemplate, String servletUrl) throws Exception {
 
         // 校验商品信息是否为空
         if (StringUtils.isEmpty(productJson)) {
             return new SystemResult(100, "商品信息为空,请检查商品的参数", null);
         }
         // 获取商品的唯一编号
-        SystemResult onlyProductNumber = getOnlyProductNumber(jedisPool, scrpit, redisKey, k2ProductMapper);
+        SystemResult onlyProductNumber = getOnlyProductNumber(jedisPool, redisKey, k2ProductMapper, restTemplate, servletUrl);
         if (onlyProductNumber.getStatus() != 200) return onlyProductNumber;
         // 商品的编号
         String number = onlyProductNumber.getData() + "";
@@ -247,11 +255,12 @@ public class ProductBasicsAppoint {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    private static SystemResult getOnlyProductNumber(JedisPool jedisPool, String scrpit, String redisKey, K2ProductMapper k2ProductMapper) throws Exception {
+    private static SystemResult getOnlyProductNumber(JedisPool jedisPool, String redisKey, K2ProductMapper k2ProductMapper, RestTemplate restTemplate, String servletUrl) throws Exception {
         while (true) {
-            // 首先获取一个商品编号
-            ShoppingNumberManage numberManage = new ShoppingNumberManage(jedisPool, scrpit, redisKey, "SP", 11);
-            SystemResult numberByRedisKey = numberManage.getNumberByRedisKey(redisKey, 0);
+            // 首先获取一个商品编号SystemCacheManage.UNLOCK_REDIS_LUA
+            ShoppingNumberPojo sp = new ShoppingNumberPojo(jedisPool,"131231" , redisKey, "SP", 11, restTemplate, servletUrl);
+            ShoppingNumberManage numberManage = new ShoppingNumberManage(sp, sp.NUMBER_TYPE_PRODUCT);
+            SystemResult numberByRedisKey = numberManage.getNumberByRedisKey(redisKey, 10);
             if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
             // 获取编号
             String number = numberByRedisKey.getData().toString();
@@ -274,7 +283,6 @@ public class ProductBasicsAppoint {
      * @param k2Product
      */
     public static void getProductInfoByPJsonLast(K2Product k2Product) {
-
     }
 
 
@@ -294,7 +302,8 @@ public class ProductBasicsAppoint {
      * -----------------------------------------------------
      */
     public static SystemResult addProduct(JedisPool jedisPool, String productInfo, String PRODUCT_NUMBER_REDIS_KEY,
-                                          K2ProductMapper k2ProductMapper, K2Member k2Member, String state, K2ProductSketchMapper k2ProductSketchMapper) throws Exception {
+                                          K2ProductMapper k2ProductMapper, K2Member k2Member, String state, K2ProductSketchMapper k2ProductSketchMapper,
+                                          RestTemplate restTemplate, String servletUrl) throws Exception {
 
         // 商品的数据
         K2ProductWithBLOBs k2Product = null;
@@ -307,7 +316,8 @@ public class ProductBasicsAppoint {
             // 获取jedis模板
             Jedis resource = RedisUtil.getJedisByJedisPool(jedisPool);
             // 交给委托类 返回一个商品对象
-            SystemResult productResult = ProductBasicsAppoint.getProductInfoByPJson(productInfo, jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member);
+            SystemResult productResult = ProductBasicsAppoint.getProductInfoByPJson
+                    (productInfo, jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, restTemplate, servletUrl);
             if (productResult.getStatus() != 200) return productResult;
             // 取出商品信息
             k2Product = (K2ProductWithBLOBs) productResult.getData();

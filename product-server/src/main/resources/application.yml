@@ -14,13 +14,14 @@ spring:
 
   application:
     #设置当前的服务的名称
-    name: product-server
+    name: KING2-PRODUCT-MANAGE-7778
 
 eureka:
   instance:
     #不配置的话是本机的机器名注册上去  配置了的话是本机的ip地址注册上去
     #如果与这里的解释不相同有可能是多块网卡干扰了
     prefer-ip-address: true
+    instance-id: King2-Product-Manage-7778
 
     # 心跳机制每三秒向服务端发送健康情况
     lease-renewal-interval-in-seconds: 3

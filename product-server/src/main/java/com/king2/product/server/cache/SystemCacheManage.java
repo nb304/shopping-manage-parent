@@ -1,5 +1,9 @@
 package com.king2.product.server.cache;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /*=======================================================
 	说明:    商品管理的缓存类
 
@@ -23,4 +27,28 @@ public class SystemCacheManage {
      * 解锁reids 的lua脚本  在classpath:unlock.lua文件中
      */
     public static String UNLOCK_REDIS_LUA = "";
+
+    /**
+     * 本地缓存中商品编号的KEY
+     */
+    public static final String NUMBER_TYPE_PRODUCT = "NUMBER_CACHE_PRODUCT";
+
+    /**
+     * 本地缓存中订单编号的KEY
+     */
+    public static final String NUMBER_TYPE_ORDER = "NUMBER_CACHE_ORDER";
+
+    /**
+     * 本地缓存的队列集合
+     * key --- value
+     */
+    private static Map<String, ConcurrentLinkedQueue<String>> queueMap = new ConcurrentHashMap<>();
+
+    public static Map<String, ConcurrentLinkedQueue<String>> getQueueMap() {
+        return queueMap;
+    }
+
+    public static void setQueueMap(Map<String, ConcurrentLinkedQueue<String>> queueMap) {
+        SystemCacheManage.queueMap = queueMap;
+    }
 }

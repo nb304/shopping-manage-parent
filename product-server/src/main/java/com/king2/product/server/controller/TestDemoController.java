@@ -50,8 +50,17 @@ public class TestDemoController {
         System.out.println(mac);*/
 
         // System.out.println(ProductServerLog.SYSTEM_PATH);
-        ShoppingNumberManage manage = new ShoppingNumberManage(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA,"DD","PP",11);
-        SystemResult dd = manage.getNumberByRedisKey("DD", 123);
+       /* ShoppingNumberManage manage = new ShoppingNumberManage(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA,"DD","PP",11);
+        SystemResult dd = manage.getNumberByRedisKey("DD", 123);*/
+
+        UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
+
+        K2Member k2Member = new K2Member();
+        k2Member.setMemberAccount("luqiqi2");
+        k2Member.setReqeustUserMac("FF-FF-FF");
+        String token = "luqiqi";
+
+        SystemResult refresh = userManageUtil.refresh(k2Member, token);
 
         return null;
     }
@@ -100,10 +109,10 @@ public class TestDemoController {
         System.out.println(System.getProperty("file.encoding"));
         Jedis jedis = jedisPool.getResource();
         // new File("classpath:unlock.lua")
-        String srcipt = FileUtils.readFileToString(ResourceUtils.getFile("classpath:unlock.lua"), "utf-8");
-        ShoppingNumberManage numberManage = new ShoppingNumberManage(jedisPool, srcipt, PRODUCT_NUMBER_REDIS_KEY, "SP", 11);
-        SystemResult systemResult = numberManage.addProductNumber(100000 );
-
+//        String srcipt = FileUtils.readFileToString(ResourceUtils.getFile("classpath:unlock.lua"), "utf-8");
+//        ShoppingNumberManage numberManage = new ShoppingNumberManage(jedisPool, srcipt, PRODUCT_NUMBER_REDIS_KEY, "SP", 11);
+//        SystemResult systemResult = numberManage.addProductNumber(100000 );
+        String addRedisLockFlag = jedis.set("DDLOCK", "1123", "NX", "EX", 100);
 
         return null;
     }
