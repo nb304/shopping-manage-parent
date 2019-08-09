@@ -2,11 +2,9 @@ package com.king2.commons.lock.impl;
 
 import com.king2.commons.exceptions.JedisIsNullException;
 import com.king2.commons.lock.Lock;
-import org.apache.commons.io.FileUtils;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -18,7 +16,7 @@ public class DfsRedisLock implements Lock {
     // 定义默认锁的KEY
     private static String KEY = "DFS_REDIS_DEFAULT_KEY";
     // 定义默认的锁失效时间 默认为100秒
-    private static Long timeout = 100000l;
+    private static Long timeout = 100l;
     // 定义线程通讯
     private static ThreadLocal<String> local = new ThreadLocal<String>();
     // 定义默认Jedis
@@ -61,7 +59,7 @@ public class DfsRedisLock implements Lock {
             // 获取随机的UUID
             String value = UUID.randomUUID().toString();
             // 尝试加锁
-            String addRedisLockFlag = jedis.set(KEY, value, "NX", "PX", timeout);
+            String addRedisLockFlag = jedis.set(KEY, value, "NX", "EX", timeout);
             // 判断是否加锁成功
             if ("OK".equals(addRedisLockFlag)) {
                 // 加锁成功
@@ -82,7 +80,7 @@ public class DfsRedisLock implements Lock {
         // 获取随机的UUID
         String value = UUID.randomUUID().toString();
         // 尝试加锁
-        String addRedisLockFlag = jedis.set(KEY, value, "NX", "PX", timeout);
+        String addRedisLockFlag = jedis.set(KEY, value, "NX", "EX", timeout);
         // 判断是否加锁成功
         if ("OK".equals(addRedisLockFlag)) {
             // 加锁成功

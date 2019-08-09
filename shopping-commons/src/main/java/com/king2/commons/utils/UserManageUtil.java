@@ -11,101 +11,124 @@ import redis.clients.jedis.JedisPool;
 import java.util.Map;
 
 /*=======================================================
-	è¯´æ˜:    ç”¨æˆ·ç®¡ç†å·¥å…·ç±»
+	ËµÃ÷:    ÓÃ»§¹ÜÀí¹¤¾ßÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.05   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.05   			´´½¨
 =======================================================*/
 public class UserManageUtil {
 
     /**
-     * åˆ›å»ºjedisæ¨¡æ¿
+     * ´´½¨jedisÄ£°å
      */
     private JedisPool jedisPool = null;
 
     /**
+     * ÓÃ»§ÁîÅÆµÄkey
+     */
+    public static final String USER_COOKIE_TOKEN = "king2-token";
+
+    /**
+     * ÓÃ»§ÕËºÅ´æÔÚCookieÖĞµÄkey
+     */
+    public static final  String USER_COOKIE_USERNAME = "king2-user-name";
+
+    /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æä¾›jediså¸¦å‚æ„é€ 
+     * ¹¦ÄÜ:  Ìá¹©jedis´ø²Î¹¹Ôì
      * <p>
-     * å‚æ•°:
-     * jedis        Jedis    Jediså®ä¾‹å¯¹è±¡
+     * ²ÎÊı:
+     * jedis        Jedis    JedisÊµÀı¶ÔÏó
      * <p>
-     * è¿”å›: UserManageUtil               è¿”å›ç”¨æˆ·å·¥å…·ç±»
+     * ·µ»Ø: UserManageUtil               ·µ»ØÓÃ»§¹¤¾ßÀà
      * -----------------------------------------------------
      */
     public UserManageUtil(JedisPool jedisPool) throws Exception {
         if (jedisPool == null) {
-            throw new UserManageException("JedisPollå®ä¾‹ä¸èƒ½ä¸ºnull,è¯·æ£€æŸ¥æ˜¯å¦æ³¨å…¥æˆåŠŸã€‚");
+            throw new UserManageException("JedisPollÊµÀı²»ÄÜÎªnull,Çë¼ì²éÊÇ·ñ×¢Èë³É¹¦¡£");
         }
         this.jedisPool = jedisPool;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®ç”¨æˆ·è´¦å·å’ŒTokenè·å–ç”¨æˆ·åœ¨redisä¸­çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ¸ù¾İÓÃ»§ÕËºÅºÍToken»ñÈ¡ÓÃ»§ÔÚredisÖĞµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * account        String      ç”¨æˆ·å­˜åœ¨æ•°æ®åº“çš„å”¯ä¸€æ ‡è¯†
-     * token          String      ç”¨æˆ·å­˜åœ¨redisä¸­çš„å”¯ä¸€æ ‡è¯†
+     * ²ÎÊı:
+     * account        String      ÓÃ»§´æÔÚÊı¾İ¿âµÄÎ¨Ò»±êÊ¶
+     * token          String      ÓÃ»§´æÔÚredisÖĞµÄÎ¨Ò»±êÊ¶
      * <p>
-     * è¿”å›: SystemResult               è¿”å›æœ¬æ¬¡æ‰§è¡Œçš„ç»“æœ
-     * è¿”å›ç»“æœï¼šä¸ºnullè¯´æ˜ç”¨æˆ·ä¸å­˜åœ¨redisä¸­
-     * çŠ¶æ€ç ï¼š100 å¼‚å¸¸
+     * ·µ»Ø: SystemResult               ·µ»Ø±¾´ÎÖ´ĞĞµÄ½á¹û
+     * ·µ»Ø½á¹û£ºÎªnullËµÃ÷ÓÃ»§²»´æÔÚredisÖĞ
+     * ×´Ì¬Âë£º100 Òì³£
      * -----------------------------------------------------
      */
     public SystemResult getUserInfoByAccountAndToken(String account, String token) {
-        // è·å–jediså®ä¾‹
+        // »ñÈ¡jedisÊµÀı
         Jedis jedis = jedisPool.getResource();
-        // åˆ¤æ–­accoutæ˜¯å¦ä¸ºç©º
+        // ÅĞ¶ÏaccoutÊÇ·ñÎª¿Õ
         if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
             return null;
         }
 
-        // è·å–ç”¨æˆ·åœ¨redisä¸­çš„ä¿¡æ¯
+        // »ñÈ¡ÓÃ»§ÔÚredisÖĞµÄĞÅÏ¢
         String userJson = jedis.hget(account, token);
-        // åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥ç”¨æˆ·ä¿¡æ¯
+        // ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÓÃ»§ĞÅÏ¢
         if (StringUtils.isEmpty(userJson)) {
-            return null;
+            jedis.close();
+            return new SystemResult(100, "¸ÃÕËºÅÔÚÆäËûµØ·½µÇÂ¼", null);
         }
-        // å°†ç”¨æˆ·Jsonè½¬æ¢æˆç”¨æˆ·å¯¹è±¡
+        // ½«ÓÃ»§Json×ª»»³ÉÓÃ»§¶ÔÏó
         try {
             K2Member k2Member = JsonUtils.jsonToPojo(userJson, K2Member.class);
+            jedis.close();
             return new SystemResult(k2Member);
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(100, "ç”¨æˆ·JSONè½¬æ¢å¤±è´¥,è¯·æ£€æŸ¥JSONæ ¼å¼æ˜¯å¦æ­£ç¡®ã€‚", null);
+            jedis.close();
+            return new SystemResult(100, "ÓÃ»§JSON×ª»»Ê§°Ü,Çë¼ì²éJSON¸ñÊ½ÊÇ·ñÕıÈ·¡£", null);
         }
     }
 
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¿è¯ä¸€ä¸ªè´¦æˆ·åªèƒ½ä¸€ä¸ªç”¨æˆ·åœ¨ä½¿ç”¨
+     * ¹¦ÄÜ:  ±£Ö¤Ò»¸öÕË»§Ö»ÄÜÒ»¸öÓÃ»§ÔÚÊ¹ÓÃ
      * <p>
-     * å‚æ•°:
-     * k2Member        K2Member      ç”¨æˆ·ä¿¡æ¯
-     * token          String         ç”¨æˆ·å­˜åœ¨redisä¸­çš„å”¯ä¸€æ ‡è¯†
+     * ²ÎÊı:
+     * k2Member        K2Member      ÓÃ»§ĞÅÏ¢
+     * token          String         ÓÃ»§´æÔÚredisÖĞµÄÎ¨Ò»±êÊ¶
      * <p>
-     * è¿”å›: SystemResult               è¿”å›æœ¬æ¬¡æ‰§è¡Œçš„ç»“æœ
-     * è¿”å›ç»“æœï¼šSystemResult
-     * çŠ¶æ€ç ï¼š200ç™»å½•æˆåŠŸã€201ç™»å½•æˆåŠŸï¼Œä½†æ˜¯å‰é¢å·²ç»æœ‰äººç™»å½•ã€100å¼‚å¸¸
+     * ·µ»Ø: SystemResult               ·µ»Ø±¾´ÎÖ´ĞĞµÄ½á¹û
+     * ·µ»Ø½á¹û£ºSystemResult
+     * ×´Ì¬Âë£º200µÇÂ¼³É¹¦¡¢201µÇÂ¼³É¹¦£¬µ«ÊÇÇ°ÃæÒÑ¾­ÓĞÈËµÇÂ¼¡¢100Òì³£
      * -----------------------------------------------------
      */
     public SystemResult refresh(K2Member k2Member, String token) throws Exception {
         Jedis jedis = jedisPool.getResource();
-        // åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç™»å½•
+        // ÅĞ¶ÏÓÃ»§ÊÇ·ñµÇÂ¼
         Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
         if (CollectionUtils.isEmpty(userMap)) {
-            // è¯´æ˜redisä¸­æ²¡æœ‰è¯¥ç”¨æˆ·çš„ä¿¡æ¯
-            // å¾€redisä¸­æ·»åŠ æ•°æ®
+            // ËµÃ÷redisÖĞÃ»ÓĞ¸ÃÓÃ»§µÄĞÅÏ¢
+            // ÍùredisÖĞÌí¼ÓÊı¾İ
             jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-            return new SystemResult(200, "ç™»å½•æˆåŠŸ", k2Member);
+            jedis.close();
+            return new SystemResult(200, "µÇÂ¼³É¹¦", k2Member);
         }
 
-        // é‡æ–°åˆ·æ–°ç”¨æˆ·åœ¨redisä¸­çš„æ•°æ®
+        // »ñÈ¡ÓÃ»§ÔÚredisÖĞµÄÊı¾İ ²é¿´ÊÇ·ñ´æÔÚ
+        SystemResult userInfoResult = getUserInfoByAccountAndToken(k2Member.getMemberAccount(), token);
+        if (userInfoResult != null && userInfoResult.getStatus() == 200) {
+            // ËµÃ÷´æÔÚ
+            jedis.close();
+            return userInfoResult;
+        }
+
+        // ÖØĞÂË¢ĞÂÓÃ»§ÔÚredisÖĞµÄÊı¾İ
         jedis.del(k2Member.getMemberAccount());
         jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-        return new SystemResult(201, "ç™»å½•æˆåŠŸ", k2Member);
+        jedis.close();
+        return new SystemResult(201, "µÇÂ¼³É¹¦", k2Member);
     }
 
 
