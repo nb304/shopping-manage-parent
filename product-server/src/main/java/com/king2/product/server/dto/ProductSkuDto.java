@@ -6,7 +6,7 @@ import com.king2.commons.pojo.K2ProductSkuKey;
 /**
  * 商品SKU的Dto数据
  */
-public class ProductSkuDto extends K2ProductSkuKey {
+public class ProductSkuDto extends K2ProductSkuKey implements Comparable<K2ProductSkuKey> {
 
     // 商品SKU的VALUE值
     private String product_sku_value;
@@ -17,5 +17,11 @@ public class ProductSkuDto extends K2ProductSkuKey {
 
     public void setProduct_sku_value(String product_sku_value) {
         this.product_sku_value = product_sku_value;
+    }
+
+    @Override
+    public int compareTo(K2ProductSkuKey o) {
+
+        return this.getSkuKeyOrder() - o.getSkuKeyOrder();
     }
 }

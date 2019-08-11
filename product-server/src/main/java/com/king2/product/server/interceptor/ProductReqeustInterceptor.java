@@ -32,6 +32,13 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        // *************************************** 测试部分
+        K2Member k2Member2 = new K2Member();
+        k2Member2.setMemberAccount("luqiqi");
+        k2Member2.setRetain1("1");
+        request.setAttribute("user", k2Member2);
+        if (k2Member2 != null) return true;
+
         // *************************************** 第一部分的校验
         // 获取浏览器的头
         String XRequested = request.getHeader("X-Requested-With");

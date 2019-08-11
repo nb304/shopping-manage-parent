@@ -31,6 +31,6 @@ public class ProductManageConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(productReqeustInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**").excludePathPatterns("/swagger-ui");
     }
 }

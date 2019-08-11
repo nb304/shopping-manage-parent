@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
@@ -32,6 +34,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class TestDemoController {
 
     @Autowired
@@ -63,6 +66,20 @@ public class TestDemoController {
         SystemResult refresh = userManageUtil.refresh(k2Member, token);
 
         return null;
+    }
+
+
+    @RequestMapping("/user/login")
+    public SystemResult login(String username, String password) {
+        System.out.println();
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+
+            return new SystemResult(100, "用户名密码为空", null);
+        } else if (!"admin".equals(username) || !"admin1".equals(password)) {
+            return new SystemResult(100, "用户名密码错误", null);
+        }
+
+        return new SystemResult("ok");
     }
 
 
@@ -132,27 +149,14 @@ public class TestDemoController {
         k2ProductWithBLOBs.setProductIfSupport(1);
         k2ProductWithBLOBs.setProductSupportDay(30);
         k2ProductWithBLOBs.setProductImage("adasd,13123");
+        k2ProductWithBLOBs.setProductSketchContentl("商品简述信息");
         k2ProductWithBLOBs.setProductImageDescribe("luqiqi,asdasd,qeqwe,dcada");
         System.out.println(JsonUtils.objectToJson(k2ProductWithBLOBs));
         List<ProductSkuPojo> dtos = new ArrayList<>();
         ProductSkuPojo dto = new ProductSkuPojo();
-        dto.setSpuOrder("1");
-        dto.setSkuKey("颜色");
+        dto.setSkuKeyOrder("1");
+        dto.setProductSkuKeyName("颜色");
         dto.setSkuValue("红色,黄色,绿色");
-        dto.setSystemDef(false);
-        ProductSkuPojo dto2 = new ProductSkuPojo();
-        dto2.setSpuOrder("2");
-        dto2.setSkuKey("内存");
-        dto2.setSkuValue("16GB,32GB,64GB");
-        dto2.setSystemDef(false);
-        ProductSkuPojo dto3 = new ProductSkuPojo();
-        dto3.setSpuOrder("3");
-        dto3.setSkuKey("版本");
-        dto3.setSkuValue("M6,M8,Iphone10");
-        dto3.setSystemDef(false);
-        dtos.add(dto);
-        dtos.add(dto2);
-        dtos.add(dto3);
         System.out.println(JsonUtils.objectToJson(dtos));
 
     }

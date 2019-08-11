@@ -2,6 +2,11 @@ package com.king2.product.server.cache;
 
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,12 +15,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*=======================================================
-	说明:    商品管理的访问类
+	说明:    商城管理系统（编号）缓存类
 
 	作者		时间					注释
   	俞烨		2019.08.09   			创建
 =======================================================*/
 @RestController
+@Api("商城编号缓存管理")
+@CrossOrigin
 public class NumberCacheManage {
 
     /**
@@ -30,6 +37,12 @@ public class NumberCacheManage {
      * -----------------------------------------------------
      */
     @PostMapping("/cache/number/add")
+    @ApiOperation(value = "往缓存服务器添加编号", notes = "")
+    @ApiImplicitParams
+            ({
+                    @ApiImplicitParam(name = "queueJson", value = "编号的JSON数据", required = true, dataType = "string"),
+                    @ApiImplicitParam(name = "type", value = "本次编号的类型", required = true, dataType = "string")
+            })
     public SystemResult add(@NotBlank(message = "队列的JSON数据不能为空") String queueJson,
                             @NotBlank(message = "type类型不能为空") String type) throws Exception {
 
@@ -38,9 +51,9 @@ public class NumberCacheManage {
 
         synchronized (systemCacheManage) {
             // 校验type
-            if (!type.equals(systemCacheManage.NUMBER_TYPE_ORDER) && !type.equals(systemCacheManage.NUMBER_TYPE_PRODUCT)) {
-                return new SystemResult(100, "类型筛选错误", null);
-            }
+//            if (!type.equals(systemCacheManage.NUMBER_TYPE_ORDER) && !type.equals(systemCacheManage.NUMBER_TYPE_PRODUCT)) {
+//                return new SystemResult(100, "类型筛选错误", null);
+//            }
 
             // 解析JSON数据
             ConcurrentLinkedQueue<String> concurrentLinkedQueue = JsonUtils.jsonToPojo(queueJson, ConcurrentLinkedQueue.class);
@@ -62,6 +75,11 @@ public class NumberCacheManage {
      * -----------------------------------------------------
      */
     @PostMapping("/cache/number/get")
+    @ApiOperation(value = "往缓存服务器获取一个编号", notes = "")
+    @ApiImplicitParams
+            ({
+                    @ApiImplicitParam(name = "type", value = "本次编号的类型", required = true, dataType = "string")
+            })
     public SystemResult get(@NotBlank(message = "type类型不能为空") String type) {
 
         // 创建缓存对象
@@ -69,9 +87,9 @@ public class NumberCacheManage {
 
         synchronized (systemCacheManage) {
             // 校验type
-            if (!type.equals(systemCacheManage.NUMBER_TYPE_ORDER) && !type.equals(systemCacheManage.NUMBER_TYPE_PRODUCT)) {
-                return new SystemResult(100, "类型筛选错误", null);
-            }
+//            if (!type.equals(systemCacheManage.NUMBER_TYPE_ORDER) && !type.equals(systemCacheManage.NUMBER_TYPE_PRODUCT)) {
+//                return new SystemResult(100, "类型筛选错误", null);
+//            }
 
             // 取出数据
             ConcurrentLinkedQueue<String> queue = systemCacheManage.getQueueMap().get(type);

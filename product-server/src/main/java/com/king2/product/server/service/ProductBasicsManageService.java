@@ -21,8 +21,47 @@ public interface ProductBasicsManageService {
      * productInfo      String          商品的JSON数据
      * K2Member         K2Member        操作的用户信息
      * <p>
-     * 返回: UserManageUtil              返回调用者的数据
+     * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
     SystemResult addProductSku(String skuJson, String productInfo, String state, K2Member K2Member) throws Exception;
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品页面所需要的信息
+     * <p>
+     * 参数:
+     * K2Member         K2Member        操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult addProductPageInfo(K2Member k2Member) throws Exception;
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  通过类目id获取商品SKU模板信息
+     * <p>
+     * 参数:
+     * cId         Integer          类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult getSkuInfoByCId(Integer cId);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品的SPU信息
+     * <p>
+     * 参数:
+     * productSpuJson         String            商品的SPU信息
+     * productId              Integer           商品的id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member);
+
 }

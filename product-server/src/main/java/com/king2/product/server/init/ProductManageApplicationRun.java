@@ -29,6 +29,7 @@ import java.util.Date;
 	作者		时间					注释
   	俞烨		2019.08.08   			创建
 =======================================================*/
+@Component
 public class ProductManageApplicationRun implements ApplicationRunner {
 
     // 注入商品编号存在redis中的key
@@ -96,18 +97,20 @@ public class ProductManageApplicationRun implements ApplicationRunner {
      * @throws Exception
      */
     public static void initProductNumber(JedisPool jedisPool, String PRODUCT_NUMBER_REDIS_KEY, RestTemplate restTemplate, String servletUrl) throws Exception {
-        Jedis jedis = jedisPool.getResource();
-        Lock lock = new DfsRedisLock(PRODUCT_NUMBER_REDIS_KEY + "_LOCK", 10, jedis);
-        // 开启锁
-        lock.lock();
+        Jedis jedis = null;
+        Lock lock = null;
         try {
+            jedis = jedisPool.getResource();
+            lock = new DfsRedisLock(PRODUCT_NUMBER_REDIS_KEY + "_LOCK", 10, jedis);
+            // 开启锁
+            lock.lock();
             // 获取商品编号的JSON串
             String productNumberJson = jedis.get(PRODUCT_NUMBER_REDIS_KEY);
             if (StringUtils.isEmpty(productNumberJson)) {
                 // 已经没有JSON串了 添加1000个JSON串
                 ShoppingNumberPojo sp = new ShoppingNumberPojo(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, "SP", 11, restTemplate, servletUrl);
                 // 获取商品信息判断是否为空
-                ShoppingNumberManage numberManage = new ShoppingNumberManage(sp,sp.NUMBER_TYPE_PRODUCT);
+                ShoppingNumberManage numberManage = new ShoppingNumberManage(sp, sp.NUMBER_TYPE_PRODUCT);
                 SystemResult systemResult = numberManage.addProductNumberGotoRedis(1000);
                 if (systemResult.getStatus() != 200) {
                     // 创建商品编号失败 写入日志
@@ -124,8 +127,8 @@ public class ProductManageApplicationRun implements ApplicationRunner {
             e.printStackTrace();
         } finally {
             // 用完就回收
-            jedis.close();
-            lock.unlock(SystemCacheManage.UNLOCK_REDIS_LUA);
+            if (jedis != null) jedis.close();
+            if (lock != null) lock.unlock(SystemCacheManage.UNLOCK_REDIS_LUA);
         }
 
     }

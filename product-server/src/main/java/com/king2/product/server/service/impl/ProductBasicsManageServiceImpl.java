@@ -1,16 +1,13 @@
 package com.king2.product.server.service.impl;
 
-import com.king2.commons.mapper.K2ProductMapper;
-import com.king2.commons.mapper.K2ProductSketchMapper;
-import com.king2.commons.pojo.K2Member;
-import com.king2.commons.pojo.K2ProductSkuPriceandkc;
-import com.king2.commons.pojo.K2ProductSkuValue;
-import com.king2.commons.pojo.K2ProductWithBLOBs;
+import com.king2.commons.mapper.*;
+import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
-import com.king2.product.server.appoint.ProductBasicsAppoint;
-import com.king2.product.server.appoint.ProductSkuAppoint;
-import com.king2.product.server.appoint.ProductSkuValueKcAppoint;
+import com.king2.product.server.appoint.*;
+import com.king2.product.server.dto.ShowProductAddPageDto;
+import com.king2.product.server.enmu.ProductEnum;
 import com.king2.product.server.mapper.ProductSkuMapper;
+import com.king2.product.server.mapper.ProductSpuMapper;
 import com.king2.product.server.service.ProductBasicsManageService;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import com.netflix.discovery.converters.Auto;
@@ -22,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.JedisPool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*=======================================================
@@ -49,6 +47,10 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     @Autowired
     private ProductSkuMapper productSkuMapper;
 
+    // 注入远程服务的sku-keyMapper
+    @Autowired
+    private K2ProductSkuKeyMapper k2ProductSkuKeyMapper;
+
     // 注入商品简述Mapper
     @Autowired
     private K2ProductSketchMapper k2ProductSketchMapper;
@@ -61,6 +63,24 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     @Value("${CACHE_SERVER_URL}")
     private String CACHE_SERVER_URL;
 
+    // 注入商品类目委派类
+    @Autowired
+    private ProductCategoryAppoint productCategoryAppoint;
+
+    // 注入商品品牌
+    @Autowired
+    private K2ProductBrandMapper k2ProductBrandMapper;
+
+    // 注入商品类目表
+    @Autowired
+    private K2ProductCategoryMapper k2ProductCategoryMapper;
+    // 注入商品SPUMapper
+    @Autowired
+    private ProductSpuMapper productSpuMapper;
+
+    // 注入商品无图片的地址
+    @Value("${PRODUCT_IMAGE_NOT_DEFINITION}")
+    private String PRODUCT_IMAGE_NOT_DEFINITION;
 
     /**
      * -----------------------------------------------------
@@ -86,7 +106,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             所以我们根据传入过来的state 判断本次是否需要添加商品信息
          */
         SystemResult addProductResult = ProductBasicsAppoint.addProduct
-                (jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, state, k2ProductSketchMapper, restTemplate, CACHE_SERVER_URL);
+                (jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, state, k2ProductSketchMapper, restTemplate, CACHE_SERVER_URL, PRODUCT_IMAGE_NOT_DEFINITION);
         if (addProductResult.getStatus() != 200) return addProductResult;
         // 获取商品的数据
         K2ProductWithBLOBs k2ProductWithBLOBs = (K2ProductWithBLOBs) addProductResult.getData();
@@ -99,7 +119,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         // 获取转换过来的Json数据
         List<ProductSkuPojo> skuPojos = (List<ProductSkuPojo>) skuResult.getData();
         // 添加商品sku-key的信息
-        SystemResult addSku_KeyResult = ProductSkuAppoint.addProductSkuKeyInfos(skuPojos, k2Member, k2ProductWithBLOBs, productSkuMapper);
+        SystemResult addSku_KeyResult = ProductSkuAppoint.addProductSkuKeyInfos(skuPojos, k2Member, k2ProductWithBLOBs, productSkuMapper, k2ProductSkuKeyMapper);
         if (addSku_KeyResult.getStatus() != 200) {
             throw new RuntimeException("添加商品SKU-key时，出错");
         }
@@ -117,6 +137,95 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             productSkuMapper.batchInsertSkuValueKc(kcs);
         }
 
-        return new SystemResult(200, "添加商品的SKU成功，并保存了商品信息", null);
+        return new SystemResult(200, "添加商品的SKU成功，并保存了商品信息", k2ProductWithBLOBs);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品页面所需要的信息
+     * <p>
+     * 参数:
+     * K2Member         K2Member        操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult addProductPageInfo(K2Member k2Member) throws Exception {
+
+        // 商品类目的信息
+        SystemResult productCategoryInfo = productCategoryAppoint.getProductCategoryInfo();
+        if (productCategoryInfo.getStatus() != 200) return productCategoryInfo;
+        // 取出数据
+        ShowProductAddPageDto showProductAddPageDto = (ShowProductAddPageDto) productCategoryInfo.getData();
+
+        // 查询商品品牌信息
+        K2ProductBrandExample brandExample = new K2ProductBrandExample();
+        brandExample.createCriteria().andBrandStoreIdEqualTo(Integer.parseInt(k2Member.getRetain1()))
+                .andBrandStateEqualTo(ProductEnum.PRODUCT_BRAND_TYPE1);
+        List<K2ProductBrand> k2ProductBrands = k2ProductBrandMapper.selectByExample(brandExample);
+        showProductAddPageDto.setProductBrands(k2ProductBrands);
+
+        return new SystemResult(showProductAddPageDto);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  通过类目id获取商品SKU模板信息
+     * <p>
+     * 参数:
+     * cId         Integer          类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult getSkuInfoByCId(Integer cId) {
+
+        // 查询该商品类目是否存在
+        K2ProductCategory k2ProductCategory = k2ProductCategoryMapper.selectByPrimaryKey(cId);
+        if (k2ProductCategory == null) {
+            return new SystemResult(100, "你选中的类目不存在,请刷新页面重试", null);
+        } else if (k2ProductCategory.getCategoryIsParent() == 1) {
+            return new SystemResult(100, "请将类目精确到二级类目", null);
+        }
+
+        // 查找属于该商品类目的SKU信息
+        List<K2ProductSkuKey> skuInfoByCid = productSkuMapper.getSkuInfoByCid(cId);
+        // 创建前端需要的模板数据
+        List<ProductSkuPojo> productSkuPojos = new ArrayList<>();
+        for (K2ProductSkuKey productSkuKey : skuInfoByCid) {
+            ProductSkuPojo productSkuPojo = new ProductSkuPojo();
+            productSkuPojo.setSkuValue("");
+            productSkuPojo.setProductSkuKeyName(productSkuKey.getProductSkuKeyName());
+            productSkuPojo.setSkuKeyOrder(productSkuKey.getSkuKeyOrder()+"");
+            productSkuPojo.setProductSkuKeyId(productSkuKey.getProductSkuKeyId()+"");
+            productSkuPojo.setIsSystemCreate(productSkuKey.getIsSystemCreate());
+            productSkuPojos.add(productSkuPojo);
+        }
+        return new SystemResult(productSkuPojos);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品的SPU信息
+     * <p>
+     * 参数:
+     * productSpuJson         String            商品的SPU信息
+     * productId              Integer           商品的id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member) {
+
+        // 校验商品的SPU是否正确
+        SystemResult result = ProductSpuAppoint.checkProductSpuJsonInfo(productSpuJson, productId, k2Member);
+        if (result.getStatus() != 200) return result;
+
+        // 校验数据成功,添加spu
+        productSpuMapper.batchInsertProductSpu((List<K2ProductSpu>) result.getData());
+        return result;
     }
 }
