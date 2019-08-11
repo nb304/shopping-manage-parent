@@ -17,6 +17,11 @@ public class ShoppingNumberPojo {
      */
     public static final String NUMBER_TYPE_ORDER = "NUMBER_CACHE_ORDER";
 
+    /**
+     * 商品图片的名称
+     */
+    public static final String PRODUCT_NAME_IMAGE = "PRODUCT_NAME_IMAGE";
+
     public ShoppingNumberPojo(JedisPool jedisPool, String SCRIPT, String NUMBER_REDIS_KEY, String PREFIX, int SIZE, RestTemplate restTemplate, String servletUrl) {
         this.jedisPool = jedisPool;
         this.SCRIPT = SCRIPT;

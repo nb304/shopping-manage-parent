@@ -49,7 +49,7 @@ public class ShoppingNumberManage {
         SystemResult result = shoppingNumberPojo.checkDataInfo();
         if (result.getStatus() != 200) throw new RuntimeException(result.getMsg());
         this.shoppingNumberPojo = shoppingNumberPojo;
-        if (StringUtils.isEmpty(type) || (!type.equals(shoppingNumberPojo.NUMBER_TYPE_PRODUCT) && !type.equals(shoppingNumberPojo.NUMBER_TYPE_ORDER))) {
+        if (StringUtils.isEmpty(type)) {
             throw new RuntimeException("请选择正确的类型");
         }
         this.type = type;
