@@ -89,29 +89,10 @@ public class ShoppingNumberManage {
             e.printStackTrace();
             // 添加到redis中失败了 我们就需要添加到缓存服务器中去
             addProductNumberGotoCache(numberQueue, shoppingNumberPojo.getRestTemplate(), shoppingNumberPojo.getServletUrl());
+        } finally {
+            JEDIS.close();
         }
-        JEDIS.close();
         return new SystemResult("成功");
-    }
-
-    /**
-     * -----------------------------------------------------
-     * 功能:  添加编号到Redis中失败，添加到服务器缓存区去
-     * <p>
-     * 参数:
-     * numberQueue         ConcurrentLinkedQueue<String>                 编号队列
-     * restTemplate        RestTemplate                                  远程调用模板
-     * servlerUrl          String                                        调用的服务地址
-     * <p>
-     * 返回: SystemResult              返回调用者的数据
-     * -----------------------------------------------------
-     */
-    public static SystemResult addProductNumberGotoCache(ConcurrentLinkedQueue<String> numberQueue, RestTemplate restTemplate, String servlerUrl) throws Exception {
-        // 调用远程服务 将数据带入缓存服务器中
-        MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
-        requestEntity.add("queueJson", JsonUtils.objectToJson(numberQueue));
-        SystemResult result = restTemplate.postForObject(servlerUrl + "/cache/number/add?type=" + type, requestEntity, SystemResult.class);
-        return result;
     }
 
     /**
@@ -147,7 +128,7 @@ public class ShoppingNumberManage {
 
     /**
      * -----------------------------------------------------
-     * 功能:  根据redis的key获取对应的商品编号
+     * 功能:  根据redis的key获取对应的编号
      * <p>
      * 参数:
      * redisKey     String          Redis的key
@@ -205,9 +186,30 @@ public class ShoppingNumberManage {
             return new SystemResult(numberByCacheServer);
         } finally {
             // 解锁
-            // lock.unlock(shoppingNumberPojo.getSCRIPT());
+            lock.unlock(shoppingNumberPojo.getSCRIPT());
             JEDIS.close();
         }
+    }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加编号到Redis中失败，添加到服务器缓存区去
+     * <p>
+     * 参数:
+     * numberQueue         ConcurrentLinkedQueue<String>                 编号队列
+     * restTemplate        RestTemplate                                  远程调用模板
+     * servlerUrl          String                                        调用的服务地址
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public static SystemResult addProductNumberGotoCache(ConcurrentLinkedQueue<String> numberQueue, RestTemplate restTemplate, String servlerUrl) throws Exception {
+        // 调用远程服务 将数据带入缓存服务器中
+        MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
+        requestEntity.add("queueJson", JsonUtils.objectToJson(numberQueue));
+        SystemResult result = restTemplate.postForObject(servlerUrl + "/cache/number/add?type=" + type, requestEntity, SystemResult.class);
+        return result;
     }
 
     /**
