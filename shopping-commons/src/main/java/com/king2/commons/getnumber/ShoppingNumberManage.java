@@ -67,31 +67,39 @@ public class ShoppingNumberManage {
      */
     public SystemResult addProductNumberGotoRedis(int addSize) throws Exception {
 
+        Jedis JEDIS = null;
         // 获取jedis实例
-        Jedis JEDIS = shoppingNumberPojo.getJedisPool().getResource();
-        ConcurrentLinkedQueue<String> numberQueue = new ConcurrentLinkedQueue<>();
-        // 创建hashMap保证唯一
-        Map<String, String> numberMap = new HashMap<>();
-        /**
-         *   调用方法 往map里面设置参数
-         *    numberMap为map的实例
-         *    size 往map里面添加几个参数
-         */
-        addShoppingNumberGetToMap(numberMap, addSize);
-        // 获取成功 遍历Map值存入Queue中
-        for (Map.Entry<String, String> entry : numberMap.entrySet()) {
-            numberQueue.add(entry.getValue());
-        }
-        // 重新存入redis中
         try {
-            JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
+            JEDIS = shoppingNumberPojo.getJedisPool().getResource();
+            ConcurrentLinkedQueue<String> numberQueue = new ConcurrentLinkedQueue<>();
+            // 创建hashMap保证唯一
+            Map<String, String> numberMap = new HashMap<>();
+            /**
+             *   调用方法 往map里面设置参数
+             *    numberMap为map的实例
+             *    size 往map里面添加几个参数
+             */
+            addShoppingNumberGetToMap(numberMap, addSize);
+            // 获取成功 遍历Map值存入Queue中
+            for (Map.Entry<String, String> entry : numberMap.entrySet()) {
+                numberQueue.add(entry.getValue());
+            }
+            // 重新存入redis中
+            try {
+                JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 添加到redis中失败了 我们就需要添加到缓存服务器中去
+                addProductNumberGotoCache(numberQueue, shoppingNumberPojo.getRestTemplate(), shoppingNumberPojo.getServletUrl());
+            } finally {
+                if (JEDIS != null) JEDIS.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            // 添加到redis中失败了 我们就需要添加到缓存服务器中去
-            addProductNumberGotoCache(numberQueue, shoppingNumberPojo.getRestTemplate(), shoppingNumberPojo.getServletUrl());
         } finally {
-            JEDIS.close();
+            if (JEDIS != null) JEDIS.close();
         }
+
         return new SystemResult("成功");
     }
 
@@ -140,13 +148,15 @@ public class ShoppingNumberManage {
     public SystemResult getNumberByRedisKey(String redisKey, int lockTimeOut) throws Exception {
 
         // 获取jedis实例
-        Jedis JEDIS = shoppingNumberPojo.getJedisPool().getResource();
+        Jedis JEDIS = null;
 
         // 加锁
         // 开启锁
-        Lock lock = new DfsRedisLock(this.shoppingNumberPojo.getNUMBER_REDIS_KEY() + "_LOCK", lockTimeOut, JEDIS);
-        lock.lock();
+        Lock lock = null;
         try {
+            JEDIS = shoppingNumberPojo.getJedisPool().getResource();
+            lock = new DfsRedisLock(this.shoppingNumberPojo.getNUMBER_REDIS_KEY() + "_LOCK", lockTimeOut, JEDIS);
+            lock.lock();
             // 队列编号的JSON信息
             String numbers = "";
             // 根据key获取编号
@@ -173,9 +183,7 @@ public class ShoppingNumberManage {
             }
             Object poll = numberQueue.poll();
             // 取出数据后 重新写入redis
-            Jedis resource = shoppingNumberPojo.getJedisPool().getResource();
-            resource.set(redisKey, JsonUtils.objectToJson(numberQueue));
-            resource.close();
+            JEDIS.set(redisKey, JsonUtils.objectToJson(numberQueue));
             // 返回数据
             return new SystemResult(poll);
         } catch (Exception e) {
@@ -186,8 +194,8 @@ public class ShoppingNumberManage {
             return new SystemResult(numberByCacheServer);
         } finally {
             // 解锁
-            lock.unlock(shoppingNumberPojo.getSCRIPT());
-            JEDIS.close();
+            if (lock != null) lock.unlock(shoppingNumberPojo.getSCRIPT());
+            if (JEDIS != null) JEDIS.close();
         }
     }
 

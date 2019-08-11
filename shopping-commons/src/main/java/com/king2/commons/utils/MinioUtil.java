@@ -2,6 +2,9 @@ package com.king2.commons.utils;
 
 import com.king2.commons.result.SystemResult;
 import io.minio.MinioClient;
+import io.minio.errors.MinioException;
+import io.minio.policy.BucketPolicy;
+import io.minio.policy.PolicyType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,31 +74,4 @@ public class MinioUtil {
         return new SystemResult(url);
     }
 
-    /*public static void main(String[] args) throws Exception {
-        try {
-
-
-            // 使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
-            MinioClient minioClient = new MinioClient("http://39.105.41.2:9000", "11RZ2CRLYMM2G6G65J77", "bmYqP1euEGZIbqz3cVOzZ0nAnrbu48ORiOVPIyAT");
-
-            // 检查存储桶是否已经存在
-            boolean isExist = minioClient.bucketExists("king2-product-image");
-            if (isExist) {
-                System.out.println("Bucket already exists.");
-            } else {
-                // 创建一个名为asiatrip的存储桶，用于存储照片的zip文件。
-                minioClient.makeBucket("asiatrip");
-            }
-
-            // 读取一个文件
-            File file = new File("D:\\ideaBackImg.jpg");
-
-            // 使用putObject上传一个文件到存储桶中。
-            minioClient.putObject("king2-product-image", "asiaphotos.jpg", new FileInputStream(file), "image/jpeg");
-            String url = minioClient.getObjectUrl("king2-product-image", "asiaphotos.jpg");
-            System.out.println(url);
-        } catch (MinioException e) {
-            System.out.println("Error occurred: " + e);
-        }
-    }*/
 }

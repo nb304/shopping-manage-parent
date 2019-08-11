@@ -72,7 +72,7 @@ public class K2Product {
     /**
      * 支持的天数  ---默认0
      */
-    private Integer productSupportDay;
+        private Integer productSupportDay;
 
     /**
      * 商品的状态信息  ---1上架 2下架 3删除 4编辑中

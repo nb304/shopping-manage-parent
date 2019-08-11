@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.io.IOException;
 import java.util.Map;
 
 /*=======================================================
@@ -31,7 +32,7 @@ public class UserManageUtil {
     /**
      * 用户账号存在Cookie中的key
      */
-    public static final  String USER_COOKIE_USERNAME = "king2-user-name";
+    public static final String USER_COOKIE_USERNAME = "king2-user-name";
 
     /**
      * -----------------------------------------------------
@@ -64,30 +65,34 @@ public class UserManageUtil {
      * -----------------------------------------------------
      */
     public SystemResult getUserInfoByAccountAndToken(String account, String token) {
-        // 获取jedis实例
-        Jedis jedis = jedisPool.getResource();
-        // 判断accout是否为空
-        if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
-            return null;
-        }
 
-        // 获取用户在redis中的信息
-        String userJson = jedis.hget(account, token);
-        // 判断是否存在该用户信息
-        if (StringUtils.isEmpty(userJson)) {
-            jedis.close();
-            return new SystemResult(100, "该账号在其他地方登录", null);
-        }
-        // 将用户Json转换成用户对象
+        // 获取jedis实例
+        Jedis jedis = null;
         try {
+            jedis = jedisPool.getResource();
+            // 判断accout是否为空
+            if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
+                return null;
+            }
+            // 获取用户在redis中的信息
+            String userJson = jedis.hget(account, token);
+            // 判断是否存在该用户信息
+            if (StringUtils.isEmpty(userJson)) {
+                jedis.close();
+                return new SystemResult(100, "该账号在其他地方登录", null);
+            }
+            // 将用户Json转换成用户对象
             K2Member k2Member = JsonUtils.jsonToPojo(userJson, K2Member.class);
-            jedis.close();
             return new SystemResult(k2Member);
+        } catch (IOException e) {
+            return new SystemResult(100, "用户JSON转换失败,请检查JSON格式是否正确。", null);
         } catch (Exception e) {
             e.printStackTrace();
-            jedis.close();
-            return new SystemResult(100, "用户JSON转换失败,请检查JSON格式是否正确。", null);
+            return new SystemResult(100, "连接池获取失败。", null);
+        } finally {
+            if (jedis != null) jedis.close();
         }
+
     }
 
 
@@ -105,30 +110,39 @@ public class UserManageUtil {
      * -----------------------------------------------------
      */
     public SystemResult refresh(K2Member k2Member, String token) throws Exception {
-        Jedis jedis = jedisPool.getResource();
-        // 判断用户是否登录
-        Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
-        if (CollectionUtils.isEmpty(userMap)) {
-            // 说明redis中没有该用户的信息
-            // 往redis中添加数据
+
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            // 判断用户是否登录
+            Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
+            if (CollectionUtils.isEmpty(userMap)) {
+                // 说明redis中没有该用户的信息
+                // 往redis中添加数据
+                jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
+                jedis.close();
+                return new SystemResult(200, "登录成功", k2Member);
+            }
+
+            SystemResult userInfoResult = getUserInfoByAccountAndToken(k2Member.getMemberAccount(), token);
+            if (userInfoResult != null && userInfoResult.getStatus() == 200) {
+                // 说明存在
+                jedis.close();
+                return userInfoResult;
+            }
+
+            // 重新刷新用户在redis中的数据
+            jedis.del(k2Member.getMemberAccount());
             jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-            jedis.close();
-            return new SystemResult(200, "登录成功", k2Member);
+            return new SystemResult(201, "登录成功", k2Member);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new SystemResult(500, "系统内部异常", k2Member);
+        } finally {
+            if (jedis != null) jedis.close();
         }
 
-        // 获取用户在redis中的数据 查看是否存在
-        SystemResult userInfoResult = getUserInfoByAccountAndToken(k2Member.getMemberAccount(), token);
-        if (userInfoResult != null && userInfoResult.getStatus() == 200) {
-            // 说明存在
-            jedis.close();
-            return userInfoResult;
-        }
 
-        // 重新刷新用户在redis中的数据
-        jedis.del(k2Member.getMemberAccount());
-        jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-        jedis.close();
-        return new SystemResult(201, "登录成功", k2Member);
     }
 
 

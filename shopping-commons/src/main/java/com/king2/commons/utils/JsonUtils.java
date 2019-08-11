@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.List;
 
-/**
- * 淘淘商城自定义响应结构
- */
+
 public class JsonUtils {
 
     // 定义jackson对象
@@ -33,7 +32,7 @@ public class JsonUtils {
      * @param jsonData json数据
      * @return
      */
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) throws Exception {
+    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) throws IOException {
         T t = MAPPER.readValue(jsonData, beanType);
         return t;
     }
