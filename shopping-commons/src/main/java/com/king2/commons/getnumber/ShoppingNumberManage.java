@@ -68,10 +68,11 @@ public class ShoppingNumberManage {
     public SystemResult addProductNumberGotoRedis(int addSize) throws Exception {
 
         Jedis JEDIS = null;
+        ConcurrentLinkedQueue<String> numberQueue = null;
         // 获取jedis实例
         try {
             JEDIS = shoppingNumberPojo.getJedisPool().getResource();
-            ConcurrentLinkedQueue<String> numberQueue = new ConcurrentLinkedQueue<>();
+            numberQueue = new ConcurrentLinkedQueue<>();
             // 创建hashMap保证唯一
             Map<String, String> numberMap = new HashMap<>();
             /**
@@ -85,17 +86,12 @@ public class ShoppingNumberManage {
                 numberQueue.add(entry.getValue());
             }
             // 重新存入redis中
-            try {
-                JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
-            } catch (Exception e) {
-                e.printStackTrace();
-                // 添加到redis中失败了 我们就需要添加到缓存服务器中去
-                addProductNumberGotoCache(numberQueue, shoppingNumberPojo.getRestTemplate(), shoppingNumberPojo.getServletUrl());
-            } finally {
-                if (JEDIS != null) JEDIS.close();
-            }
+            JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
         } catch (Exception e) {
             e.printStackTrace();
+            // 添加到redis中失败了 我们就需要添加到缓存服务器中去
+            if (numberQueue != null && !numberQueue.isEmpty())
+                addProductNumberGotoCache(numberQueue, shoppingNumberPojo.getRestTemplate(), shoppingNumberPojo.getServletUrl());
         } finally {
             if (JEDIS != null) JEDIS.close();
         }
