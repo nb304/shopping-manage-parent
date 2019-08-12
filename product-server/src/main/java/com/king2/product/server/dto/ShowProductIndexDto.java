@@ -8,10 +8,20 @@ import java.util.List;
 public class ShowProductIndexDto {
 
 
-   // 商品信息
+    // 商品信息
     private List<ProductInfoToRedisDataDto> productInfoToRedisDataDtos;
     // 该店铺的商品总数量
     private Integer totalSize;
+    // 总页数
+    private Integer totalPage;
+
+    public Integer getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
+    }
 
     public List<ProductInfoToRedisDataDto> getProductInfoToRedisDataDtos() {
         return productInfoToRedisDataDtos;

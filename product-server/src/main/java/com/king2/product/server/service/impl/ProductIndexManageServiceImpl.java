@@ -1,9 +1,12 @@
 package com.king2.product.server.service.impl;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
+import com.king2.product.server.appoint.ProductIndexAppoint;
 import com.king2.product.server.dto.ProductIndexDto;
+import com.king2.product.server.dto.ProductInfoToRedisDataDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.service.ProductIndexManageService;
@@ -27,7 +30,7 @@ import java.util.List;
 @Service
 public class ProductIndexManageServiceImpl implements ProductIndexManageService {
 
-    // 注入商品在redis中的key
+    /*// 注入商品在redis中的key
     @Value("${PRODUCT_INFO_REDIS_KEY}")
     private String PRODUCT_INFO_REDIS_KEY;
 
@@ -41,6 +44,14 @@ public class ProductIndexManageServiceImpl implements ProductIndexManageService 
     // 注入商品Mapper
     @Autowired
     private ProductManageMapper productManageMapper;
+
+    // 注入每个商家在redis中存入的商品最大值
+    @Value("${PRODUCT_GOTO_REDIS_MAX_SIZE}")
+    private Integer PRODUCT_GOTO_REDIS_MAX_SIZE;*/
+
+    // 注入商品首页管理委托类
+    @Autowired
+    private ProductIndexAppoint productIndexAppoint;
 
     /**
      * -----------------------------------------------------
@@ -56,25 +67,17 @@ public class ProductIndexManageServiceImpl implements ProductIndexManageService 
     @Override
     public SystemResult index(K2Member k2Member, ProductIndexDto dto) {
 
+        // 根据条件获取商品的信息
+        SystemResult productInfoByQuery = productIndexAppoint.getProductInfoByQuery(k2Member, dto);
 
-        try {
-            // 获取redis模板
-            ValueOperations<Object, Object> redis = redisTemplate.opsForValue();
-            // 查询Redis中是否存在数据
-            String productStrInfo = (String) redis.get(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());
-            // 判断redis中商品信息是否为空
-            if (!StringUtils.isEmpty(productStrInfo)) {
-                // redis中有数据 将数据转换成模板
-                List lists = JsonUtils.jsonToList(productStrInfo, List.class);
-            } else {
-                // redis中没有数据从数据中查询数据 并保存到Redis当中去
-                productManageMapper.getProductByStoreId(Integer.parseInt(k2Member.getRetain1()), 1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+        // 封装返回条件
+        ShowProductIndexDto data = (ShowProductIndexDto) productInfoByQuery.getData();
+        dto.setTotalSize(data.getTotalSize());
+        dto.setTotlaPage(data.getTotalPage());
 
-        }
-        return null;
+        // 获取指定的商品数据
+        SystemResult currentRequestProductInfos = productIndexAppoint.getCurrentRequestProductInfos(k2Member, dto, data.getProductInfoToRedisDataDtos());
+        dto.setProductDatas((List) currentRequestProductInfos.getData());
+        return new SystemResult(dto);
     }
 }

@@ -1,7 +1,10 @@
 package com.king2.product.server.controller;
 
+import com.king2.commons.pojo.K2Member;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductIndexDto;
+import com.king2.product.server.service.ProductIndexManageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 =======================================================*/
 @RestController
 @CrossOrigin
-@RequestMapping("/product/index")
+@RequestMapping("/product")
 @Validated
 public class ProductIndexManageController {
+
+    // 注入商品首页管理Service
+    @Autowired
+    private ProductIndexManageService productIndexManageService;
 
     /**
      * -----------------------------------------------------
@@ -31,8 +38,11 @@ public class ProductIndexManageController {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    @RequestMapping("/")
-    public SystemResult index(HttpServletRequest request, ProductIndexDto dto) {
-        return null;
+    @RequestMapping("/index")
+    public SystemResult index(HttpServletRequest request, @Validated ProductIndexDto dto) {
+        K2Member user = (K2Member) request.getAttribute("user");
+        // 调用服务
+        SystemResult index = productIndexManageService.index(user, dto);
+        return index;
     }
 }
