@@ -64,4 +64,6 @@ public interface ProductBasicsManageService {
      */
     SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member);
 
+
+
 }

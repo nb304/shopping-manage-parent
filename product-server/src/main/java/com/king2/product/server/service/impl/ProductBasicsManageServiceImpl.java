@@ -6,8 +6,10 @@ import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.*;
 import com.king2.product.server.dto.ShowProductAddPageDto;
 import com.king2.product.server.enmu.ProductEnum;
+import com.king2.product.server.locks.ProductQueueLocks;
 import com.king2.product.server.mapper.ProductSkuMapper;
 import com.king2.product.server.mapper.ProductSpuMapper;
+import com.king2.product.server.queue.ProductSuccessQueue;
 import com.king2.product.server.service.ProductBasicsManageService;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import com.netflix.discovery.converters.Auto;
@@ -21,6 +23,8 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
 	说明:    商品基础管理Service实现类
@@ -101,8 +105,8 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
 
         /*
         添加商品信息
-        这里明明是添加商品的SKU为什么会有添加商品信息的方法存在呢？
-            因为商品的SKU开销很大 我们需要将数据存放到数据库当中去，存放的时候需要指定商品信息
+        这里明明是添加商品的SKU为
+            因为商品的SKU开销很大 我们需要将数什么会有添加商品信息的方法存在呢？据存放到数据库当中去，存放的时候需要指定商品信息
             所以我们根据传入过来的state 判断本次是否需要添加商品信息
          */
         SystemResult addProductResult = ProductBasicsAppoint.addProduct
@@ -135,6 +139,26 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             List<K2ProductSkuPriceandkc> kcs = (List<K2ProductSkuPriceandkc>) productSkuValueKcDatas.getData();
             // 批量插入SKU-Value的库存和价格
             productSkuMapper.batchInsertSkuValueKc(kcs);
+        }
+
+        // 添加商品成功 往队列发送信息同步solr
+
+        // 获取锁
+        ProductQueueLocks instance = ProductQueueLocks.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
+        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
+        // 加锁
+        reentrantLock.lock();
+        try {
+            // 获取队列数据
+            ProductSuccessQueue successQueue = ProductSuccessQueue.getInstance();
+            successQueue.getProdudctInfoQueue().add(k2ProductWithBLOBs);
+            // 唤醒所有线程
+            condition.signalAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reentrantLock.unlock();
         }
 
         return new SystemResult(200, "添加商品的SKU成功，并保存了商品信息", k2ProductWithBLOBs);
@@ -198,8 +222,8 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             ProductSkuPojo productSkuPojo = new ProductSkuPojo();
             productSkuPojo.setSkuValue("");
             productSkuPojo.setProductSkuKeyName(productSkuKey.getProductSkuKeyName());
-            productSkuPojo.setSkuKeyOrder(productSkuKey.getSkuKeyOrder()+"");
-            productSkuPojo.setProductSkuKeyId(productSkuKey.getProductSkuKeyId()+"");
+            productSkuPojo.setSkuKeyOrder(productSkuKey.getSkuKeyOrder() + "");
+            productSkuPojo.setProductSkuKeyId(productSkuKey.getProductSkuKeyId() + "");
             productSkuPojo.setIsSystemCreate(productSkuKey.getIsSystemCreate());
             productSkuPojos.add(productSkuPojo);
         }
