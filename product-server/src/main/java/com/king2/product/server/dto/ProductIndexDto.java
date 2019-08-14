@@ -1,5 +1,7 @@
 package com.king2.product.server.dto;
 
+import com.king2.product.server.enmu.ProductStateEnum;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -25,11 +27,15 @@ public class ProductIndexDto {
     private Integer index;
     // 当前分页的数据
     private List productDatas;
+
+    // 商品状态的集合信息
+    private List<ProductStateDto> states;
+
     // 条件 列表
     private String productName;
     // 商品状态
     // 商品的状态信息  ---0 全部 1上架 2下架 3删除 4编辑中 5 审核中 6 库存充足 7 库存不足
-    private String state = "1";
+    private String state = "0";
 
     public String getProductName() {
         return productName;
@@ -93,5 +99,14 @@ public class ProductIndexDto {
 
     public void setProductDatas(List productDatas) {
         this.productDatas = productDatas;
+    }
+
+
+    public List<ProductStateDto> getStates() {
+        return states;
+    }
+
+    public void setStates(List<ProductStateDto> states) {
+        this.states = states;
     }
 }

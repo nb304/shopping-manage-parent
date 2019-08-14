@@ -16,7 +16,7 @@ public class LockPojo {
 
     public void setLock(ReentrantLock lock) {
         this.lock = lock;
-        this.condition = lock.newCondition();
+        this.condition = this.lock.newCondition();
     }
 
     public Condition getCondition() {

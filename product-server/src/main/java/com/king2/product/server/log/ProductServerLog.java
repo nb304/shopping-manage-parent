@@ -3,11 +3,6 @@ package com.king2.product.server.log;
 
 import cn.hutool.core.date.DateUtil;
 import com.king2.commons.utils.FileUtil;
-import org.springframework.util.ClassUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.util.Date;
 
 /*=======================================================

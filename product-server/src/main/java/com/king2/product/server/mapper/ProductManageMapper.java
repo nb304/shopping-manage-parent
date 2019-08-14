@@ -13,6 +13,17 @@ import java.util.List;
 public interface ProductManageMapper {
 
 
+    /**
+     * 查询商品信息
+     *
+     * @param storeId     店铺id
+     * @param state       商品状态
+     * @param index       起始索引
+     * @param maxTotal    查几条
+     * @param kc          库存大于几条的
+     * @param productName 商品名称
+     * @return
+     */
     @Select("<script>" +
             "SELECT " +
             "p.`product_id`,p.`product_name` ,s.`stroe_name` belong_store_name, " +
@@ -41,6 +52,12 @@ public interface ProductManageMapper {
     List<ProductInfoToRedisDataDto> getProductByStoreId(@Param("storeId") Integer storeId, @Param("state") Integer state, @Param("index") Integer index,
                                                         @Param("maxTotal") Integer maxTotal, @Param("kc") Integer kc, @Param("productName") String productName);
 
+    /**
+     * 查询该店铺的商品有几条
+     *
+     * @param storeId 店铺id
+     * @return
+     */
     @Select("SELECT COUNT(*) FROM k2_product WHERE product_store_id = #{storeId}")
     Integer getProductCountByStoreId(Integer storeId);
 }

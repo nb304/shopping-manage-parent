@@ -7,6 +7,7 @@ import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.*;
 import com.king2.product.server.cache.SystemCacheManage;
+import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * ????
@@ -132,6 +135,34 @@ public class TestDemoController {
         String addRedisLockFlag = jedis.set("DDLOCK", "1123", "NX", "EX", 100);
 
         return null;
+    }
+
+
+    /**
+     * 测试锁
+     * @return
+     */
+    @RequestMapping("/lock")
+    public SystemResult lock() {
+        // 获取锁对象
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
+        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
+        try {
+            System.out.println("尝试加锁！！！！");
+            reentrantLock.lock();
+            System.out.println("加锁成功!!!!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("尝试解锁！！！");
+            // 唤醒所有线程
+            condition.signalAll();
+            reentrantLock.unlock();
+            System.out.println("唤醒成功！！！！");
+            System.out.println("尝试解锁成功！！！");
+        }
+        return new SystemResult("ok");
     }
 
     public static void main(String[] args) throws Exception {

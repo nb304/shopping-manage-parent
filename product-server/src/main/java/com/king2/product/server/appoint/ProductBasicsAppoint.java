@@ -10,6 +10,7 @@ import com.king2.commons.utils.JsonUtils;
 import com.king2.commons.utils.RedisUtil;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
+import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,7 +252,7 @@ public class ProductBasicsAppoint {
 
         // 补全数据
         // ---1上架 2下架 3删除 4编辑中 5 审核中
-        k2Product.setProductState(4);
+        k2Product.setProductState(ProductStateEnum.EDIT.getValue());
         k2Product.setProductCreateTime(new Date());
         k2Product.setProductCreateUserid(k2Member.getMemberId());
         k2Product.setProductCreateUsername(k2Member.getMemberAccount());

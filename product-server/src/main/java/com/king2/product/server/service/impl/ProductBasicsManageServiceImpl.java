@@ -6,13 +6,12 @@ import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.*;
 import com.king2.product.server.dto.ShowProductAddPageDto;
 import com.king2.product.server.enmu.ProductEnum;
-import com.king2.product.server.locks.ProductQueueLocks;
+import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductSkuMapper;
 import com.king2.product.server.mapper.ProductSpuMapper;
 import com.king2.product.server.queue.ProductSuccessQueue;
 import com.king2.product.server.service.ProductBasicsManageService;
 import com.king2.product.server.pojo.ProductSkuPojo;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -144,7 +143,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         // 添加商品成功 往队列发送信息同步solr
 
         // 获取锁
-        ProductQueueLocks instance = ProductQueueLocks.getInstance();
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
         ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
         Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
         // 加锁

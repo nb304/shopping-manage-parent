@@ -7,7 +7,9 @@ import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.appoint.ProductIndexAppoint;
 import com.king2.product.server.dto.ProductIndexDto;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
+import com.king2.product.server.dto.ProductStateDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
+import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.service.ProductIndexManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,24 +33,6 @@ import java.util.List;
 @Service
 public class ProductIndexManageServiceImpl implements ProductIndexManageService {
 
-    /*// 注入商品在redis中的key
-    @Value("${PRODUCT_INFO_REDIS_KEY}")
-    private String PRODUCT_INFO_REDIS_KEY;
-
-    // 注入redis连接池
-    @Autowired
-    private JedisPool jedisPool;
-
-    @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
-
-    // 注入商品Mapper
-    @Autowired
-    private ProductManageMapper productManageMapper;
-
-    // 注入每个商家在redis中存入的商品最大值
-    @Value("${PRODUCT_GOTO_REDIS_MAX_SIZE}")
-    private Integer PRODUCT_GOTO_REDIS_MAX_SIZE;*/
 
     // 注入商品首页管理委托类
     @Autowired
@@ -66,6 +51,17 @@ public class ProductIndexManageServiceImpl implements ProductIndexManageService 
      */
     @Override
     public SystemResult index(K2Member k2Member, ProductIndexDto dto) {
+
+        // 封装商品状态
+        List<ProductStateDto> stateDtos = new ArrayList<>();
+        ProductStateEnum[] values = ProductStateEnum.values();
+        for (int i = 0; i < values.length; i++) {
+            ProductStateDto stateDto = new ProductStateDto();
+            stateDto.setKey(values[i].getKey());
+            stateDto.setValue(values[i].getValue());
+            stateDtos.add(stateDto);
+        }
+        dto.setStates(stateDtos);
 
         // 根据条件获取商品的信息
         SystemResult productInfoByQuery = productIndexAppoint.getProductInfoByQuery(k2Member, dto);
