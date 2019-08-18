@@ -1,39 +1,50 @@
 package com.king2.product.server.queue.consumer;
 
 import com.king2.commons.pojo.K2ProductWithBLOBs;
+import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.FileUtil;
+import com.king2.product.server.appoint.ProductInfoQueueAppoint;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.queue.ProductSuccessQueue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * å•†å“ä¿¡æ¯é˜Ÿåˆ—çš„æ¶ˆè´¹è€…
+ * ÉÌÆ·ĞÅÏ¢¶ÓÁĞµÄÏû·ÑÕß
  */
 @Component
 public class ProductInfoQueueConsumer implements ApplicationRunner {
 
+    // ×¢ÈëÉÌÆ·Ğ£ÑéÎ¯ÅÉÀà
+    @Autowired
+    private ProductInfoQueueAppoint productInfoQueueAppoint;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        // å¼€å¯ä¸€æ¡æ–°çš„çº¿ç¨‹ ä»¥å…å¹²æ‰°åˆ°ä¸»çº¿ç¨‹
+
+        // ¿ªÆôÒ»ÌõĞÂµÄÏß³Ì ÒÔÃâ¸ÉÈÅµ½Ö÷Ïß³Ì
         new Thread(() -> {
-            // è·å–é”å¯¹è±¡
+            // »ñÈ¡Ëø¶ÔÏó
             ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
             ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
             Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
             while (true) {
-                // å¼€å¯é”
+                // ¿ªÆôËø
                 reentrantLock.lock();
-                // æ¨¡æ‹Ÿä¸šåŠ¡é€»è¾‘
+                // Ä£ÄâÒµÎñÂß¼­
                 /*int count = 0;
                 while (count++ < 1000) {
-                    System.out.println("é”å¯¹è±¡æ­£åœ¨ä½¿ç”¨");
+                    System.out.println("Ëø¶ÔÏóÕıÔÚÊ¹ÓÃ");
                     try {
                         Thread.sleep(20);
                     } catch (Exception e) {
@@ -42,18 +53,48 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
 
                 }*/
                 try {
-                    // æŸ¥çœ‹ç¼“å­˜ä¸­æ˜¯å¦å­˜åœ¨æ•°æ®
-                    // è·å–é˜Ÿåˆ—æ•°æ®
+                    // ²é¿´»º´æÖĞÊÇ·ñ´æÔÚÊı¾İ
+                    // »ñÈ¡¶ÓÁĞÊı¾İ
                     ProductSuccessQueue successQueue = ProductSuccessQueue.getInstance();
                     ConcurrentLinkedQueue<K2ProductWithBLOBs> produdctInfoQueue = successQueue.getProdudctInfoQueue();
-                    if (produdctInfoQueue == null || !produdctInfoQueue.isEmpty()) {
+                    if (produdctInfoQueue != null && !produdctInfoQueue.isEmpty()) {
+                        System.out.println("½øÀ´ÁË");
+                        // ÓĞÊı¾İ¾ÍÏû·ÑÊı¾İ
+                        K2ProductWithBLOBs product = produdctInfoQueue.poll();
 
-                        // æœ‰æ•°æ®å°±æ¶ˆè´¹æ•°æ®
-                        K2ProductWithBLOBs poll = produdctInfoQueue.poll();
-                        System.out.println(poll);
+                        // ²é¿´ÉÌÆ·µÄĞÅÏ¢ÊÇ·ñ¹ıÉó
+                        SystemResult productIsPassResult = productInfoQueueAppoint.checkProductInfoIfPass(product);
+                        if (productIsPassResult.getStatus() == 208) {
+                            // ÉÌÆ·ĞÅÏ¢Ã»ÓĞ¹ıÉó  ĞŞ¸ÄÉÌÆ·×´Ì¬
+                            productInfoQueueAppoint.prorductInfoNotAudit(product, productIsPassResult.getData() + "");
+                        } else if (productIsPassResult.getStatus() != 200) {
+                            // ÏµÍ³Å×³öÒì³£  ¼ÇÂ¼ÈÕÖ¾
+                            FileUtil.createFolder(FileUtil.SYSTEM_PATH + "/public/ProductLog");
+                            // ´´½¨ÎÄ¼ş
+                            FileUtil.createFolder(FileUtil.SYSTEM_PATH + "/public/ProductLog/ÉóºËÉÌÆ·ĞÅÏ¢Òì³£.txt");
+                            // Ğ´ÈëÈÕÖ¾
+                            FileUtil.fileWrite(FileUtil.SYSTEM_PATH + "/public/ProductLog/ÉóºËÉÌÆ·ĞÅÏ¢Òì³£.txt",
+                                    "ÉóºËÉÌÆ·ĞÅÏ¢³ö´í£¬Çë¼°Ê±´¦Àí¡£----Ê±¼ä:" + new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ hh:mm:ss").format(new Date()),
+                                    true);
+                        } else if (productIsPassResult.getStatus() == 200) {
+                            // ÉóºË³É¹¦
+                            // ĞÅÏ¢¹ıÉóºó½«ĞÅÏ¢ÍÆµ½solrËÑË÷·şÎñÆ÷È¥
+                            SystemResult result = productInfoQueueAppoint.synchronizedSolr(product);
+                            if (result.getStatus() != 200) {
+                                // ³öÏÖÒì³£ Ğ´ÈëÈÕÖ¾ĞÅÏ¢
+                                FileUtil.createFolder(FileUtil.SYSTEM_PATH + "/public/ProductLog");
+                                // ´´½¨ÎÄ¼ş
+                                FileUtil.createFolder(FileUtil.SYSTEM_PATH + "/public/ProductLog/ÉÌÆ·solrÒì³£.txt");
+                                // Ğ´ÈëÈÕÖ¾
+                                FileUtil.fileWrite(FileUtil.SYSTEM_PATH + "/public/ProductLog/ÉÌÆ·solrÒì³£.txt",
+                                        "ÉÌÆ·SolrÅäÖÃÊ§°Ü£¬Çë¼°Ê±¼ì²é¡£----Ê±¼ä:" + new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ hh:mm:ss").format(new Date()),
+                                        true);
+                            }
+                        }
+                        System.out.println("½áÊøÁË");
                     } else {
-                        // æ²¡æœ‰æ•°æ® å°±ä¼‘æ¯ ç›´åˆ°è¢«å”¤é†’
-                        // awaitå’ŒObjectçš„waitä¸€æ ·ä¼šè®©å‡ºcpuå’Œé”èµ„æº
+                        // Ã»ÓĞÊı¾İ ¾ÍĞİÏ¢ Ö±µ½±»»½ĞÑ
+                        // awaitºÍObjectµÄwaitÒ»Ñù»áÈÃ³öcpuºÍËø×ÊÔ´
                         condition.await(1, TimeUnit.MINUTES);
                     }
                 } catch (Exception e) {

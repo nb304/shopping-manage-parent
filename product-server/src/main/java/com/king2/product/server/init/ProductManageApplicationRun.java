@@ -24,61 +24,61 @@ import redis.clients.jedis.JedisPool;
 import java.util.Date;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“ç®¡ç†æ¨¡å—çš„åˆå§‹åŒ–
+	ËµÃ÷:    ÉÌÆ·¹ÜÀíÄ£¿éµÄ³õÊ¼»¯
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.08   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.08   			´´½¨
 =======================================================*/
 @Component
 public class ProductManageApplicationRun implements ApplicationRunner {
 
-    // æ³¨å…¥å•†å“ç¼–å·å­˜åœ¨redisä¸­çš„key
+    // ×¢ÈëÉÌÆ·±àºÅ´æÔÚredisÖĞµÄkey
     @Value("${PRODUCT_NUMBER_REDIS_KEY}")
     private String PRODUCT_NUMBER_REDIS_KEY;
-    // æ³¨å…¥Jedisè¿æ¥æ± 
+    // ×¢ÈëJedisÁ¬½Ó³Ø
     @Autowired
     private JedisPool jedisPool;
-    // æ³¨å…¥è¿œç¨‹è°ƒç”¨æ¨¡æ¿
+    // ×¢ÈëÔ¶³Ìµ÷ÓÃÄ£°å
     @Autowired
     private RestTemplate restTemplate;
-    // æ³¨å…¥ç¼“å­˜æœåŠ¡å™¨åœ°å€
+    // ×¢Èë»º´æ·şÎñÆ÷µØÖ·
     @Value("${CACHE_SERVER_URL}")
     private String CACHE_SERVER_URL;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        // åˆ›å»ºæ—¥å¿—ä¿¡æ¯
+        // ´´½¨ÈÕÖ¾ĞÅÏ¢
         ProductServerLog.systemInitLog();
 
-        // åˆå§‹åŒ–reidsè§£é”è„šæœ¬
+        // ³õÊ¼»¯reids½âËø½Å±¾
         writeRedisLua();
 
-        // åˆå§‹åŒ–å•†å“ç¼–å·
+        // ³õÊ¼»¯ÉÌÆ·±àºÅ
         initProductNumber(jedisPool, PRODUCT_NUMBER_REDIS_KEY, restTemplate, CACHE_SERVER_URL);
 
-        // å¼€å¯å®šæ—¶æ·»åŠ å•†å“ç¼–å·çš„åŠŸèƒ½
+        // ¿ªÆô¶¨Ê±Ìí¼ÓÉÌÆ·±àºÅµÄ¹¦ÄÜ
         timerAddProductNumber(20, jedisPool, PRODUCT_NUMBER_REDIS_KEY, restTemplate, CACHE_SERVER_URL);
     }
 
 
     /**
-     * å®šä¹‰æŸ¥è¯¢æ˜¯å¦éœ€è¦æ·»åŠ å•†å“ç¼–å·
+     * ¶¨Òå²éÑ¯ÊÇ·ñĞèÒªÌí¼ÓÉÌÆ·±àºÅ
      *
-     * @param sleepTime æ¯éš”å‡ ç§’
-     * @param jedisPool jedisPoolè¿æ¥æ± 
-     * @param key       redisçš„key
+     * @param sleepTime Ã¿¸ô¼¸Ãë
+     * @param jedisPool jedisPoolÁ¬½Ó³Ø
+     * @param key       redisµÄkey
      */
     public static void timerAddProductNumber(int sleepTime, JedisPool jedisPool, String key, RestTemplate restTemplate, String URL) {
-        // å¯åŠ¨ä¸€ä¸ªæ–°çš„çº¿ç¨‹
+        // Æô¶¯Ò»¸öĞÂµÄÏß³Ì
         new Thread(() -> {
             while (true) {
                 try {
-                    // è°ƒç”¨æ·»åŠ å•†å“ä¿¡æ¯
+                    // µ÷ÓÃÌí¼ÓÉÌÆ·ĞÅÏ¢
                     initProductNumber(jedisPool, key, restTemplate, URL);
-                    // sleepä¼šè®©å‡ºcpuçš„èµ„æº æ‰€ä»¥ä¸ç”¨å®³æ€•èµ„æºæµªè´¹
-                    // sleepä¼šè®©å‡ºcpuçš„èµ„æº ä½†æ˜¯ä¸ä¼šè®©å‡ºé”èµ„æº
-                    // wait ä¼šè®©å‡ºcpuçš„èµ„æº ä¹Ÿèƒ½è®©å‡ºé”èµ„æº
+                    // sleep»áÈÃ³öcpuµÄ×ÊÔ´ ËùÒÔ²»ÓÃº¦ÅÂ×ÊÔ´ÀË·Ñ
+                    // sleep»áÈÃ³öcpuµÄ×ÊÔ´ µ«ÊÇ²»»áÈÃ³öËø×ÊÔ´
+                    // wait »áÈÃ³öcpuµÄ×ÊÔ´ Ò²ÄÜÈÃ³öËø×ÊÔ´
                     Thread.sleep(sleepTime * 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -90,10 +90,10 @@ public class ProductManageApplicationRun implements ApplicationRunner {
 
 
     /**
-     * åˆå§‹åŒ–1000ä¸ªå•†å“ç¼–å·
+     * ³õÊ¼»¯1000¸öÉÌÆ·±àºÅ
      *
-     * @param jedisPool                Jedisè¿æ¥æ± 
-     * @param PRODUCT_NUMBER_REDIS_KEY Redisä¸­çš„key
+     * @param jedisPool                JedisÁ¬½Ó³Ø
+     * @param PRODUCT_NUMBER_REDIS_KEY RedisÖĞµÄkey
      * @throws Exception
      */
     public static void initProductNumber(JedisPool jedisPool, String PRODUCT_NUMBER_REDIS_KEY, RestTemplate restTemplate, String servletUrl) throws Exception {
@@ -102,31 +102,31 @@ public class ProductManageApplicationRun implements ApplicationRunner {
         try {
             jedis = jedisPool.getResource();
             lock = new DfsRedisLock(PRODUCT_NUMBER_REDIS_KEY + "_LOCK", 10, jedis);
-            // å¼€å¯é”
+            // ¿ªÆôËø
             lock.lock();
-            // è·å–å•†å“ç¼–å·çš„JSONä¸²
+            // »ñÈ¡ÉÌÆ·±àºÅµÄJSON´®
             String productNumberJson = jedis.get(PRODUCT_NUMBER_REDIS_KEY);
             if (StringUtils.isEmpty(productNumberJson)) {
-                // å·²ç»æ²¡æœ‰JSONä¸²äº† æ·»åŠ 1000ä¸ªJSONä¸²
+                // ÒÑ¾­Ã»ÓĞJSON´®ÁË Ìí¼Ó1000¸öJSON´®
                 ShoppingNumberPojo sp = new ShoppingNumberPojo(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, "SP", 11, restTemplate, servletUrl);
-                // è·å–å•†å“ä¿¡æ¯åˆ¤æ–­æ˜¯å¦ä¸ºç©º
+                // »ñÈ¡ÉÌÆ·ĞÅÏ¢ÅĞ¶ÏÊÇ·ñÎª¿Õ
                 ShoppingNumberManage numberManage = new ShoppingNumberManage(sp, sp.NUMBER_TYPE_PRODUCT);
                 SystemResult systemResult = numberManage.addProductNumberGotoRedis(1000);
                 if (systemResult.getStatus() != 200) {
-                    // åˆ›å»ºå•†å“ç¼–å·å¤±è´¥ å†™å…¥æ—¥å¿—
+                    // ´´½¨ÉÌÆ·±àºÅÊ§°Ü Ğ´ÈëÈÕÖ¾
                     FileUtil.fileWrite(ProductServerLog.PRODUCT_SYSTEM_INFO_FILE,
-                            "ç¼–å·åˆå§‹åŒ–å¤±è´¥,è¯·æ£€æŸ¥RedisæœåŠ¡æ˜¯å¦æ­£å¸¸å¯åŠ¨---æ—¶é—´:" + DateUtil.formatDateTime(new Date()),
+                            "±àºÅ³õÊ¼»¯Ê§°Ü,Çë¼ì²éRedis·şÎñÊÇ·ñÕı³£Æô¶¯---Ê±¼ä:" + DateUtil.formatDateTime(new Date()),
                             true);
                 } else {
                     FileUtil.fileWrite(ProductServerLog.PRODUCT_SYSTEM_INFO_FILE,
-                            "ç¼–å·åˆå§‹åŒ–æˆåŠŸ,åˆå§‹åŒ–äº†1000ä¸ªç¼–å·ä¿¡æ¯---æ—¶é—´:" + DateUtil.formatDateTime(new Date()),
+                            "±àºÅ³õÊ¼»¯³É¹¦,³õÊ¼»¯ÁË1000¸ö±àºÅĞÅÏ¢---Ê±¼ä:" + DateUtil.formatDateTime(new Date()),
                             true);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // ç”¨å®Œå°±å›æ”¶
+            // ÓÃÍê¾Í»ØÊÕ
             if (jedis != null) jedis.close();
             if (lock != null) lock.unlock(SystemCacheManage.UNLOCK_REDIS_LUA);
         }
@@ -135,21 +135,21 @@ public class ProductManageApplicationRun implements ApplicationRunner {
 
 
     /**
-     * åˆå§‹åŒ–è§£é”è„šæœ¬
+     * ³õÊ¼»¯½âËø½Å±¾
      *
      * @throws Exception
      */
     public static void writeRedisLua() throws Exception {
 
-        // è·å–ç³»ç»Ÿç¼“å­˜å¯¹è±¡
+        // »ñÈ¡ÏµÍ³»º´æ¶ÔÏó
         SystemCacheManage instance = SystemCacheManage.getInstance();
-        // è¯»å–luaè„šæœ¬å­˜å‚¨åˆ°ç¼“å­˜å¯¹è±¡ä¸­
+        // ¶ÁÈ¡lua½Å±¾´æ´¢µ½»º´æ¶ÔÏóÖĞ
         String luaScript = FileUtils.readFileToString(ResourceUtils.getFile("classpath:unlock.lua"), "utf-8");
-        // åˆ¤æ–­luaè„šæœ¬æ˜¯å¦ä¸ºç©º
+        // ÅĞ¶Ïlua½Å±¾ÊÇ·ñÎª¿Õ
         if (StringUtils.isEmpty(luaScript)) {
-            // å†™å…¥æ—¥å¿—ä¿¡æ¯
+            // Ğ´ÈëÈÕÖ¾ĞÅÏ¢
             FileUtil.fileWrite(ProductServerLog.PRODUCT_SYSTEM_INFO_FILE,
-                    "è§£é”luaè„šæœ¬æ³¨å…¥å¤±è´¥,è¯·æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨---æ—¶é—´:" + DateUtil.formatDateTime(new Date()),
+                    "½âËølua½Å±¾×¢ÈëÊ§°Ü,Çë¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ---Ê±¼ä:" + DateUtil.formatDateTime(new Date()),
                     true);
         }
         instance.UNLOCK_REDIS_LUA = luaScript;

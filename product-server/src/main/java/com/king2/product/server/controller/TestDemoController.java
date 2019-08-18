@@ -7,6 +7,7 @@ import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.*;
 import com.king2.product.server.cache.SystemCacheManage;
+import com.king2.product.server.dto.ProductInfoDto;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
 import org.apache.commons.io.FileUtils;
@@ -23,6 +24,7 @@ import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,9 +79,9 @@ public class TestDemoController {
         System.out.println();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 
-            return new SystemResult(100, "ç”¨æˆ·åå¯†ç ä¸ºç©º", null);
+            return new SystemResult(100, "ÓÃ»§ÃûÃÜÂëÎª¿Õ", null);
         } else if (!"admin".equals(username) || !"admin1".equals(password)) {
-            return new SystemResult(100, "ç”¨æˆ·åå¯†ç é”™è¯¯", null);
+            return new SystemResult(100, "ÓÃ»§ÃûÃÜÂë´íÎó", null);
         }
 
         return new SystemResult("ok");
@@ -87,7 +89,7 @@ public class TestDemoController {
 
 
     /**
-     * ???????????????Â·
+     * ???????????????¡¤
      *
      * @param request
      * @param response
@@ -100,7 +102,7 @@ public class TestDemoController {
         K2Member member = new K2Member();
         member.setMemberAccount("luqiqi");
         member.setMemberAddress("?????");
-        // ?????? ????Î¨?Token
+        // ?????? ????¦·?Token
         StringBuffer sb = new StringBuffer();
         sb.append(UUID.randomUUID().toString().replaceAll("-", "").substring(22));
         sb.append("-" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()));
@@ -109,7 +111,7 @@ public class TestDemoController {
         UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
         // ????redis
         SystemResult refresh = userManageUtil.refresh(member, sb.toString());
-        // Ğ´??Cookie
+        // §Õ??Cookie
         CookieUtils.setCookie(request, response, "token", sb.toString(), true);
         return refresh;
     }
@@ -139,62 +141,73 @@ public class TestDemoController {
 
 
     /**
-     * æµ‹è¯•é”
+     * ²âÊÔËø
+     *
      * @return
      */
     @RequestMapping("/lock")
     public SystemResult lock() {
-        // è·å–é”å¯¹è±¡
+        // »ñÈ¡Ëø¶ÔÏó
         ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
         ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
         Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
         try {
-            System.out.println("å°è¯•åŠ é”ï¼ï¼ï¼ï¼");
+            System.out.println("³¢ÊÔ¼ÓËø£¡£¡£¡£¡");
             reentrantLock.lock();
-            System.out.println("åŠ é”æˆåŠŸ!!!!!");
+            System.out.println("¼ÓËø³É¹¦!!!!!");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            System.out.println("å°è¯•è§£é”ï¼ï¼ï¼");
-            // å”¤é†’æ‰€æœ‰çº¿ç¨‹
+            System.out.println("³¢ÊÔ½âËø£¡£¡£¡");
+            // »½ĞÑËùÓĞÏß³Ì
             condition.signalAll();
             reentrantLock.unlock();
-            System.out.println("å”¤é†’æˆåŠŸï¼ï¼ï¼ï¼");
-            System.out.println("å°è¯•è§£é”æˆåŠŸï¼ï¼ï¼");
+            System.out.println("»½ĞÑ³É¹¦£¡£¡£¡£¡");
+            System.out.println("³¢ÊÔ½âËø³É¹¦£¡£¡£¡");
         }
         return new SystemResult("ok");
     }
 
     public static void main(String[] args) throws Exception {
-        K2ProductWithBLOBs k2ProductWithBLOBs = new K2ProductWithBLOBs();
-        k2ProductWithBLOBs.setProductName("DWæ‰‹è¡¨");
-        k2ProductWithBLOBs.setProductBrandId(1);
-        k2ProductWithBLOBs.setProductOneCategoryId(1);
-        k2ProductWithBLOBs.setProductTwoCategoryId(2);
-        k2ProductWithBLOBs.setProductBazaarPrice(new BigDecimal(3000.32));
-        k2ProductWithBLOBs.setProductSystemPrice(new BigDecimal(2000.00));
-        k2ProductWithBLOBs.setProductPoints("DWæ‰‹è¡¨å¥½çœ‹å®ç”¨");
-        k2ProductWithBLOBs.setProductOrderRule(2);
-        k2ProductWithBLOBs.setProductUnit("ä¸ª");
-        k2ProductWithBLOBs.setProductSketchId(1);
-        k2ProductWithBLOBs.setProductIfSupport(1);
-        k2ProductWithBLOBs.setProductSupportDay(30);
-        k2ProductWithBLOBs.setProductImage("adasd,13123");
-        k2ProductWithBLOBs.setProductSketchContentl("å•†å“ç®€è¿°ä¿¡æ¯");
-        k2ProductWithBLOBs.setProductImageDescribe("luqiqi,asdasd,qeqwe,dcada");
-        System.out.println(JsonUtils.objectToJson(k2ProductWithBLOBs));
+        ProductInfoDto infoDto = new ProductInfoDto();
+        infoDto.setProductBazaarPrice(new BigDecimal(3200.99));
+        infoDto.setProductBrandId(1);
+        infoDto.setProductIfSupport(1);
+        infoDto.setProductName("DWÊÖ±í");
+        infoDto.setProductOneCategoryId(1);
+        infoDto.setProductTwoCategoryId(2);
+        infoDto.setProductPoints("½éÉÜÂôµã");
+        infoDto.setProductSketchContent("²âÊÔ²âÊÔ");
+        infoDto.setProductSystemPrice(new BigDecimal(2323));
+        infoDto.setProductUnit("¸ö");
+        System.out.println(JsonUtils.objectToJson(infoDto));
         List<ProductSkuPojo> dtos = new ArrayList<>();
         ProductSkuPojo dto = new ProductSkuPojo();
         dto.setSkuKeyOrder("1");
-        dto.setProductSkuKeyName("é¢œè‰²");
-        dto.setSkuValue("çº¢è‰²,é»„è‰²,ç»¿è‰²");
+        dto.setProductSkuKeyName("ÑÕÉ«");
+        dto.setSkuValue("ºìÉ«,»ÆÉ«,ÂÌÉ«");
+        dtos.add(dto);
         System.out.println(JsonUtils.objectToJson(dtos));
 
     }
 
 
+    /*public static void main(String[] args) throws Exception {
+
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("C:\\Users\\22464\\Desktop\\·´¶¯´Ê¿â.txt")));
+        BufferedReader sr = new BufferedReader(reader);
+        String lineText = "";
+        FileWriter writer = new FileWriter(new File("C:\\Users\\22464\\Desktop\\txt.txt"),true);
+        while ((lineText = sr.readLine()) != null) {
+            writer.append(lineText + ",");
+            writer.flush();
+        }
+
+        writer.close();
+    }*/
+
     /**
-     * ??????reids?Ğµ???
+     * ??????reids?§Ö???
      *
      * @return
      * @throws Exception

@@ -21,77 +21,77 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“åŸºç¡€ç®¡ç†Controller
+	ËµÃ÷:    ÉÌÆ·»ù´¡¹ÜÀíController
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.06   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.06   			´´½¨
 =======================================================*/
 @RequestMapping("/product/basics")
 @Validated
 @CrossOrigin
-@Api("å•†å“åŸºç¡€ç®¡ç†æ¥å£")
+@Api("ÉÌÆ·»ù´¡¹ÜÀí½Ó¿Ú")
 @RestController
 public class ProductBasicsManageController {
 
-    // æ³¨å…¥å•†å“åŸºç¡€ç®¡ç†Service
+    // ×¢ÈëÉÌÆ·»ù´¡¹ÜÀíService
     @Autowired
     private ProductBasicsManageService productBasicsManageService;
-    // æ³¨å…¥å•†å“å›¾ç‰‡ä¸Šä¼ çš„å§”æ‰˜ç±»
+    // ×¢ÈëÉÌÆ·Í¼Æ¬ÉÏ´«µÄÎ¯ÍĞÀà
     @Autowired
     private ProductUploadImageAppoint productUploadImageAppoint;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SKU
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSKU
      * <p>
-     * å‚æ•°:
-     * skuJson          String          SKUçš„JSONæ•°æ®
-     * state            String          æœ¬æ¬¡æ˜¯å¦è¿˜éœ€è¦ç»§ç»­æ·»åŠ å•†å“ä¿¡æ¯  1éœ€è¦  2ä¸éœ€è¦
-     * productInfo      String          å•†å“çš„JSONæ•°æ®
+     * ²ÎÊı:
+     * skuJson          String          SKUµÄJSONÊı¾İ
+     * state            String          ±¾´ÎÊÇ·ñ»¹ĞèÒª¼ÌĞøÌí¼ÓÉÌÆ·ĞÅÏ¢  1ĞèÒª  2²»ĞèÒª
+     * productInfo      String          ÉÌÆ·µÄJSONÊı¾İ
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @ApiImplicitParams
             ({
-                    @ApiImplicitParam(name = "skuJson", value = "å•†å“SKUçš„JSONæ•°æ®ä¸²", required = true, dataType = "string"),
-                    @ApiImplicitParam(name = "productJson", value = "æœ¬æ¬¡çš„å•†å“çš„JSONæ•°æ®", required = true, dataType = "string"),
-                    @ApiImplicitParam(name = "state", value = "åˆ¤æ–­æ·»åŠ æœ¬æ¬¡SKUæ—¶ï¼Œæ˜¯å¦éœ€è¦æ·»åŠ å•†å“", required = true, dataType = "string")
+                    @ApiImplicitParam(name = "skuJson", value = "ÉÌÆ·SKUµÄJSONÊı¾İ´®", required = true, dataType = "string"),
+                    @ApiImplicitParam(name = "productJson", value = "±¾´ÎµÄÉÌÆ·µÄJSONÊı¾İ", required = true, dataType = "string"),
+                    @ApiImplicitParam(name = "state", value = "ÅĞ¶ÏÌí¼Ó±¾´ÎSKUÊ±£¬ÊÇ·ñĞèÒªÌí¼ÓÉÌÆ·", required = true, dataType = "string")
             })
-    @ApiOperation(value = "æ·»åŠ å•†å“çš„SKUä¿¡æ¯", notes = "")
+    @ApiOperation(value = "Ìí¼ÓÉÌÆ·µÄSKUĞÅÏ¢", notes = "")
     @PostMapping("/add/sku")
     public SystemResult addProductSku(
-            @NotBlank(message = "è¯·å¡«å†™SKUçš„ä¿¡æ¯") String skuJson,
-            @NotBlank(message = "è¯·å¡«å†™å•†å“ä¿¡æ¯") String productJson,
-            @NotBlank(message = "æœ¬æ¬¡çŠ¶æ€ä¸ºç©º,è¯·åˆ·æ–°é¡µé¢é‡è¯•") @Pattern(regexp = "[0-9]{1,}", message = "çŠ¶æ€ç ç±»å‹é”™è¯¯") String state, HttpServletRequest request) throws Exception {
+            @NotBlank(message = "ÇëÌîĞ´SKUµÄĞÅÏ¢") String skuJson,
+            @NotBlank(message = "ÇëÌîĞ´ÉÌÆ·ĞÅÏ¢") String productJson,
+            @NotBlank(message = "±¾´Î×´Ì¬Îª¿Õ,ÇëË¢ĞÂÒ³ÃæÖØÊÔ") @Pattern(regexp = "[0-9]{1,}", message = "×´Ì¬ÂëÀàĞÍ´íÎó") String state, HttpServletRequest request) throws Exception {
 
-        // æ¨¡æ‹Ÿç”¨æˆ·ä¿¡æ¯
+        // Ä£ÄâÓÃ»§ĞÅÏ¢
         K2Member k2Member = new K2Member();
         k2Member.setMemberId(1);
         k2Member.setMemberAccount("luqiqi");
         k2Member.setRetain1("1");
 
 
-        // è°ƒç”¨å•†å“æœåŠ¡
+        // µ÷ÓÃÉÌÆ··şÎñ
         SystemResult systemResult = productBasicsManageService.addProductSku(skuJson, productJson, state, k2Member);
         return systemResult;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“é¡µé¢éœ€è¦çš„æ•°æ®
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·Ò³ÃæĞèÒªµÄÊı¾İ
      * <p>
-     * å‚æ•°:
+     * ²ÎÊı:
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @GetMapping("/add/page/info")
-    @ApiOperation(value = "æ·»åŠ å•†å“é¡µé¢æ—¶éœ€è¦çš„æ•°æ®æ¥å£", notes = "")
+    @ApiOperation(value = "Ìí¼ÓÉÌÆ·Ò³ÃæÊ±ĞèÒªµÄÊı¾İ½Ó¿Ú", notes = "")
     public SystemResult addPageInfo(HttpServletRequest request) throws Exception {
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         K2Member k2Member = (K2Member) request.getAttribute("user");
-        // è°ƒç”¨æœåŠ¡ æŸ¥è¯¢æ·»åŠ å•†å“çš„åŸºç¡€ä¿¡æ¯
+        // µ÷ÓÃ·şÎñ ²éÑ¯Ìí¼ÓÉÌÆ·µÄ»ù´¡ĞÅÏ¢
         SystemResult systemResult = productBasicsManageService.addProductPageInfo(k2Member);
         return systemResult;
     }
@@ -99,20 +99,20 @@ public class ProductBasicsManageController {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  é€šè¿‡ç±»ç›®æŸ¥è¯¢SKUä¿¡æ¯æ¨¡æ¿
+     * ¹¦ÄÜ:  Í¨¹ıÀàÄ¿²éÑ¯SKUĞÅÏ¢Ä£°å
      * <p>
-     * å‚æ•°:
-     * categoryId             String           ç±»ç›®id
+     * ²ÎÊı:
+     * categoryId             String           ÀàÄ¿id
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @GetMapping("/get/sku/info")
-    @ApiOperation(value = "é€šè¿‡ç±»ç›®æŸ¥è¯¢SKUä¿¡æ¯", notes = "")
-    public SystemResult getSkuInfoByCategoryId(@NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º")
-                                               @Pattern(regexp = "[0-9]{1,}", message = "ç±»ç›®idçš„ç±»å‹é”™è¯¯,è¯·åˆ·æ–°é¡µé¢é‡è¯•") String categoryId) {
+    @ApiOperation(value = "Í¨¹ıÀàÄ¿²éÑ¯SKUĞÅÏ¢", notes = "")
+    public SystemResult getSkuInfoByCategoryId(@NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ")
+                                               @Pattern(regexp = "[0-9]{1,}", message = "ÀàÄ¿idµÄÀàĞÍ´íÎó,ÇëË¢ĞÂÒ³ÃæÖØÊÔ") String categoryId) {
 
-        // è°ƒç”¨æœåŠ¡ æŸ¥è¯¢å•†å“SKUçš„ä¿¡æ¯
+        // µ÷ÓÃ·şÎñ ²éÑ¯ÉÌÆ·SKUµÄĞÅÏ¢
         SystemResult result = productBasicsManageService.getSkuInfoByCId(Integer.parseInt(categoryId));
         return result;
     }
@@ -120,42 +120,42 @@ public class ProductBasicsManageController {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productSpuJson             String           SPUçš„JSONæ•°æ®
-     * productId                  String           å•†å“id
+     * ²ÎÊı:
+     * productSpuJson             String           SPUµÄJSONÊı¾İ
+     * productId                  String           ÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @PostMapping("/add/spu")
-    @ApiOperation(value = "æ·»åŠ å•†å“çš„SPUæ•°æ®", notes = "")
-    public SystemResult addProductSpu(@NotBlank(message = "å•†å“SPUæ•°æ®ä¸èƒ½ä¸ºç©º") String productSpuJson,
-                                      @NotBlank(message = "å•†å“Idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}", message = "å•†å“IDç±»å‹é”™è¯¯") String productId, HttpServletRequest request) {
+    @ApiOperation(value = "Ìí¼ÓÉÌÆ·µÄSPUÊı¾İ", notes = "")
+    public SystemResult addProductSpu(@NotBlank(message = "ÉÌÆ·SPUÊı¾İ²»ÄÜÎª¿Õ") String productSpuJson,
+                                      @NotBlank(message = "ÉÌÆ·Id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·IDÀàĞÍ´íÎó") String productId, HttpServletRequest request) {
 
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         K2Member k2Member = (K2Member) request.getAttribute("user");
-        // è°ƒç”¨æœåŠ¡ æ’å…¥SPUæ•°æ®
+        // µ÷ÓÃ·şÎñ ²åÈëSPUÊı¾İ
         SystemResult result = productBasicsManageService.addProductSpu(productSpuJson, Integer.parseInt(productId), k2Member);
         return result;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¸Šä¼ å›¾ç‰‡çš„æ–¹æ³•
+     * ¹¦ÄÜ:  ÉÏ´«Í¼Æ¬µÄ·½·¨
      * <p>
-     * å‚æ•°:
-     * file             MultipartFile           å›¾ç‰‡ä¿¡æ¯
+     * ²ÎÊı:
+     * file             MultipartFile           Í¼Æ¬ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @PostMapping("/upload/image")
-    @ApiOperation(value = "ä¸Šä¼ å•†å“å›¾ç‰‡", notes = "")
-    public SystemResult uploadProductImage(@RequestParam("files[]") MultipartFile[] files, @NotBlank(message = "ä¸Šä¼ å›¾ç‰‡çš„çŠ¶æ€ä¸èƒ½ä¸ºç©º") String uploadType,
-                                           @NotBlank(message = "å•†å“ä¿¡æ¯ä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}", message = "å•†å“idç±»å‹é”™è¯¯") String productId,
-                                           @NotBlank(message = "æœ¬æ¬¡æ·»åŠ çš„å›¾ç‰‡æ¬¡æ•°ä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}", message = "æ¬¡æ•°ç±»å‹é”™è¯¯") String size) throws Exception {
+    @ApiOperation(value = "ÉÏ´«ÉÌÆ·Í¼Æ¬", notes = "")
+    public SystemResult uploadProductImage(@RequestParam("files[]") MultipartFile[] files, @NotBlank(message = "ÉÏ´«Í¼Æ¬µÄ×´Ì¬²»ÄÜÎª¿Õ") String uploadType,
+                                           @NotBlank(message = "ÉÌÆ·ĞÅÏ¢²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·idÀàĞÍ´íÎó") String productId,
+                                           @NotBlank(message = "±¾´ÎÌí¼ÓµÄÍ¼Æ¬´ÎÊı²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}", message = "´ÎÊıÀàĞÍ´íÎó") String size) throws Exception {
 
         SystemResult product = productUploadImageAppoint.upload(files, "product", Integer.parseInt(productId), Integer.parseInt(size), uploadType);
         return product;

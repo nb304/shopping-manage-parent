@@ -24,47 +24,47 @@ import java.util.Date;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“åŸºç¡€ç®¡ç†å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·»ù´¡¹ÜÀíÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.06   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.06   			´´½¨
 =======================================================*/
 @Component
 public class ProductBasicsAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¡éªŒä¼ è¾“è¿‡æ¥çš„jsonæ•°æ®æ˜¯å¦å¯ä»¥è½¬æ¢æˆå¯¹åº”çš„classå¯¹è±¡
+     * ¹¦ÄÜ:  Ğ£Ñé´«Êä¹ıÀ´µÄjsonÊı¾İÊÇ·ñ¿ÉÒÔ×ª»»³É¶ÔÓ¦µÄclass¶ÔÏó
      * <p>
-     * å‚æ•°:
-     * jsonInfo         String          JSONæ•°æ®
-     * clazz            Class           éœ€è¦è½¬æ¢çš„ç±»å‹
+     * ²ÎÊı:
+     * jsonInfo         String          JSONÊı¾İ
+     * clazz            Class           ĞèÒª×ª»»µÄÀàĞÍ
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     private static SystemResult checkJsonWhetherGotoClass(String jsonInfo, Class clazz, String errorMsg, String image) {
 
-        // åˆ¤æ–­Jsonæ•°æ®æ˜¯å¦ä¸ºç©º
+        // ÅĞ¶ÏJsonÊı¾İÊÇ·ñÎª¿Õ
         if (StringUtils.isEmpty(jsonInfo) || clazz == null) {
-            return new SystemResult(100, "è½¬æ¢å¤±è´¥ï¼šå‚æ•°æœ‰ç©ºå€¼", null);
+            return new SystemResult(100, "×ª»»Ê§°Ü£º²ÎÊıÓĞ¿ÕÖµ", null);
         }
 
-        // è½¬æ¢æ•°æ®
+        // ×ª»»Êı¾İ
         try {
             ProductInfoDto o = (ProductInfoDto) JsonUtils.jsonToPojo(jsonInfo, clazz);
-            // è½¬æ¢æˆåŠŸ å°†æ•°æ®å˜æˆå•†å“å¯¹è±¡
+            // ×ª»»³É¹¦ ½«Êı¾İ±ä³ÉÉÌÆ·¶ÔÏó
             SystemResult productByProductJsonInfo = getProductByProductJsonInfo(o, image);
-//            if(o == null)   return new SystemResult(100, "è½¬æ¢å¤±è´¥ï¼šå‚æ•°æ— æ•ˆ", null);
+//            if(o == null)   return new SystemResult(100, "×ª»»Ê§°Ü£º²ÎÊıÎŞĞ§", null);
             return productByProductJsonInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(100, errorMsg + "è½¬æ¢å¤±è´¥ï¼šç±»å‹ä¸é¢„æœŸçš„ä¸åŒ¹é…", null);
+            return new SystemResult(100, errorMsg + "×ª»»Ê§°Ü£ºÀàĞÍÓëÔ¤ÆÚµÄ²»Æ¥Åä", null);
         }
     }
 
     /**
-     * è·å–åˆ°å•†å“å¯¹è±¡
+     * »ñÈ¡µ½ÉÌÆ·¶ÔÏó
      *
      * @param productInfoDto
      * @param image
@@ -93,65 +93,65 @@ public class ProductBasicsAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¡éªŒä¼ è¾“è¿‡æ¥çš„SKUjsonæ•°æ®æ˜¯å¦å¯ä»¥è½¬æ¢æˆå¯¹åº”çš„é›†åˆå¯¹è±¡
+     * ¹¦ÄÜ:  Ğ£Ñé´«Êä¹ıÀ´µÄSKUjsonÊı¾İÊÇ·ñ¿ÉÒÔ×ª»»³É¶ÔÓ¦µÄ¼¯ºÏ¶ÔÏó
      * <p>
-     * å‚æ•°:
-     * jsonInfo         String          JSONæ•°æ®
-     * clazz            Class           éœ€è¦è½¬æ¢çš„ç±»å‹
+     * ²ÎÊı:
+     * jsonInfo         String          JSONÊı¾İ
+     * clazz            Class           ĞèÒª×ª»»µÄÀàĞÍ
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult checkSkuJsonGotoLists(String jsonInfo) {
 
-        // åˆ¤æ–­Jsonæ•°æ®æ˜¯å¦ä¸ºç©º
+        // ÅĞ¶ÏJsonÊı¾İÊÇ·ñÎª¿Õ
         if (StringUtils.isEmpty(jsonInfo)) {
-            return new SystemResult(100, "è½¬æ¢å¤±è´¥ï¼šå‚æ•°æœ‰ç©ºå€¼", null);
+            return new SystemResult(100, "×ª»»Ê§°Ü£º²ÎÊıÓĞ¿ÕÖµ", null);
         }
 
-        // è½¬æ¢æ•°æ®
+        // ×ª»»Êı¾İ
         try {
             List<ProductSkuPojo> productSkuPojos = JsonUtils.jsonToList(jsonInfo, ProductSkuPojo.class);
-//            if(o == null)   return new SystemResult(100, "è½¬æ¢å¤±è´¥ï¼šå‚æ•°æ— æ•ˆ", null);
+//            if(o == null)   return new SystemResult(100, "×ª»»Ê§°Ü£º²ÎÊıÎŞĞ§", null);
             return new SystemResult(productSkuPojos);
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(100, "è½¬æ¢å¤±è´¥ï¼šç±»å‹ä¸é¢„æœŸçš„ä¸åŒ¹é…", null);
+            return new SystemResult(100, "×ª»»Ê§°Ü£ºÀàĞÍÓëÔ¤ÆÚµÄ²»Æ¥Åä", null);
         }
     }
 
-    // æ³¨å…¥JedisPoolè¿æ¥æ± 
+    // ×¢ÈëJedisPoolÁ¬½Ó³Ø
     @Autowired
     private JedisPool jedisPool;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®ä¼ è¿‡å»çš„Jsonæ•°æ®è¿”å›å•†å“çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ¸ù¾İ´«¹ıÈ¥µÄJsonÊı¾İ·µ»ØÉÌÆ·µÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productJson          String          å•†å“çš„JSONæ•°æ®
-     * jedis                Jedis           jedisæ¨¡æ¿
-     * scrpit               String          è§£é”çš„luaè„šæœ¬
-     * redisKey             String          ç¼–å·çš„key
-     * k2ProductMapper  K2ProductMapper     å•†å“Mapperå®ä¾‹
+     * ²ÎÊı:
+     * productJson          String          ÉÌÆ·µÄJSONÊı¾İ
+     * jedis                Jedis           jedisÄ£°å
+     * scrpit               String          ½âËøµÄlua½Å±¾
+     * redisKey             String          ±àºÅµÄkey
+     * k2ProductMapper  K2ProductMapper     ÉÌÆ·MapperÊµÀı
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     private static SystemResult getProductInfoByPJson(K2ProductWithBLOBs k2Product, JedisPool jedisPool, String scrpit, String redisKey,
                                                       K2ProductMapper k2ProductMapper, K2Member k2Member, RestTemplate restTemplate, String servletUrl) throws Exception {
 
-        // è·å–å•†å“çš„å”¯ä¸€ç¼–å·
+        // »ñÈ¡ÉÌÆ·µÄÎ¨Ò»±àºÅ
         SystemResult onlyProductNumber = getOnlyProductNumber(jedisPool, redisKey, k2ProductMapper, restTemplate, servletUrl);
         if (onlyProductNumber.getStatus() != 200) return onlyProductNumber;
-        // å•†å“çš„ç¼–å·
+        // ÉÌÆ·µÄ±àºÅ
         String number = onlyProductNumber.getData() + "";
-        // å°†å•†å“ç¼–å·å­˜å…¥å¯¹è±¡
+        // ½«ÉÌÆ·±àºÅ´æÈë¶ÔÏó
         k2Product.setProductNumber(number);
-        // æ ¡éªŒå•†å“ä¿¡æ¯æ˜¯å¦æ­£ç¡®
+        // Ğ£ÑéÉÌÆ·ĞÅÏ¢ÊÇ·ñÕıÈ·
         SystemResult systemResult = validatedProductInfo(k2Product, k2Member);
         if (systemResult.getStatus() != 200) return systemResult;
-        // è¿”å›å‰çš„å¤„ç†
+        // ·µ»ØÇ°µÄ´¦Àí
         getProductInfoByPJsonLast(k2Product);
         return new SystemResult(k2Product);
     }
@@ -159,99 +159,99 @@ public class ProductBasicsAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¡éªŒå•†å“çš„ä¿¡æ¯æ˜¯å¦ç¬¦åˆæ¡ä»¶
+     * ¹¦ÄÜ:  Ğ£ÑéÉÌÆ·µÄĞÅÏ¢ÊÇ·ñ·ûºÏÌõ¼ş
      * <p>
-     * å‚æ•°:
-     * k2Product         K2Product          å•†å“çš„å¯¹è±¡
-     * k2Member          K2Member           æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * k2Product         K2Product          ÉÌÆ·µÄ¶ÔÏó
+     * k2Member          K2Member           ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult validatedProductInfo(K2ProductWithBLOBs k2Product, K2Member k2Member) {
 
-        // æ ¡éªŒå•†å“åç§°
+        // Ğ£ÑéÉÌÆ·Ãû³Æ
         if (StringUtils.isEmpty(k2Product.getProductName()) || k2Product.getProductName().length() > 200) {
-            return new SystemResult(100, "å•†å“åç§°å¡«å†™é”™è¯¯,åç§°é•¿åº¦ä¸º1-200ä¸ªå­—", null);
+            return new SystemResult(100, "ÉÌÆ·Ãû³ÆÌîĞ´´íÎó,Ãû³Æ³¤¶ÈÎª1-200¸ö×Ö", null);
         }
-        // æ ¡éªŒå•†å“å“ç‰Œ
+        // Ğ£ÑéÉÌÆ·Æ·ÅÆ
         if (k2Product.getProductBrandId() == null || k2Product.getProductBrandId() == 0 ||
                 k2Product.getProductBrandId().toString().length() > 11) {
-            return new SystemResult(100, "å•†å“å“ç‰Œé€‰æ‹©é”™è¯¯,è¯·åˆ·æ–°é¡µé¢é‡è¯•", null);
+            return new SystemResult(100, "ÉÌÆ·Æ·ÅÆÑ¡Ôñ´íÎó,ÇëË¢ĞÂÒ³ÃæÖØÊÔ", null);
         }
-        // æ ¡éªŒç±»ç›®æ˜¯å¦æ­£ç¡®
+        // Ğ£ÑéÀàÄ¿ÊÇ·ñÕıÈ·
         if (k2Product.getProductOneCategoryId() == null || k2Product.getProductOneCategoryId() == 0 ||
                 k2Product.getProductOneCategoryId().toString().length() > 11 ||
                 k2Product.getProductTwoCategoryId() == null || k2Product.getProductTwoCategoryId() == 0 ||
                 k2Product.getProductTwoCategoryId().toString().length() > 11) {
 
-            return new SystemResult(100, "è¯·é€‰æ‹©æ­£ç¡®çš„äºŒçº§ç±»ç›®", null);
+            return new SystemResult(100, "ÇëÑ¡ÔñÕıÈ·µÄ¶ş¼¶ÀàÄ¿", null);
         }
 
-        // æ ¡éªŒå•†å“å¸‚åœºä»·æ ¼
+        // Ğ£ÑéÉÌÆ·ÊĞ³¡¼Û¸ñ
         if (k2Product.getProductBazaarPrice() == null || k2Product.getProductBazaarPrice().floatValue() > 9999999.99 ||
                 k2Product.getProductBazaarPrice().floatValue() < 1) {
-            return new SystemResult(100, "å•†å“å¸‚åœºä»·æ ¼é”™è¯¯,é‡‘é¢èŒƒå›´åœ¨1~9999999.99ä¹‹é—´", null);
+            return new SystemResult(100, "ÉÌÆ·ÊĞ³¡¼Û¸ñ´íÎó,½ğ¶î·¶Î§ÔÚ1~9999999.99Ö®¼ä", null);
         }
 
-        // æ ¡éªŒç³»ç»Ÿä»·æ ¼
+        // Ğ£ÑéÏµÍ³¼Û¸ñ
         if (k2Product.getProductSystemPrice() == null || k2Product.getProductSystemPrice().floatValue() > 9999999.99 ||
                 k2Product.getProductSystemPrice().floatValue() < 1) {
-            return new SystemResult(100, "å•†å“ç³»ç»Ÿä»·æ ¼é”™è¯¯,é‡‘é¢èŒƒå›´åœ¨1~9999999.99ä¹‹é—´", null);
+            return new SystemResult(100, "ÉÌÆ·ÏµÍ³¼Û¸ñ´íÎó,½ğ¶î·¶Î§ÔÚ1~9999999.99Ö®¼ä", null);
         }
 
-        // æ ¡éªŒå•†å“ç®€è¿°
+        // Ğ£ÑéÉÌÆ·¼òÊö
         if (StringUtils.isEmpty(k2Product.getProductSketchContentl()) || k2Product.getProductSketchContentl().length() > 1000) {
-            return new SystemResult(100, "å•†å“ç®€è¿°é”™è¯¯,ç®€è¿°èŒƒå›´åœ¨1~1000å­—ç¬¦ä¹‹é—´", null);
+            return new SystemResult(100, "ÉÌÆ·¼òÊö´íÎó,¼òÊö·¶Î§ÔÚ1~1000×Ö·ûÖ®¼ä", null);
         }
 
-        // æ ¡éªŒå•†å“æ’åºè§„åˆ™
+        // Ğ£ÑéÉÌÆ·ÅÅĞò¹æÔò
         if (k2Product.getProductOrderRule() == null || k2Product.getProductOrderRule().toString().length() > 11) {
-            return new SystemResult(100, "å•†å“æ’åºä¸å¯ä¸ºç©º,èŒƒå›´åœ¨1~11ä½æ•°ä¹‹é—´", null);
+            return new SystemResult(100, "ÉÌÆ·ÅÅĞò²»¿ÉÎª¿Õ,·¶Î§ÔÚ1~11Î»ÊıÖ®¼ä", null);
         }
 
-        // æ ¡éªŒå•†å“å•ä½ä¿¡æ¯
+        // Ğ£ÑéÉÌÆ·µ¥Î»ĞÅÏ¢
         if (StringUtils.isEmpty(k2Product.getProductUnit()) || k2Product.getProductUnit().length() > 10) {
-            return new SystemResult(100, "è¯·å¡«å†™æ­£ç¡®çš„å•†å“å•ä½", null);
+            return new SystemResult(100, "ÇëÌîĞ´ÕıÈ·µÄÉÌÆ·µ¥Î»", null);
         }
 
-        // æ ¡éªŒå•†å“æ˜¯å¦æ”¯æŒæ— ç†ç”±é€€æ¬¾
+        // Ğ£ÑéÉÌÆ·ÊÇ·ñÖ§³ÖÎŞÀíÓÉÍË¿î
         if (k2Product.getProductIfSupport() == null || (k2Product.getProductIfSupport() != 1 && k2Product.getProductIfSupport() != 2)) {
-            return new SystemResult(100, "è¯·å¡«å†™è®¾ç½®æ­£ç¡®çš„æ— ç†ç”±é€€æ¬¾çš„éœ€æ±‚", null);
+            return new SystemResult(100, "ÇëÌîĞ´ÉèÖÃÕıÈ·µÄÎŞÀíÓÉÍË¿îµÄĞèÇó", null);
         }
 
-        // æ ¡éªŒæ— ç†ç”±é€€æ¬¾çš„å¤©æ•°
+        // Ğ£ÑéÎŞÀíÓÉÍË¿îµÄÌìÊı
         if (k2Product.getProductIfSupport() == null || k2Product.getProductIfSupport() != 1) {
             k2Product.setProductSupportDay(0);
-        } else if (k2Product.getProductSupportDay().toString().length() > 999) {
-            return new SystemResult(100, "æœ€é«˜æ”¯æŒ999å¤©çš„æ— ç†ç”±é€€æ¬¾", null);
+        } else if (k2Product.getProductSupportDay() == null || k2Product.getProductSupportDay() > 999) {
+            return new SystemResult(100, "×î¸ßÖ§³Ö999ÌìµÄÎŞÀíÓÉÍË¿î", null);
         }
 
-        // å•†å“å›¾ç‰‡
+        // ÉÌÆ·Í¼Æ¬
         if (StringUtils.isEmpty(k2Product.getProductImage())) {
-            return new SystemResult(100, "è¯·ä¸Šä¼ å•†å“çš„å›¾ç‰‡", null);
+            return new SystemResult(100, "ÇëÉÏ´«ÉÌÆ·µÄÍ¼Æ¬", null);
         }
         String[] imageSplit = k2Product.getProductImage().split(",");
         if (imageSplit.length > 6 || imageSplit.length < 1) {
-            return new SystemResult(100, "å•†å“çš„å›¾ç‰‡ä¸º1-6å¼ ", null);
+            return new SystemResult(100, "ÉÌÆ·µÄÍ¼Æ¬Îª1-6ÕÅ", null);
         }
 
-        // æ ¡éªŒå•†å“å–ç‚¹
+        // Ğ£ÑéÉÌÆ·Âôµã
         if (!StringUtils.isEmpty(k2Product.getProductPoints()) && k2Product.getProductPoints().length() > 700) {
-            return new SystemResult(100, "å•†å“å–ç‚¹è¿‡å¤šï¼Œè¯·å‡å°‘", null);
+            return new SystemResult(100, "ÉÌÆ·Âôµã¹ı¶à£¬Çë¼õÉÙ", null);
         }
 
-        // æ ¡éªŒå•†å“è¯¦æƒ…çš„å›¾ç‰‡
+        // Ğ£ÑéÉÌÆ·ÏêÇéµÄÍ¼Æ¬
         if (StringUtils.isEmpty(k2Product.getProductImageDescribe())) {
-            return new SystemResult(100, "è¯·ä¸Šä¼ å•†å“è¯¦æƒ…çš„å›¾ç‰‡", null);
+            return new SystemResult(100, "ÇëÉÏ´«ÉÌÆ·ÏêÇéµÄÍ¼Æ¬", null);
         }
         String[] iamgeDe = k2Product.getProductImageDescribe().split(",");
         if (iamgeDe.length > 30 || iamgeDe.length < 1) {
-            return new SystemResult(100, "å•†å“è¯¦æƒ…çš„å›¾ç‰‡ä¸º1-30å¼ ", null);
+            return new SystemResult(100, "ÉÌÆ·ÏêÇéµÄÍ¼Æ¬Îª1-30ÕÅ", null);
         }
 
-        // è¡¥å…¨æ•°æ®
-        // ---1ä¸Šæ¶ 2ä¸‹æ¶ 3åˆ é™¤ 4ç¼–è¾‘ä¸­ 5 å®¡æ ¸ä¸­
+        // ²¹È«Êı¾İ
+        // ---1ÉÏ¼Ü 2ÏÂ¼Ü 3É¾³ı 4±à¼­ÖĞ 5 ÉóºËÖĞ
         k2Product.setProductState(ProductStateEnum.EDIT.getValue());
         k2Product.setProductCreateTime(new Date());
         k2Product.setProductCreateUserid(k2Member.getMemberId());
@@ -265,30 +265,30 @@ public class ProductBasicsAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  è·å–ä¸€ä¸ªå”¯ä¸€çš„å•†å“ç¼–å·
+     * ¹¦ÄÜ:  »ñÈ¡Ò»¸öÎ¨Ò»µÄÉÌÆ·±àºÅ
      * <p>
-     * å‚æ•°:
-     * jedis         Jedis          jedisæ¨¡æ¿
-     * scrpit        String         è§£é”çš„luaè„šæœ¬
-     * redisKey      String         ç¼–å·çš„key
-     * k2ProductMapper  K2ProductMapper     å•†å“Mapperå®ä¾‹
+     * ²ÎÊı:
+     * jedis         Jedis          jedisÄ£°å
+     * scrpit        String         ½âËøµÄlua½Å±¾
+     * redisKey      String         ±àºÅµÄkey
+     * k2ProductMapper  K2ProductMapper     ÉÌÆ·MapperÊµÀı
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     private static SystemResult getOnlyProductNumber(JedisPool jedisPool, String redisKey, K2ProductMapper k2ProductMapper, RestTemplate restTemplate, String servletUrl) throws Exception {
         while (true) {
-            // é¦–å…ˆè·å–ä¸€ä¸ªå•†å“ç¼–å·SystemCacheManage.UNLOCK_REDIS_LUA
+            // Ê×ÏÈ»ñÈ¡Ò»¸öÉÌÆ·±àºÅSystemCacheManage.UNLOCK_REDIS_LUA
             ShoppingNumberPojo sp = new ShoppingNumberPojo(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, redisKey, "SP", 11, restTemplate, servletUrl);
             ShoppingNumberManage numberManage = new ShoppingNumberManage(sp, sp.NUMBER_TYPE_PRODUCT);
             SystemResult numberByRedisKey = numberManage.getNumberByRedisKey(redisKey, 10);
             if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
-            // è·å–ç¼–å·
+            // »ñÈ¡±àºÅ
             String number = numberByRedisKey.getData().toString();
             if (!StringUtils.isEmpty(number) && number.length() != 11) {
                 number = number.substring(0, 11);
             }
-            // åˆ¤æ–­å•†å“ç¼–å·æ˜¯å¦å”¯ä¸€
+            // ÅĞ¶ÏÉÌÆ·±àºÅÊÇ·ñÎ¨Ò»
             K2ProductExample example = new K2ProductExample();
             example.createCriteria().andProductNumberEqualTo(number);
             List<K2Product> k2Products = k2ProductMapper.selectByExample(example);
@@ -299,7 +299,7 @@ public class ProductBasicsAppoint {
     }
 
     /**
-     * è¿”å›å‰çš„å¤„ç†
+     * ·µ»ØÇ°µÄ´¦Àí
      *
      * @param k2Product
      */
@@ -309,42 +309,42 @@ public class ProductBasicsAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„åŸºç¡€ä¿¡æ¯
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄ»ù´¡ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * jedis                            Jedis               jedisæ¨¡æ¿
-     * productInfo                      String              å•†å“çš„Jsonæ•°æ®
-     * PRODUCT_NUMBER_REDIS_KEY         String              ç¼–å·çš„key
-     * k2ProductMapper                  K2ProductMapper     å•†å“Mapperå®ä¾‹
-     * k2Member                         K2Member            äººå‘˜ä¿¡æ¯
-     * state                            String              æ˜¯å¦è¿˜éœ€è¦æ·»åŠ   1éœ€è¦ 2ä¸éœ€è¦
+     * ²ÎÊı:
+     * jedis                            Jedis               jedisÄ£°å
+     * productInfo                      String              ÉÌÆ·µÄJsonÊı¾İ
+     * PRODUCT_NUMBER_REDIS_KEY         String              ±àºÅµÄkey
+     * k2ProductMapper                  K2ProductMapper     ÉÌÆ·MapperÊµÀı
+     * k2Member                         K2Member            ÈËÔ±ĞÅÏ¢
+     * state                            String              ÊÇ·ñ»¹ĞèÒªÌí¼Ó  1ĞèÒª 2²»ĞèÒª
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult addProduct(JedisPool jedisPool, String productInfo, String PRODUCT_NUMBER_REDIS_KEY,
                                           K2ProductMapper k2ProductMapper, K2Member k2Member, String state, K2ProductSketchMapper k2ProductSketchMapper,
                                           RestTemplate restTemplate, String servletUrl, String image) throws Exception {
 
-        // å•†å“çš„æ•°æ®
+        // ÉÌÆ·µÄÊı¾İ
         K2ProductWithBLOBs k2Product = null;
-        // è°ƒç”¨æ ¡éªŒç±» æŸ¥è¯¢å•†å“çš„JSONæ•°æ®æ˜¯å¦æ­£å¸¸
-        SystemResult checkProductResult = ProductBasicsAppoint.checkJsonWhetherGotoClass(productInfo, ProductInfoDto.class, "å•†å“ä¿¡æ¯", image);
+        // µ÷ÓÃĞ£ÑéÀà ²éÑ¯ÉÌÆ·µÄJSONÊı¾İÊÇ·ñÕı³£
+        SystemResult checkProductResult = ProductBasicsAppoint.checkJsonWhetherGotoClass(productInfo, ProductInfoDto.class, "ÉÌÆ·ĞÅÏ¢", image);
         if (checkProductResult.getStatus() != 200) return checkProductResult;
         k2Product = (K2ProductWithBLOBs) checkProductResult.getData();
-        // åˆ¤æ–­æœ¬æ¬¡è¿˜æ˜¯å¦éœ€è¦æ·»åŠ å•†å“æ•°æ®
+        // ÅĞ¶Ï±¾´Î»¹ÊÇ·ñĞèÒªÌí¼ÓÉÌÆ·Êı¾İ
         if ("1".equals(state)) {
-            // äº¤ç»™å§”æ‰˜ç±» è¿”å›ä¸€ä¸ªå•†å“å¯¹è±¡
+            // ½»¸øÎ¯ÍĞÀà ·µ»ØÒ»¸öÉÌÆ·¶ÔÏó
             SystemResult productResult = ProductBasicsAppoint.getProductInfoByPJson
                     (k2Product, jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, restTemplate, servletUrl);
             if (productResult.getStatus() != 200) return productResult;
-            // å–å‡ºå•†å“ä¿¡æ¯
+            // È¡³öÉÌÆ·ĞÅÏ¢
             k2Product = (K2ProductWithBLOBs) productResult.getData();
-            // æ·»åŠ å•†å“çš„ç®€è¿°ä¿¡æ¯
+            // Ìí¼ÓÉÌÆ·µÄ¼òÊöĞÅÏ¢
             K2ProductSketch sketch = new K2ProductSketch();
             sketch.setProductSketchValue(k2Product.getProductSketchContentl());
             k2ProductSketchMapper.insert(sketch);
-            // æ·»åŠ å•†å“ä¿¡æ¯
+            // Ìí¼ÓÉÌÆ·ĞÅÏ¢
             k2Product.setProductSketchId(sketch.getProductSketchId());
             k2ProductMapper.insert(k2Product);
         }

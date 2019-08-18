@@ -175,7 +175,7 @@ public class ProductSkuAppoint {
             productSkuDtos.add(dto);
         }
         // 遍历完成 批量添加公共的SKU数据
-        productSkuKeyMapper.batchInsertCommonsSku(k2ProductCommonskuses);
+        if(!CollectionUtils.isEmpty(k2ProductCommonskuses)) productSkuKeyMapper.batchInsertCommonsSku(k2ProductCommonskuses);
 
         // 将数据封装进对象中
         ProductSkuDatas skuDatas = new ProductSkuDatas();

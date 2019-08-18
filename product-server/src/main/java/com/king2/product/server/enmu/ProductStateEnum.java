@@ -10,7 +10,8 @@ public enum ProductStateEnum {
     EDIT("编辑中", 4), // 商品编辑中的状态
     SH("审核中", 5), // 审核中的状态
     KCYES("库存充足", 6), // 库存充足的状态
-    KCNO("库存不足", 7); // 库存不足的状态
+    KCNO("库存不足", 7), // 库存不足的状态
+    SHNO("审核不通过", 8);
 
     private final int value;
     private final String key;
@@ -28,8 +29,4 @@ public enum ProductStateEnum {
         return key;
     }
 
-    @Override
-    public String toString() {
-        return "name: " + getKey() + ",value: " + getValue();
-    }
 }

@@ -1,8 +1,8 @@
 spring:                                                  # 数据源配置
   datasource:
-    username: shoproot
-    password: shoproot
-    url: jdbc:mysql://localhost:3306/king2_shopping?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: luqiqi
+    url: jdbc:mysql://39.105.41.2:3306/king2_shopping?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置

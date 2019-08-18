@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: xkprod
+    active: prod
   servlet:
     multipart:
       max-file-size: 10MB
