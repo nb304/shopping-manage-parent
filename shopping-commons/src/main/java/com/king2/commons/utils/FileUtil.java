@@ -92,7 +92,7 @@ public class FileUtil {
         // 创建文件输入流
         FileWriter writer = new FileWriter(new File(filePath), append);
         writer.write(msg);
-        writer.write("\r");
+        writer.write("\r\n");
         writer.flush();
         writer.close();
         return new SystemResult("ok");

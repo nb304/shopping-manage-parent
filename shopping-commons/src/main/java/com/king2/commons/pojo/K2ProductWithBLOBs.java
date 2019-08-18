@@ -1,14 +1,20 @@
 package com.king2.commons.pojo;
 
-public class K2ProductWithBLOBs extends K2Product {
+import org.apache.solr.client.solrj.beans.Field;
+
+import java.io.Serializable;
+
+public class K2ProductWithBLOBs extends K2Product implements Serializable {
     /**
      * 商品卖点
      */
+    @Field("productPoints")
     private String productPoints;
 
     /**
      * 商品图片  ---多张图片,隔开
      */
+    @Field("productImage")
     private String productImage;
 
     /**
@@ -18,6 +24,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品卖点
+     *
      * @return product_points 商品卖点
      */
     public String getProductPoints() {
@@ -26,6 +33,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品卖点
+     *
      * @param productPoints 商品卖点
      */
     public void setProductPoints(String productPoints) {
@@ -34,6 +42,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品图片  ---多张图片,隔开
+     *
      * @return product_image 商品图片  ---多张图片,隔开
      */
     public String getProductImage() {
@@ -42,6 +51,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品图片  ---多张图片,隔开
+     *
      * @param productImage 商品图片  ---多张图片,隔开
      */
     public void setProductImage(String productImage) {
@@ -50,6 +60,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品详情图片 ---多张图片,隔开
+     *
      * @return product_image_describe 商品详情图片 ---多张图片,隔开
      */
     public String getProductImageDescribe() {
@@ -58,6 +69,7 @@ public class K2ProductWithBLOBs extends K2Product {
 
     /**
      * 商品详情图片 ---多张图片,隔开
+     *
      * @param productImageDescribe 商品详情图片 ---多张图片,隔开
      */
     public void setProductImageDescribe(String productImageDescribe) {
