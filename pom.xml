@@ -34,6 +34,9 @@
         <hutool.version>4.5.11</hutool.version>
         <swagger2.version>2.8.0</swagger2.version>
 
+
+        <!-- solr版本号 -->
+        <spring.data.solr.version>2.1.1.RELEASE</spring.data.solr.version>
     </properties>
 
 
@@ -58,6 +61,13 @@
                 <scope>import</scope>
             </dependency>
             <!-- 结束:spring-cloud依赖管理 -->
+
+            <!-- Solr -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-solr</artifactId>
+                <version>${spring.data.solr.version}</version>
+            </dependency>
 
             <!-- 开始:mysql 驱动 -->
             <dependency>
@@ -92,7 +102,6 @@
             <!-- 结束:hutool -->
 
 
-
             <!--hutool中的excel工具类要3.17以上的依赖包-->
             <dependency>
                 <groupId>org.apache.poi</groupId>
@@ -125,6 +134,12 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!-- Solr依赖 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+        </dependency>
 
         <!-- 开始:web模块 -->
         <dependency>
@@ -198,7 +213,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
-
 
 
     </dependencies>
