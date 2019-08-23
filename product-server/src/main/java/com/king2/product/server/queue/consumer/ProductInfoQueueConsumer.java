@@ -3,6 +3,7 @@ package com.king2.product.server.queue.consumer;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.FileUtil;
+import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductInfoQueueAppoint;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.queue.ProductSuccessQueue;
@@ -58,7 +59,6 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
                     ProductSuccessQueue successQueue = ProductSuccessQueue.getInstance();
                     ConcurrentLinkedQueue<K2ProductWithBLOBs> produdctInfoQueue = successQueue.getProdudctInfoQueue();
                     if (produdctInfoQueue != null && !produdctInfoQueue.isEmpty()) {
-                        System.out.println("进来了");
                         // 有数据就消费数据
                         K2ProductWithBLOBs product = produdctInfoQueue.poll();
 
@@ -78,6 +78,9 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
                                     true);
                         } else if (productIsPassResult.getStatus() == 200) {
                             // 审核成功
+                            // 将信息存到缓存服务器中去
+                            // 商品信息没有通过  通知缓存队列更新数据
+                            ProductBasicsAppoint.addSynchronizedProductGotoCache(product);
                             // 信息过审后将信息推到solr搜索服务器去
                             SystemResult result = productInfoQueueAppoint.synchronizedSolr(product);
                             if (result.getStatus() != 200) {
@@ -91,11 +94,10 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
                                         true);
                             }
                         }
-                        System.out.println("结束了");
                     } else {
                         // 没有数据 就休息 直到被唤醒
                         // await和Object的wait一样会让出cpu和锁资源
-                        condition.await(1, TimeUnit.MINUTES);
+                        condition.await(100, TimeUnit.MINUTES);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

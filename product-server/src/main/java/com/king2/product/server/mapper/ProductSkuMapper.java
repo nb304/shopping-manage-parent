@@ -5,10 +5,7 @@ import com.king2.commons.pojo.K2ProductSkuKey;
 import com.king2.commons.pojo.K2ProductSkuPriceandkc;
 import com.king2.commons.pojo.K2ProductSkuValue;
 import com.king2.product.server.dto.ProductSkuDto;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -97,11 +94,11 @@ public interface ProductSkuMapper {
      */
     @Insert("<script>" +
             "INSERT INTO k2_product_sku_priceandkc(sku_priceandkc_valuelistid,belong_product_id," +
-            "product_sku_price,product_sku_kc)" +
+            "product_sku_price,product_sku_kc,product_sku_value_ids)" +
             "VALUES" +
             "<foreach collection='list' item='item' separator=','>" +
             "(#{item.skuPriceandkcValuelistid},#{item.belongProductId}," +
-            "#{item.productSkuPrice},#{item.productSkuKc})" +
+            "#{item.productSkuPrice},#{item.productSkuKc},#{item.productSkuValueIds})" +
             "</foreach>" +
             "</script>")
     @Options(useGeneratedKeys = true, keyProperty = "skuPriceandkcId")
@@ -120,4 +117,18 @@ public interface ProductSkuMapper {
     @Select("SELECT product_sku_key_id,product_sku_key_name,is_system_create FROM" +
             " k2_product_sku_key WHERE belong_category_id = #{cId} AND is_system_create = 1 AND sku_key_state = 1")
     List<K2ProductSkuKey> getSkuInfoByCid(Integer cId);
+
+    /**
+     * 批量修改商品的SKU库存吸力小
+     *
+     * @param k2ProductSkuPriceandkcs
+     */
+    @Update("<script>" +
+            "<foreach  collection='list' item='item' separator=';'>" +
+            "UPDATE k2_product_sku_priceandkc SET product_sku_price = #{item.productSkuPrice} " +
+            ", product_sku_kc = #{item.productSkuKc} " +
+            "WHERE sku_priceandkc_id = #{item.skuPriceandkcId}" +
+            "</foreach>  " +
+            "</script>")
+    void batchUpdate(@Param("list") List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs);
 }

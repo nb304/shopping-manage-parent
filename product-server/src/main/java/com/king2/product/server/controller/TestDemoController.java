@@ -1,5 +1,6 @@
 package com.king2.product.server.controller;
 
+import cn.hutool.json.JSONObject;
 import com.king2.commons.getnumber.ShoppingNumberManage;
 import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2ProductSkuKey;
@@ -10,6 +11,8 @@ import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
+import com.sun.net.ssl.HttpsURLConnection;
+import io.minio.MinioClient;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -26,11 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -168,7 +170,7 @@ public class TestDemoController {
         return new SystemResult("ok");
     }
 
-    public static void main(String[] args) throws Exception {
+    /*public static void main(String[] args) throws Exception {
         ProductInfoDto infoDto = new ProductInfoDto();
         infoDto.setProductBazaarPrice(new BigDecimal(3200.99));
         infoDto.setProductBrandId(1);
@@ -190,21 +192,16 @@ public class TestDemoController {
         System.out.println(JsonUtils.objectToJson(dtos));
 
     }
+*/
 
 
-    /*public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(new File("C:\\Users\\22464\\Desktop\\反动词库.txt")));
-        BufferedReader sr = new BufferedReader(reader);
-        String lineText = "";
-        FileWriter writer = new FileWriter(new File("C:\\Users\\22464\\Desktop\\txt.txt"),true);
-        while ((lineText = sr.readLine()) != null) {
-            writer.append(lineText + ",");
-            writer.flush();
-        }
-
-        writer.close();
-    }*/
+        // 使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
+        MinioClient minioClient = new MinioClient("http://39.105.41.2:9000", "king2username", "king2password");
+        minioClient.removeObject("king2-product-image", "king2-product-SP9FD169A044C087F4C955813DC0A6855337.png");
+        System.out.println();
+    }
 
     /**
      * ??????reids?е???
@@ -213,10 +210,12 @@ public class TestDemoController {
      * @throws Exception
      */
     @RequestMapping("/testGetNumber")
-    public SystemResult testGetNumber() throws Exception {
+    public SystemResult testGetNumber(MultipartFile[] files) throws Exception {
 
-        BigDecimal bigDecimal = new BigDecimal("ada");
-        System.out.println(bigDecimal.floatValue());
+        // 使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
+        MinioClient minioClient = new MinioClient("http://39.105.41.2:9000", "king2username", "king2password");
+        minioClient.removeObject("king2-product-image", "king2-product-SP9FD169A044C087F4C955813DC0A6855337.png");
+        System.out.println();
         return null;
     }
 

@@ -1,6 +1,7 @@
 package com.king2.product.server.controller;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.ProductUploadImageAppoint;
 import com.king2.product.server.service.ProductBasicsManageService;
@@ -117,30 +118,6 @@ public class ProductBasicsManageController {
         return result;
     }
 
-
-    /**
-     * -----------------------------------------------------
-     * 功能:  添加商品的SPU信息
-     * <p>
-     * 参数:
-     * productSpuJson             String           SPU的JSON数据
-     * productId                  String           商品id
-     * <p>
-     * 返回: SystemResult               返回调用者的数据
-     * -----------------------------------------------------
-     */
-    @PostMapping("/add/spu")
-    @ApiOperation(value = "添加商品的SPU数据", notes = "")
-    public SystemResult addProductSpu(@NotBlank(message = "商品SPU数据不能为空") String productSpuJson,
-                                      @NotBlank(message = "商品Id不能为空") @Pattern(regexp = "[0-9]{1,}", message = "商品ID类型错误") String productId, HttpServletRequest request) {
-
-        // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
-        // 调用服务 插入SPU数据
-        SystemResult result = productBasicsManageService.addProductSpu(productSpuJson, Integer.parseInt(productId), k2Member);
-        return result;
-    }
-
     /**
      * -----------------------------------------------------
      * 功能:  上传图片的方法
@@ -161,5 +138,58 @@ public class ProductBasicsManageController {
         return product;
     }
 
+    /**
+     * -----------------------------------------------------
+     * 功能:  显示商品修改页面并准备数据的方法
+     * <p>
+     * 参数:
+     * productId             String           商品id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @GetMapping("/edit/get/{productId}")
+    public SystemResult showEditProductInfo(HttpServletRequest request,
+                                            @NotBlank(message = "商品id不能为空") @PathVariable("productId")
+                                            @Pattern(regexp = "[0-9]{1,}", message = "商品id类型错误") String productId) {
+        // 获取用户数据
+        K2Member k2Member = (K2Member) request.getAttribute("user");
+        SystemResult result = productBasicsManageService.showEditGetProInfo(Integer.parseInt(productId), k2Member);
+        return result;
+    }
 
+    /**
+     * -----------------------------------------------------
+     * 功能:  查询商品的图片信息
+     * <p>
+     * 参数:
+     * productId             String           商品id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @GetMapping("/edit/get/image/{productId}")
+    public SystemResult getProductImage(@NotBlank(message = "商品id不能为空") @PathVariable("productId")
+                                        @Pattern(regexp = "[0-9]{1,}", message = "商品id类型错误") String productId) {
+        SystemResult result = productBasicsManageService.getProductImageByPId(Integer.parseInt(productId));
+        return result;
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  修改商品信息
+     * <p>
+     * 参数:
+     * productId             String           商品id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @PostMapping("/edit/info")
+    public SystemResult edit(HttpServletRequest request, @Validated K2ProductWithBLOBs k2ProductWithBLOBs) {
+        // 获取用户数据
+        K2Member k2Member = (K2Member) request.getAttribute("user");
+        SystemResult result = productBasicsManageService.editProductInfo(k2ProductWithBLOBs, k2Member);
+        return result;
+    }
 }

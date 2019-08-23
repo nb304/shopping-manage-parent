@@ -33,7 +33,6 @@ import java.util.List;
 @Service
 public class ProductIndexManageServiceImpl implements ProductIndexManageService {
 
-
     // 注入商品首页管理委托类
     @Autowired
     private ProductIndexAppoint productIndexAppoint;

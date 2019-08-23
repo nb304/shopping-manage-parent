@@ -16,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKUç®¡ç†å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·SKU¹ÜÀíÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.07   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.07   			´´½¨
 =======================================================*/
 @Component
 public class ProductSkuAppoint {
@@ -27,26 +27,26 @@ public class ProductSkuAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®pojosè·å–å¯¹åº”çš„å•†å“SKUé›†åˆä¿¡æ¯å¹¶æ·»åŠ æ•°æ®
+     * ¹¦ÄÜ:  ¸ù¾İpojos»ñÈ¡¶ÔÓ¦µÄÉÌÆ·SKU¼¯ºÏĞÅÏ¢²¢Ìí¼ÓÊı¾İ
      * <p>
-     * å‚æ•°:
-     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOçš„æ•°æ®é›†åˆ
-     * k2Member                 K2Member                        æ“ä½œçš„äººå‘˜
-     * k2Product                K2ProductWithBLOBs              å•†å“ä¿¡æ¯
+     * ²ÎÊı:
+     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOµÄÊı¾İ¼¯ºÏ
+     * k2Member                 K2Member                        ²Ù×÷µÄÈËÔ±
+     * k2Product                K2ProductWithBLOBs              ÉÌÆ·ĞÅÏ¢
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult addProductSkuKeyInfos(List<ProductSkuPojo> productSkuPojos, K2Member k2Member, K2ProductWithBLOBs k2ProductWithBLOBs,
                                                      ProductSkuMapper productSkuKeyMapper, K2ProductSkuKeyMapper k2ProductSkuKeyMapper) {
 
-        // åˆ¤æ–­Pojoæ˜¯å¦æœ‰æ•°æ®
-        if (CollectionUtils.isEmpty(productSkuPojos)) return new SystemResult(100, "è¯·å¡«å†™å•†å“SKUçš„ä¿¡æ¯", null);
-        // æ ¹æ®é›†åˆè·å–å•†å“Skué›†åˆæ•°æ®
+        // ÅĞ¶ÏPojoÊÇ·ñÓĞÊı¾İ
+        if (CollectionUtils.isEmpty(productSkuPojos)) return new SystemResult(100, "ÇëÌîĞ´ÉÌÆ·SKUµÄĞÅÏ¢", null);
+        // ¸ù¾İ¼¯ºÏ»ñÈ¡ÉÌÆ·Sku¼¯ºÏÊı¾İ
         SystemResult systemResult = forEachPojosReturnSkuLists(productSkuPojos, k2ProductWithBLOBs, k2Member, productSkuKeyMapper, k2ProductSkuKeyMapper);
         if (systemResult.getStatus() != 200) return systemResult;
 
-        // æ·»åŠ å•†å“sku
+        // Ìí¼ÓÉÌÆ·sku
         ProductSkuDatas data = (ProductSkuDatas) systemResult.getData();
         SystemResult addProductSkuKey = addProductSkuKey(data, productSkuKeyMapper);
 
@@ -56,30 +56,30 @@ public class ProductSkuAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   æ·»åŠ å•†å“sku-keyä¿¡æ¯ å¹¶è¿”å›SKUâ€”â€”VALUEçš„æ•°æ®
+     * ¹¦ÄÜ:   Ìí¼ÓÉÌÆ·sku-keyĞÅÏ¢ ²¢·µ»ØSKU¡ª¡ªVALUEµÄÊı¾İ
      * <p>
-     * å‚æ•°:
-     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOçš„æ•°æ®é›†åˆ
-     * productSkuKeyMapper      ProductSkuKeyMapper             å•†å“Sku-keyçš„Mapperæ¥å£å®ä¾‹
+     * ²ÎÊı:
+     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOµÄÊı¾İ¼¯ºÏ
+     * productSkuKeyMapper      ProductSkuKeyMapper             ÉÌÆ·Sku-keyµÄMapper½Ó¿ÚÊµÀı
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult addProductSkuKey(ProductSkuDatas productSkuDatas, ProductSkuMapper productSkuKeyMapper) {
-        // æ·»åŠ å•†å“sku-keyçš„ä¿¡æ¯
+        // Ìí¼ÓÉÌÆ·sku-keyµÄĞÅÏ¢
         if (!CollectionUtils.isEmpty(productSkuDatas.getUserCreateSkus()))
             productSkuKeyMapper.batchInsertSkuKey(productSkuDatas.getUserCreateSkus());
 
-        // æ·»åŠ æˆåŠŸååˆ›å»ºè¯¥sku-keyçš„å€¼æ•°æ®
-        // æ·»åŠ æˆåŠŸ ï¼Œ å°†ä¸¤ä¸ªé›†åˆåˆå¹¶å¹¶æ’åº
+        // Ìí¼Ó³É¹¦ºó´´½¨¸Ãsku-keyµÄÖµÊı¾İ
+        // Ìí¼Ó³É¹¦ £¬ ½«Á½¸ö¼¯ºÏºÏ²¢²¢ÅÅĞò
         productSkuDatas.getUserCreateSkus().addAll(productSkuDatas.getSystemCreateSKus());
-        // è¿›è¡Œæ’åº
+        // ½øĞĞÅÅĞò
         Collections.sort(productSkuDatas.getUserCreateSkus());
 
-        // åˆ›å»ºSKUValueçš„è¿”å›æ•°æ®
+        // ´´½¨SKUValueµÄ·µ»ØÊı¾İ
         List<K2ProductSkuValue> k2ProductSkuValues = new ArrayList<>();
         for (ProductSkuDto productSkuDto : productSkuDatas.getUserCreateSkus()) {
-            // è·å–åˆ°å½“å‰sku-keyçš„valueä¿¡æ¯
+            // »ñÈ¡µ½µ±Ç°sku-keyµÄvalueĞÅÏ¢
             if (!StringUtils.isEmpty(productSkuDto.getProduct_sku_value())) {
                 String[] split = productSkuDto.getProduct_sku_value().split(",");
                 for (String s : split) {
@@ -97,60 +97,60 @@ public class ProductSkuAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®pojosè·å–å¯¹åº”çš„å•†å“SKUé›†åˆä¿¡æ¯2
+     * ¹¦ÄÜ:  ¸ù¾İpojos»ñÈ¡¶ÔÓ¦µÄÉÌÆ·SKU¼¯ºÏĞÅÏ¢2
      * <p>
-     * å‚æ•°:
-     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOçš„æ•°æ®é›†åˆ
-     * k2Member                 K2Member                        æ“ä½œçš„äººå‘˜
-     * k2Product                K2ProductWithBLOBs              å•†å“ä¿¡æ¯
+     * ²ÎÊı:
+     * productSkuPojos          List<ProductSkuPojo>            SKUPOJOµÄÊı¾İ¼¯ºÏ
+     * k2Member                 K2Member                        ²Ù×÷µÄÈËÔ±
+     * k2Product                K2ProductWithBLOBs              ÉÌÆ·ĞÅÏ¢
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult forEachPojosReturnSkuLists(List<ProductSkuPojo> productSkuPojos, K2ProductWithBLOBs k2Product,
                                                           K2Member k2Member, ProductSkuMapper productSkuKeyMapper, K2ProductSkuKeyMapper k2ProductSkuKeyMapper) {
 
-        // åˆ›å»ºSKUè¿”å›å€¼
+        // ´´½¨SKU·µ»ØÖµ
         List<ProductSkuDto> productSkuDtos = new ArrayList<>();
-        // åˆ›å»ºç³»ç»Ÿå®šä¹‰å¥½çš„SKUä¿¡æ¯
+        // ´´½¨ÏµÍ³¶¨ÒåºÃµÄSKUĞÅÏ¢
         List<ProductSkuDto> systemProductSkuDtos = new ArrayList<>();
-        // åˆ›å»ºSKUå…¬å…±å•†å“ä¿¡æ¯é›†åˆ
+        // ´´½¨SKU¹«¹²ÉÌÆ·ĞÅÏ¢¼¯ºÏ
         List<K2ProductCommonskus> k2ProductCommonskuses = new ArrayList<K2ProductCommonskus>();
-        // éå†POJOä¿¡æ¯å°è£…SKUå‚æ•°
-        // å®šä¹‰count;
+        // ±éÀúPOJOĞÅÏ¢·â×°SKU²ÎÊı
+        // ¶¨Òåcount;
         int count = 0;
         for (ProductSkuPojo productSkuPojo : productSkuPojos) {
-            // æŸ¥çœ‹
-            // æ ¡éªŒæ•°æ®å¦‚æœæ ¡éªŒæˆåŠŸåˆ™è¿”å›SKUæ•°æ®
+            // ²é¿´
+            // Ğ£ÑéÊı¾İÈç¹ûĞ£Ñé³É¹¦Ôò·µ»ØSKUÊı¾İ
             ProductSkuDto dto = new ProductSkuDto();
-            // æ ¡éªŒSKUåç§°
+            // Ğ£ÑéSKUÃû³Æ
             if (StringUtils.isEmpty(productSkuPojo.getProductSkuKeyName()) || productSkuPojo.getProductSkuKeyName().length() > 50) {
-                return new SystemResult(100, "skuçš„keyè¿‡é•¿ï¼ŒèŒƒå›´åœ¨1~50å­—", null);
+                return new SystemResult(100, "skuµÄkey¹ı³¤£¬·¶Î§ÔÚ1~50×Ö", null);
             }
-            // æ ¡éªŒSKUçš„Value
+            // Ğ£ÑéSKUµÄValue
             if (StringUtils.isEmpty(productSkuPojo.getSkuValue())) {
-                return new SystemResult(100, "skuçš„å€¼ä¸èƒ½ä¸ºç©º", null);
+                return new SystemResult(100, "skuµÄÖµ²»ÄÜÎª¿Õ", null);
             }
 
-            // åˆ¤æ–­æ˜¯å¦æ˜¯ç³»ç»Ÿåˆ›å»º
+            // ÅĞ¶ÏÊÇ·ñÊÇÏµÍ³´´½¨
             if (productSkuPojo.isSystemDef()) {
-                // æ˜¯ç³»ç»Ÿåˆ›å»º  å°±è¦æ·»åŠ å•†å“ä¿¡æ¯å¯¹åº”çš„SKUå…¬å…±è¡¨çš„ä¿¡æ¯
+                // ÊÇÏµÍ³´´½¨  ¾ÍÒªÌí¼ÓÉÌÆ·ĞÅÏ¢¶ÔÓ¦µÄSKU¹«¹²±íµÄĞÅÏ¢
                 if (StringUtils.isEmpty(productSkuPojo.getProductSkuKeyId()) || !productSkuPojo.getProductSkuKeyId().matches("[0-9]{1,}")) {
-                    // ç³»ç»Ÿåˆ›å»ºçš„SKUä¿¡æ¯é”™è¯¯
-                    return new SystemResult(100, "ç³»ç»Ÿåˆ›å»ºçš„SKUä¿¡æ¯é”™è¯¯", null);
+                    // ÏµÍ³´´½¨µÄSKUĞÅÏ¢´íÎó
+                    return new SystemResult(100, "ÏµÍ³´´½¨µÄSKUĞÅÏ¢´íÎó", null);
                 }
 
-                // æŸ¥çœ‹è¯¥SKUä¿¡æ¯æ˜¯å¦ä¸ºç©º
+                // ²é¿´¸ÃSKUĞÅÏ¢ÊÇ·ñÎª¿Õ
                 K2ProductSkuKey productSkuKey = k2ProductSkuKeyMapper.selectByPrimaryKey(Integer.parseInt(productSkuPojo.getProductSkuKeyId()));
                 if (productSkuKey == null || productSkuKey.getSkuKeyState() != 1)
-                    return new SystemResult(100, "åŠ è½½å¤±è´¥ï¼Œè¯·åˆ·æ–°é¡µé¢é‡è¯•", null);
+                    return new SystemResult(100, "¼ÓÔØÊ§°Ü£¬ÇëË¢ĞÂÒ³ÃæÖØÊÔ", null);
 
-                // è¡¥å…¨å…¬å…±ä¿¡æ¯æ•°æ®
+                // ²¹È«¹«¹²ĞÅÏ¢Êı¾İ
                 K2ProductCommonskus commonskus = new K2ProductCommonskus();
                 commonskus.setCommonsSkuId(Integer.parseInt(productSkuPojo.getProductSkuKeyId()));
                 commonskus.setProductId(k2Product.getProductId());
                 k2ProductCommonskuses.add(commonskus);
-                // æœ¬æ¬¡å…¬å…±çš„SKUå€¼ä¿¡æ¯
+                // ±¾´Î¹«¹²µÄSKUÖµĞÅÏ¢
                 dto.setIsSystemCreate(1);
                 dto.setProduct_sku_value(productSkuPojo.getSkuValue());
                 dto.setSkuKeyOrder(productSkuKey.getSkuKeyOrder());
@@ -159,25 +159,25 @@ public class ProductSkuAppoint {
                 continue;
             }
 
-            // è¡¥å…¨æ•°æ®
+            // ²¹È«Êı¾İ
             dto.setProduct_sku_value(productSkuPojo.getSkuValue());
             dto.setProductSkuKeyName(productSkuPojo.getProductSkuKeyName());
             dto.setBelongProductId(k2Product.getProductId());
             dto.setBelongCategoryId(k2Product.getProductTwoCategoryId());
-            // æ˜¯å¦æ˜¯ç³»ç»Ÿåˆ›å»ºçš„  ---1æ˜¯ 2å¦
+            // ÊÇ·ñÊÇÏµÍ³´´½¨µÄ  ---1ÊÇ 2·ñ
             dto.setIsSystemCreate(2);
             dto.setCreateUserid(k2Member.getMemberId());
             dto.setCreateTime(new Date());
             dto.setBelongStoreId(Integer.parseInt(k2Member.getRetain1()));
             dto.setSkuKeyOrder(++count);
-            //SKUç»„çš„çŠ¶æ€  ---1æ­£å¸¸ä½¿ç”¨ 2åˆ é™¤ 3æ³¨é”€
+            //SKU×éµÄ×´Ì¬  ---1Õı³£Ê¹ÓÃ 2É¾³ı 3×¢Ïú
             dto.setSkuKeyState(1);
             productSkuDtos.add(dto);
         }
-        // éå†å®Œæˆ æ‰¹é‡æ·»åŠ å…¬å…±çš„SKUæ•°æ®
+        // ±éÀúÍê³É ÅúÁ¿Ìí¼Ó¹«¹²µÄSKUÊı¾İ
         if(!CollectionUtils.isEmpty(k2ProductCommonskuses)) productSkuKeyMapper.batchInsertCommonsSku(k2ProductCommonskuses);
 
-        // å°†æ•°æ®å°è£…è¿›å¯¹è±¡ä¸­
+        // ½«Êı¾İ·â×°½ø¶ÔÏóÖĞ
         ProductSkuDatas skuDatas = new ProductSkuDatas();
         skuDatas.setSystemCreateSKus(systemProductSkuDtos);
         skuDatas.setUserCreateSkus(productSkuDtos);

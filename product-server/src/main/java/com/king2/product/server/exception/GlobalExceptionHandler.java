@@ -14,71 +14,71 @@ import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 /*================================================================
-è¯´æ˜ï¼šå…¨å±€å¼‚å¸¸å¤„ç†
+ËµÃ÷£ºÈ«¾ÖÒì³£´¦Àí
 
-ä½œè€…          æ—¶é—´             æ³¨é‡Š
-ä¿çƒ¨        2018.7.26	      åˆ›å»º
+×÷Õß          Ê±¼ä             ×¢ÊÍ
+ÓáìÇ        2018.7.26	      ´´½¨
 ==================================================================*/
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * ----------------------------------------------------------------- åŠŸèƒ½ï¼šå¤„ç†å…¨å±€å¼‚å¸¸
+     * ----------------------------------------------------------------- ¹¦ÄÜ£º´¦ÀíÈ«¾ÖÒì³£
      * <p>
-     * è¿”å›ï¼šSystemResult å¼‚å¸¸ç»“æœä¿¡æ¯
+     * ·µ»Ø£ºSystemResult Òì³£½á¹ûĞÅÏ¢
      * -------------------------------------------------------------------
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public SystemResult errorHandler(Exception e) {
-        // æ‰“å°æ ˆå †ä¿¡æ¯
+        // ´òÓ¡Õ»¶ÑĞÅÏ¢
         e.printStackTrace();
-        return SystemResult.build(500, "ç¨‹åºå†…éƒ¨å¼‚å¸¸,è¯·ç¨åå†è¯•");
+        return SystemResult.build(500, "³ÌĞòÄÚ²¿Òì³£,ÇëÉÔºóÔÙÊÔ");
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseBody
     public SystemResult requestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
-        return SystemResult.build(100, "è¯·æ±‚æ–¹å¼é”™è¯¯", ex.getMessage());
+        return SystemResult.build(100, "ÇëÇó·½Ê½´íÎó", ex.getMessage());
     }
 
     /**
-     * ----------------------------------------------------------------- åŠŸèƒ½ï¼šå¤„ç†æ•°æ®æ ¡éªŒå¼‚å¸¸
+     * ----------------------------------------------------------------- ¹¦ÄÜ£º´¦ÀíÊı¾İĞ£ÑéÒì³£
      * <p>
-     * è¿”å›ï¼šSystemResult å¼‚å¸¸ç»“æœä¿¡æ¯
+     * ·µ»Ø£ºSystemResult Òì³£½á¹ûĞÅÏ¢
      * -------------------------------------------------------------------
      */
     @ExceptionHandler(BindException.class)
     @ResponseBody
     public SystemResult dataException(BindException bind) {
-        // è¿”å›é”™è¯¯ä¿¡æ¯
+        // ·µ»Ø´íÎóĞÅÏ¢
         return SystemResult.build(100, bind.getFieldError().getDefaultMessage());
     }
 
     /**
      * -----------------------------------------------------------------
-     * åŠŸèƒ½ï¼šå¤„ç†åŠ äº†@RequestBodyæ•°æ®æ ¡éªŒå¼‚å¸¸
+     * ¹¦ÄÜ£º´¦Àí¼ÓÁË@RequestBodyÊı¾İĞ£ÑéÒì³£
      * <p>
-     * è¿”å›ï¼šSystemResult å¼‚å¸¸ç»“æœä¿¡æ¯
+     * ·µ»Ø£ºSystemResult Òì³£½á¹ûĞÅÏ¢
      * -------------------------------------------------------------------
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public SystemResult MethodArgumentNotValidException(MethodArgumentNotValidException dataValid) {
-        // è¿”å›é”™è¯¯ä¿¡æ¯
+        // ·µ»Ø´íÎóĞÅÏ¢
         return SystemResult.build(100, dataValid.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     /**
-     * å¤„ç†è¯·æ±‚å•ä¸ªå‚æ•°ä¸æ»¡è¶³æ ¡éªŒè§„åˆ™çš„å¼‚å¸¸ä¿¡æ¯
+     * ´¦ÀíÇëÇóµ¥¸ö²ÎÊı²»Âú×ãĞ£Ñé¹æÔòµÄÒì³£ĞÅÏ¢
      */
     @ExceptionHandler(value = ConstraintViolationException.class)
     @ResponseBody
     public SystemResult constraintViolationExceptionHandler(HttpServletRequest request,
                                                             ConstraintViolationException exception) {
-        // æ‰§è¡Œæ ¡éªŒï¼Œè·å¾—æ ¡éªŒç»“æœ
+        // Ö´ĞĞĞ£Ñé£¬»ñµÃĞ£Ñé½á¹û
         Set<ConstraintViolation<?>> validResult = exception.getConstraintViolations();
-        // è¿”å›é”™è¯¯ä¿¡æ¯
+        // ·µ»Ø´íÎóĞÅÏ¢
         return SystemResult.build(100, validResult.iterator().next().getMessage());
     }
 }

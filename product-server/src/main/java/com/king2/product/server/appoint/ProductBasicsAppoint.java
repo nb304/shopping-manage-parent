@@ -11,7 +11,10 @@ import com.king2.commons.utils.RedisUtil;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
 import com.king2.product.server.enmu.ProductStateEnum;
+import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
+import com.king2.product.server.queue.ProductSuccessQueue;
+import com.king2.product.server.queue.SynchornizedProductQueue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,8 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
 	说明:    商品基础管理委派类
@@ -349,5 +354,56 @@ public class ProductBasicsAppoint {
             k2ProductMapper.insert(k2Product);
         }
         return new SystemResult(k2Product);
+    }
+
+
+    /**
+     * 校验信息是否正确并同步信息到solr服务器
+     *
+     * @param k2ProductWithBLOBs
+     */
+    public static void addProductInfoQueue(K2ProductWithBLOBs k2ProductWithBLOBs) {
+        // 获取锁
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
+        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
+        // 加锁
+        reentrantLock.lock();
+        try {
+            // 获取商品队列数据
+            ProductSuccessQueue successQueue = ProductSuccessQueue.getInstance();
+            successQueue.getProdudctInfoQueue().add(k2ProductWithBLOBs);
+            // 唤醒所有线程
+            condition.signalAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reentrantLock.unlock();
+        }
+    }
+
+    /**
+     * 同步商品信息到缓存服务器中去
+     *
+     * @param k2ProductWithBLOBs
+     */
+    public static void addSynchronizedProductGotoCache(K2ProductWithBLOBs k2ProductWithBLOBs) {
+        // 获取锁
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getLock();
+        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getCondition();
+        // 加锁
+        reentrantLock.lock();
+        try {
+            // 获取商品同步的队列数据
+            SynchornizedProductQueue queue = SynchornizedProductQueue.getInstance();
+            queue.getSynchronizedProductQueue().add(k2ProductWithBLOBs);
+            // 唤醒所有线程
+            condition.signalAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reentrantLock.unlock();
+        }
     }
 }

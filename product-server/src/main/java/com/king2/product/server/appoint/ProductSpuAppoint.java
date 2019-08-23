@@ -5,16 +5,17 @@ import com.king2.commons.pojo.K2ProductSpu;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SPUå§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·SPUÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.10   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.10   			´´½¨
 =======================================================*/
 @Component
 public class ProductSpuAppoint {
@@ -22,39 +23,41 @@ public class ProductSpuAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¡éªŒSPUä¿¡æ¯æ˜¯å¦æ­£ç¡® å¹¶è¿”å›SPUçš„é›†åˆæ•°æ®
+     * ¹¦ÄÜ:  Ğ£ÑéSPUĞÅÏ¢ÊÇ·ñÕıÈ· ²¢·µ»ØSPUµÄ¼¯ºÏÊı¾İ
      * <p>
-     * å‚æ•°:
-     * productSpuJson         String            å•†å“çš„SPUä¿¡æ¯
+     * ²ÎÊı:
+     * productSpuJson         String            ÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
-    public static SystemResult checkProductSpuJsonInfo(String productSpuJson, Integer productId, K2Member k2Member) {
-        // æ ¡éªŒå•†å“SPUä¿¡æ¯æ˜¯å¦æ­£ç¡®
-        if (StringUtils.isEmpty(productSpuJson)) return new SystemResult(100, "å•†å“æè¿°ä¿¡æ¯ä¸èƒ½ä¸ºç©º", null);
+    public static SystemResult checkProductSpuJsonInfo(String productSpuJson, Integer productId, K2Member k2Member, Integer maxOrder) {
+        // Ğ£ÑéÉÌÆ·SPUĞÅÏ¢ÊÇ·ñÕıÈ·
+        if (StringUtils.isEmpty(productSpuJson)) return new SystemResult(100, "ÉÌÆ·ÃèÊöĞÅÏ¢²»ÄÜÎª¿Õ", null);
 
-        // è½¬æˆæ•°æ®
-        List lists = null;
+        // ×ª³ÉÊı¾İ
+        List<K2ProductSpu> lists = null;
         try {
-            lists = JsonUtils.jsonToList(productSpuJson, List.class);
+            lists = JsonUtils.jsonToList(productSpuJson, K2ProductSpu.class);
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(100, "å•†å“æè¿°ä¿¡æ¯æ ¼å¼é”™è¯¯", null);
+            return new SystemResult(100, "ÉÌÆ·ÃèÊöĞÅÏ¢¸ñÊ½´íÎó", null);
         }
-
-        // æ ¡éªŒå•†å“SPUä¿¡æ¯æ˜¯å¦æ­£ç¡®
+        if (CollectionUtils.isEmpty(lists)) return new SystemResult(100, "ÇëÌîĞ´ÉÌÆ·²ÎÊı", null);
+        // Ğ£ÑéÉÌÆ·SPUĞÅÏ¢ÊÇ·ñÕıÈ·
         for (int i = 0; i < lists.size(); i++) {
-            K2ProductSpu productSpu = (K2ProductSpu) lists.get(i);
-            // æ ¡éªŒæ•°æ®æ˜¯å¦æ­£ç¡®
-            if (productSpu == null) return new SystemResult(100, "å•†å“çš„æè¿°ä¿¡æ¯ä¸èƒ½ä¸ºç©º", null);
+            K2ProductSpu productSpu = lists.get(i);
+            // Ğ£ÑéÊı¾İÊÇ·ñÕıÈ·
+            if (productSpu == null) return new SystemResult(100, "ÉÌÆ·µÄ²ÎÊıĞÅÏ¢²»ÄÜÎª¿Õ", null);
             if (StringUtils.isEmpty(productSpu.getProductSpuName()) || productSpu.getProductSpuName().length() > 20) {
-                return new SystemResult(100, "æè¿°ä¿¡æ¯çš„åç§°å­—ç¬¦é•¿åº¦ä¸º1-20ä¸ª", null);
+                return new SystemResult(100, "ÃèÊö²ÎÊıµÄÃû³Æ×Ö·û³¤¶ÈÎª1-20¸ö", null);
             } else if (StringUtils.isEmpty(productSpu.getProductSpuValue()) || productSpu.getProductSpuValue().length() > 100) {
-                return new SystemResult(100, "å•†å“æè¿°ä¿¡æ¯çš„å€¼å­—ç¬¦é•¿åº¦ä¸º1-100ä¸ª", null);
+                return new SystemResult(100, "ÉÌÆ·²ÎÊıµÄÖµ×Ö·û³¤¶ÈÎª1-100¸ö", null);
+            } else if (productSpu.getProductSpuOrder() != null && productSpu.getProductSpuOrder() > 9999999) {
+                return new SystemResult(100, "ÉÌÆ·²ÎÊıµÄÅÅĞò¹ı³¤", null);
             }
 
-            productSpu.setProductSpuOrder((i + 1));
+            productSpu.setProductSpuOrder(productSpu.getProductSpuOrder() == null ? maxOrder == null ? 0 : maxOrder + (i + 1) : productSpu.getProductSpuOrder());
             productSpu.setBelongProductId(productId);
             productSpu.setCreateTime(new Date());
             productSpu.setProductSpuState(1);

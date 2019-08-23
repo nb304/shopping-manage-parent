@@ -1,16 +1,16 @@
 package com.king2.product.server.enmu;
 
-// 消息枚举
-public enum K2MessageEnum {
+// 商品SPU枚举
+public enum ProductSpuEnum {
 
-    WD("未读", 1),//消息未读
-    YD("已读", 2),//消息已读
-    DEL("删除", 3);// 消息删除
+    SYZ("使用中", 1),//使用中
+    DEL("删除", 2),//删除
+    ZX("注销", 3);// 注销
 
     private final int value;
     private final String key;
 
-    K2MessageEnum(String key, int value) {
+    ProductSpuEnum(String key, int value) {
         this.key = key;
         this.value = value;
     }

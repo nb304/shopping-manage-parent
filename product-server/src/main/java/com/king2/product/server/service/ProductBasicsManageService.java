@@ -1,6 +1,7 @@
 package com.king2.product.server.service;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
@@ -53,17 +54,38 @@ public interface ProductBasicsManageService {
 
     /**
      * -----------------------------------------------------
-     * 功能:  添加商品的SPU信息
+     * 功能:  显示商品修改页面并查询商品信息
      * <p>
      * 参数:
-     * productSpuJson         String            商品的SPU信息
-     * productId              Integer           商品的id
+     * productId         Integer          需要查询的商品id
      * <p>
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member);
+    SystemResult showEditGetProInfo(Integer productId, K2Member k2Member);
 
+    /**
+     * -----------------------------------------------------
+     * 功能:  查询商品的图片信息
+     * <p>
+     * 参数:
+     * productId         Integer          需要查询的商品id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult getProductImageByPId(Integer productId);
 
-
+    /**
+     * -----------------------------------------------------
+     * 功能:  修改商品信息
+     * <p>
+     * 参数:
+     * k2ProductWithBLOBs         K2ProductWithBLOBs          修改的商品信息
+     * k2Member                   K2Member                    操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2Member k2Member);
 }

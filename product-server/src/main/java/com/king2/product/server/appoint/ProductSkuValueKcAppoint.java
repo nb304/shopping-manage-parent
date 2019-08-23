@@ -4,7 +4,9 @@ import com.king2.commons.pojo.K2ProductSkuPriceandkc;
 import com.king2.commons.pojo.K2ProductSkuValue;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.JsonUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,54 +15,54 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKUåº“å­˜ä»·æ ¼å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·SKU¿â´æ¼Û¸ñÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.07   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.07   			´´½¨
 =======================================================*/
 public class ProductSkuValueKcAppoint {
 
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  è·å–å•†å“Sku-Valueçš„åº“å­˜ä»·æ ¼ä¿¡æ¯
+     * ¹¦ÄÜ:  »ñÈ¡ÉÌÆ·Sku-ValueµÄ¿â´æ¼Û¸ñĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2ProductSkuValues          List<K2ProductSkuValue>          SKU-Valueçš„é›†åˆæ•°æ®
+     * ²ÎÊı:
+     * k2ProductSkuValues          List<K2ProductSkuValue>          SKU-ValueµÄ¼¯ºÏÊı¾İ
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult getProductSkuValueKcDatas(List<K2ProductSkuValue> k2ProductSkuValues, K2ProductWithBLOBs k2ProductWithBLOBs) {
 
 
-        // å¯¹é›†åˆæ•°æ®è¿›è¡Œåˆ†ç»„
+        // ¶Ô¼¯ºÏÊı¾İ½øĞĞ·Ö×é
         SystemResult orderResult = getProductValueGroupBySkuOrder(k2ProductSkuValues);
         if (orderResult.getStatus() != 200) return orderResult;
 
-        // åˆ›å»ºSKUçš„ä»·æ ¼åº“å­˜ä¿¡æ¯
+        // ´´½¨SKUµÄ¼Û¸ñ¿â´æĞÅÏ¢
         List<K2ProductSkuPriceandkc> kcs = new ArrayList<>();
-        // è¿›è¡Œç¬›å¡å°”ç§¯åˆ†ç±»
+        // ½øĞĞµÑ¿¨¶û»ı·ÖÀà
         dkej((List<List<K2ProductSkuValue>>) orderResult.getData(), kcs);
 
-        // åˆ†ç±»æˆåŠŸ  è®¾ç½®å…¶ä»–å‚æ•°ä¿¡æ¯
+        // ·ÖÀà³É¹¦  ÉèÖÃÆäËû²ÎÊıĞÅÏ¢
         SystemResult systemResult = setSkuKcValues(kcs, k2ProductWithBLOBs);
         return systemResult;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  è®¾ç½®SKUå€¼åº“å­˜å’Œä»·æ ¼
+     * ¹¦ÄÜ:  ÉèÖÃSKUÖµ¿â´æºÍ¼Û¸ñ
      * <p>
-     * å‚æ•°:
-     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>          SKU-Valueçš„åº“å­˜é›†åˆæ•°æ®
-     * k2ProductWithBLOBs               K2ProductWithBLOBs                    å•†å“æ•°æ®
+     * ²ÎÊı:
+     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>          SKU-ValueµÄ¿â´æ¼¯ºÏÊı¾İ
+     * k2ProductWithBLOBs               K2ProductWithBLOBs                    ÉÌÆ·Êı¾İ
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult setSkuKcValues(List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs, K2ProductWithBLOBs k2ProductWithBLOBs) {
-        // åˆ›å»ºbigDecimal
+        // ´´½¨bigDecimal
         BigDecimal bigDecimal = new BigDecimal(0);
         for (int i = 0; i < k2ProductSkuPriceandkcs.size(); i++) {
             k2ProductSkuPriceandkcs.get(i).setBelongProductId(k2ProductWithBLOBs.getProductId());
@@ -70,45 +72,20 @@ public class ProductSkuValueKcAppoint {
         return new SystemResult(k2ProductSkuPriceandkcs);
     }
 
-    // æµ‹è¯•DKEJ
-    /*public static void main(String[] args) {
-        List<K2ProductSkuValue> k2ProductSkuValues = new ArrayList<>();
-
-        int id = 0;
-        for (int i = 0; i < 10; i++) {
-            K2ProductSkuValue value = new K2ProductSkuValue();
-
-            value.setProductSkuValueId(i);
-            if (i == 0) {
-                id = i;
-            } else if (i == 4) {
-                id = i;
-            } else if (i == 7) {
-                id = i;
-            }
-            value.setSkuKeyId(id);
-            k2ProductSkuValues.add(value);
-        }
-
-
-        SystemResult productSkuValueKcDatas = getProductSkuValueKcDatas(k2ProductSkuValues);
-        System.out.println();
-    }*/
-
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®å•†å“idè¿›è¡Œåˆ†ç»„
+     * ¹¦ÄÜ:  ¸ù¾İÉÌÆ·id½øĞĞ·Ö×é
      * <p>
-     * å‚æ•°:
-     * k2ProductSkuValues          List<K2ProductSkuValue>          SKU-Valueçš„é›†åˆæ•°æ®
+     * ²ÎÊı:
+     * k2ProductSkuValues          List<K2ProductSkuValue>          SKU-ValueµÄ¼¯ºÏÊı¾İ
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult getProductValueGroupBySkuOrder(List<K2ProductSkuValue> k2ProductSkuValues) {
         Map<Integer, List<K2ProductSkuValue>> collect = k2ProductSkuValues.stream().collect(Collectors.groupingBy(K2ProductSkuValue::getSkuKeyId));
 
-        // åˆ›å»ºè¿”å›çš„List
+        // ´´½¨·µ»ØµÄList
         List<List<K2ProductSkuValue>> lists = new ArrayList<>();
         for (Map.Entry<Integer, List<K2ProductSkuValue>> entry : collect.entrySet()) {
             lists.add(entry.getValue());
@@ -119,21 +96,21 @@ public class ProductSkuValueKcAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ç¬›å¡å°”ç§¯å‡ºå•†å“SKUçš„å‚æ•°
+     * ¹¦ÄÜ:  µÑ¿¨¶û»ı³öÉÌÆ·SKUµÄ²ÎÊı
      * <p>
-     * å‚æ•°:
-     * valueLists          List<List<K2ProductSkuValue>>        SKU-Valueçš„é›†åˆæ•°æ®
-     * k2ProductSkuPriceandkcs  List<K2ProductSkuPriceandkc>    å•†å“åº“å­˜ä»·æ ¼çš„ä¿¡æ¯
+     * ²ÎÊı:
+     * valueLists          List<List<K2ProductSkuValue>>        SKU-ValueµÄ¼¯ºÏÊı¾İ
+     * k2ProductSkuPriceandkcs  List<K2ProductSkuPriceandkc>    ÉÌÆ·¿â´æ¼Û¸ñµÄĞÅÏ¢
      * <p>
-     * è¿”å›: UserManageUtil              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: UserManageUtil              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static void dkej(List<List<K2ProductSkuValue>> valueLists, List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs) {
-        // æ•°ç»„
+        // Êı×é
         K2ProductSkuValue[][] lqq = {};
-        // æŒ‡é’ˆ æ•°ç»„çš„é•¿åº¦-1
+        // Ö¸Õë Êı×éµÄ³¤¶È-1
         int counterIndex = lqq.length - 1;
-        // æ¯æ¬¡å–äºŒç»´æ•°ç»„çš„ä¸‹æ ‡
+        // Ã¿´ÎÈ¡¶şÎ¬Êı×éµÄÏÂ±ê
         int[] counter = {};
         int forSize = 1;
         lqq = new K2ProductSkuValue[valueLists.size()][];
@@ -155,14 +132,18 @@ public class ProductSkuValueKcAppoint {
         for (int i = 0; i < forSize; i++) {
             K2ProductSkuPriceandkc kc = new K2ProductSkuPriceandkc();
             String kcIds = "";
+            String kcName = "";
             for (int j = 0; j < counter.length; j++) {
                 if (StringUtils.isEmpty(kcIds)) {
                     kcIds = lqq[j][counter[j]].getProductSkuValueId().toString();
+                    kcName = lqq[j][counter[j]].getSkuValue();
                 } else {
                     kcIds += "," + lqq[j][counter[j]].getProductSkuValueId().toString();
+                    kcName += "," + lqq[j][counter[j]].getSkuValue();
                 }
             }
             kc.setSkuPriceandkcValuelistid(kcIds);
+            kc.setProductSkuValueIds(kcName);
             k2ProductSkuPriceandkcs.add(kc);
             handle(counter, counterIndex, lqq);
         }
@@ -183,4 +164,26 @@ public class ProductSkuValueKcAppoint {
     }
 
 
+    /**
+     * ²é¿´ĞŞ¸ÄÉÌÆ·µÄSKUÊÇ·ñÕıÈ·
+     *
+     * @param productSkuKcJson ÉÌÆ·SKU¿â´æĞÅÏ¢
+     * @return
+     */
+    public static SystemResult checkEditProductSkuKcInfo(String productSkuKcJson) {
+
+        // Ğ£ÑéÊı¾İ
+        if (StringUtils.isEmpty(productSkuKcJson)) {
+            return new SystemResult(100, "ÉÌÆ·SKUĞÅÏ¢²»ÄÜÎª¿Õ", null);
+        }
+        try {
+            List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs = JsonUtils.jsonToList(productSkuKcJson, K2ProductSkuPriceandkc.class);
+            if (CollectionUtils.isEmpty(k2ProductSkuPriceandkcs)) return new SystemResult(100, "ÉÌÆ·SKUĞÅÏ¢²»ÄÜÎª¿Õ", null);
+            return new SystemResult(k2ProductSkuPriceandkcs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new SystemResult(100, "ĞÅÏ¢×ª»»Ê§°Ü", null);
+        }
+
+    }
 }

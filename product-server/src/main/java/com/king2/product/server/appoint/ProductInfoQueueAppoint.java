@@ -28,48 +28,48 @@ import java.util.List;
 import java.util.UUID;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“ä¿¡æ¯é˜Ÿåˆ—çš„å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·ĞÅÏ¢¶ÓÁĞµÄÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.17   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.17   			´´½¨
 =======================================================*/
 @Component
 public class ProductInfoQueueAppoint {
 
-    // æ³¨å…¥æ•æ„Ÿè¯åº“çš„Mapper
+    // ×¢ÈëÃô¸Ğ´Ê¿âµÄMapper
     @Autowired
     private King2SensitivityLexiconMapper king2SensitivityLexiconMapper;
 
-    // æ³¨å…¥å•†å“Mapper
+    // ×¢ÈëÉÌÆ·Mapper
     @Autowired
     private K2ProductMapper k2ProductMapper;
 
-    // å®šä¹‰æ•æ„Ÿè¯ä¿¡æ¯
+    // ¶¨ÒåÃô¸Ğ´ÊĞÅÏ¢
     private List<King2SensitivityLexicon> sensitivityLexicons;
 
-    // æ³¨å…¥ç³»ç»Ÿä¿¡æ¯è¡¨
+    // ×¢ÈëÏµÍ³ĞÅÏ¢±í
     @Autowired
     private K2MessageMapper k2MessageMapper;
 
-    // æ³¨å…¥ç½‘ç«™é€šçŸ¥è¡¨
+    // ×¢ÈëÍøÕ¾Í¨Öª±í
     @Autowired
     private K2SystemFeedbackMapper k2SystemFeedbackMapper;
 
-    // æ³¨å…¥Solrå®¢æˆ·ç«¯
+    // ×¢ÈëSolr¿Í»§¶Ë
     HttpSolrClient httpSolrClient = new HttpSolrClient.Builder("http://39.105.41.2:8983/solr/king2_db").build();
 
-    // æ³¨å…¥å•†å“é»˜è®¤å›¾ç‰‡
+    // ×¢ÈëÉÌÆ·Ä¬ÈÏÍ¼Æ¬
     @Value("${PRODUCT_IMAGE_NOT_DEFINITION}")
     private String PRODUCT_IMAGE_NOT_DEFINITION;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: æ ¡éªŒå•†å“ä¿¡æ¯æ˜¯å¦é€šè¿‡æ•æ„Ÿå­—æ ¡éªŒ
+     * ¹¦ÄÜ: Ğ£ÑéÉÌÆ·ĞÅÏ¢ÊÇ·ñÍ¨¹ıÃô¸Ğ×ÖĞ£Ñé
      * <p>
-     * å‚æ•°:
-     * k2ProductWithBLOBs          k2ProductWithBLOBs               å•†å“ä¿¡æ¯
+     * ²ÎÊı:
+     * k2ProductWithBLOBs          k2ProductWithBLOBs               ÉÌÆ·ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public SystemResult checkProductInfoIfPass(K2ProductWithBLOBs k2ProductWithBLOBs) {
@@ -78,17 +78,17 @@ public class ProductInfoQueueAppoint {
         if (CollectionUtils.isEmpty(sensitivityLexicons)) {
             sensitivityLexicons = king2SensitivityLexiconMapper.selectByExampleWithBLOBs(null);
         }
-        // æŸ¥è¯¢æ•æ„Ÿè¯ä¿¡æ¯
+        // ²éÑ¯Ãô¸Ğ´ÊĞÅÏ¢
 
-        // ç°åœ¨ä¸»è¦æ ¡éªŒä¸‰ç‚¹  1 å•†å“çš„åç§°  2 å•†å“çš„ç®€è¿°  3 å•†å“çš„å–ç‚¹
+        // ÏÖÔÚÖ÷ÒªĞ£ÑéÈıµã  1 ÉÌÆ·µÄÃû³Æ  2 ÉÌÆ·µÄ¼òÊö  3 ÉÌÆ·µÄÂôµã
         SystemResult isProductResult = checkStrContainSensitivity(k2ProductWithBLOBs.getProductName(), sensitivityLexicons);
         if (isProductResult.getStatus() == 208) return isProductResult;
 
-        // 2 å•†å“çš„ç®€è¿°
+        // 2 ÉÌÆ·µÄ¼òÊö
         SystemResult isProductContent = checkStrContainSensitivity(k2ProductWithBLOBs.getProductSketchContentl(), sensitivityLexicons);
         if (isProductContent.getStatus() == 208) return isProductContent;
 
-        // 3 å•†å“çš„å–ç‚¹
+        // 3 ÉÌÆ·µÄÂôµã
         SystemResult isProductPonints = checkStrContainSensitivity(k2ProductWithBLOBs.getProductPoints(), sensitivityLexicons);
         if (isProductPonints.getStatus() == 208) return isProductPonints;
 
@@ -97,30 +97,39 @@ public class ProductInfoQueueAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯å¦åŒ…å«æ•æ„Ÿå­—ç¬¦
+     * ¹¦ÄÜ: ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñ°üº¬Ãô¸Ğ×Ö·û
      * <p>
-     * å‚æ•°:
-     * compareStr                  String                           ä½œæ¯”è¾ƒçš„å­—ç¬¦ä¸²
-     * sensitivityLexicons         List<King2SensitivityLexicon>    æ•æ„Ÿè¯ä¿¡æ¯
+     * ²ÎÊı:
+     * compareStr                  String                           ×÷±È½ÏµÄ×Ö·û´®
+     * sensitivityLexicons         List<King2SensitivityLexicon>    Ãô¸Ğ´ÊĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               trueè¯´æ˜åŒ…å« falseè¯´æ˜ä¸åŒ…å«
+     * ·µ»Ø: SystemResult               trueËµÃ÷°üº¬ falseËµÃ÷²»°üº¬
      * -----------------------------------------------------
      */
     public static SystemResult checkStrContainSensitivity(String compareStr, List<King2SensitivityLexicon> sensitivityLexicons) {
 
-        // å®šä¹‰è¿”å›çš„ç»“æœ
+        // ¶¨Òå·µ»ØµÄ½á¹û
         boolean returnFlag = false;
         String sensitivityInfo = "";
 
-        // éå†æ•æ„Ÿè¯åº“çš„é›†åˆ  ç”¨æ¥æ¯”è¾ƒæ˜¯å¦åŒ…å«è¯¥æ•æ„Ÿè¯åº“
-        // ä¼˜åŒ–ç­‰åé¢ä¼˜åŒ–
+        // ±éÀúÃô¸Ğ´Ê¿âµÄ¼¯ºÏ  ÓÃÀ´±È½ÏÊÇ·ñ°üº¬¸ÃÃô¸Ğ´Ê¿â
+        // ÓÅ»¯µÈºóÃæÓÅ»¯
         da:
         for (int i = 0; i < sensitivityLexicons.size(); i++) {
             String[] split = sensitivityLexicons.get(i).getLexiconContent().split(",");
             for (int i1 = 0; i1 < split.length; i1++) {
-                if (StringUtils.isEmpty(split[i1])) continue;
+                if (StringUtils.isEmpty(split[i1])) {
+                    continue;
+                } else if (StringUtils.isEmpty(compareStr)) {
+                    break da;
+                }
+                if (StringUtils.isEmpty(compareStr)) {
+                    System.out.println(compareStr);
+                } else if (StringUtils.isEmpty(split[i1])) {
+                    System.out.println(split[i1]);
+                }
                 boolean contains = compareStr.contains(split[i1]);
-                // åˆ¤æ–­æ˜¯å¦åŒ…å«
+                // ÅĞ¶ÏÊÇ·ñ°üº¬
                 if (contains) {
                     returnFlag = true;
                     sensitivityInfo = split[i1];
@@ -130,57 +139,60 @@ public class ProductInfoQueueAppoint {
         }
 
         if (returnFlag) {
-            return new SystemResult(208, "ä¿¡æ¯åŒ…å«æ•æ„Ÿå­—ç¬¦:" + sensitivityInfo, sensitivityInfo);
+            return new SystemResult(208, "ĞÅÏ¢°üº¬Ãô¸Ğ×Ö·û:" + sensitivityInfo, sensitivityInfo);
         }
         return new SystemResult("ok");
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: å•†å“ä¿¡æ¯æ²¡æœ‰è¿‡å®¡æ ¸
+     * ¹¦ÄÜ: ÉÌÆ·ĞÅÏ¢Ã»ÓĞ¹ıÉóºË
      * <p>
-     * å‚æ•°:
-     * k2ProductWithBLOBs            K2ProductWithBLOBs              æ²¡æœ‰è¿‡å®¡çš„å•†å“ä¿¡æ¯
+     * ²ÎÊı:
+     * k2ProductWithBLOBs            K2ProductWithBLOBs              Ã»ÓĞ¹ıÉóµÄÉÌÆ·ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult
+     * ·µ»Ø: SystemResult
      * -----------------------------------------------------
      */
     @Transactional(rollbackFor = Exception.class)
     public SystemResult prorductInfoNotAudit(K2ProductWithBLOBs k2ProductWithBLOBs, String sensitivityInfo) {
 
-        // è¯¥å•†å“ä¿¡æ¯æ²¡æœ‰è¿‡å®¡ å°±éœ€è¦å»æ”¹å•†å“çš„çŠ¶æ€
+        // ¸ÃÉÌÆ·ĞÅÏ¢Ã»ÓĞ¹ıÉó ¾ÍĞèÒªÈ¥¸ÄÉÌÆ·µÄ×´Ì¬
         k2ProductWithBLOBs.setProductState(ProductStateEnum.SHNO.getValue());
         k2ProductMapper.updateByPrimaryKeySelective(k2ProductWithBLOBs);
 
-        // ç»™è¯¥åº—é“ºçš„ç”¨æˆ·å‘å‡ºä¿¡æ¯
+        // ¸ø¸ÃµêÆÌµÄÓÃ»§·¢³öĞÅÏ¢
         K2Message k2Message = new K2Message();
         k2Message.setCreateTime(new Date());
-        k2Message.setMessageContent("æ‚¨æ–°æ·»åŠ çš„å•†å“(" + k2ProductWithBLOBs.getProductName() + ")å®¡æ ¸å¤±è´¥,åŸå› æ˜¯å•†å“ä¿¡æ¯åŒ…å«æ•æ„Ÿè¯'" + sensitivityInfo + "' è¯·ä¿®æ”¹å•†å“ä¿¡æ¯é‡æ–°å‘å¸ƒã€‚");
+        k2Message.setMessageContent("ÄúĞÂÌí¼ÓµÄÉÌÆ·(" + k2ProductWithBLOBs.getProductName() + ")ÉóºËÊ§°Ü,Ô­ÒòÊÇÉÌÆ·ĞÅÏ¢°üº¬Ãô¸Ğ´Ê'" + sensitivityInfo + "' ÇëĞŞ¸ÄÉÌÆ·ĞÅÏ¢ÖØĞÂ·¢²¼¡£");
         k2Message.setUserId(k2ProductWithBLOBs.getProductCreateUserid());
         k2Message.setState(K2MessageEnum.WD.getValue());
         k2MessageMapper.insert(k2Message);
 
-        // ç»™è¯¥åº—é“ºçš„ç”¨æˆ·å‘å‡ºé€šçŸ¥
+        // ¸ø¸ÃµêÆÌµÄÓÃ»§·¢³öÍ¨Öª
         K2SystemFeedback systemFeedback = new K2SystemFeedback();
         systemFeedback.setFeedbackNumber(UUID.randomUUID().toString().replaceAll("-", ""));
-        systemFeedback.setFeedbackContent("æ‚¨æ·»åŠ å•†å“çš„å®¡æ ¸é€šçŸ¥å·²ä¸‹å‘,è¯·é€šè¿‡æŸ¥çœ‹'æˆ‘çš„ä¿¡æ¯','å•†å“ç®¡ç†'æŸ¥çœ‹æ–°çš„ä¿¡æ¯ã€‚");
+        systemFeedback.setFeedbackContent("ÄúÌí¼ÓÉÌÆ·µÄÉóºËÍ¨ÖªÒÑÏÂ·¢,ÇëÍ¨¹ı²é¿´'ÎÒµÄĞÅÏ¢','ÉÌÆ·¹ÜÀí'²é¿´ĞÂµÄĞÅÏ¢¡£");
         systemFeedback.setIsCommon(1);
         systemFeedback.setBelongUserId(k2ProductWithBLOBs.getProductCreateUserid());
-        systemFeedback.setFeedbackUsername("ç³»ç»Ÿé€šçŸ¥ã€‚");
+        systemFeedback.setFeedbackUsername("ÏµÍ³Í¨Öª");
         systemFeedback.setFeedbackState(K2MessageEnum.WD.getValue());
         systemFeedback.setCreateTime(new Date());
         k2SystemFeedbackMapper.insert(systemFeedback);
+
+        // ÉÌÆ·ĞÅÏ¢Ã»ÓĞÍ¨¹ı  Í¨Öª»º´æ¶ÓÁĞ¸üĞÂÊı¾İ
+        ProductBasicsAppoint.addSynchronizedProductGotoCache(k2ProductWithBLOBs);
         return new SystemResult("ok");
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: å°†å•†å“ä¿¡æ¯åŒæ­¥åˆ°solrä¿¡æ¯ä¸­
+     * ¹¦ÄÜ: ½«ÉÌÆ·ĞÅÏ¢Í¬²½µ½solrĞÅÏ¢ÖĞ
      * <p>
-     * å‚æ•°:
-     * k2ProductWithBLOBs            K2ProductWithBLOBs              å•†å“ä¿¡æ¯
+     * ²ÎÊı:
+     * k2ProductWithBLOBs            K2ProductWithBLOBs              ÉÌÆ·ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult
+     * ·µ»Ø: SystemResult
      * -----------------------------------------------------
      */
     public SystemResult synchronizedSolr(K2ProductWithBLOBs productWithBLOBs) {
@@ -202,13 +214,13 @@ public class ProductInfoQueueAppoint {
         document.addField("createTime", productWithBLOBs.getProductCreateTime());
         document.addField("stroeId", productWithBLOBs.getProductStoreId());
 
-        // åŒæ­¥åˆ°solrå»
+        // Í¬²½µ½solrÈ¥
         try {
             httpSolrClient.add(document);
             httpSolrClient.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(100, "å‡ºç°å¼‚å¸¸", null);
+            return new SystemResult(100, "³öÏÖÒì³£", null);
         }
 
         return new SystemResult("ok");

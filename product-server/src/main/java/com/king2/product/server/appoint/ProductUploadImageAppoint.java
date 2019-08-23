@@ -19,95 +19,95 @@ import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.JedisPool;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“å›¾ç‰‡ä¸Šä¼ å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·Í¼Æ¬ÉÏ´«Î¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.10   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.10   			´´½¨
 =======================================================*/
 @Component
 public class ProductUploadImageAppoint {
 
-    // æ³¨å…¥Jedisè¿æ¥æ± 
+    // ×¢ÈëJedisÁ¬½Ó³Ø
     @Autowired
     private JedisPool jedisPool;
-    // æ³¨å…¥RestTempleæ¨¡æ¿
+    // ×¢ÈëRestTempleÄ£°å
     @Autowired
     private RestTemplate restTemplate;
-    // æ³¨å…¥å•†å“å›¾ç‰‡åç§°å­˜åœ¨redisä¸­çš„key
+    // ×¢ÈëÉÌÆ·Í¼Æ¬Ãû³Æ´æÔÚredisÖĞµÄkey
     @Value("${PRODUCT_IMAGES_REDIS_KEY}")
     private String PRODUCT_IMAGES_REDIS_KEY;
-    // æ³¨å…¥ç¼“å­˜æœåŠ¡å™¨åœ°å€
+    // ×¢Èë»º´æ·şÎñÆ÷µØÖ·
     @Value("${CACHE_SERVER_URL}")
     private String CACHE_SERVER_URL;
-    // æ³¨å…¥MinIoçš„æ“ä½œ
+    // ×¢ÈëMinIoµÄ²Ù×÷
     @Value("${MINIO_SERVER_URL}")
     private String MINIO_SERVER_URL;
     @Value("${MINIO_USER_NAME}")
     private String MINIO_USER_NAME;
     @Value("${MINIO_PASS_WORD}")
     private String MINIO_PASS_WORD;
-    // æ³¨å…¥å›¾ç‰‡çš„ç±»å‹
+    // ×¢ÈëÍ¼Æ¬µÄÀàĞÍ
     @Value("${PRODUCT_IMAGE_TYPE}")
     private String PRODUCT_IMAGE_TYPE;
-    // æ³¨å…¥å•†å“Mapper
+    // ×¢ÈëÉÌÆ·Mapper
     @Autowired
     private K2ProductMapper k2ProductMapper;
 
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¸Šä¼ å›¾ç‰‡
+     * ¹¦ÄÜ:  ÉÏ´«Í¼Æ¬
      * <p>
-     * å‚æ•°:
-     * multipartFile            MultipartFile           å›¾ç‰‡å¯¹è±¡
-     * prefix                   String                  å‰ç¼€çš„ä¿¡æ¯
-     * productId                Integer                 è¯¥å•†å“çš„id
-     * size                     Integer                 è¯¥å›¾ç‰‡æ·»åŠ çš„æ¬¡æ•°
+     * ²ÎÊı:
+     * multipartFile            MultipartFile           Í¼Æ¬¶ÔÏó
+     * prefix                   String                  Ç°×ºµÄĞÅÏ¢
+     * productId                Integer                 ¸ÃÉÌÆ·µÄid
+     * size                     Integer                 ¸ÃÍ¼Æ¬Ìí¼ÓµÄ´ÎÊı
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Transactional(rollbackFor = Exception.class)
     public SystemResult upload(MultipartFile[] files, String prefix, Integer productId, Integer size, String uploadType) throws Exception {
 
-        // æ ¡éªŒæ•°æ®
+        // Ğ£ÑéÊı¾İ
         if (files == null || files.length < 1 || files[0] == null || StringUtils.isEmpty(files[0].getOriginalFilename()) || files[0].getInputStream() == null) {
-            // å›¾ç‰‡ä¸ºç©º
-            return new SystemResult(100, "å›¾ç‰‡ä¸èƒ½ä¸ºç©º", null);
+            // Í¼Æ¬Îª¿Õ
+            return new SystemResult(100, "Í¼Æ¬²»ÄÜÎª¿Õ", null);
         } else if (StringUtils.isEmpty(uploadType) || (!"image".equals(uploadType) && "contentImage".equals(uploadType))) {
-            return new SystemResult(100, "æœ¬æ¬¡ä¸Šä¼ å›¾ç‰‡çš„çŠ¶æ€é”™è¯¯", null);
+            return new SystemResult(100, "±¾´ÎÉÏ´«Í¼Æ¬µÄ×´Ì¬´íÎó", null);
         }
 
-        // åˆ›å»ºè¿”å›å€¼ä¿¡æ¯
+        // ´´½¨·µ»ØÖµĞÅÏ¢
         StringBuilder sb = new StringBuilder();
 
-        // éå†å›¾ç‰‡æ•°æ®
+        // ±éÀúÍ¼Æ¬Êı¾İ
         for (MultipartFile file : files) {
-            // è·å–åˆ°å›¾ç‰‡çš„ç±»å‹
+            // »ñÈ¡µ½Í¼Æ¬µÄÀàĞÍ
             String type = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             if (!StringUtils.isEmpty(type)) {
                 if (!PRODUCT_IMAGE_TYPE.contains(type.toLowerCase())) {
-                    return new SystemResult(100, "æ–‡ä»¶ç±»å‹é”™è¯¯", null);
+                    return new SystemResult(100, "ÎÄ¼şÀàĞÍ´íÎó", null);
                 }
             }
 
-            // è·å–å›¾ç‰‡çš„åç§°
+            // »ñÈ¡Í¼Æ¬µÄÃû³Æ
             StringBuilder sbName = new StringBuilder();
             sbName.append("king2");
             sbName.append("-");
             sbName.append(prefix);
             sbName.append("-");
-            // ä»ç¼“å­˜ä¸­å–å‡ºä¸€ä¸ªç¼–å·
+            // ´Ó»º´æÖĞÈ¡³öÒ»¸ö±àºÅ
             ShoppingNumberPojo shoppingNumberPojo = new ShoppingNumberPojo
                     (jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_IMAGES_REDIS_KEY, "SP", 36, restTemplate, CACHE_SERVER_URL);
-            // è°ƒç”¨ç¼–å·æ¥å£
+            // µ÷ÓÃ±àºÅ½Ó¿Ú
             ShoppingNumberManage sp = new ShoppingNumberManage(shoppingNumberPojo, SystemCacheManage.PRODUCT_NAME_IMAGE);
             SystemResult numberByRedisKey = sp.getNumberByRedisKey(PRODUCT_IMAGES_REDIS_KEY, 10);
             if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
             sbName.append(numberByRedisKey.getData());
             sbName.append("." + type);
 
-            // è°ƒç”¨ä¸Šä¼ æ–¹æ³•
+            // µ÷ÓÃÉÏ´«·½·¨
             MinioUtil util = new MinioUtil(MINIO_SERVER_URL, MINIO_USER_NAME, MINIO_PASS_WORD, "king2-product-image");
             SystemResult systemResult = util.uploadFile(file, sbName.toString(), "image/" + type);
             if (systemResult.getStatus() != 200) return systemResult;
@@ -118,7 +118,7 @@ public class ProductUploadImageAppoint {
             }
         }
 
-        // å›¾ç‰‡ä¸Šä¼ å®Œæˆ ä¿®æ”¹æ•°æ®ä¿¡æ¯
+        // Í¼Æ¬ÉÏ´«Íê³É ĞŞ¸ÄÊı¾İĞÅÏ¢
         K2ProductWithBLOBs withBLOBs = new K2ProductWithBLOBs();
         withBLOBs.setProductId(productId);
         if ("image".equals(uploadType)) {
@@ -128,7 +128,7 @@ public class ProductUploadImageAppoint {
         }
 
         k2ProductMapper.updateByPrimaryKeySelective(withBLOBs);
-        // æœ‰å¯èƒ½éœ€è¦æ’å…¥æ—¥å¿—ä¿¡æ¯
+        // ÓĞ¿ÉÄÜĞèÒª²åÈëÈÕÖ¾ĞÅÏ¢
 
 
         return new SystemResult(sb.toString());

@@ -15,30 +15,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“ç±»ç›®å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·ÀàÄ¿Î¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.10   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.10   			´´½¨
 =======================================================*/
 @Component
 public class ProductCategoryAppoint {
 
-    // æ³¨å…¥ç±»ç›®Mapper
+    // ×¢ÈëÀàÄ¿Mapper
     @Autowired
     private K2ProductCategoryMapper k2ProductCategoryMapper;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æŸ¥è¯¢å•†å“ç±»ç›®ä¿¡æ¯
+     * ¹¦ÄÜ:  ²éÑ¯ÉÌÆ·ÀàÄ¿ĞÅÏ¢
      * <p>
-     * å‚æ•°:
+     * ²ÎÊı:
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public SystemResult getProductCategoryInfo() {
 
-        // æŸ¥è¯¢å•†å“ç±»ç›®çš„ä¿¡æ¯
+        // ²éÑ¯ÉÌÆ·ÀàÄ¿µÄĞÅÏ¢
         SystemResult productOneCategoryInfo = getProductOneCategoryInfo();
         return productOneCategoryInfo;
     }
@@ -46,69 +46,69 @@ public class ProductCategoryAppoint {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  å¤„ç†ä¸€çº§ç±»ç›®çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ´¦ÀíÒ»¼¶ÀàÄ¿µÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
+     * ²ÎÊı:
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     private SystemResult getProductOneCategoryInfo() {
-        // æŸ¥è¯¢ä¸€çº§ç±»ç›®
+        // ²éÑ¯Ò»¼¶ÀàÄ¿
         K2ProductCategoryExample categoryExample = new K2ProductCategoryExample();
         categoryExample.createCriteria().andCategoryIsParentEqualTo(ProductEnum.PRODUCT_ONE_CATEGORY)
                 .andCategoryStateEqualTo(ProductEnum.PRODUCT_CATEGORY_TYPE1);
-        // æŸ¥è¯¢å‡ºä¸€çº§ç±»ç›®
+        // ²éÑ¯³öÒ»¼¶ÀàÄ¿
         List<K2ProductCategory> k2ProductCategories = k2ProductCategoryMapper.selectByExample(categoryExample);
-        // æŸ¥è¯¢å‡ºä¸€çº§ç±»ç›®å å»å¤„ç†ä»–äºŒçº§ç±»ç›®çš„æ•°æ®
+        // ²éÑ¯³öÒ»¼¶ÀàÄ¿ºó È¥´¦ÀíËû¶ş¼¶ÀàÄ¿µÄÊı¾İ
         SystemResult productTwoCategoryInfo = getProductTwoCategoryInfo(k2ProductCategories);
         return productTwoCategoryInfo;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  å¤„ç†äºŒçº§ç±»ç›®çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ´¦Àí¶ş¼¶ÀàÄ¿µÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2ProductOneCategories       List<K2ProductCategory>         å•†å“çš„ä¸€çº§ç±»ç›®
+     * ²ÎÊı:
+     * k2ProductOneCategories       List<K2ProductCategory>         ÉÌÆ·µÄÒ»¼¶ÀàÄ¿
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     private SystemResult getProductTwoCategoryInfo(List<K2ProductCategory> k2ProductOneCategories) {
 
-        // åˆ¤æ–­é›†åˆä¿¡æ¯æ˜¯å¦å­˜åœ¨
-        if (CollectionUtils.isEmpty(k2ProductOneCategories)) return new SystemResult(100, "ç±»ç›®ä¿¡æ¯ä¸ºç©º", null);
+        // ÅĞ¶Ï¼¯ºÏĞÅÏ¢ÊÇ·ñ´æÔÚ
+        if (CollectionUtils.isEmpty(k2ProductOneCategories)) return new SystemResult(100, "ÀàÄ¿ĞÅÏ¢Îª¿Õ", null);
 
-        // å•†å“æŸ¥è¯¢æ¡ä»¶
+        // ÉÌÆ·²éÑ¯Ìõ¼ş
         K2ProductCategoryExample categoryExample = new K2ProductCategoryExample();
-        // åˆ›å»ºè¿”å›æ•°æ®
+        // ´´½¨·µ»ØÊı¾İ
         ShowProductAddPageDto productCategoryDto = new ShowProductAddPageDto();
-        // åˆ›å»ºå•†å“ç±»ç›®çš„ä¿¡æ¯
+        // ´´½¨ÉÌÆ·ÀàÄ¿µÄĞÅÏ¢
         List<ProductCategoryDto> productCategoryDtos = new ArrayList<>();
-        // å¤„ç†ä»–çš„äºŒçº§ç±»ç›®ä¿¡æ¯
+        // ´¦ÀíËûµÄ¶ş¼¶ÀàÄ¿ĞÅÏ¢
         for (int i = 0; i < k2ProductOneCategories.size(); i++) {
-            // åˆ›å»ºç±»ç›®å¯¹è±¡
+            // ´´½¨ÀàÄ¿¶ÔÏó
             ProductCategoryDto dto = new ProductCategoryDto();
-            // æœ¬æ¬¡ä¸€çº§ç±»ç›®çš„ä¿¡æ¯
+            // ±¾´ÎÒ»¼¶ÀàÄ¿µÄĞÅÏ¢
             K2ProductCategory k2ProductCategory = k2ProductOneCategories.get(i);
-            // è¡¥å…¨ä¸€çº§ç±»ç›®çš„ä¿¡æ¯
+            // ²¹È«Ò»¼¶ÀàÄ¿µÄĞÅÏ¢
             dto.setValue(k2ProductCategory.getCategoryId() + "");
             dto.setLabel(k2ProductCategory.getCategoryName());
 
-            // æŸ¥è¯¢è¯¥ä¸€çº§ç±»ç›®çš„å­ç±»ç›®ä¿¡æ¯
+            // ²éÑ¯¸ÃÒ»¼¶ÀàÄ¿µÄ×ÓÀàÄ¿ĞÅÏ¢
             categoryExample.clear();
             categoryExample.createCriteria().andCategoryIsParentEqualTo(ProductEnum.PRODUCT_TWO_CATEGORY)
                     .andCategoryParentIdEqualTo(k2ProductCategory.getCategoryId())
                     .andCategoryStateEqualTo(ProductEnum.PRODUCT_CATEGORY_TYPE1);;
             List<K2ProductCategory> k2ProductTwoCategories = k2ProductCategoryMapper.selectByExample(categoryExample);
 
-            // æŸ¥è¯¢æ˜¯å¦å­˜åœ¨å­ç±»ç›®
+            // ²éÑ¯ÊÇ·ñ´æÔÚ×ÓÀàÄ¿
             if (!CollectionUtils.isEmpty(k2ProductTwoCategories)) {
-                // åˆ›å»ºå­é›†åˆä¿¡æ¯
-                // åˆ›å»ºå•†å“ç±»ç›®çš„ä¿¡æ¯
+                // ´´½¨×Ó¼¯ºÏĞÅÏ¢
+                // ´´½¨ÉÌÆ·ÀàÄ¿µÄĞÅÏ¢
                 List<ProductCategoryDto> productTwoCategoryDtos = new ArrayList<>();
-                // å¤„ç†ä¿¡æ¯
+                // ´¦ÀíĞÅÏ¢
                 for (int i1 = 0; i1 < k2ProductTwoCategories.size(); i1++) {
                     K2ProductCategory k2TwoProductInfo = k2ProductTwoCategories.get(i1);
                     ProductCategoryDto dto1 = new ProductCategoryDto();
@@ -120,7 +120,7 @@ public class ProductCategoryAppoint {
 
             }
 
-            // æ·»åŠ ä¸€çº§ç±»ç›®çš„ä¿¡æ¯
+            // Ìí¼ÓÒ»¼¶ÀàÄ¿µÄĞÅÏ¢
             productCategoryDtos.add(dto);
         }
 

@@ -3,6 +3,7 @@ package com.king2.product.server.mapper;
 import com.king2.commons.pojo.K2ProductSpu;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,4 +35,26 @@ public interface ProductSpuMapper {
             "</foreach>" +
             "</script>")
     void batchInsertProductSpu(@Param("list") List<K2ProductSpu> list);
+
+    /**
+     * 查询商品SPU的信息根据商品id
+     *
+     * @param productId
+     * @return
+     */
+    @Select("SELECT " +
+            "product_spu_id,product_spu_name,product_spu_value,product_spu_order," +
+            "product_spu_state,belong_product_id,create_time " +
+            "FROM k2_product_spu WHERE belong_product_id = #{productId} " +
+            "ORDER BY product_spu_order ASC")
+    List<K2ProductSpu> getSpuByProductId(Integer productId);
+
+    /**
+     * 查询最大的排序值
+     *
+     * @param productId
+     * @return
+     */
+    @Select("SELECT MAX(product_spu_order) FROM k2_product_spu WHERE belong_product_id = #{productId}")
+    Integer getMaxOrder(Integer productId);
 }

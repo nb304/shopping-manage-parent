@@ -7,139 +7,176 @@ import com.king2.product.server.dto.ProductIndexDto;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
 import com.king2.product.server.mapper.ProductManageMapper;
+import com.king2.product.server.sort.ProductInfoSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“é¦–é¡µç®¡ç†å§”æ´¾ç±»
+	ËµÃ÷:    ÉÌÆ·Ê×Ò³¹ÜÀíÎ¯ÅÉÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.12   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.12   			´´½¨
 =======================================================*/
 @Component
 public class ProductIndexAppoint {
 
-    // æ³¨å…¥å•†å“åœ¨redisä¸­çš„key
+    // ×¢ÈëÉÌÆ·ÔÚredisÖĞµÄkey
     @Value("${PRODUCT_INFO_REDIS_KEY}")
     private String PRODUCT_INFO_REDIS_KEY;
 
-    // æ³¨å…¥redisæ¨¡æ¿
+    // ×¢ÈëredisÄ£°å
     @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
+    private JedisPool jedisPool;
 
-    // æ³¨å…¥å•†å“Mapper
+    // ×¢ÈëÉÌÆ·Mapper
     @Autowired
     private ProductManageMapper productManageMapper;
 
-    // æ³¨å…¥æ¯ä¸ªå•†å®¶åœ¨redisä¸­å­˜å…¥çš„å•†å“æœ€å¤§å€¼
+    // ×¢ÈëÃ¿¸öÉÌ¼ÒÔÚredisÖĞ´æÈëµÄÉÌÆ·×î´óÖµ
     @Value("${PRODUCT_GOTO_REDIS_MAX_SIZE}")
     private Integer PRODUCT_GOTO_REDIS_MAX_SIZE;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: è·å–å•†å“å­˜åœ¨äºredisä¸­çš„ä¿¡æ¯
+     * ¹¦ÄÜ: »ñÈ¡ÉÌÆ·´æÔÚÓÚredisÖĞµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2Member          K2Member         æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * dto               ProductIndexDto  æ¡ä»¶ä¿¡æ¯
+     * ²ÎÊı:
+     * k2Member          K2Member         ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * dto               ProductIndexDto  Ìõ¼şĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public SystemResult getProductInfoByQuery(K2Member k2Member, ProductIndexDto dto) {
 
-        // å•†å“ä¿¡æ¯
+        // ÉÌÆ·ĞÅÏ¢
         ShowProductIndexDto showProductIndexDto = null;
+        final Jedis redis = jedisPool.getResource();
         try {
-            // è·å–redisæ¨¡æ¿
-            ValueOperations<Object, Object> redis = redisTemplate.opsForValue();
-            // æŸ¥è¯¢Redisä¸­æ˜¯å¦å­˜åœ¨æ•°æ®
-            String productStrInfo = (String) redis.get(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());
-            // åˆ¤æ–­redisä¸­å•†å“ä¿¡æ¯æ˜¯å¦ä¸ºç©º
-            if (!StringUtils.isEmpty(productStrInfo)) {
-                // redisä¸­æœ‰æ•°æ® å°†æ•°æ®è½¬æ¢æˆæ¨¡æ¿
+            // »ñÈ¡redisÄ£°å
+            // ²éÑ¯RedisÖĞÊÇ·ñ´æÔÚÊı¾İ
+            Map<String, String> stringStringMap = redis.hgetAll(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());
+            String productStrInfo = redis.get(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1() + "_DTO_VALUE");
+            // ÅĞ¶ÏredisÖĞÉÌÆ·ĞÅÏ¢ÊÇ·ñÎª¿Õ
+            if (!CollectionUtils.isEmpty(stringStringMap) && !StringUtils.isEmpty(productStrInfo)) {
+                // redisÖĞÓĞÊı¾İ ½«Êı¾İ×ª»»³ÉÄ£°å
                 showProductIndexDto = JsonUtils.jsonToPojo(productStrInfo, ShowProductIndexDto.class);
-                showProductIndexDto.setTotalPage((showProductIndexDto.getTotalSize() + (dto.getCurrentSize() - 1)) / dto.getCurrentSize());
+                showProductIndexDto.setTotalSize(stringStringMap.size());
+                // ´´½¨ÉÌÆ·ĞÅÏ¢
+                List<ProductInfoToRedisDataDto> dtos = new ArrayList<>();
+                // »ñÈ¡MapÀïÃæµÄÖµ
+                for (Map.Entry<String, String> productInfo : stringStringMap.entrySet()) {
+                    dtos.add(JsonUtils.jsonToPojo(productInfo.getValue(), ProductInfoToRedisDataDto.class));
+                }
+                // ÅÅĞò
+                ProductInfoSort.speedinessSortByState(dtos);
+                showProductIndexDto.setProductInfoToRedisDataDtos(dtos);
             } else {
                 showProductIndexDto = new ShowProductIndexDto();
-                // æŸ¥è¯¢è¯¥æ‰€æœ‰å•†å“æ¡æ•°
-                Integer maxSize = productManageMapper.getProductCountByStoreId(Integer.parseInt(k2Member.getRetain1()));
+                // ²éÑ¯¸ÃËùÓĞÉÌÆ·ÌõÊı
+                Integer maxSize = productManageMapper.getProductCountByStoreId(Integer.parseInt(k2Member.getRetain1()), null, null);
                 showProductIndexDto.setTotalSize(maxSize);
-                // redisä¸­æ²¡æœ‰æ•°æ®ä»æ•°æ®ä¸­æŸ¥è¯¢æ•°æ® å¹¶ä¿å­˜åˆ°Rediså½“ä¸­å»
+                // redisÖĞÃ»ÓĞÊı¾İ´ÓÊı¾İÖĞ²éÑ¯Êı¾İ ²¢±£´æµ½Redisµ±ÖĞÈ¥
                 List<ProductInfoToRedisDataDto> productByStoreId = productManageMapper.getProductByStoreId
                         (
                                 Integer.parseInt(k2Member.getRetain1()),
-                                Integer.parseInt(dto.getState()),
+                                Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()),
                                 0,
                                 PRODUCT_GOTO_REDIS_MAX_SIZE,
                                 null,
-                                dto.getProductName()
+                                StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null
                         );
+                productByStoreId.forEach((n) -> {
+                    n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName());
+                    // ÍùredisĞ´ÈëMapÀàĞÍµÄÊı¾İ½á¹¹
+                    try {
+                        redis.hset(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1(), n.getProductNumber(), JsonUtils.objectToJson(n));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                });
+                // ¶Ô×´Ì¬½øĞĞÅÅĞò
+                ProductInfoSort.speedinessSortByState(productByStoreId);
                 showProductIndexDto.setProductInfoToRedisDataDtos(productByStoreId);
-                // å­˜å…¥redis
-                redis.set(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1(), JsonUtils.objectToJson(showProductIndexDto));
+
+                // ´æÈëredis
+                redis.set(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1() + "_DTO_VALUE", JsonUtils.objectToJson(showProductIndexDto));
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (redis != null) redis.close();
         }
-
+        showProductIndexDto.setTotalPage((showProductIndexDto.getTotalSize() + (dto.getCurrentSize() - 1)) / dto.getCurrentSize());
         return new SystemResult(showProductIndexDto);
     }
 
 
-    // è·å–æœ¬æ¬¡è¯·æ±‚çš„å•†å“ä¿¡æ¯é›†åˆ
+    // »ñÈ¡±¾´ÎÇëÇóµÄÉÌÆ·ĞÅÏ¢¼¯ºÏ
     public SystemResult getCurrentRequestProductInfos(K2Member k2Member, ProductIndexDto dto,
                                                       List<ProductInfoToRedisDataDto> productDatas) {
 
-        // åˆ¤æ–­æœ¬æ¬¡æŸ¥è¯¢çš„æ•°æ®æ˜¯å¦å·²ç»è¶…å‡ºå•†å“çš„æ•°é‡
+        // ÅĞ¶Ï±¾´Î²éÑ¯µÄÊı¾İÊÇ·ñÒÑ¾­³¬³öÉÌÆ·µÄÊıÁ¿
         if (dto.getCurrentPage() > dto.getTotlaPage()) {
             dto.setCurrentPage(dto.getTotlaPage());
         }
 
-        // è·å–æœ¬æ¬¡çš„æ•°æ®ç´¢å¼•
+        // »ñÈ¡±¾´ÎµÄÊı¾İË÷Òı
         int index = (dto.getCurrentPage() - 1) * dto.getCurrentSize() == -1 ? 0 : (dto.getCurrentPage() - 1) * dto.getCurrentSize();
-        // è·å–ç»“æŸç´¢å¼•
+        // »ñÈ¡½áÊøË÷Òı
         int endIndex = index + dto.getCurrentSize();
 
-        // åˆ›å»ºæ˜¯å¦å»æ•°æ®åº“æŸ¥è¯¢æ•°æ®çš„Flag
+        // ´´½¨ÊÇ·ñÈ¥Êı¾İ¿â²éÑ¯Êı¾İµÄFlag
         boolean getMysqlFlag = false;
-        // åˆ¤æ–­ç»“æŸç´¢å¼•æ˜¯å¦å¤§äºå­˜åœ¨redisä¸­çš„æ•°é‡
+        // ÅĞ¶Ï½áÊøË÷ÒıÊÇ·ñ´óÓÚ´æÔÚredisÖĞµÄÊıÁ¿
         if (endIndex > PRODUCT_GOTO_REDIS_MAX_SIZE) {
-            // è¯´æ˜æ¥ä¸‹æ¥è¦å»æ•°æ®åº“ä¸­æŸ¥è¯¢ä¿¡æ¯
+            // ËµÃ÷½ÓÏÂÀ´ÒªÈ¥Êı¾İ¿âÖĞ²éÑ¯ĞÅÏ¢
             getMysqlFlag = true;
-        } else if (!StringUtils.isEmpty(dto.getProductName())) { // åˆ¤æ–­æ˜¯å¦è¦æŸ¥è¯¢åç§° éœ€è¦æŸ¥è¯¢åç§°å°±è¦å»æ•°æ®åº“æŸ¥æ‰¾
+        } else if (!StringUtils.isEmpty(dto.getProductName())) { // ÅĞ¶ÏÊÇ·ñÒª²éÑ¯Ãû³Æ ĞèÒª²éÑ¯Ãû³Æ¾ÍÒªÈ¥Êı¾İ¿â²éÕÒ
             getMysqlFlag = true;
             dto.setProductName("%" + dto.getProductName() + "%");
-        } else if (!"0".equals(dto.getState())) { // åˆ¤æ–­æ˜¯å¦æŸ¥è¯¢åº“å­˜å……è¶³å’Œåº“å­˜ä¸è¶³  å¦‚æœéœ€è¦å°±å»æŸ¥è¯¢æ•°æ®åº“
+        } else if (!"0".equals(dto.getState())) { // ÅĞ¶ÏÊÇ·ñ²éÑ¯¿â´æ³ä×ãºÍ¿â´æ²»×ã  Èç¹ûĞèÒª¾ÍÈ¥²éÑ¯Êı¾İ¿â
             getMysqlFlag = true;
         }
 
-        // åˆ›å»ºæ•°æ®çš„é›†åˆ
+        // ´´½¨Êı¾İµÄ¼¯ºÏ
         List<ProductInfoToRedisDataDto> currentProductInfos = new ArrayList<>();
         if (getMysqlFlag) {
-            // å»æ•°æ®åº“æŸ¥è¯¢æ•°æ®
+            // È¥Êı¾İ¿â²éÑ¯Êı¾İ
             currentProductInfos = productManageMapper.getProductByStoreId(Integer.parseInt(k2Member.getRetain1()),
-                    Integer.parseInt(dto.getState()), index, endIndex, null, dto.getProductName());
-            dto.setTotalSize(currentProductInfos.size());
+                    Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()),
+                    index, dto.getCurrentSize(), null,
+                    StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null
+            );
+            currentProductInfos.forEach((n) -> n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName()));
+            // ²éÑ¯×ÜÌõÊı
+            Integer productCountByStoreId = productManageMapper.getProductCountByStoreId(Integer.parseInt(k2Member.getRetain1()),
+                    StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(),
+                    Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()));
+            dto.setTotalSize(productCountByStoreId);
             dto.setTotlaPage((currentProductInfos.size() + (dto.getCurrentSize() + 1)) / dto.getCurrentSize());
         } else {
-            // ä»redisä¸­å–å‡ºæ•°æ®
-            // åˆ¤æ–­æœ¬æ¬¡éœ€è¦çš„æ•°æ®æ˜¯å¦æ˜¯å…¨éƒ¨
+            // ´ÓredisÖĞÈ¡³öÊı¾İ
+            // ÅĞ¶Ï±¾´ÎĞèÒªµÄÊı¾İÊÇ·ñÊÇÈ«²¿
             if (productDatas.size() < endIndex) {
-                // å°†ä»è¯¥é›†åˆçš„indeç´¢å¼•åˆ°ç»“æŸçš„æ•°æ®å…¨éƒ¨è¿”å›
+                // ½«´Ó¸Ã¼¯ºÏµÄindeË÷Òıµ½½áÊøµÄÊı¾İÈ«²¿·µ»Ø
                 for (int i = index; i < productDatas.size(); i++) {
                     currentProductInfos.add(productDatas.get(i));
                 }
             } else {
-                // æ ¹æ®èµ·å§‹ç´¢å¼•å’Œç»“æŸç´¢å¼•è·å–æ•°æ®
+                // ¸ù¾İÆğÊ¼Ë÷ÒıºÍ½áÊøË÷Òı»ñÈ¡Êı¾İ
                 for (int i = index; i < endIndex; i++) {
                     currentProductInfos.add(productDatas.get(i));
                 }

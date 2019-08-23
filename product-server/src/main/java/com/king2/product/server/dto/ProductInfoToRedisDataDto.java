@@ -28,6 +28,36 @@ public class ProductInfoToRedisDataDto {
     private String productCreateUsername;
     // 该商品总库存量
     private Integer totalKc;
+    // 商品二级类目
+    private Integer productTwoCategoryId;
+    // 商品一级类目的名称
+    private String categoryName;
+    // 商品二级类目的名称
+    private String twoCateName;
+
+    public String getTwoCateName() {
+        return twoCateName;
+    }
+
+    public void setTwoCateName(String twoCateName) {
+        this.twoCateName = twoCateName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Integer getProductTwoCategoryId() {
+        return productTwoCategoryId;
+    }
+
+    public void setProductTwoCategoryId(Integer productTwoCategoryId) {
+        this.productTwoCategoryId = productTwoCategoryId;
+    }
 
     public String getProductName() {
         return productName;

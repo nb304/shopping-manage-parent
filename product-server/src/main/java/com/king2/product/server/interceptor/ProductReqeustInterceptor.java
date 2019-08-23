@@ -36,6 +36,7 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         K2Member k2Member2 = new K2Member();
         k2Member2.setMemberAccount("luqiqi");
         k2Member2.setRetain1("1");
+        k2Member2.setMemberId(1);
         request.setAttribute("user", k2Member2);
         if (k2Member2 != null) return true;
 

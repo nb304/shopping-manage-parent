@@ -42,6 +42,8 @@ public class ProductQueueLockFactory {
 
     // 商品信息同步的锁的类型
     public static final String DEFAULT_PRODUCT_INFO_KEY = "PRODUC_TINFO_KEY";
+    // 商品同步到缓存的锁类型
+    public static final String DEFAULT_PRODUCT_CACHE_KEY = "PRODUC_CACHE_KEY";
 
     // 商品模块服务的锁类型集合
     private static List<String> keys = new ArrayList<>();
@@ -58,7 +60,7 @@ public class ProductQueueLockFactory {
             synchronized (ProductQueueLockFactory.class) {
                 if (lockMaps.isEmpty()) {
                     keys.add(DEFAULT_PRODUCT_INFO_KEY);
-
+                    keys.add(DEFAULT_PRODUCT_CACHE_KEY);
                     for (int i = 0; i < keys.size(); i++) {
                         // 动态创建锁对象
                         LockPojo lockPojo = new LockPojo();
