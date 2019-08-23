@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king2.commons.mapper.K2ProductEditSizeMapper">
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductEditSize">
+    <id column="edit_size" jdbcType="INTEGER" property="editSize" />
+    <result column="edit_product_id" jdbcType="INTEGER" property="editProductId" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="next_update_time" jdbcType="TIMESTAMP" property="nextUpdateTime" />
+    <result column="last_update_user_id" jdbcType="INTEGER" property="lastUpdateUserId" />
+    <result column="last_update_user_naem" jdbcType="VARCHAR" property="lastUpdateUserNaem" />
+    <result column="retain1" jdbcType="VARCHAR" property="retain1" />
+    <result column="retain2" jdbcType="VARCHAR" property="retain2" />
+    <result column="retain3" jdbcType="VARCHAR" property="retain3" />
+    <result column="retain4" jdbcType="VARCHAR" property="retain4" />
+    <result column="retain5" jdbcType="VARCHAR" property="retain5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    edit_size, edit_product_id, last_update_time, next_update_time, last_update_user_id, 
+    last_update_user_naem, retain1, retain2, retain3, retain4, retain5
+  </sql>
+  <select id="selectByExample" parameterType="com.king2.commons.pojo.K2ProductEditSizeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_edit_size
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_edit_size
+    where edit_size = #{editSize,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from k2_product_edit_size
+    where edit_size = #{editSize,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductEditSizeExample">
+    delete from k2_product_edit_size
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductEditSize">
+    insert into k2_product_edit_size (edit_size, edit_product_id, last_update_time, 
+      next_update_time, last_update_user_id, last_update_user_naem, 
+      retain1, retain2, retain3, 
+      retain4, retain5)
+    values (#{editSize,jdbcType=INTEGER}, #{editProductId,jdbcType=INTEGER}, #{lastUpdateTime,jdbcType=TIMESTAMP}, 
+      #{nextUpdateTime,jdbcType=TIMESTAMP}, #{lastUpdateUserId,jdbcType=INTEGER}, #{lastUpdateUserNaem,jdbcType=VARCHAR}, 
+      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
+      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductEditSize">
+    insert into k2_product_edit_size
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="editSize != null">
+        edit_size,
+      </if>
+      <if test="editProductId != null">
+        edit_product_id,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="nextUpdateTime != null">
+        next_update_time,
+      </if>
+      <if test="lastUpdateUserId != null">
+        last_update_user_id,
+      </if>
+      <if test="lastUpdateUserNaem != null">
+        last_update_user_naem,
+      </if>
+      <if test="retain1 != null">
+        retain1,
+      </if>
+      <if test="retain2 != null">
+        retain2,
+      </if>
+      <if test="retain3 != null">
+        retain3,
+      </if>
+      <if test="retain4 != null">
+        retain4,
+      </if>
+      <if test="retain5 != null">
+        retain5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="editSize != null">
+        #{editSize,jdbcType=INTEGER},
+      </if>
+      <if test="editProductId != null">
+        #{editProductId,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextUpdateTime != null">
+        #{nextUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null">
+        #{lastUpdateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdateUserNaem != null">
+        #{lastUpdateUserNaem,jdbcType=VARCHAR},
+      </if>
+      <if test="retain1 != null">
+        #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null">
+        #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null">
+        #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null">
+        #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null">
+        #{retain5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductEditSizeExample" resultType="java.lang.Integer">
+    select count(*) from k2_product_edit_size
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update k2_product_edit_size
+    <set>
+      <if test="record.editSize != null">
+        edit_size = #{record.editSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.editProductId != null">
+        edit_product_id = #{record.editProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastUpdateTime != null">
+        last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nextUpdateTime != null">
+        next_update_time = #{record.nextUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateUserId != null">
+        last_update_user_id = #{record.lastUpdateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastUpdateUserNaem != null">
+        last_update_user_naem = #{record.lastUpdateUserNaem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain1 != null">
+        retain1 = #{record.retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain2 != null">
+        retain2 = #{record.retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain3 != null">
+        retain3 = #{record.retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain4 != null">
+        retain4 = #{record.retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retain5 != null">
+        retain5 = #{record.retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update k2_product_edit_size
+    set edit_size = #{record.editSize,jdbcType=INTEGER},
+      edit_product_id = #{record.editProductId,jdbcType=INTEGER},
+      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      next_update_time = #{record.nextUpdateTime,jdbcType=TIMESTAMP},
+      last_update_user_id = #{record.lastUpdateUserId,jdbcType=INTEGER},
+      last_update_user_naem = #{record.lastUpdateUserNaem,jdbcType=VARCHAR},
+      retain1 = #{record.retain1,jdbcType=VARCHAR},
+      retain2 = #{record.retain2,jdbcType=VARCHAR},
+      retain3 = #{record.retain3,jdbcType=VARCHAR},
+      retain4 = #{record.retain4,jdbcType=VARCHAR},
+      retain5 = #{record.retain5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductEditSize">
+    update k2_product_edit_size
+    <set>
+      <if test="editProductId != null">
+        edit_product_id = #{editProductId,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextUpdateTime != null">
+        next_update_time = #{nextUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null">
+        last_update_user_id = #{lastUpdateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="lastUpdateUserNaem != null">
+        last_update_user_naem = #{lastUpdateUserNaem,jdbcType=VARCHAR},
+      </if>
+      <if test="retain1 != null">
+        retain1 = #{retain1,jdbcType=VARCHAR},
+      </if>
+      <if test="retain2 != null">
+        retain2 = #{retain2,jdbcType=VARCHAR},
+      </if>
+      <if test="retain3 != null">
+        retain3 = #{retain3,jdbcType=VARCHAR},
+      </if>
+      <if test="retain4 != null">
+        retain4 = #{retain4,jdbcType=VARCHAR},
+      </if>
+      <if test="retain5 != null">
+        retain5 = #{retain5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where edit_size = #{editSize,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductEditSize">
+    update k2_product_edit_size
+    set edit_product_id = #{editProductId,jdbcType=INTEGER},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      next_update_time = #{nextUpdateTime,jdbcType=TIMESTAMP},
+      last_update_user_id = #{lastUpdateUserId,jdbcType=INTEGER},
+      last_update_user_naem = #{lastUpdateUserNaem,jdbcType=VARCHAR},
+      retain1 = #{retain1,jdbcType=VARCHAR},
+      retain2 = #{retain2,jdbcType=VARCHAR},
+      retain3 = #{retain3,jdbcType=VARCHAR},
+      retain4 = #{retain4,jdbcType=VARCHAR},
+      retain5 = #{retain5,jdbcType=VARCHAR}
+    where edit_size = #{editSize,jdbcType=INTEGER}
+  </update>
+
+</mapper>

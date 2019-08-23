@@ -1,7 +1,11 @@
 package com.king2.commons.pojo;
 
-import org.apache.solr.client.solrj.beans.Field;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,7 +14,6 @@ public class K2Product implements Serializable {
     /**
      * 商品自增主键
      */
-    @Field("id")
     private Integer productId;
 
     /**
@@ -21,48 +24,52 @@ public class K2Product implements Serializable {
     /**
      * 商品名称
      */
-    @Field("productName")
+    @NotBlank(message = "商品名称不能为空")
+    @Length(max = 200, message = "商品名称过长")
     private String productName;
 
     /**
      * 商品品牌 ---对应着商品品牌主键id
      */
-    @Field("productBrandId")
+    @NotNull(message = "请选择商品的品牌")
     private Integer productBrandId;
 
     /**
      * 商品一级类目 ---对应着商品类目的主键id
      */
-    @Field("pOneCateId")
     private Integer productOneCategoryId;
 
     /**
      * 商品二级类目 ---对应着商品类目的主键id
      */
-    @Field("pTwoCateId")
     private Integer productTwoCategoryId;
 
     /**
      * 商品市场价格
      */
-    @Field("bazaarPrice")
+    @NotNull(message = "商品市场价格不能为空")
+    @Max(value = 9999999)
     private BigDecimal productBazaarPrice;
 
     /**
      * 商品在系统上面的价格
      */
-    @Field("bazaarPrice")
+    @NotNull(message = "商品系统价格不能为空")
+    @Max(value = 9999999)
     private BigDecimal productSystemPrice;
 
     /**
      * 商品排序规则
      */
+    @NotNull(message = "商品排序不能为空")
+    @Max(value = 99999999)
     private Integer productOrderRule;
 
     /**
      * 商品单位信息
      */
-    @Field("productUnit")
+    @NotNull(message = "商品单位信息不能为空")
+    @Length(max = 10)
     private String productUnit;
 
     /**
@@ -73,7 +80,7 @@ public class K2Product implements Serializable {
     /**
      * 商品简述
      */
-    @Field("productSkeContent")
+    @NotBlank(message = "商品简述不能为空")
     private String productSketchContentl;
 
     /**
@@ -94,7 +101,6 @@ public class K2Product implements Serializable {
     /**
      * 商品在数据库的创建时间
      */
-    @Field("createTime")
     private Date productCreateTime;
 
     /**
@@ -125,7 +131,6 @@ public class K2Product implements Serializable {
     /**
      * 该商品属于哪个店铺的  ---指向店铺表的主键id
      */
-    @Field("stroeId")
     private Integer productStoreId;
 
     /**

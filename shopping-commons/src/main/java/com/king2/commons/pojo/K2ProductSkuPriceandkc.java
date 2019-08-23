@@ -58,8 +58,20 @@ public class K2ProductSkuPriceandkc {
      */
     private String skuPriceandkcValuelistid;
 
+    // 清空不需要的值
+    public void clearValue() {
+        this.belongProductId = null;
+        this.productSkuValueIds = null;
+        this.retain1 = null;
+        this.retain2 = null;
+        this.retain3 = null;
+        this.retain4 = null;
+        this.retain5 = null;
+    }
+
     /**
      * 商品SKU的价格库存表主键
+     *
      * @return sku_priceandkc_id 商品SKU的价格库存表主键
      */
     public Integer getSkuPriceandkcId() {
@@ -68,6 +80,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 商品SKU的价格库存表主键
+     *
      * @param skuPriceandkcId 商品SKU的价格库存表主键
      */
     public void setSkuPriceandkcId(Integer skuPriceandkcId) {
@@ -76,6 +89,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU库存价格表属于哪个商品  ---指向商品表主键
+     *
      * @return belong_product_id 该SKU库存价格表属于哪个商品  ---指向商品表主键
      */
     public Integer getBelongProductId() {
@@ -84,6 +98,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU库存价格表属于哪个商品  ---指向商品表主键
+     *
      * @param belongProductId 该SKU库存价格表属于哪个商品  ---指向商品表主键
      */
     public void setBelongProductId(Integer belongProductId) {
@@ -92,6 +107,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU参数组的价格
+     *
      * @return product_sku_price 该SKU参数组的价格
      */
     public BigDecimal getProductSkuPrice() {
@@ -100,6 +116,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU参数组的价格
+     *
      * @param productSkuPrice 该SKU参数组的价格
      */
     public void setProductSkuPrice(BigDecimal productSkuPrice) {
@@ -108,6 +125,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU参数组的库存数量
+     *
      * @return product_sku_kc 该SKU参数组的库存数量
      */
     public Integer getProductSkuKc() {
@@ -116,6 +134,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该SKU参数组的库存数量
+     *
      * @param productSkuKc 该SKU参数组的库存数量
      */
     public void setProductSkuKc(Integer productSkuKc) {
@@ -124,6 +143,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 根据SKU_VALUE的id+排序组合出来的SKU信息
+     *
      * @return product_sku_value_ids 根据SKU_VALUE的id+排序组合出来的SKU信息
      */
     public String getProductSkuValueIds() {
@@ -132,6 +152,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 根据SKU_VALUE的id+排序组合出来的SKU信息
+     *
      * @param productSkuValueIds 根据SKU_VALUE的id+排序组合出来的SKU信息
      */
     public void setProductSkuValueIds(String productSkuValueIds) {
@@ -140,6 +161,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段1
+     *
      * @return retain1 保留字段1
      */
     public String getRetain1() {
@@ -148,6 +170,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段1
+     *
      * @param retain1 保留字段1
      */
     public void setRetain1(String retain1) {
@@ -156,6 +179,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段2
+     *
      * @return retain2 保留字段2
      */
     public String getRetain2() {
@@ -164,6 +188,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段2
+     *
      * @param retain2 保留字段2
      */
     public void setRetain2(String retain2) {
@@ -172,6 +197,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段3
+     *
      * @return retain3 保留字段3
      */
     public String getRetain3() {
@@ -180,6 +206,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段3
+     *
      * @param retain3 保留字段3
      */
     public void setRetain3(String retain3) {
@@ -188,6 +215,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段4
+     *
      * @return retain4 保留字段4
      */
     public String getRetain4() {
@@ -196,6 +224,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段4
+     *
      * @param retain4 保留字段4
      */
     public void setRetain4(String retain4) {
@@ -204,6 +233,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段5
+     *
      * @return retain5 保留字段5
      */
     public String getRetain5() {
@@ -212,6 +242,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 保留字段5
+     *
      * @param retain5 保留字段5
      */
     public void setRetain5(String retain5) {
@@ -220,6 +251,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该字段由多个SKU值的id组成，由,分开  ---指向sku值的id
+     *
      * @return sku_priceandkc_valuelistid 该字段由多个SKU值的id组成，由,分开  ---指向sku值的id
      */
     public String getSkuPriceandkcValuelistid() {
@@ -228,6 +260,7 @@ public class K2ProductSkuPriceandkc {
 
     /**
      * 该字段由多个SKU值的id组成，由,分开  ---指向sku值的id
+     *
      * @param skuPriceandkcValuelistid 该字段由多个SKU值的id组成，由,分开  ---指向sku值的id
      */
     public void setSkuPriceandkcValuelistid(String skuPriceandkcValuelistid) {

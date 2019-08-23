@@ -63,6 +63,16 @@ public class K2ProductSpu {
      */
     private String retain5;
 
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     /**
      * 商品SPU表主键
      * @return product_spu_id 商品SPU表主键

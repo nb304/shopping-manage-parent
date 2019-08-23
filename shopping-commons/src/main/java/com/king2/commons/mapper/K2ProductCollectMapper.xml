@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.king2.commons.mapper.K2ProductCollectMapper" >
+  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductCollect" >
+    <id column="product_collect_id" property="productCollectId" jdbcType="INTEGER" />
+    <result column="collect_user_id" property="collectUserId" jdbcType="INTEGER" />
+    <result column="collect_product_id" property="collectProductId" jdbcType="INTEGER" />
+    <result column="collect_state" property="collectState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_collect_id, collect_user_id, collect_product_id, collect_state, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductCollectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from k2_product_collect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from k2_product_collect
+    where product_collect_id = #{productCollectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from k2_product_collect
+    where product_collect_id = #{productCollectId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductCollectExample" >
+    delete from k2_product_collect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductCollect" >
+    insert into k2_product_collect (product_collect_id, collect_user_id, 
+      collect_product_id, collect_state, create_time
+      )
+    values (#{productCollectId,jdbcType=INTEGER}, #{collectUserId,jdbcType=INTEGER}, 
+      #{collectProductId,jdbcType=INTEGER}, #{collectState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductCollect" >
+    insert into k2_product_collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productCollectId != null" >
+        product_collect_id,
+      </if>
+      <if test="collectUserId != null" >
+        collect_user_id,
+      </if>
+      <if test="collectProductId != null" >
+        collect_product_id,
+      </if>
+      <if test="collectState != null" >
+        collect_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productCollectId != null" >
+        #{productCollectId,jdbcType=INTEGER},
+      </if>
+      <if test="collectUserId != null" >
+        #{collectUserId,jdbcType=INTEGER},
+      </if>
+      <if test="collectProductId != null" >
+        #{collectProductId,jdbcType=INTEGER},
+      </if>
+      <if test="collectState != null" >
+        #{collectState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductCollectExample" resultType="java.lang.Integer" >
+    select count(*) from k2_product_collect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update k2_product_collect
+    <set >
+      <if test="record.productCollectId != null" >
+        product_collect_id = #{record.productCollectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectUserId != null" >
+        collect_user_id = #{record.collectUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectProductId != null" >
+        collect_product_id = #{record.collectProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectState != null" >
+        collect_state = #{record.collectState,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update k2_product_collect
+    set product_collect_id = #{record.productCollectId,jdbcType=INTEGER},
+      collect_user_id = #{record.collectUserId,jdbcType=INTEGER},
+      collect_product_id = #{record.collectProductId,jdbcType=INTEGER},
+      collect_state = #{record.collectState,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductCollect" >
+    update k2_product_collect
+    <set >
+      <if test="collectUserId != null" >
+        collect_user_id = #{collectUserId,jdbcType=INTEGER},
+      </if>
+      <if test="collectProductId != null" >
+        collect_product_id = #{collectProductId,jdbcType=INTEGER},
+      </if>
+      <if test="collectState != null" >
+        collect_state = #{collectState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where product_collect_id = #{productCollectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductCollect" >
+    update k2_product_collect
+    set collect_user_id = #{collectUserId,jdbcType=INTEGER},
+      collect_product_id = #{collectProductId,jdbcType=INTEGER},
+      collect_state = #{collectState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where product_collect_id = #{productCollectId,jdbcType=INTEGER}
+  </update>
+</mapper>

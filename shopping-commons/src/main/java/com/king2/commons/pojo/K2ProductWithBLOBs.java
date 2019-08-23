@@ -1,20 +1,19 @@
 package com.king2.commons.pojo;
 
-import org.apache.solr.client.solrj.beans.Field;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class K2ProductWithBLOBs extends K2Product implements Serializable {
     /**
      * 商品卖点
      */
-    @Field("productPoints")
+    @NotBlank(message = "商品卖点不能为空")
     private String productPoints;
 
     /**
      * 商品图片  ---多张图片,隔开
      */
-    @Field("productImage")
     private String productImage;
 
     /**
@@ -74,5 +73,14 @@ public class K2ProductWithBLOBs extends K2Product implements Serializable {
      */
     public void setProductImageDescribe(String productImageDescribe) {
         this.productImageDescribe = productImageDescribe == null ? null : productImageDescribe.trim();
+    }
+
+
+    public void editClearValue() {
+        this.setProductNumber(null);
+        this.setProductTwoCategoryId(null);
+        this.setProductOneCategoryId(null);
+        this.productImage = null;
+        this.productImageDescribe = null;
     }
 }

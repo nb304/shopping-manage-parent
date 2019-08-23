@@ -74,4 +74,21 @@ public class MinioUtil {
         return new SystemResult(url);
     }
 
+    /**
+     * -----------------------------------------------------
+     * 功能:  删除文件的方法
+     * <p>
+     * 参数:
+     * delFileName            String           需要删除的文件名称
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public SystemResult delFile(String delFileName) throws Exception {
+        // 使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
+        MinioClient minioClient = new MinioClient(minioUrl, username, password);
+        minioClient.removeObject(bucketName, delFileName);
+        return new SystemResult("ok");
+    }
+
 }
