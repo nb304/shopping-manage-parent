@@ -99,8 +99,8 @@ public class SystemResult {
         this.data = data;
     }
 
-    public SystemResult(String msg) {
-        this.status = 200;
+    public SystemResult(Integer status , String msg) {
+        this.status = status;
         this.msg = msg;
         this.data = null;
     }

@@ -53,8 +53,30 @@ public class K2Message {
      */
     private String messageContent;
 
+    private String subStringContent;
+
+    private String createTimeStr;
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+
+    public String getSubStringContent() {
+        return subStringContent;
+    }
+
+    public void setSubStringContent(String subStringContent) {
+        this.subStringContent = subStringContent;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
     /**
      * 信息表主键
+     *
      * @return message_id 信息表主键
      */
     public Integer getMessageId() {
@@ -63,6 +85,7 @@ public class K2Message {
 
     /**
      * 信息表主键
+     *
      * @param messageId 信息表主键
      */
     public void setMessageId(Integer messageId) {
@@ -71,6 +94,7 @@ public class K2Message {
 
     /**
      * 创建时间
+     *
      * @return create_time 创建时间
      */
     public Date getCreateTime() {
@@ -79,6 +103,7 @@ public class K2Message {
 
     /**
      * 创建时间
+     *
      * @param createTime 创建时间
      */
     public void setCreateTime(Date createTime) {
@@ -87,6 +112,7 @@ public class K2Message {
 
     /**
      * 该信息属于哪个用户 ---指向用户表主键
+     *
      * @return user_id 该信息属于哪个用户 ---指向用户表主键
      */
     public Integer getUserId() {
@@ -95,6 +121,7 @@ public class K2Message {
 
     /**
      * 该信息属于哪个用户 ---指向用户表主键
+     *
      * @param userId 该信息属于哪个用户 ---指向用户表主键
      */
     public void setUserId(Integer userId) {
@@ -103,6 +130,7 @@ public class K2Message {
 
     /**
      * 信息状态 1、未读 2、已读 3、删除
+     *
      * @return state 信息状态 1、未读 2、已读 3、删除
      */
     public Integer getState() {
@@ -111,6 +139,7 @@ public class K2Message {
 
     /**
      * 信息状态 1、未读 2、已读 3、删除
+     *
      * @param state 信息状态 1、未读 2、已读 3、删除
      */
     public void setState(Integer state) {
@@ -119,6 +148,7 @@ public class K2Message {
 
     /**
      * 保留字段1
+     *
      * @return retain1 保留字段1
      */
     public String getRetain1() {
@@ -127,6 +157,7 @@ public class K2Message {
 
     /**
      * 保留字段1
+     *
      * @param retain1 保留字段1
      */
     public void setRetain1(String retain1) {
@@ -135,6 +166,7 @@ public class K2Message {
 
     /**
      * 保留字段2
+     *
      * @return retain2 保留字段2
      */
     public String getRetain2() {
@@ -143,6 +175,7 @@ public class K2Message {
 
     /**
      * 保留字段2
+     *
      * @param retain2 保留字段2
      */
     public void setRetain2(String retain2) {
@@ -151,6 +184,7 @@ public class K2Message {
 
     /**
      * 保留字段3
+     *
      * @return retain3 保留字段3
      */
     public String getRetain3() {
@@ -159,6 +193,7 @@ public class K2Message {
 
     /**
      * 保留字段3
+     *
      * @param retain3 保留字段3
      */
     public void setRetain3(String retain3) {
@@ -167,6 +202,7 @@ public class K2Message {
 
     /**
      * 保留字段4
+     *
      * @return retain4 保留字段4
      */
     public String getRetain4() {
@@ -175,6 +211,7 @@ public class K2Message {
 
     /**
      * 保留字段4
+     *
      * @param retain4 保留字段4
      */
     public void setRetain4(String retain4) {
@@ -183,6 +220,7 @@ public class K2Message {
 
     /**
      * 保留字段5
+     *
      * @return retain5 保留字段5
      */
     public String getRetain5() {
@@ -191,6 +229,7 @@ public class K2Message {
 
     /**
      * 保留字段5
+     *
      * @param retain5 保留字段5
      */
     public void setRetain5(String retain5) {
@@ -199,6 +238,7 @@ public class K2Message {
 
     /**
      * 信息表内容
+     *
      * @return message_content 信息表内容
      */
     public String getMessageContent() {
@@ -207,6 +247,7 @@ public class K2Message {
 
     /**
      * 信息表内容
+     *
      * @param messageContent 信息表内容
      */
     public void setMessageContent(String messageContent) {

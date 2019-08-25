@@ -1,384 +1,390 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.king2.commons.mapper.K2ProductBrandMapper" >
-  <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductBrand" >
-    <id column="brand_id" property="brandId" jdbcType="INTEGER" />
-    <result column="brand_number" property="brandNumber" jdbcType="VARCHAR" />
-    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
-    <result column="brand_image" property="brandImage" jdbcType="VARCHAR" />
-    <result column="brand_create_userid" property="brandCreateUserid" jdbcType="INTEGER" />
-    <result column="brand_create_username" property="brandCreateUsername" jdbcType="VARCHAR" />
-    <result column="brand_create_time" property="brandCreateTime" jdbcType="TIMESTAMP" />
-    <result column="brand_update_userid" property="brandUpdateUserid" jdbcType="INTEGER" />
-    <result column="brand_update_username" property="brandUpdateUsername" jdbcType="VARCHAR" />
-    <result column="brand_update_time" property="brandUpdateTime" jdbcType="TIMESTAMP" />
-    <result column="brand_store_id" property="brandStoreId" jdbcType="INTEGER" />
-    <result column="brand_state" property="brandState" jdbcType="INTEGER" />
-    <result column="retain1" property="retain1" jdbcType="VARCHAR" />
-    <result column="retain2" property="retain2" jdbcType="VARCHAR" />
-    <result column="retain3" property="retain3" jdbcType="VARCHAR" />
-    <result column="retain4" property="retain4" jdbcType="VARCHAR" />
-    <result column="retain5" property="retain5" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+<mapper namespace="com.king2.commons.mapper.K2ProductBrandMapper">
+    <resultMap id="BaseResultMap" type="com.king2.commons.pojo.K2ProductBrand">
+        <id column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="brand_number" property="brandNumber" jdbcType="VARCHAR"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="brand_image" property="brandImage" jdbcType="VARCHAR"/>
+        <result column="brand_create_userid" property="brandCreateUserid" jdbcType="INTEGER"/>
+        <result column="brand_create_username" property="brandCreateUsername" jdbcType="VARCHAR"/>
+        <result column="brand_create_time" property="brandCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="brand_update_userid" property="brandUpdateUserid" jdbcType="INTEGER"/>
+        <result column="brand_update_username" property="brandUpdateUsername" jdbcType="VARCHAR"/>
+        <result column="brand_update_time" property="brandUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="brand_store_id" property="brandStoreId" jdbcType="INTEGER"/>
+        <result column="brand_state" property="brandState" jdbcType="INTEGER"/>
+        <result column="retain1" property="retain1" jdbcType="VARCHAR"/>
+        <result column="retain2" property="retain2" jdbcType="VARCHAR"/>
+        <result column="retain3" property="retain3" jdbcType="VARCHAR"/>
+        <result column="retain4" property="retain4" jdbcType="VARCHAR"/>
+        <result column="retain5" property="retain5" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    brand_id, brand_number, brand_name, brand_image, brand_create_userid, brand_create_username, 
-    brand_create_time, brand_update_userid, brand_update_username, brand_update_time, 
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    brand_id, brand_number, brand_name, brand_image, brand_create_userid, brand_create_username,
+    brand_create_time, brand_update_userid, brand_update_username, brand_update_time,
     brand_store_id, brand_state, retain1, retain2, retain3, retain4, retain5
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductBrandExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from k2_product_brand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from k2_product_brand
-    where brand_id = #{brandId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.king2.commons.pojo.K2ProductBrandExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from k2_product_brand
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from k2_product_brand
+        where brand_id = #{brandId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from k2_product_brand
     where brand_id = #{brandId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductBrandExample" >
-    delete from k2_product_brand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductBrand" >
-    insert into k2_product_brand (brand_id, brand_number, brand_name, 
-      brand_image, brand_create_userid, brand_create_username, 
-      brand_create_time, brand_update_userid, brand_update_username, 
-      brand_update_time, brand_store_id, brand_state, 
-      retain1, retain2, retain3, 
-      retain4, retain5)
-    values (#{brandId,jdbcType=INTEGER}, #{brandNumber,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, 
-      #{brandImage,jdbcType=VARCHAR}, #{brandCreateUserid,jdbcType=INTEGER}, #{brandCreateUsername,jdbcType=VARCHAR}, 
-      #{brandCreateTime,jdbcType=TIMESTAMP}, #{brandUpdateUserid,jdbcType=INTEGER}, #{brandUpdateUsername,jdbcType=VARCHAR}, 
-      #{brandUpdateTime,jdbcType=TIMESTAMP}, #{brandStoreId,jdbcType=INTEGER}, #{brandState,jdbcType=INTEGER}, 
-      #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
-      #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductBrand" >
-    insert into k2_product_brand
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="brandId != null" >
-        brand_id,
-      </if>
-      <if test="brandNumber != null" >
-        brand_number,
-      </if>
-      <if test="brandName != null" >
-        brand_name,
-      </if>
-      <if test="brandImage != null" >
-        brand_image,
-      </if>
-      <if test="brandCreateUserid != null" >
-        brand_create_userid,
-      </if>
-      <if test="brandCreateUsername != null" >
-        brand_create_username,
-      </if>
-      <if test="brandCreateTime != null" >
-        brand_create_time,
-      </if>
-      <if test="brandUpdateUserid != null" >
-        brand_update_userid,
-      </if>
-      <if test="brandUpdateUsername != null" >
-        brand_update_username,
-      </if>
-      <if test="brandUpdateTime != null" >
-        brand_update_time,
-      </if>
-      <if test="brandStoreId != null" >
-        brand_store_id,
-      </if>
-      <if test="brandState != null" >
-        brand_state,
-      </if>
-      <if test="retain1 != null" >
-        retain1,
-      </if>
-      <if test="retain2 != null" >
-        retain2,
-      </if>
-      <if test="retain3 != null" >
-        retain3,
-      </if>
-      <if test="retain4 != null" >
-        retain4,
-      </if>
-      <if test="retain5 != null" >
-        retain5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="brandId != null" >
-        #{brandId,jdbcType=INTEGER},
-      </if>
-      <if test="brandNumber != null" >
-        #{brandNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="brandName != null" >
-        #{brandName,jdbcType=VARCHAR},
-      </if>
-      <if test="brandImage != null" >
-        #{brandImage,jdbcType=VARCHAR},
-      </if>
-      <if test="brandCreateUserid != null" >
-        #{brandCreateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="brandCreateUsername != null" >
-        #{brandCreateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="brandCreateTime != null" >
-        #{brandCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="brandUpdateUserid != null" >
-        #{brandUpdateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="brandUpdateUsername != null" >
+    <delete id="deleteByExample" parameterType="com.king2.commons.pojo.K2ProductBrandExample">
+        delete from k2_product_brand
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.king2.commons.pojo.K2ProductBrand">
+        insert into k2_product_brand (brand_id, brand_number, brand_name,
+        brand_image, brand_create_userid, brand_create_username,
+        brand_create_time, brand_update_userid, brand_update_username,
+        brand_update_time, brand_store_id, brand_state,
+        retain1, retain2, retain3,
+        retain4, retain5)
+        values (#{brandId,jdbcType=INTEGER}, #{brandNumber,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR},
+        #{brandImage,jdbcType=VARCHAR}, #{brandCreateUserid,jdbcType=INTEGER}, #{brandCreateUsername,jdbcType=VARCHAR},
+        #{brandCreateTime,jdbcType=TIMESTAMP}, #{brandUpdateUserid,jdbcType=INTEGER},
         #{brandUpdateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="brandUpdateTime != null" >
-        #{brandUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="brandStoreId != null" >
-        #{brandStoreId,jdbcType=INTEGER},
-      </if>
-      <if test="brandState != null" >
-        #{brandState,jdbcType=INTEGER},
-      </if>
-      <if test="retain1 != null" >
-        #{retain1,jdbcType=VARCHAR},
-      </if>
-      <if test="retain2 != null" >
-        #{retain2,jdbcType=VARCHAR},
-      </if>
-      <if test="retain3 != null" >
-        #{retain3,jdbcType=VARCHAR},
-      </if>
-      <if test="retain4 != null" >
-        #{retain4,jdbcType=VARCHAR},
-      </if>
-      <if test="retain5 != null" >
-        #{retain5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductBrandExample" resultType="java.lang.Integer" >
-    select count(*) from k2_product_brand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update k2_product_brand
-    <set >
-      <if test="record.brandId != null" >
-        brand_id = #{record.brandId,jdbcType=INTEGER},
-      </if>
-      <if test="record.brandNumber != null" >
+        #{brandUpdateTime,jdbcType=TIMESTAMP}, #{brandStoreId,jdbcType=INTEGER}, #{brandState,jdbcType=INTEGER},
+        #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR},
+        #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR})
+
+        <selectKey keyProperty="brandId" order="AFTER" resultType="int">select last_insert_id()</selectKey>
+    </insert>
+    <insert id="insertSelective" parameterType="com.king2.commons.pojo.K2ProductBrand">
+        insert into k2_product_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="brandNumber != null">
+                brand_number,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="brandImage != null">
+                brand_image,
+            </if>
+            <if test="brandCreateUserid != null">
+                brand_create_userid,
+            </if>
+            <if test="brandCreateUsername != null">
+                brand_create_username,
+            </if>
+            <if test="brandCreateTime != null">
+                brand_create_time,
+            </if>
+            <if test="brandUpdateUserid != null">
+                brand_update_userid,
+            </if>
+            <if test="brandUpdateUsername != null">
+                brand_update_username,
+            </if>
+            <if test="brandUpdateTime != null">
+                brand_update_time,
+            </if>
+            <if test="brandStoreId != null">
+                brand_store_id,
+            </if>
+            <if test="brandState != null">
+                brand_state,
+            </if>
+            <if test="retain1 != null">
+                retain1,
+            </if>
+            <if test="retain2 != null">
+                retain2,
+            </if>
+            <if test="retain3 != null">
+                retain3,
+            </if>
+            <if test="retain4 != null">
+                retain4,
+            </if>
+            <if test="retain5 != null">
+                retain5,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="brandNumber != null">
+                #{brandNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="brandName != null">
+                #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandImage != null">
+                #{brandImage,jdbcType=VARCHAR},
+            </if>
+            <if test="brandCreateUserid != null">
+                #{brandCreateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="brandCreateUsername != null">
+                #{brandCreateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="brandCreateTime != null">
+                #{brandCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandUpdateUserid != null">
+                #{brandUpdateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="brandUpdateUsername != null">
+                #{brandUpdateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="brandUpdateTime != null">
+                #{brandUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandStoreId != null">
+                #{brandStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="brandState != null">
+                #{brandState,jdbcType=INTEGER},
+            </if>
+            <if test="retain1 != null">
+                #{retain1,jdbcType=VARCHAR},
+            </if>
+            <if test="retain2 != null">
+                #{retain2,jdbcType=VARCHAR},
+            </if>
+            <if test="retain3 != null">
+                #{retain3,jdbcType=VARCHAR},
+            </if>
+            <if test="retain4 != null">
+                #{retain4,jdbcType=VARCHAR},
+            </if>
+            <if test="retain5 != null">
+                #{retain5,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.king2.commons.pojo.K2ProductBrandExample"
+            resultType="java.lang.Integer">
+        select count(*) from k2_product_brand
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update k2_product_brand
+        <set>
+            <if test="record.brandId != null">
+                brand_id = #{record.brandId,jdbcType=INTEGER},
+            </if>
+            <if test="record.brandNumber != null">
+                brand_number = #{record.brandNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.brandName != null">
+                brand_name = #{record.brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.brandImage != null">
+                brand_image = #{record.brandImage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.brandCreateUserid != null">
+                brand_create_userid = #{record.brandCreateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="record.brandCreateUsername != null">
+                brand_create_username = #{record.brandCreateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="record.brandCreateTime != null">
+                brand_create_time = #{record.brandCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.brandUpdateUserid != null">
+                brand_update_userid = #{record.brandUpdateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="record.brandUpdateUsername != null">
+                brand_update_username = #{record.brandUpdateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="record.brandUpdateTime != null">
+                brand_update_time = #{record.brandUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.brandStoreId != null">
+                brand_store_id = #{record.brandStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="record.brandState != null">
+                brand_state = #{record.brandState,jdbcType=INTEGER},
+            </if>
+            <if test="record.retain1 != null">
+                retain1 = #{record.retain1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.retain2 != null">
+                retain2 = #{record.retain2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.retain3 != null">
+                retain3 = #{record.retain3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.retain4 != null">
+                retain4 = #{record.retain4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.retain5 != null">
+                retain5 = #{record.retain5,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update k2_product_brand
+        set brand_id = #{record.brandId,jdbcType=INTEGER},
         brand_number = #{record.brandNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="record.brandName != null" >
         brand_name = #{record.brandName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.brandImage != null" >
         brand_image = #{record.brandImage,jdbcType=VARCHAR},
-      </if>
-      <if test="record.brandCreateUserid != null" >
         brand_create_userid = #{record.brandCreateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="record.brandCreateUsername != null" >
         brand_create_username = #{record.brandCreateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="record.brandCreateTime != null" >
         brand_create_time = #{record.brandCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.brandUpdateUserid != null" >
         brand_update_userid = #{record.brandUpdateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="record.brandUpdateUsername != null" >
         brand_update_username = #{record.brandUpdateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="record.brandUpdateTime != null" >
         brand_update_time = #{record.brandUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.brandStoreId != null" >
         brand_store_id = #{record.brandStoreId,jdbcType=INTEGER},
-      </if>
-      <if test="record.brandState != null" >
         brand_state = #{record.brandState,jdbcType=INTEGER},
-      </if>
-      <if test="record.retain1 != null" >
         retain1 = #{record.retain1,jdbcType=VARCHAR},
-      </if>
-      <if test="record.retain2 != null" >
         retain2 = #{record.retain2,jdbcType=VARCHAR},
-      </if>
-      <if test="record.retain3 != null" >
         retain3 = #{record.retain3,jdbcType=VARCHAR},
-      </if>
-      <if test="record.retain4 != null" >
         retain4 = #{record.retain4,jdbcType=VARCHAR},
-      </if>
-      <if test="record.retain5 != null" >
-        retain5 = #{record.retain5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update k2_product_brand
-    set brand_id = #{record.brandId,jdbcType=INTEGER},
-      brand_number = #{record.brandNumber,jdbcType=VARCHAR},
-      brand_name = #{record.brandName,jdbcType=VARCHAR},
-      brand_image = #{record.brandImage,jdbcType=VARCHAR},
-      brand_create_userid = #{record.brandCreateUserid,jdbcType=INTEGER},
-      brand_create_username = #{record.brandCreateUsername,jdbcType=VARCHAR},
-      brand_create_time = #{record.brandCreateTime,jdbcType=TIMESTAMP},
-      brand_update_userid = #{record.brandUpdateUserid,jdbcType=INTEGER},
-      brand_update_username = #{record.brandUpdateUsername,jdbcType=VARCHAR},
-      brand_update_time = #{record.brandUpdateTime,jdbcType=TIMESTAMP},
-      brand_store_id = #{record.brandStoreId,jdbcType=INTEGER},
-      brand_state = #{record.brandState,jdbcType=INTEGER},
-      retain1 = #{record.retain1,jdbcType=VARCHAR},
-      retain2 = #{record.retain2,jdbcType=VARCHAR},
-      retain3 = #{record.retain3,jdbcType=VARCHAR},
-      retain4 = #{record.retain4,jdbcType=VARCHAR},
-      retain5 = #{record.retain5,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductBrand" >
-    update k2_product_brand
-    <set >
-      <if test="brandNumber != null" >
-        brand_number = #{brandNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="brandName != null" >
-        brand_name = #{brandName,jdbcType=VARCHAR},
-      </if>
-      <if test="brandImage != null" >
-        brand_image = #{brandImage,jdbcType=VARCHAR},
-      </if>
-      <if test="brandCreateUserid != null" >
-        brand_create_userid = #{brandCreateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="brandCreateUsername != null" >
-        brand_create_username = #{brandCreateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="brandCreateTime != null" >
-        brand_create_time = #{brandCreateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="brandUpdateUserid != null" >
-        brand_update_userid = #{brandUpdateUserid,jdbcType=INTEGER},
-      </if>
-      <if test="brandUpdateUsername != null" >
-        brand_update_username = #{brandUpdateUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="brandUpdateTime != null" >
-        brand_update_time = #{brandUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="brandStoreId != null" >
-        brand_store_id = #{brandStoreId,jdbcType=INTEGER},
-      </if>
-      <if test="brandState != null" >
-        brand_state = #{brandState,jdbcType=INTEGER},
-      </if>
-      <if test="retain1 != null" >
-        retain1 = #{retain1,jdbcType=VARCHAR},
-      </if>
-      <if test="retain2 != null" >
-        retain2 = #{retain2,jdbcType=VARCHAR},
-      </if>
-      <if test="retain3 != null" >
-        retain3 = #{retain3,jdbcType=VARCHAR},
-      </if>
-      <if test="retain4 != null" >
-        retain4 = #{retain4,jdbcType=VARCHAR},
-      </if>
-      <if test="retain5 != null" >
-        retain5 = #{retain5,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where brand_id = #{brandId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductBrand" >
+        retain5 = #{record.retain5,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.king2.commons.pojo.K2ProductBrand">
+        update k2_product_brand
+        <set>
+            <if test="brandNumber != null">
+                brand_number = #{brandNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="brandName != null">
+                brand_name = #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandImage != null">
+                brand_image = #{brandImage,jdbcType=VARCHAR},
+            </if>
+            <if test="brandCreateUserid != null">
+                brand_create_userid = #{brandCreateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="brandCreateUsername != null">
+                brand_create_username = #{brandCreateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="brandCreateTime != null">
+                brand_create_time = #{brandCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandUpdateUserid != null">
+                brand_update_userid = #{brandUpdateUserid,jdbcType=INTEGER},
+            </if>
+            <if test="brandUpdateUsername != null">
+                brand_update_username = #{brandUpdateUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="brandUpdateTime != null">
+                brand_update_time = #{brandUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="brandStoreId != null">
+                brand_store_id = #{brandStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="brandState != null">
+                brand_state = #{brandState,jdbcType=INTEGER},
+            </if>
+            <if test="retain1 != null">
+                retain1 = #{retain1,jdbcType=VARCHAR},
+            </if>
+            <if test="retain2 != null">
+                retain2 = #{retain2,jdbcType=VARCHAR},
+            </if>
+            <if test="retain3 != null">
+                retain3 = #{retain3,jdbcType=VARCHAR},
+            </if>
+            <if test="retain4 != null">
+                retain4 = #{retain4,jdbcType=VARCHAR},
+            </if>
+            <if test="retain5 != null">
+                retain5 = #{retain5,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where brand_id = #{brandId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.king2.commons.pojo.K2ProductBrand">
     update k2_product_brand
     set brand_number = #{brandNumber,jdbcType=VARCHAR},
       brand_name = #{brandName,jdbcType=VARCHAR},

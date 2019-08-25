@@ -88,6 +88,26 @@ public class K2ProductBrand {
      */
     private String retain5;
 
+    private String createTimeStr;
+
+    private String updateTimeStr;
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
+    public String getUpdateTimeStr() {
+        return updateTimeStr;
+    }
+
+    public void setUpdateTimeStr(String updateTimeStr) {
+        this.updateTimeStr = updateTimeStr;
+    }
+
     /**
      * 商品品牌的主键id
      * @return brand_id 商品品牌的主键id

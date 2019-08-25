@@ -2,6 +2,7 @@ package com.king2.commons.utils;
 
 import com.king2.commons.exceptions.UserManageException;
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -82,7 +83,7 @@ public class UserManageUtil {
                 return new SystemResult(100, "该账号在其他地方登录", null);
             }
             // 将用户Json转换成用户对象
-            K2Member k2Member = JsonUtils.jsonToPojo(userJson, K2Member.class);
+            K2MemberAndElseInfo k2Member = JsonUtils.jsonToPojo(userJson, K2MemberAndElseInfo.class);
             return new SystemResult(k2Member);
         } catch (IOException e) {
             return new SystemResult(100, "用户JSON转换失败,请检查JSON格式是否正确。", null);
@@ -109,35 +110,33 @@ public class UserManageUtil {
      * 状态码：200登录成功、201登录成功，但是前面已经有人登录、100异常
      * -----------------------------------------------------
      */
-    public SystemResult refresh(K2Member k2Member, String token) throws Exception {
+    public SystemResult refresh(K2MemberAndElseInfo k2MemberAndElseInfo, String token) throws Exception {
 
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
             // 判断用户是否登录
-            Map<String, String> userMap = jedis.hgetAll(k2Member.getMemberAccount());
+            Map<String, String> userMap = jedis.hgetAll(k2MemberAndElseInfo.getK2Member().getMemberAccount());
             if (CollectionUtils.isEmpty(userMap)) {
                 // 说明redis中没有该用户的信息
                 // 往redis中添加数据
-                jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-                jedis.close();
-                return new SystemResult(200, "登录成功", k2Member);
+                jedis.hset(k2MemberAndElseInfo.getK2Member().getMemberAccount(), token, JsonUtils.objectToJson(k2MemberAndElseInfo));
+                return new SystemResult(200, "登录成功", k2MemberAndElseInfo);
             }
 
-            SystemResult userInfoResult = getUserInfoByAccountAndToken(k2Member.getMemberAccount(), token);
+            SystemResult userInfoResult = getUserInfoByAccountAndToken(k2MemberAndElseInfo.getK2Member().getMemberAccount(), token);
             if (userInfoResult != null && userInfoResult.getStatus() == 200) {
                 // 说明存在
-                jedis.close();
                 return userInfoResult;
             }
 
             // 重新刷新用户在redis中的数据
-            jedis.del(k2Member.getMemberAccount());
-            jedis.hset(k2Member.getMemberAccount(), token, JsonUtils.objectToJson(k2Member));
-            return new SystemResult(201, "登录成功", k2Member);
+            jedis.del(k2MemberAndElseInfo.getK2Member().getMemberAccount());
+            jedis.hset(k2MemberAndElseInfo.getK2Member().getMemberAccount(), token, JsonUtils.objectToJson(k2MemberAndElseInfo));
+            return new SystemResult(201, "登录成功", k2MemberAndElseInfo);
         } catch (Exception e) {
             e.printStackTrace();
-            return new SystemResult(500, "系统内部异常", k2Member);
+            return new SystemResult(500, "系统内部异常", k2MemberAndElseInfo);
         } finally {
             if (jedis != null) jedis.close();
         }
