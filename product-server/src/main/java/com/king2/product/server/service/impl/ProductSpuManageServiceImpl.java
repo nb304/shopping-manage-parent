@@ -1,15 +1,15 @@
 package com.king2.product.server.service.impl;
 
 import com.king2.commons.mapper.K2ProductSpuMapper;
-import com.king2.commons.pojo.K2Member;
-import com.king2.commons.pojo.K2ProductSpu;
-import com.king2.commons.pojo.K2ProductSpuExample;
+import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
+import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductSpuAppoint;
 import com.king2.product.server.enmu.ProductSpuEnum;
 import com.king2.product.server.mapper.ProductSpuMapper;
 import com.king2.product.server.service.ProductSpuManageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -18,30 +18,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SPUç®¡ç†Serviceå®ç°ç±»
+	ËµÃ÷:    ÉÌÆ·SPU¹ÜÀíServiceÊµÏÖÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.20   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.20   			´´½¨
 =======================================================*/
 @Service
 public class ProductSpuManageServiceImpl implements ProductSpuManageService {
 
-    // æ³¨å…¥å•†å“SPUMapper
+    // ×¢ÈëÉÌÆ·SPUMapper
     @Autowired
     private K2ProductSpuMapper k2ProductSpuMapper;
 
-    // æ³¨å…¥æœ¬åœ°çš„å•†å“SPUMapper
+    // ×¢Èë±¾µØµÄÉÌÆ·SPUMapper
     @Autowired
     private ProductSpuMapper productSpuMapper;
 
+    // ×¢Èë³¬¼¶¹ÜÀíÔ±µÄ±êÖ¾
+    @Value("${SYSTEM_ROLE_PROVE}")
+    private String SYSTEM_ROLE_PROVE;
+
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æŸ¥è¯¢å•†å“çš„SPUæ“ä½œ
+     * ¹¦ÄÜ:  ²éÑ¯ÉÌÆ·µÄSPU²Ù×÷
      * <p>
-     * å‚æ•°:
-     * productId        String          å•†å“id
+     * ²ÎÊı:
+     * productId        String          ÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
@@ -53,114 +57,132 @@ public class ProductSpuManageServiceImpl implements ProductSpuManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  åˆ é™¤å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  É¾³ıÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuId        String          å•†å“çš„SPUid
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuId        String          ÉÌÆ·µÄSPUid
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult delSpuById(Integer spuId, K2Member k2Member) {
+    public SystemResult delSpuById(Integer spuId, K2MemberAndElseInfo k2Member) {
 
-        // åˆ›å»ºå¯¹è±¡
+
+        // Ğ£Ñé²ÎÊıĞÅÏ¢
+        SystemResult result = checkSpuInfoIsUser(spuId, k2Member);
+        if (result.getStatus() != 200) return result;
+
+        // ´´½¨¶ÔÏó
         K2ProductSpu spu = new K2ProductSpu();
         spu.setProductSpuId(spuId);
         spu.setProductSpuState(ProductSpuEnum.DEL.getValue());
-        // é€»è¾‘åˆ é™¤å•†å“çš„SPUä¿¡æ¯
+        // Âß¼­É¾³ıÉÌÆ·µÄSPUĞÅÏ¢
         k2ProductSpuMapper.updateByPrimaryKeySelective(spu);
         return new SystemResult("ok");
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ¢å¤SPUçš„ä¿¡æ¯
+     * ¹¦ÄÜ:  »Ö¸´SPUµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuId        String          å•†å“çš„SPUid
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuId        String          ÉÌÆ·µÄSPUid
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult recoverNormal(Integer spuId, K2Member k2Member) {
+    public SystemResult recoverNormal(Integer spuId, K2MemberAndElseInfo k2Member) {
 
-        // åˆ›å»ºå¯¹è±¡
+        // Ğ£Ñé²ÎÊıĞÅÏ¢
+        SystemResult result = checkSpuInfoIsUser(spuId, k2Member);
+        if (result.getStatus() != 200) return result;
+
+        // ´´½¨¶ÔÏó
         K2ProductSpu spu = new K2ProductSpu();
         spu.setProductSpuId(spuId);
         spu.setProductSpuState(ProductSpuEnum.SYZ.getValue());
-        // æ¢å¤SPUçš„ä¿¡æ¯
+        // »Ö¸´SPUµÄĞÅÏ¢
         k2ProductSpuMapper.updateByPrimaryKeySelective(spu);
         return new SystemResult("ok");
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ³¨é”€å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  ÅúÁ¿×¢ÏúÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuIds        String         å•†å“çš„SPUIds
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuIds        String         ÉÌÆ·µÄSPUIds
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult batchCancelSpu(String spuIds, K2Member k2Member) {
+    public SystemResult batchCancelSpu(String spuIds, K2MemberAndElseInfo k2Member) {
 
-        // åˆ›å»ºéœ€è¦æ‰¹é‡æ³¨é”€çš„å•†å“SPUä¿¡æ¯
+        // ´´½¨ĞèÒªÅúÁ¿×¢ÏúµÄÉÌÆ·SPUĞÅÏ¢
         List<Integer> cancelSpuIds = new ArrayList<>();
         String[] spuSplit = spuIds.split(",");
-        // éå†é›†åˆ
+        // ±éÀú¼¯ºÏ
         for (int i = 0; i < spuSplit.length; i++) {
-            // åˆ¤æ–­å•†å“SPUçš„idæ—¶å€™æ­£ç¡®
+            // ÅĞ¶ÏÉÌÆ·SPUµÄidÊ±ºòÕıÈ·
             if (StringUtils.isEmpty(spuSplit[i]) || !spuSplit[i].matches("[0-9]{1,}")) {
-                // å•†å“SPUidæœ‰é—®é¢˜
-                return new SystemResult(100, "å•†å“SPUidé”™è¯¯,è¯·åˆ·æ–°é¡µé¢é‡è¯•", null);
+                // ÉÌÆ·SPUidÓĞÎÊÌâ
+                return new SystemResult(100, "ÉÌÆ·SPUid´íÎó,ÇëË¢ĞÂÒ³ÃæÖØÊÔ", null);
             }
             cancelSpuIds.add(Integer.parseInt(spuSplit[i]));
         }
 
-        // éå†å®Œæˆ åˆ›å»ºæ¡ä»¶
+
+        // ±éÀúÍê³É ´´½¨Ìõ¼ş
         if (!CollectionUtils.isEmpty(cancelSpuIds)) {
+            // Ğ£Ñé²ÎÊıĞÅÏ¢
+            SystemResult result = checkSpuInfoIsUser(cancelSpuIds.get(0), k2Member);
+            if (result.getStatus() != 200) return result;
+
             K2ProductSpu spu = new K2ProductSpu();
             spu.setProductSpuState(ProductSpuEnum.ZX.getValue());
             K2ProductSpuExample example = new K2ProductSpuExample();
             example.createCriteria().andProductSpuIdIn(cancelSpuIds);
-            // ä¿®æ”¹æ•°æ®
+            // ĞŞ¸ÄÊı¾İ
             k2ProductSpuMapper.updateByExampleSelective(spu, example);
             return new SystemResult("ok");
         }
-        return new SystemResult(100, "è¯·å‹¾é€‰ä½ è¦æ³¨é”€çš„å•†å“SPUä¿¡æ¯", null);
+        return new SystemResult(100, "Çë¹´Ñ¡ÄãÒª×¢ÏúµÄÉÌÆ·SPUĞÅÏ¢", null);
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¿®æ”¹å•†å“å‚æ•°çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ĞŞ¸ÄÉÌÆ·²ÎÊıµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuKey        String         å•†å“çš„SPUçš„åç§°
-     * skuValue      String         å•†å“çš„å‚æ•°å€¼
-     * productSpuId  String         å•†å“å‚æ•°çš„Id
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * order        Integer         æ’åº
+     * ²ÎÊı:
+     * spuKey        String         ÉÌÆ·µÄSPUµÄÃû³Æ
+     * skuValue      String         ÉÌÆ·µÄ²ÎÊıÖµ
+     * productSpuId  String         ÉÌÆ·²ÎÊıµÄId
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * order        Integer         ÅÅĞò
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult editSpuInfo(String spuKey, String skuValue, Integer order, Integer productSpuId, K2Member k2Member) {
+    public SystemResult editSpuInfo(String spuKey, String skuValue, Integer order, Integer productSpuId, K2MemberAndElseInfo k2Member) {
 
-        // åˆ›å»ºå¯¹è±¡
+
+        // Ğ£Ñé²ÎÊıĞÅÏ¢
+        SystemResult result = checkSpuInfoIsUser(productSpuId, k2Member);
+        if (result.getStatus() != 200) return result;
+        // ´´½¨¶ÔÏó
         K2ProductSpu spu = new K2ProductSpu();
         spu.setProductSpuName(spuKey);
         spu.setProductSpuValue(skuValue);
         spu.setProductSpuId(productSpuId);
         spu.setProductSpuOrder(order);
-        // ä¿®æ”¹å•†å“ä¿¡æ¯
+        // ĞŞ¸ÄÉÌÆ·ĞÅÏ¢
         k2ProductSpuMapper.updateByPrimaryKeySelective(spu);
         return new SystemResult("ok");
     }
@@ -169,27 +191,53 @@ public class ProductSpuManageServiceImpl implements ProductSpuManageService {
     /**
      * /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productSpuJson         String            å•†å“çš„SPUä¿¡æ¯
-     * productId              Integer           å•†å“çš„id
+     * ²ÎÊı:
+     * productSpuJson         String            ÉÌÆ·µÄSPUĞÅÏ¢
+     * productId              Integer           ÉÌÆ·µÄid
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member) {
+    public SystemResult addProductSpu(String productSpuJson, Integer productId, K2MemberAndElseInfo k2Member) {
 
-        // æŸ¥è¯¢æœ€å¤§å€¼
+        // ²éÑ¯×î´óÖµ
         Integer maxOrder = productSpuMapper.getMaxOrder(productId);
 
-        // æ ¡éªŒå•†å“çš„SPUæ˜¯å¦æ­£ç¡®
-        SystemResult result = ProductSpuAppoint.checkProductSpuJsonInfo(productSpuJson, productId, k2Member, maxOrder);
+        // Ğ£ÑéÉÌÆ·µÄSPUÊÇ·ñÕıÈ·
+        SystemResult result = ProductSpuAppoint.checkProductSpuJsonInfo(productSpuJson, productId, k2Member.getK2Member(), maxOrder);
         if (result.getStatus() != 200) return result;
 
-        // æ ¡éªŒæ•°æ®æˆåŠŸ,æ·»åŠ spu
+        // Ğ£ÑéÊı¾İ³É¹¦,Ìí¼Óspu
         productSpuMapper.batchInsertProductSpu((List<K2ProductSpu>) result.getData());
         return result;
+    }
+
+    /**
+     * Ğ£ÑéÉÌÆ·µÄSPUĞÅÏ¢
+     *
+     * @param spuId
+     * @param k2MemberAndElseInfo
+     * @return
+     */
+    @Autowired
+    private ProductBasicsAppoint productBasicsAppoint;
+
+    public SystemResult checkSpuInfoIsUser(Integer spuId, K2MemberAndElseInfo k2MemberAndElseInfo) {
+
+        // ´´½¨·µ»ØµÄResultĞÅÏ¢
+        SystemResult result = null;
+        // ²éÑ¯ÉÌÆ·ĞÅÏ¢
+        K2ProductWithBLOBs productBySpuId = productSpuMapper.getProductBySpuId(spuId);
+        if (productBySpuId == null) {
+            return new SystemResult(100, "ÉÌÆ·ĞÅÏ¢¼ÓÔØ´íÎó,ÇëË¢ĞÂÒ³ÃæÖØÊÔ¡£", null);
+        } else if ((result = productBasicsAppoint.checkProductIsUser(productBySpuId, k2MemberAndElseInfo, SYSTEM_ROLE_PROVE)).getStatus() != 200) {// É¾³ıÖ®Ç°ÏÈ½øĞĞÅĞ¶Ï ÊÇ·ñÊôÓÚ¸Ã²Ù×÷ÓÃ»§µÄÉÌÆ·
+            // É¾³ıÖ®Ç°ÏÈ½øĞĞÅĞ¶Ï ÊÇ·ñÊôÓÚ¸Ã²Ù×÷ÓÃ»§µÄÉÌÆ·
+            return result;
+        } else {
+            return result;
+        }
     }
 }

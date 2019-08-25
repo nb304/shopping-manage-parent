@@ -7,7 +7,6 @@ import com.king2.commons.mapper.K2ProductSketchMapper;
 import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
-import com.king2.commons.utils.RedisUtil;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
 import com.king2.product.server.enmu.ProductStateEnum;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
@@ -36,6 +34,43 @@ import java.util.concurrent.locks.ReentrantLock;
 =======================================================*/
 @Component
 public class ProductBasicsAppoint {
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  判断操作该商品的角色是否属于该商品店铺里面的成员
+     * 如果是系统超级管理员就可以越过该权限
+     * <p>
+     * 参数:
+     * productWithBLOBs         K2ProductWithBLOBs          商品信息
+     * k2MemberAndElseInfo      K2MemberAndElseInfo         操作的用户信息
+     * SYSTEM_ROLE_PROVE        String                      系统管理员的标识符
+     * <p>
+     * 返回: UserManageUtil              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public static SystemResult checkProductIsUser(K2ProductWithBLOBs productWithBLOBs,
+                                                  K2MemberAndElseInfo k2MemberAndElseInfo,
+                                                  String SYSTEM_ROLE_PROVE) {
+
+        // 查看该角色的系统标识符是否为超级系统管理员
+        // 定义是否是超级管理员flag
+        boolean isSystemAdminFlag = false;
+        List<K2Role> k2Roles = k2MemberAndElseInfo.getK2Roles();
+        for (int i = 0; i < k2Roles.size(); i++) {
+            if (SYSTEM_ROLE_PROVE.equals(k2Roles.get(i).getRetain1())) {
+                isSystemAdminFlag = true;
+                break;
+            }
+        }
+
+        // 判断如果不是超级管理 就要查看该用户删除的商品是否属于该用户的店铺内
+        if (!isSystemAdminFlag &&
+                !productWithBLOBs.getProductStoreId().toString().equals(k2MemberAndElseInfo.getK2Member().getRetain1())) {
+            // 不等于 说明不是按照操作来了  我们要不要进行封锁ip+账号???
+            return new SystemResult(100, "请勿修改其他店铺的商品信息", null);
+        }
+        return new SystemResult("ok");
+    }
 
     /**
      * -----------------------------------------------------
@@ -298,7 +333,7 @@ public class ProductBasicsAppoint {
             example.createCriteria().andProductNumberEqualTo(number);
             List<K2Product> k2Products = k2ProductMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(k2Products)) {
-                return new SystemResult(number);
+                return new SystemResult(200, "ok", number);
             }
         }
     }

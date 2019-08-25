@@ -11,10 +11,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKUç®¡ç†Controller
+	ËµÃ÷:    ÉÌÆ·SKU¹ÜÀíController
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.21   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.21   			´´½¨
 =======================================================*/
 @RestController
 @RequestMapping("/product/sku")
@@ -23,39 +23,39 @@ import javax.validation.constraints.Pattern;
 public class ProductSkuManageController {
 
 
-    // æ³¨å…¥å•†å“SKUç®¡ç†Service
+    // ×¢ÈëÉÌÆ·SKU¹ÜÀíService
     @Autowired
     private ProductSkuManageService productSkuManageService;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   è·å–å•†å“SKUçš„ä¿¡æ¯
+     * ¹¦ÄÜ:   »ñÈ¡ÉÌÆ·SKUµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productId          String         å•†å“id
+     * ²ÎÊı:
+     * productId          String         ÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @GetMapping("/get/{productId}")
-    public SystemResult get(@PathVariable("productId") @NotBlank(message = "å•†å“idä¸èƒ½ä¸ºç©º")
-                            @Pattern(regexp = "[0-9]{1,}", message = "å•†å“idç±»å‹é”™è¯¯") String productId) {
+    public SystemResult get(@PathVariable("productId") @NotBlank(message = "ÉÌÆ·id²»ÄÜÎª¿Õ")
+                            @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·idÀàĞÍ´íÎó") String productId) {
         SystemResult skuByProductId = productSkuManageService.getSkuByProductId(Integer.parseInt(productId));
         return skuByProductId;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:    ä¿®æ”¹å•†å“çš„åº“å­˜ä¿¡æ¯
+     * ¹¦ÄÜ:    ĞŞ¸ÄÉÌÆ·µÄ¿â´æĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productSkuKcJson          String         å•†å“åº“å­˜çš„json
+     * ²ÎÊı:
+     * productSkuKcJson          String         ÉÌÆ·¿â´æµÄjson
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @PostMapping("/edit")
-    public SystemResult edit(@NotBlank(message = "å•†å“åº“å­˜ä¿¡æ¯ä¸èƒ½ä¸ºç©º") String productSkuKcJson) {
+    public SystemResult edit(@NotBlank(message = "ÉÌÆ·¿â´æĞÅÏ¢²»ÄÜÎª¿Õ") String productSkuKcJson) {
         SystemResult result = productSkuManageService.editSkuInfo(productSkuKcJson);
         return result;
     }

@@ -1,6 +1,7 @@
 package com.king2.product.server.service;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
@@ -34,7 +35,7 @@ public interface ProductSpuManageService {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult delSpuById(Integer spuId, K2Member k2Member);
+    SystemResult delSpuById(Integer spuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
@@ -47,7 +48,7 @@ public interface ProductSpuManageService {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult recoverNormal(Integer spuId, K2Member k2Member);
+    SystemResult recoverNormal(Integer spuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
@@ -60,7 +61,7 @@ public interface ProductSpuManageService {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult batchCancelSpu(String spuIds, K2Member k2Member);
+    SystemResult batchCancelSpu(String spuIds, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
@@ -76,7 +77,7 @@ public interface ProductSpuManageService {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult editSpuInfo(String spuKey, String skuValue, Integer order, Integer productSpuId, K2Member k2Member);
+    SystemResult editSpuInfo(String spuKey, String skuValue, Integer order, Integer productSpuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
@@ -89,5 +90,5 @@ public interface ProductSpuManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult addProductSpu(String productSpuJson, Integer productId, K2Member k2Member);
+    SystemResult addProductSpu(String productSpuJson, Integer productId, K2MemberAndElseInfo k2Member);
 }

@@ -16,71 +16,71 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKUç®¡ç†Serviceå®ç°ç±»
+	ËµÃ÷:    ÉÌÆ·SKU¹ÜÀíServiceÊµÏÖÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.21   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.21   			´´½¨
 =======================================================*/
 @Service
 public class ProductSkuManageServiceImpl implements ProductSkuManageService {
 
-    // æ³¨å…¥è¿œç¨‹çš„å•†å“åº“å­˜Mapper
+    // ×¢ÈëÔ¶³ÌµÄÉÌÆ·¿â´æMapper
     @Autowired
     private K2ProductSkuPriceandkcMapper k2ProductSkuPriceandkcMapper;
-    // æ³¨å…¥è¿œç¨‹çš„å•†å“Mapper
+    // ×¢ÈëÔ¶³ÌµÄÉÌÆ·Mapper
     @Autowired
     private K2ProductMapper k2ProductMapper;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   æ ¹æ®å•†å“idè·å–è¯¥å•†å“çš„SKUä¿¡æ¯é›†åˆ
+     * ¹¦ÄÜ:   ¸ù¾İÉÌÆ·id»ñÈ¡¸ÃÉÌÆ·µÄSKUĞÅÏ¢¼¯ºÏ
      * <p>
-     * å‚æ•°:
-     * productId          Integer         å•†å“ID
+     * ²ÎÊı:
+     * productId          Integer         ÉÌÆ·ID
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
     public SystemResult getSkuByProductId(Integer productId) {
 
-        // æ ¹æ®å•†å“idæŸ¥è¯¢å•†å“çš„SKUä¿¡æ¯
+        // ¸ù¾İÉÌÆ·id²éÑ¯ÉÌÆ·µÄSKUĞÅÏ¢
         K2ProductSkuPriceandkcExample example = new K2ProductSkuPriceandkcExample();
         example.createCriteria().andBelongProductIdEqualTo(productId);
         List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs = k2ProductSkuPriceandkcMapper.selectByExampleWithBLOBs(example);
-        // å°†æ•°æ®è¿”å›ç»™Controller
+        // ½«Êı¾İ·µ»Ø¸øController
         return new SystemResult(k2ProductSkuPriceandkcs);
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   ä¿®æ”¹å•†å“SKUä¿¡æ¯
+     * ¹¦ÄÜ:   ĞŞ¸ÄÉÌÆ·SKUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * skuKcInfo          String         å•†å“SKUçš„ä¿¡æ¯
+     * ²ÎÊı:
+     * skuKcInfo          String         ÉÌÆ·SKUµÄĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
     public SystemResult editSkuInfo(String skuKcInfo) {
 
-        // æ ¡éªŒä¿®æ”¹çš„å•†å“SKUåº“å­˜ä¿¡æ¯æ˜¯å¦æ­£ç¡®
+        // Ğ£ÑéĞŞ¸ÄµÄÉÌÆ·SKU¿â´æĞÅÏ¢ÊÇ·ñÕıÈ·
         SystemResult result = ProductSkuValueKcAppoint.checkEditProductSkuKcInfo(skuKcInfo);
         if (result.getStatus() != 200) return result;
 
-        // æ ¡éªŒæˆåŠŸ å–å‡ºå€¼
+        // Ğ£Ñé³É¹¦ È¡³öÖµ
         List<K2ProductSkuPriceandkc> kcs = (List<K2ProductSkuPriceandkc>) result.getData();
-        // å–å‡ºä¸€ä¸ªå•†å“ä¿¡æ¯çš„id
+        // È¡³öÒ»¸öÉÌÆ·ĞÅÏ¢µÄid
         Integer productId = kcs.get(0).getBelongProductId();
-        // å°†ä¸éœ€è¦ä¿®æ”¹çš„å€¼å–æ¶ˆï¼Œå®³æ€•æœ‰äº›äººè¶Šè¿‡å‰ç«¯
+        // ½«²»ĞèÒªĞŞ¸ÄµÄÖµÈ¡Ïû£¬º¦ÅÂÓĞĞ©ÈËÔ½¹ıÇ°¶Ë
         kcs.forEach((n) -> {
             n.clearValue();
             k2ProductSkuPriceandkcMapper.updateByPrimaryKeySelective(n);
         });
 
-        // ä¿®æ”¹æˆåŠŸ å¾€é˜Ÿåˆ—å†™å…¥ä¿¡æ¯
-        // æŸ¥è¯¢ä¸€æ¬¡æ•°æ®åº“ å–å‡ºä¿¡æ¯
+        // ĞŞ¸Ä³É¹¦ Íù¶ÓÁĞĞ´ÈëĞÅÏ¢
+        // ²éÑ¯Ò»´ÎÊı¾İ¿â È¡³öĞÅÏ¢
         K2ProductWithBLOBs k2ProductWithBLOBs = k2ProductMapper.selectByPrimaryKey(productId);
         ProductBasicsAppoint.addSynchronizedProductGotoCache(k2ProductWithBLOBs);
 

@@ -1,6 +1,7 @@
 package com.king2.product.server.controller;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.service.ProductSpuManageService;
 import org.hibernate.validator.constraints.Length;
@@ -60,7 +61,7 @@ public class ProductSpuManageController {
     public SystemResult del(@NotBlank(message = "商品SpuId不能为空")
                             @Pattern(regexp = "[0-9]{1,}", message = "类型错误") String productSpuId, HttpServletRequest request) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.delSpuById(Integer.parseInt(productSpuId), k2Member);
         return result;
     }
@@ -80,7 +81,7 @@ public class ProductSpuManageController {
     public SystemResult normal(@NotBlank(message = "商品SpuId不能为空")
                                @Pattern(regexp = "[0-9]{1,}", message = "类型错误") String productSpuId, HttpServletRequest request) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.recoverNormal(Integer.parseInt(productSpuId), k2Member);
         return result;
     }
@@ -98,7 +99,7 @@ public class ProductSpuManageController {
     @PostMapping("/cancel")
     public SystemResult batchCancelSpu(@NotBlank(message = "请选择你要注销的商品SPU信息") String spuIds, HttpServletRequest request) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.batchCancelSpu(spuIds, k2Member);
         return result;
     }
@@ -124,7 +125,7 @@ public class ProductSpuManageController {
                              @NotBlank(message = "请填写商品参数Id") @Pattern(regexp = "[0-9]{1,}", message = "商品参数Id的规则为数字") String productSpuId,
                              HttpServletRequest request) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.editSpuInfo(productSpuName, productSpuValue, Integer.parseInt(productSpuOrder),
                 Integer.parseInt(productSpuId), k2Member);
         return result;
@@ -147,7 +148,7 @@ public class ProductSpuManageController {
                                       @NotBlank(message = "商品Id不能为空") @Pattern(regexp = "[0-9]{1,}", message = "商品ID类型错误") String productId, HttpServletRequest request) {
 
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         // 调用服务 插入SPU数据
         SystemResult result = productSpuManageService.addProductSpu(productSpuJson, Integer.parseInt(productId), k2Member);
         return result;

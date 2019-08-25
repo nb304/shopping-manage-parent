@@ -1,6 +1,7 @@
 package com.king2.product.server.service.impl;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
@@ -25,33 +26,33 @@ import java.util.List;
 
 
 /*=======================================================
-	è¯´æ˜:    å•†å“é¦–é¡µç®¡ç†Serviceå®ç°ç±»
+	ËµÃ÷:    ÉÌÆ·Ê×Ò³¹ÜÀíServiceÊµÏÖÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.11   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.11   			´´½¨
 =======================================================*/
 @Service
 public class ProductIndexManageServiceImpl implements ProductIndexManageService {
 
-    // æ³¨å…¥å•†å“é¦–é¡µç®¡ç†å§”æ‰˜ç±»
+    // ×¢ÈëÉÌÆ·Ê×Ò³¹ÜÀíÎ¯ÍĞÀà
     @Autowired
     private ProductIndexAppoint productIndexAppoint;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“çš„é¦–é¡µ
+     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·µÄÊ×Ò³
      * <p>
-     * å‚æ•°:
-     * K2Member         K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * dto              ProductIndexDto åˆ†é¡µæ•°æ®
+     * ²ÎÊı:
+     * K2Member         K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * dto              ProductIndexDto ·ÖÒ³Êı¾İ
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult index(K2Member k2Member, ProductIndexDto dto) {
+    public SystemResult index(K2MemberAndElseInfo k2MemberAndElseInfo, ProductIndexDto dto) {
 
-        // å°è£…å•†å“çŠ¶æ€
+        // ·â×°ÉÌÆ·×´Ì¬
         List<ProductStateDto> stateDtos = new ArrayList<>();
         ProductStateEnum[] values = ProductStateEnum.values();
         for (int i = 0; i < values.length; i++) {
@@ -62,16 +63,16 @@ public class ProductIndexManageServiceImpl implements ProductIndexManageService 
         }
         dto.setStates(stateDtos);
 
-        // æ ¹æ®æ¡ä»¶è·å–å•†å“çš„ä¿¡æ¯
-        SystemResult productInfoByQuery = productIndexAppoint.getProductInfoByQuery(k2Member, dto);
+        // ¸ù¾İÌõ¼ş»ñÈ¡ÉÌÆ·µÄĞÅÏ¢
+        SystemResult productInfoByQuery = productIndexAppoint.getProductInfoByQuery(k2MemberAndElseInfo.getK2Member(), dto);
 
-        // å°è£…è¿”å›æ¡ä»¶
+        // ·â×°·µ»ØÌõ¼ş
         ShowProductIndexDto data = (ShowProductIndexDto) productInfoByQuery.getData();
         dto.setTotalSize(data.getTotalSize());
         dto.setTotlaPage(data.getTotalPage());
 
-        // è·å–æŒ‡å®šçš„å•†å“æ•°æ®
-        SystemResult currentRequestProductInfos = productIndexAppoint.getCurrentRequestProductInfos(k2Member, dto, data.getProductInfoToRedisDataDtos());
+        // »ñÈ¡Ö¸¶¨µÄÉÌÆ·Êı¾İ
+        SystemResult currentRequestProductInfos = productIndexAppoint.getCurrentRequestProductInfos(k2MemberAndElseInfo.getK2Member(), dto, data.getProductInfoToRedisDataDtos());
         dto.setProductDatas((List) currentRequestProductInfos.getData());
         return new SystemResult(dto);
     }

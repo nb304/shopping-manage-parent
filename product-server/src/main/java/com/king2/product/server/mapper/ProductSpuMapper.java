@@ -1,6 +1,7 @@
 package com.king2.product.server.mapper;
 
 import com.king2.commons.pojo.K2ProductSpu;
+import com.king2.commons.pojo.K2ProductWithBLOBs;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -57,4 +58,15 @@ public interface ProductSpuMapper {
      */
     @Select("SELECT MAX(product_spu_order) FROM k2_product_spu WHERE belong_product_id = #{productId}")
     Integer getMaxOrder(Integer productId);
+
+
+    /**
+     * 根据商品的SPUid查询商品信息
+     *
+     * @param spuId
+     * @return
+     */
+    @Select("SELECT p.* FROM k2_product_spu spu , k2_product p \n" +
+            "WHERE spu.`belong_product_id` = p.`product_id` AND spu.`product_spu_id` = #{spuId} GROUP BY p.`product_id`")
+    K2ProductWithBLOBs getProductBySpuId(Integer spuId);
 }

@@ -9,6 +9,7 @@ import com.king2.product.server.dto.ShowEditProductDto;
 import com.king2.product.server.dto.ShowEditProductInfoDto;
 import com.king2.product.server.dto.ShowProductAddPageDto;
 import com.king2.product.server.enmu.ProductEnum;
+import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.mapper.ProductSkuMapper;
@@ -97,6 +98,14 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     @Autowired
     private K2ProductEditSizeMapper k2ProductEditSizeMapper;
 
+    // 注入超级系统管理员标识符
+    @Value("${SYSTEM_ROLE_PROVE}")
+    private String SYSTEM_ROLE_PROVE;
+
+    // 注入消息Mapper
+    @Autowired
+    private K2MessageMapper k2MessageMapper;
+
     /**
      * -----------------------------------------------------
      * 功能:  添加商品的SKU
@@ -112,7 +121,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SystemResult addProductSku(String skuJson, String productInfo, String state, K2Member k2Member) throws Exception {
+    public SystemResult addProductSku(String skuJson, String productInfo, String state, K2MemberAndElseInfo k2Member) throws Exception {
 
         /*
         添加商品信息
@@ -121,7 +130,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             所以我们根据传入过来的state 判断本次是否需要添加商品信息
          */
         SystemResult addProductResult = ProductBasicsAppoint.addProduct
-                (jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member, state, k2ProductSketchMapper, restTemplate, CACHE_SERVER_URL, PRODUCT_IMAGE_NOT_DEFINITION);
+                (jedisPool, productInfo, PRODUCT_NUMBER_REDIS_KEY, k2ProductMapper, k2Member.getK2Member(), state, k2ProductSketchMapper, restTemplate, CACHE_SERVER_URL, PRODUCT_IMAGE_NOT_DEFINITION);
         if (addProductResult.getStatus() != 200) return addProductResult;
         // 获取商品的数据
         K2ProductWithBLOBs k2ProductWithBLOBs = (K2ProductWithBLOBs) addProductResult.getData();
@@ -134,7 +143,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         // 获取转换过来的Json数据
         List<ProductSkuPojo> skuPojos = (List<ProductSkuPojo>) skuResult.getData();
         // 添加商品sku-key的信息
-        SystemResult addSku_KeyResult = ProductSkuAppoint.addProductSkuKeyInfos(skuPojos, k2Member, k2ProductWithBLOBs, productSkuMapper, k2ProductSkuKeyMapper);
+        SystemResult addSku_KeyResult = ProductSkuAppoint.addProductSkuKeyInfos(skuPojos, k2Member.getK2Member(), k2ProductWithBLOBs, productSkuMapper, k2ProductSkuKeyMapper);
         if (addSku_KeyResult.getStatus() != 200) {
             throw new RuntimeException("添加商品SKU-key时，出错");
         }
@@ -151,6 +160,15 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
             // 批量插入SKU-Value的库存和价格
             productSkuMapper.batchInsertSkuValueKc(kcs);
         }
+
+        // 添加信息 提示用户 商品提交申请成功
+        StringBuilder sb = new StringBuilder();
+        sb.append("您的商品信息:商品名称- ");
+        sb.append(k2ProductWithBLOBs.getProductName());
+        sb.append(" :商品编号:-");
+        sb.append(k2ProductWithBLOBs.getProductNumber());
+        sb.append(" 提交成功,请耐心等待系统审核,请多多关注消息,谢谢! ----来自系统管理员");
+        UserMessageAppoint.addMessageGotoMysql(sb.toString() + k2ProductWithBLOBs.getProductName(), k2Member.getK2Member().getMemberId(), k2MessageMapper);
 
         // 添加商品成功 往队列发送信息同步solr
         ProductBasicsAppoint.addProductInfoQueue(k2ProductWithBLOBs);
@@ -170,7 +188,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult addProductPageInfo(K2Member k2Member) throws Exception {
+    public SystemResult addProductPageInfo(K2MemberAndElseInfo k2Member) throws Exception {
 
         // 商品类目的信息
         SystemResult productCategoryInfo = productCategoryAppoint.getProductCategoryInfo();
@@ -180,7 +198,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
 
         // 查询商品品牌信息
         K2ProductBrandExample brandExample = new K2ProductBrandExample();
-        brandExample.createCriteria().andBrandStoreIdEqualTo(Integer.parseInt(k2Member.getRetain1()))
+        brandExample.createCriteria().andBrandStoreIdEqualTo(Integer.parseInt(k2Member.getK2Member().getRetain1()))
                 .andBrandStateEqualTo(ProductEnum.PRODUCT_BRAND_TYPE1);
         List<K2ProductBrand> k2ProductBrands = k2ProductBrandMapper.selectByExample(brandExample);
         showProductAddPageDto.setProductBrands(k2ProductBrands);
@@ -236,7 +254,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult showEditGetProInfo(Integer productId, K2Member k2Member) {
+    public SystemResult showEditGetProInfo(Integer productId, K2MemberAndElseInfo k2Member) {
 
         // 查询出该商品的信息
         ShowEditProductInfoDto productInfoByPId = productManageMapper.getProductInfoByPId(productId);
@@ -246,7 +264,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
 
         // 查询出该商家的所有品牌信息
         K2ProductBrandExample brandExample = new K2ProductBrandExample();
-        brandExample.createCriteria().andBrandStoreIdEqualTo(Integer.parseInt(k2Member.getRetain1()));
+        brandExample.createCriteria().andBrandStoreIdEqualTo(Integer.parseInt(k2Member.getK2Member().getRetain1()));
         List<K2ProductBrand> k2ProductBrands = k2ProductBrandMapper.selectByExample(brandExample);
 
         // 创建返回值
@@ -324,21 +342,30 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2Member k2Member) {
+    public SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2MemberAndElseInfo k2Member) {
 
         // 查询该商品是否可以修改
         ShowEditProductInfoDto productInfoByPId = productManageMapper.getProductInfoByPId(k2ProductWithBLOBs.getProductId());
-        if (productInfoByPId == null) return new SystemResult("商品信息不存在,请刷新页面重试");
+        // 查询商品其他信息
+        K2ProductWithBLOBs productWithBLOBs = k2ProductMapper.selectByPrimaryKey(k2ProductWithBLOBs.getProductId());
+        // 创建校验商品信息的返回值
+        SystemResult result = null;
+
+        if (productInfoByPId == null || productWithBLOBs == null) return new SystemResult("商品信息不存在,请刷新页面重试");
         if (productInfoByPId.getLastUpdateTime() != null &&
                 productInfoByPId.getNextUpdateTime().compareTo(new Date()) == 1) {
             return new SystemResult("现在还不能修改该商品的信息,预计在:" + new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new Date()) + "，可以进行修改");
+        } else if (productWithBLOBs.getProductState().toString().equals(ProductStateEnum.DEL.getValue() + "")) { // 判断商品的状态是否正确
+            return new SystemResult(100, "商品的状态为删除,暂时不能修改信息", null);
+        } else if ((result = ProductBasicsAppoint.checkProductIsUser(productWithBLOBs, k2Member, SYSTEM_ROLE_PROVE)).getStatus() != 200) { // 校验信息
+            return result;
         }
 
         // 清空不能修改的数据
         k2ProductWithBLOBs.editClearValue();
         // 补全其他信息
-        k2ProductWithBLOBs.setProductUpdateUsername(k2Member.getMemberAccount());
-        k2ProductWithBLOBs.setProductUpdateUserid(k2Member.getMemberId());
+        k2ProductWithBLOBs.setProductUpdateUsername(k2Member.getK2Member().getMemberAccount());
+        k2ProductWithBLOBs.setProductUpdateUserid(k2Member.getK2Member().getMemberId());
         k2ProductWithBLOBs.setProductUpdateTime(new Date());
 
         // 修改商品信息
@@ -348,8 +375,8 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         editSize.setEditProductId(k2ProductWithBLOBs.getProductId());
         Date date = new Date();
         editSize.setLastUpdateTime(date);
-        editSize.setLastUpdateUserId(k2Member.getMemberId());
-        editSize.setLastUpdateUserNaem(k2Member.getMemberAccount());
+        editSize.setLastUpdateUserId(k2Member.getK2Member().getMemberId());
+        editSize.setLastUpdateUserNaem(k2Member.getK2Member().getMemberAccount());
         // 计算出三天后的时间
         long l = date.getTime() + (1000 * 60 * 60 * 24 * 3);
         editSize.setNextUpdateTime(new Date(l));
@@ -367,6 +394,43 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         // 插入成功 往队列写入数据 同步信息
         ProductBasicsAppoint.addProductInfoQueue(k2ProductWithBLOBs);
 
-        return new SystemResult("您的商品信息提交成功,请耐心等待系统确认~~~~");
+        return new SystemResult(200, "您的商品信息提交成功,请耐心等待系统确认~~~~");
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  逻辑删除商品信息
+     * <p>
+     * 参数:
+     * productId                Integer          被删除的商品id
+     * k2Member                   K2Member       操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2Member, Integer state) {
+
+        // 校验商品状态是否正确
+        if (state != 1 && state != 3) return new SystemResult(100, "错误错误错误,请刷新页面重试", null);
+
+        // 查询该商品信息是否存在
+        K2ProductWithBLOBs productWithBLOBs = k2ProductMapper.selectByPrimaryKey(productId);
+        if (productWithBLOBs == null) return new SystemResult(100, "该商品信息可能已经被删除了哦,请刷新页面重试", null);
+
+        // 校验商品信息
+        SystemResult result = ProductBasicsAppoint.checkProductIsUser(productWithBLOBs, k2Member, SYSTEM_ROLE_PROVE);
+        if (result.getStatus() != 200) return result;
+
+        // 修改商品在数据库中的数据
+        productWithBLOBs.setProductState(state == 3 ? ProductStateEnum.DEL.getValue() : ProductStateEnum.SJ.getValue());
+        productWithBLOBs.setProductUpdateTime(new Date());
+        productWithBLOBs.setProductUpdateUserid(k2Member.getK2Member().getMemberId());
+        productWithBLOBs.setProductUpdateUsername(k2Member.getK2Member().getMemberAccount());
+        k2ProductMapper.updateByPrimaryKeySelective(productWithBLOBs);
+
+        // 修改成功后 向队列发送同步数据
+        ProductBasicsAppoint.addSynchronizedProductGotoCache(productWithBLOBs);
+        return new SystemResult(state == 3 ? "你需要删除的商品信息已经提交,请等待系统确认。" : "你需要恢复的商品信息已经提交,请等待系统确认。");
     }
 }

@@ -1,6 +1,6 @@
 package com.king2.product.server.controller;
 
-import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.ProductUploadImageAppoint;
@@ -9,10 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,12 +63,8 @@ public class ProductBasicsManageController {
             @NotBlank(message = "请填写商品信息") String productJson,
             @NotBlank(message = "本次状态为空,请刷新页面重试") @Pattern(regexp = "[0-9]{1,}", message = "状态码类型错误") String state, HttpServletRequest request) throws Exception {
 
-        // 模拟用户信息
-        K2Member k2Member = new K2Member();
-        k2Member.setMemberId(1);
-        k2Member.setMemberAccount("luqiqi");
-        k2Member.setRetain1("1");
-
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
 
         // 调用商品服务
         SystemResult systemResult = productBasicsManageService.addProductSku(skuJson, productJson, state, k2Member);
@@ -91,7 +84,7 @@ public class ProductBasicsManageController {
     @ApiOperation(value = "添加商品页面时需要的数据接口", notes = "")
     public SystemResult addPageInfo(HttpServletRequest request) throws Exception {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         // 调用服务 查询添加商品的基础信息
         SystemResult systemResult = productBasicsManageService.addProductPageInfo(k2Member);
         return systemResult;
@@ -153,7 +146,7 @@ public class ProductBasicsManageController {
                                             @NotBlank(message = "商品id不能为空") @PathVariable("productId")
                                             @Pattern(regexp = "[0-9]{1,}", message = "商品id类型错误") String productId) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productBasicsManageService.showEditGetProInfo(Integer.parseInt(productId), k2Member);
         return result;
     }
@@ -180,7 +173,7 @@ public class ProductBasicsManageController {
      * 功能:  修改商品信息
      * <p>
      * 参数:
-     * productId             String           商品id
+     * k2ProductWithBLOBs             K2ProductWithBLOBs           修改的商品信息
      * <p>
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
@@ -188,8 +181,29 @@ public class ProductBasicsManageController {
     @PostMapping("/edit/info")
     public SystemResult edit(HttpServletRequest request, @Validated K2ProductWithBLOBs k2ProductWithBLOBs) {
         // 获取用户数据
-        K2Member k2Member = (K2Member) request.getAttribute("user");
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productBasicsManageService.editProductInfo(k2ProductWithBLOBs, k2Member);
+        return result;
+    }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  逻辑删除商品信息
+     * <p>
+     * 参数:
+     * productId             String           商品id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @PostMapping("/del")
+    public SystemResult del(@NotBlank(message = "商品id不能为空") @Pattern(regexp = "[0-9]{1,}", message = "商品id的类型错误") String productId,
+                            @NotBlank(message = "商品状态不能为空") @Pattern(regexp = "[0-9]{1,}", message = "商品状态类型错误") String state,
+                            HttpServletRequest request) {
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult result = productBasicsManageService.delProductInfo(Integer.parseInt(productId), k2Member, Integer.parseInt(state));
         return result;
     }
 }

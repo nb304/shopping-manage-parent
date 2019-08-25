@@ -1,6 +1,6 @@
 package com.king2.product.server.service;
 
-import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 
@@ -25,7 +25,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult addProductSku(String skuJson, String productInfo, String state, K2Member K2Member) throws Exception;
+    SystemResult addProductSku(String skuJson, String productInfo, String state, K2MemberAndElseInfo K2Member) throws Exception;
 
 
     /**
@@ -38,7 +38,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult addProductPageInfo(K2Member k2Member) throws Exception;
+    SystemResult addProductPageInfo(K2MemberAndElseInfo k2Member) throws Exception;
 
     /**
      * -----------------------------------------------------
@@ -62,7 +62,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult showEditGetProInfo(Integer productId, K2Member k2Member);
+    SystemResult showEditGetProInfo(Integer productId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
@@ -87,5 +87,19 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2Member k2Member);
+    SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2MemberAndElseInfo k2MemberAndElseInfo);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  逻辑删除商品信息
+     * <p>
+     * 参数:
+     * productId                Integer          被删除的商品id
+     * k2Member                   K2Member       操作的用户信息
+     * state                    Integer          商品状态
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2MemberAndElseInfo, Integer state);
 }

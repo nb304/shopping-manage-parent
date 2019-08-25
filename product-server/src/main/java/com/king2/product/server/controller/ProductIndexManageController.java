@@ -1,6 +1,7 @@
 package com.king2.product.server.controller;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductIndexDto;
 import com.king2.product.server.service.ProductIndexManageService;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“é¡µé¢çš„é¦–é¡µæ˜¾ç¤º
+	ËµÃ÷:    ÉÌÆ·Ò³ÃæµÄÊ×Ò³ÏÔÊ¾
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.11   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.11   			´´½¨
 =======================================================*/
 @RestController
 @CrossOrigin
@@ -24,24 +25,24 @@ import javax.servlet.http.HttpServletRequest;
 @Validated
 public class ProductIndexManageController {
 
-    // æ³¨å…¥å•†å“é¦–é¡µç®¡ç†Service
+    // ×¢ÈëÉÌÆ·Ê×Ò³¹ÜÀíService
     @Autowired
     private ProductIndexManageService productIndexManageService;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   å•†å“é¦–é¡µçš„æ˜¾ç¤º
+     * ¹¦ÄÜ:   ÉÌÆ·Ê×Ò³µÄÏÔÊ¾
      * <p>
-     * å‚æ•°:
-     * dto          ProductIndexDto         å•†å“åˆ†é¡µçš„æ•°æ®
+     * ²ÎÊı:
+     * dto          ProductIndexDto         ÉÌÆ··ÖÒ³µÄÊı¾İ
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @RequestMapping("/index")
     public SystemResult index(HttpServletRequest request, @Validated ProductIndexDto dto) {
-        K2Member user = (K2Member) request.getAttribute("user");
-        // è°ƒç”¨æœåŠ¡
+        K2MemberAndElseInfo user = (K2MemberAndElseInfo) request.getAttribute("user");
+        // µ÷ÓÃ·şÎñ
         SystemResult index = productIndexManageService.index(user, dto);
         return index;
     }

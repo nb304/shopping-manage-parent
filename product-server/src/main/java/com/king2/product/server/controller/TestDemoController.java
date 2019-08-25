@@ -2,6 +2,7 @@ package com.king2.product.server.controller;
 
 import cn.hutool.json.JSONObject;
 import com.king2.commons.getnumber.ShoppingNumberManage;
+import com.king2.commons.getnumber.TestNumber;
 import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2ProductSkuKey;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
@@ -44,24 +45,53 @@ import java.util.concurrent.locks.ReentrantLock;
 @CrossOrigin
 public class TestDemoController {
 
+
     @Autowired
+    private TestNumber testNumber;
+
+    @RequestMapping("/tt")
+    public void test() {
+
+        testNumber.test();
+        System.out.println();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*  @Autowired
     private JedisPool jedisPool;
 
-    /**
+    *//**
      * ????????????
      *
      * @param acc
      * @param request
      * @return
-     */
+     *//*
     @RequestMapping("/getUser")
     public SystemResult getUser(String acc, HttpServletRequest request) throws Exception {
-        /*String mac = NetworkUtil.getHostMacAddress(request);
-        System.out.println(mac);*/
+        *//*String mac = NetworkUtil.getHostMacAddress(request);
+        System.out.println(mac);*//*
 
         // System.out.println(ProductServerLog.SYSTEM_PATH);
-       /* ShoppingNumberManage manage = new ShoppingNumberManage(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA,"DD","PP",11);
-        SystemResult dd = manage.getNumberByRedisKey("DD", 123);*/
+       *//* ShoppingNumberManage manage = new ShoppingNumberManage(jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA,"DD","PP",11);
+        SystemResult dd = manage.getNumberByRedisKey("DD", 123);*//*
 
         UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
 
@@ -70,34 +100,19 @@ public class TestDemoController {
         k2Member.setReqeustUserMac("FF-FF-FF");
         String token = "luqiqi";
 
-        SystemResult refresh = userManageUtil.refresh(k2Member, token);
 
         return null;
     }
 
 
-    @RequestMapping("/user/login")
-    public SystemResult login(String username, String password) {
-        System.out.println();
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-
-            return new SystemResult(100, "用户名密码为空", null);
-        } else if (!"admin".equals(username) || !"admin1".equals(password)) {
-            return new SystemResult(100, "用户名密码错误", null);
-        }
-
-        return new SystemResult("ok");
-    }
-
-
-    /**
+    *//**
      * ???????????????·
      *
      * @param request
      * @param response
      * @return
      * @throws Exception
-     */
+     *//*
     @RequestMapping("/userLogin")
     public SystemResult userLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -121,13 +136,13 @@ public class TestDemoController {
     @Value("${PRODUCT_NUMBER_REDIS_KEY}")
     private String PRODUCT_NUMBER_REDIS_KEY;
 
-    /**
+    *//**
      * ?????????
      *
      * @param size
      * @return
      * @throws Exception
-     */
+     *//*
     @RequestMapping("/testAddNumber")
     public SystemResult testAddNumber(int size) throws Exception {
         System.out.println(System.getProperty("file.encoding"));
@@ -142,11 +157,11 @@ public class TestDemoController {
     }
 
 
-    /**
+    *//**
      * 测试锁
      *
      * @return
-     */
+     *//*
     @RequestMapping("/lock")
     public SystemResult lock() {
         // 获取锁对象
@@ -170,7 +185,7 @@ public class TestDemoController {
         return new SystemResult("ok");
     }
 
-    /*public static void main(String[] args) throws Exception {
+    *//*public static void main(String[] args) throws Exception {
         ProductInfoDto infoDto = new ProductInfoDto();
         infoDto.setProductBazaarPrice(new BigDecimal(3200.99));
         infoDto.setProductBrandId(1);
@@ -192,7 +207,7 @@ public class TestDemoController {
         System.out.println(JsonUtils.objectToJson(dtos));
 
     }
-*/
+*//*
 
 
     public static void main(String[] args) throws Exception {
@@ -203,12 +218,14 @@ public class TestDemoController {
         System.out.println();
     }
 
+    */
+
     /**
      * ??????reids?е???
      *
      * @return
      * @throws Exception
-     */
+     *//*
     @RequestMapping("/testGetNumber")
     public SystemResult testGetNumber(MultipartFile[] files) throws Exception {
 
@@ -217,6 +234,17 @@ public class TestDemoController {
         minioClient.removeObject("king2-product-image", "king2-product-SP9FD169A044C087F4C955813DC0A6855337.png");
         System.out.println();
         return null;
-    }
+    }*/
+    @RequestMapping("/user/login")
+    public SystemResult login(String username, String password) {
+        System.out.println();
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 
+            return new SystemResult(100, "用户名密码为空", null);
+        } else if (!"admin".equals(username) || !"admin1".equals(password)) {
+            return new SystemResult(100, "用户名密码错误", null);
+        }
+
+        return new SystemResult("ok");
+    }
 }

@@ -2,6 +2,8 @@ package com.king2.product.server.interceptor;
 
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
+import com.king2.commons.pojo.K2Role;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.CookieUtils;
 import com.king2.commons.utils.JsonUtils;
@@ -15,6 +17,8 @@ import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /*=======================================================
 	说明:   商城模块后台拦截器
@@ -33,11 +37,21 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         // *************************************** 测试部分
+        K2MemberAndElseInfo info = new K2MemberAndElseInfo();
         K2Member k2Member2 = new K2Member();
         k2Member2.setMemberAccount("luqiqi");
         k2Member2.setRetain1("1");
         k2Member2.setMemberId(1);
-        request.setAttribute("user", k2Member2);
+        info.setK2Member(k2Member2);
+
+        // 创建角色
+        List<K2Role> roles = new ArrayList<>();
+        K2Role role = new K2Role();
+        role.setCreateUserName("超级管理员");
+        role.setRetain1("KING2_SYSTEM_ADMIN");
+        roles.add(role);
+        info.setK2Roles(roles);
+        request.setAttribute("user", info);
         if (k2Member2 != null) return true;
 
         // *************************************** 第一部分的校验

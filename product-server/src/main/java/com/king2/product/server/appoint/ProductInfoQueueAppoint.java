@@ -169,6 +169,9 @@ public class ProductInfoQueueAppoint {
         k2Message.setState(K2MessageEnum.WD.getValue());
         k2MessageMapper.insert(k2Message);
 
+        // 写入信息到缓存数据中
+        UserMessageAppoint.addMessageGotoCache(k2Message, k2ProductWithBLOBs.getProductCreateUserid());
+
         // 给该店铺的用户发出通知
         K2SystemFeedback systemFeedback = new K2SystemFeedback();
         systemFeedback.setFeedbackNumber(UUID.randomUUID().toString().replaceAll("-", ""));
