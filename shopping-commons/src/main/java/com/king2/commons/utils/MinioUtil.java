@@ -10,31 +10,31 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 /*=======================================================
-	è¯´æ˜:    Minioæ–‡ä»¶æœåŠ¡å™¨çš„æ“ä½œå·¥å…·ç±»
+	ËµÃ÷:    MinioÎÄ¼ş·şÎñÆ÷µÄ²Ù×÷¹¤¾ßÀà
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.06   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.06   			´´½¨
 =======================================================*/
 public class MinioUtil {
 
 
-    // å®šä¹‰minioçš„url
+    // ¶¨ÒåminioµÄurl
     private String minioUrl;
-    // å®šä¹‰minioçš„ç”¨æˆ·å
+    // ¶¨ÒåminioµÄÓÃ»§Ãû
     private String username;
-    // å®šä¹‰minioçš„å¯†ç 
+    // ¶¨ÒåminioµÄÃÜÂë
     private String password;
-    // å®šä¹‰æ·»åŠ çš„æ¡¶åç§°
+    // ¶¨ÒåÌí¼ÓµÄÍ°Ãû³Æ
     private String bucketName;
 
     public MinioUtil(String minioUrl, String username, String password, String bucketName) {
-        // åˆ¤æ–­ä¿¡æ¯
+        // ÅĞ¶ÏĞÅÏ¢
         if (StringUtils.isEmpty(minioUrl)) {
-            throw new RuntimeException("MinIoæœåŠ¡å™¨åœ°å€ä¸èƒ½ä¸ºç©º");
+            throw new RuntimeException("MinIo·şÎñÆ÷µØÖ·²»ÄÜÎª¿Õ");
         } else if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            throw new RuntimeException("MinIoçš„ç”¨æˆ·åå’Œå¯†ç ä¸èƒ½ä¸ºç©º");
+            throw new RuntimeException("MinIoµÄÓÃ»§ÃûºÍÃÜÂë²»ÄÜÎª¿Õ");
         } else if (StringUtils.isEmpty(bucketName)) {
-            throw new RuntimeException("éœ€è¦æ“ä½œçš„æ¡¶åç§°ä¸èƒ½ä¸ºç©º");
+            throw new RuntimeException("ĞèÒª²Ù×÷µÄÍ°Ãû³Æ²»ÄÜÎª¿Õ");
         }
 
         this.minioUrl = minioUrl;
@@ -46,46 +46,46 @@ public class MinioUtil {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¸Šä¼ å›¾ç‰‡çš„æ–¹æ³•
+     * ¹¦ÄÜ:  ÉÏ´«Í¼Æ¬µÄ·½·¨
      * <p>
-     * å‚æ•°:
-     * multipartFile            MultipartFile           å›¾ç‰‡å¯¹è±¡
-     * fileName                 String                  å›¾ç‰‡åç§°
-     * fileType                 String                  æ–‡ä»¶ç±»å‹
+     * ²ÎÊı:
+     * multipartFile            MultipartFile           Í¼Æ¬¶ÔÏó
+     * fileName                 String                  Í¼Æ¬Ãû³Æ
+     * fileType                 String                  ÎÄ¼şÀàĞÍ
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public SystemResult uploadFile(MultipartFile multipartFile, String fileName, String fileType) throws Exception {
 
-        // ä½¿ç”¨MinIOæœåŠ¡çš„URLï¼Œç«¯å£ï¼ŒAccess keyå’ŒSecret keyåˆ›å»ºä¸€ä¸ªMinioClientå¯¹è±¡
+        // Ê¹ÓÃMinIO·şÎñµÄURL£¬¶Ë¿Ú£¬Access keyºÍSecret key´´½¨Ò»¸öMinioClient¶ÔÏó
         MinioClient minioClient = new MinioClient(minioUrl, username, password);
 
-        // æŸ¥è¯¢æ¡¶æ˜¯å¦å·²ç»å­˜åœ¨
-        // æ£€æŸ¥å­˜å‚¨æ¡¶æ˜¯å¦å·²ç»å­˜åœ¨
+        // ²éÑ¯Í°ÊÇ·ñÒÑ¾­´æÔÚ
+        // ¼ì²é´æ´¢Í°ÊÇ·ñÒÑ¾­´æÔÚ
         boolean isExist = minioClient.bucketExists(bucketName);
-        // ä¸å­˜åœ¨å°±åˆ›å»º
+        // ²»´æÔÚ¾Í´´½¨
         if (!isExist) minioClient.makeBucket(bucketName);
 
-        // ä¸Šä¼ æ–‡ä»¶
-        minioClient.putObject(bucketName, fileName, multipartFile.getInputStream(), fileType);
-        // ä¸Šä¼ æˆåŠŸæŸ¥è¯¢å›¾ç‰‡åœ°å€
+        // ÉÏ´«ÎÄ¼ş
+        minioClient.putObject(bucketName, fileName, multipartFile.getInputStream(), "image/jpeg");
+        // ÉÏ´«³É¹¦²éÑ¯Í¼Æ¬µØÖ·
         String url = minioClient.getObjectUrl(bucketName, fileName);
         return new SystemResult(url);
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  åˆ é™¤æ–‡ä»¶çš„æ–¹æ³•
+     * ¹¦ÄÜ:  É¾³ıÎÄ¼şµÄ·½·¨
      * <p>
-     * å‚æ•°:
-     * delFileName            String           éœ€è¦åˆ é™¤çš„æ–‡ä»¶åç§°
+     * ²ÎÊı:
+     * delFileName            String           ĞèÒªÉ¾³ıµÄÎÄ¼şÃû³Æ
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public SystemResult delFile(String delFileName) throws Exception {
-        // ä½¿ç”¨MinIOæœåŠ¡çš„URLï¼Œç«¯å£ï¼ŒAccess keyå’ŒSecret keyåˆ›å»ºä¸€ä¸ªMinioClientå¯¹è±¡
+        // Ê¹ÓÃMinIO·şÎñµÄURL£¬¶Ë¿Ú£¬Access keyºÍSecret key´´½¨Ò»¸öMinioClient¶ÔÏó
         MinioClient minioClient = new MinioClient(minioUrl, username, password);
         minioClient.removeObject(bucketName, delFileName);
         return new SystemResult("ok");

@@ -28,6 +28,8 @@ public class K2CurrentDayHandleSqlSize {
      */
     private Integer addCategorySize;
 
+    private Integer editBrandSize;
+
     /**
      * 系统反馈的次数  一天之内最高100次
      */
@@ -63,8 +65,17 @@ public class K2CurrentDayHandleSqlSize {
      */
     private String retain5;
 
+    public Integer getEditBrandSize() {
+        return editBrandSize;
+    }
+
+    public void setEditBrandSize(Integer editBrandSize) {
+        this.editBrandSize = editBrandSize;
+    }
+
     /**
      * 操作数据库的次数id
+     *
      * @return sql_size_id 操作数据库的次数id
      */
     public Integer getSqlSizeId() {
@@ -73,6 +84,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 操作数据库的次数id
+     *
      * @param sqlSizeId 操作数据库的次数id
      */
     public void setSqlSizeId(Integer sqlSizeId) {
@@ -81,6 +93,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 哪个用户对数据库进行操作了  ---指向用户表主键
+     *
      * @return user_id 哪个用户对数据库进行操作了  ---指向用户表主键
      */
     public Integer getUserId() {
@@ -89,6 +102,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 哪个用户对数据库进行操作了  ---指向用户表主键
+     *
      * @param userId 哪个用户对数据库进行操作了  ---指向用户表主键
      */
     public void setUserId(Integer userId) {
@@ -97,6 +111,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品数据库插入的次数 最高为100次
+     *
      * @return add_product_size 针对当前用户当天对商品数据库插入的次数 最高为100次
      */
     public Integer getAddProductSize() {
@@ -105,6 +120,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品数据库插入的次数 最高为100次
+     *
      * @param addProductSize 针对当前用户当天对商品数据库插入的次数 最高为100次
      */
     public void setAddProductSize(Integer addProductSize) {
@@ -113,6 +129,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品品牌数据库插入的次数 最高为100次
+     *
      * @return add_brand__size 针对当前用户当天对商品品牌数据库插入的次数 最高为100次
      */
     public Integer getAddBrandSize() {
@@ -121,6 +138,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品品牌数据库插入的次数 最高为100次
+     *
      * @param addBrandSize 针对当前用户当天对商品品牌数据库插入的次数 最高为100次
      */
     public void setAddBrandSize(Integer addBrandSize) {
@@ -129,6 +147,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品类目数据库插入的次数 最高为100次
+     *
      * @return add_category_size 针对当前用户当天对商品类目数据库插入的次数 最高为100次
      */
     public Integer getAddCategorySize() {
@@ -137,6 +156,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 针对当前用户当天对商品类目数据库插入的次数 最高为100次
+     *
      * @param addCategorySize 针对当前用户当天对商品类目数据库插入的次数 最高为100次
      */
     public void setAddCategorySize(Integer addCategorySize) {
@@ -145,6 +165,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 系统反馈的次数  一天之内最高100次
+     *
      * @return add_feedback_size 系统反馈的次数  一天之内最高100次
      */
     public Integer getAddFeedbackSize() {
@@ -153,6 +174,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 系统反馈的次数  一天之内最高100次
+     *
      * @param addFeedbackSize 系统反馈的次数  一天之内最高100次
      */
     public void setAddFeedbackSize(Integer addFeedbackSize) {
@@ -161,6 +183,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 创建时间
+     *
      * @return create_time 创建时间
      */
     public Date getCreateTime() {
@@ -169,6 +192,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 创建时间
+     *
      * @param createTime 创建时间
      */
     public void setCreateTime(Date createTime) {
@@ -177,6 +201,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段1
+     *
      * @return retain1 保留字段1
      */
     public String getRetain1() {
@@ -185,6 +210,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段1
+     *
      * @param retain1 保留字段1
      */
     public void setRetain1(String retain1) {
@@ -193,6 +219,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段2
+     *
      * @return retain2 保留字段2
      */
     public String getRetain2() {
@@ -201,6 +228,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段2
+     *
      * @param retain2 保留字段2
      */
     public void setRetain2(String retain2) {
@@ -209,6 +237,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段3
+     *
      * @return retain3 保留字段3
      */
     public String getRetain3() {
@@ -217,6 +246,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段3
+     *
      * @param retain3 保留字段3
      */
     public void setRetain3(String retain3) {
@@ -225,6 +255,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段4
+     *
      * @return retain4 保留字段4
      */
     public String getRetain4() {
@@ -233,6 +264,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段4
+     *
      * @param retain4 保留字段4
      */
     public void setRetain4(String retain4) {
@@ -241,6 +273,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段5
+     *
      * @return retain5 保留字段5
      */
     public String getRetain5() {
@@ -249,6 +282,7 @@ public class K2CurrentDayHandleSqlSize {
 
     /**
      * 保留字段5
+     *
      * @param retain5 保留字段5
      */
     public void setRetain5(String retain5) {

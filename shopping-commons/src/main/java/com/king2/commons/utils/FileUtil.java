@@ -7,42 +7,42 @@ import java.io.File;
 import java.io.FileWriter;
 
 /*================================================================
-è¯´æ˜ï¼šæ–‡ä»¶æ“ä½œå·¥å…·ç±»
+ËµÃ÷£ºÎÄ¼ş²Ù×÷¹¤¾ßÀà
 
-ä½œè€…      æ—¶é—´           		 æ³¨é‡Š
-ä¿çƒ¨      2019.8.9     		 åˆ›å»º
+×÷Õß      Ê±¼ä           		 ×¢ÊÍ
+ÓáìÇ      2019.8.9     		 ´´½¨
 ==================================================================*/
 public class FileUtil {
 
     /**
-     * ç³»ç»Ÿç›¸å¯¹è·¯å¾„
+     * ÏµÍ³Ïà¶ÔÂ·¾¶
      */
     public static final String SYSTEM_PATH = ClassUtils.getDefaultClassLoader().getResource("").getPath().substring(1);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  åˆ›å»ºæ–‡ä»¶å¤¹
+     * ¹¦ÄÜ:  ´´½¨ÎÄ¼ş¼Ğ
      * <p>
-     * å‚æ•°:
-     * path         String          æ–‡ä»¶å¤¹çš„è·¯å¾„
+     * ²ÎÊı:
+     * path         String          ÎÄ¼ş¼ĞµÄÂ·¾¶
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult createFolder(String path) {
 
-        // åˆ›å»ºè¿”å›å¯¹è±¡
+        // ´´½¨·µ»Ø¶ÔÏó
         SystemResult result = new SystemResult();
-        // åˆ¤æ–­æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨
+        // ÅĞ¶ÏÎÄ¼ş¼ĞÊÇ·ñ´æÔÚ
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
             result.setData(file);
-            result.setMsg("åˆ›å»ºæˆåŠŸ");
+            result.setMsg("´´½¨³É¹¦");
             result.setStatus(200);
         } else {
             result.setData(file);
-            result.setMsg("æ–‡ä»¶å¤¹åˆ›å»ºå¤±è´¥,å·²å­˜åœ¨");
+            result.setMsg("ÎÄ¼ş¼Ğ´´½¨Ê§°Ü,ÒÑ´æÔÚ");
             result.setStatus(200);
         }
         return result;
@@ -50,26 +50,26 @@ public class FileUtil {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  åˆ›å»ºæ–‡ä»¶
+     * ¹¦ÄÜ:  ´´½¨ÎÄ¼ş
      * <p>
-     * å‚æ•°:
-     * path         String          æ–‡ä»¶çš„è·¯å¾„
+     * ²ÎÊı:
+     * path         String          ÎÄ¼şµÄÂ·¾¶
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult createFile(String path) throws Exception {
-        // åˆ›å»ºè¿”å›å¯¹è±¡
+        // ´´½¨·µ»Ø¶ÔÏó
         SystemResult result = new SystemResult();
         File file = new File(path);
         if (!file.exists()) {
             file.createNewFile();
             result.setData(file);
-            result.setMsg("åˆ›å»ºæˆåŠŸ");
+            result.setMsg("´´½¨³É¹¦");
             result.setStatus(200);
         } else {
             result.setData(file);
-            result.setMsg("æ–‡ä»¶åˆ›å»ºå¤±è´¥,å·²å­˜åœ¨");
+            result.setMsg("ÎÄ¼ş´´½¨Ê§°Ü,ÒÑ´æÔÚ");
             result.setStatus(200);
         }
         return result;
@@ -77,19 +77,19 @@ public class FileUtil {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  å†™å…¥æ–‡ä»¶å†…å®¹
+     * ¹¦ÄÜ:  Ğ´ÈëÎÄ¼şÄÚÈİ
      * <p>
-     * å‚æ•°:
-     * filePath         String          æ–‡ä»¶çš„è·¯å¾„
-     * msg              String          å†™å…¥çš„ä¿¡æ¯
-     * append           boolean         æœ¬æ¬¡å†™å…¥çš„å†…å®¹æ˜¯å¦æ·»åŠ åˆ°æ–‡ä»¶æœ«å°¾
+     * ²ÎÊı:
+     * filePath         String          ÎÄ¼şµÄÂ·¾¶
+     * msg              String          Ğ´ÈëµÄĞÅÏ¢
+     * append           boolean         ±¾´ÎĞ´ÈëµÄÄÚÈİÊÇ·ñÌí¼Óµ½ÎÄ¼şÄ©Î²
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     public static SystemResult fileWrite(String filePath, String msg, boolean append) throws Exception {
 
-        // åˆ›å»ºæ–‡ä»¶è¾“å…¥æµ
+        // ´´½¨ÎÄ¼şÊäÈëÁ÷
         FileWriter writer = new FileWriter(new File(filePath), append);
         writer.write(msg);
         writer.write("\r\n");
