@@ -5,6 +5,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.FileUtil;
 import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductInfoQueueAppoint;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.queue.ProductSuccessQueue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
         // 开启一条新的线程 以免干扰到主线程
         new Thread(() -> {
             // 获取锁对象
-            ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
-            ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
-            Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
+            ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance(); // DEFAULT_PRODUCT_INFO_KEY
+            ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_INFO_KEY.getValue()).getLock();
+            Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_INFO_KEY.getValue()).getCondition();
             while (true) {
                 // 开启锁
                 reentrantLock.lock();

@@ -9,6 +9,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
@@ -400,8 +401,8 @@ public class ProductBasicsAppoint {
     public static void addProductInfoQueue(K2ProductWithBLOBs k2ProductWithBLOBs) {
         // 获取锁
         ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
-        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getLock();
-        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_INFO_KEY).getCondition();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_INFO_KEY.getValue()).getLock();
+        Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_INFO_KEY.getValue()).getCondition();
         // 加锁
         reentrantLock.lock();
         try {
@@ -425,14 +426,42 @@ public class ProductBasicsAppoint {
     public static void addSynchronizedProductGotoCache(K2ProductWithBLOBs k2ProductWithBLOBs) {
         // 获取锁
         ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
-        ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getLock();
-        Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getCondition();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getLock();
+        Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getCondition();
         // 加锁
         reentrantLock.lock();
         try {
             // 获取商品同步的队列数据
             SynchornizedProductQueue queue = SynchornizedProductQueue.getInstance();
             queue.getSynchronizedProductQueue().add(k2ProductWithBLOBs);
+            // 唤醒所有线程
+            condition.signalAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reentrantLock.unlock();
+        }
+    }
+
+    /**
+     * 将商品集合数据添加到队列缓存中
+     *
+     * @param productWithBLOBs
+     */
+    public static void addSynchronizedProductsGotoCache(List<K2ProductWithBLOBs> productWithBLOBs) {
+        // 获取锁
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getLock();
+        Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getCondition();
+        // 加锁
+        reentrantLock.lock();
+        try {
+            // 获取商品同步的队列数据
+            for (int i = 0; i < productWithBLOBs.size(); i++) {
+                SynchornizedProductQueue queue = SynchornizedProductQueue.getInstance();
+                queue.getSynchronizedProductQueue().add(productWithBLOBs.get(i));
+            }
+
             // 唤醒所有线程
             condition.signalAll();
         } catch (Exception e) {

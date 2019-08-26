@@ -6,22 +6,22 @@ import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductIndexDto;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“é¦–é¡µç®¡ç†Service
+	ËµÃ÷:    ÉÌÆ·Ê×Ò³¹ÜÀíService
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.11   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.11   			´´½¨
 =======================================================*/
 public interface ProductIndexManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“çš„é¦–é¡µ
+     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·µÄÊ×Ò³
      * <p>
-     * å‚æ•°:
-     * k2MemberAndElseInfo         K2MemberAndElseInfo        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * dto              ProductIndexDto åˆ†é¡µæ•°æ®
+     * ²ÎÊı:
+     * k2MemberAndElseInfo         K2MemberAndElseInfo        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * dto              ProductIndexDto ·ÖÒ³Êı¾İ
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult index(K2MemberAndElseInfo k2MemberAndElseInfo, ProductIndexDto dto);

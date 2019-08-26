@@ -6,6 +6,8 @@ import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.dto.ProductIndexDto;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.sort.ProductInfoSort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import redis.clients.jedis.JedisPool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
 	说明:    商品首页管理委派类
@@ -63,7 +68,14 @@ public class ProductIndexAppoint {
         // 商品信息
         ShowProductIndexDto showProductIndexDto = null;
         final Jedis redis = jedisPool.getResource();
+        // 获取锁
+        ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
+        ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getLock();
+        Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getCondition();
+        // 开启锁
+        reentrantLock.lock();
         try {
+            System.out.println("查询数据拿到了锁");
             // 获取redis模板
             // 查询Redis中是否存在数据
             Map<String, String> stringStringMap = redis.hgetAll(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());
@@ -81,6 +93,9 @@ public class ProductIndexAppoint {
                 }
                 // 排序
                 ProductInfoSort.speedinessSortByState(dtos);
+                for (ProductInfoToRedisDataDto productInfoToRedisDataDto : dtos) {
+                    System.out.println(productInfoToRedisDataDto.getBrandName());
+                }
                 showProductIndexDto.setProductInfoToRedisDataDtos(dtos);
             } else {
                 showProductIndexDto = new ShowProductIndexDto();
@@ -95,7 +110,7 @@ public class ProductIndexAppoint {
                                 0,
                                 PRODUCT_GOTO_REDIS_MAX_SIZE,
                                 null,
-                                StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null
+                                StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null, UUID.randomUUID().toString()
                         );
                 productByStoreId.forEach((n) -> {
                     n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName());
@@ -118,6 +133,7 @@ public class ProductIndexAppoint {
             e.printStackTrace();
         } finally {
             if (redis != null) redis.close();
+            reentrantLock.unlock();
         }
         showProductIndexDto.setTotalPage((showProductIndexDto.getTotalSize() + (dto.getCurrentSize() - 1)) / dto.getCurrentSize());
         return new SystemResult(showProductIndexDto);
@@ -158,7 +174,7 @@ public class ProductIndexAppoint {
             currentProductInfos = productManageMapper.getProductByStoreId(Integer.parseInt(k2Member.getRetain1()),
                     Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()),
                     index, dto.getCurrentSize(), null,
-                    StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null
+                    StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null, UUID.randomUUID().toString()
             );
             currentProductInfos.forEach((n) -> n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName()));
             // 查询总条数

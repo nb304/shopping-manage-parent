@@ -7,7 +7,7 @@ import java.util.List;
 public class ProductInfoSort {
 
     public static void speedinessSortByState(List<ProductInfoToRedisDataDto> arr) {
-        // å¿«é€Ÿæ’åº ä»å°åˆ°å¤§ æ ¹æ®å•†å“çš„çŠ¶æ€æ’åº
+        // ¿ìËÙÅÅĞò ´ÓĞ¡µ½´ó ¸ù¾İÉÌÆ·µÄ×´Ì¬ÅÅĞò
         speedinessSortByState1(arr, 0, arr.size() - 1);
     }
 
@@ -22,28 +22,28 @@ public class ProductInfoSort {
 
     private static int speedinessSortByState12(List<ProductInfoToRedisDataDto> arr, int start, int end) {
 
-        // è·å–ç¬¬ä¸€ä¸ªæ¯”è¾ƒçš„å€¼
+        // »ñÈ¡µÚÒ»¸ö±È½ÏµÄÖµ
         ProductInfoToRedisDataDto data = arr.get(start);
         while (start < end) {
-            // ä»åå¾€å‰æŸ¥è¯¢æ¯”indexå°å’Œç­‰äºçš„å€¼
+            // ´ÓºóÍùÇ°²éÑ¯±ÈindexĞ¡ºÍµÈÓÚµÄÖµ
             while (start < end) {
                 if (arr.get(end).getProductState() <= data.getProductState()) {
-                    // æ‰¾åˆ°å°±æ›¿æ¢
+                    // ÕÒµ½¾ÍÌæ»»
                     arr.set(start, arr.get(end));
                     break;
                 }
-                // æ²¡æœ‰æ‰¾åˆ°å°±ç»§ç»­å¾€å‰æ‰¾
+                // Ã»ÓĞÕÒµ½¾Í¼ÌĞøÍùÇ°ÕÒ
                 end--;
             }
 
-            // ä»å‰å¾€åæŸ¥è¯¢æ¯”indexå¤§çš„å€¼
+            // ´ÓÇ°Íùºó²éÑ¯±Èindex´óµÄÖµ
             while (start < end) {
                 if (arr.get(start).getProductState() > data.getProductState()) {
-                    // æ‰¾åˆ°å°±æ›¿æ¢
+                    // ÕÒµ½¾ÍÌæ»»
                     arr.set(end, arr.get(start));
                     break;
                 }
-                // æ²¡æœ‰æ‰¾åˆ°å°±ç»§ç»­å¾€å‰æ‰¾
+                // Ã»ÓĞÕÒµ½¾Í¼ÌĞøÍùÇ°ÕÒ
                 start++;
             }
         }

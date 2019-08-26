@@ -9,20 +9,20 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * å•†å“ç®¡ç†Mapperæ¥å£
+ * ÉÌÆ·¹ÜÀíMapper½Ó¿Ú
  */
 public interface ProductManageMapper {
 
 
     /**
-     * æŸ¥è¯¢å•†å“ä¿¡æ¯
+     * ²éÑ¯ÉÌÆ·ĞÅÏ¢
      *
-     * @param storeId     åº—é“ºid
-     * @param state       å•†å“çŠ¶æ€
-     * @param index       èµ·å§‹ç´¢å¼•
-     * @param maxTotal    æŸ¥å‡ æ¡
-     * @param kc          åº“å­˜å¤§äºå‡ æ¡çš„
-     * @param productName å•†å“åç§°
+     * @param storeId     µêÆÌid
+     * @param state       ÉÌÆ·×´Ì¬
+     * @param index       ÆğÊ¼Ë÷Òı
+     * @param maxTotal    ²é¼¸Ìõ
+     * @param kc          ¿â´æ´óÓÚ¼¸ÌõµÄ
+     * @param productName ÉÌÆ·Ãû³Æ
      * @return
      */
     @Select("<script>" +
@@ -35,6 +35,7 @@ public interface ProductManageMapper {
             "FROM " +
             "k2_product p , k2_product_sku_priceandkc kc , k2_product_brand pb , k2_stroe s ,k2_product_category pc " +
             "WHERE " +
+            "#{randomString} =  #{randomString} AND " +
             "p.`product_id` = kc.`belong_product_id` AND " +
             "p.`product_brand_id` = pb.`brand_id` AND " +
             "<if test='storeId != null'>" +
@@ -63,12 +64,12 @@ public interface ProductManageMapper {
             "</script>")
     List<ProductInfoToRedisDataDto> getProductByStoreId(@Param("storeId") Integer storeId, @Param("state") Integer state, @Param("index") Integer index,
                                                         @Param("maxTotal") Integer maxTotal, @Param("kc") Integer kc, @Param("productName") String productName,
-                                                        @Param("productId") Integer productId);
+                                                        @Param("productId") Integer productId, @Param("randomString") String randomString);
 
     /**
-     * æŸ¥è¯¢è¯¥åº—é“ºçš„å•†å“æœ‰å‡ æ¡
+     * ²éÑ¯¸ÃµêÆÌµÄÉÌÆ·ÓĞ¼¸Ìõ
      *
-     * @param storeId åº—é“ºid
+     * @param storeId µêÆÌid
      * @return
      */
     @Select("<script>" +
@@ -83,7 +84,7 @@ public interface ProductManageMapper {
     Integer getProductCountByStoreId(@Param("storeId") Integer storeId, @Param("productName") String productName, @Param("state") Integer state);
 
     /**
-     * æŸ¥è¯¢å•†å“ä¿¡æ¯
+     * ²éÑ¯ÉÌÆ·ĞÅÏ¢
      *
      * @param productId
      * @return
@@ -103,7 +104,7 @@ public interface ProductManageMapper {
     ShowEditProductInfoDto getProductInfoByPId(Integer productId);
 
     /**
-     * æŸ¥è¯¢å•†å“çš„å›¾ç‰‡ä¿¡æ¯
+     * ²éÑ¯ÉÌÆ·µÄÍ¼Æ¬ĞÅÏ¢
      *
      * @param productId
      * @return

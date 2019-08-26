@@ -3,34 +3,34 @@ package com.king2.product.server.service;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKUç®¡ç†Service
+	ËµÃ÷:    ÉÌÆ·SKU¹ÜÀíService
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.21   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.21   			´´½¨
 =======================================================*/
 public interface ProductSkuManageService {
 
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   æ ¹æ®å•†å“idè·å–è¯¥å•†å“çš„SKUä¿¡æ¯é›†åˆ
+     * ¹¦ÄÜ:   ¸ù¾İÉÌÆ·id»ñÈ¡¸ÃÉÌÆ·µÄSKUĞÅÏ¢¼¯ºÏ
      * <p>
-     * å‚æ•°:
-     * productId          Integer         å•†å“ID
+     * ²ÎÊı:
+     * productId          Integer         ÉÌÆ·ID
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult getSkuByProductId(Integer productId);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:   ä¿®æ”¹å•†å“SKUä¿¡æ¯
+     * ¹¦ÄÜ:   ĞŞ¸ÄÉÌÆ·SKUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * skuKcInfo          String         å•†å“SKUçš„ä¿¡æ¯
+     * ²ÎÊı:
+     * skuKcInfo          String         ÉÌÆ·SKUµÄĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult editSkuInfo(String skuKcInfo);

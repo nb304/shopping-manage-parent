@@ -4,6 +4,7 @@ import com.king2.commons.mapper.K2MessageMapper;
 import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.enmu.K2MessageEnum;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.commons.pojo.K2Message;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +35,7 @@ public class UserMessageAppoint {
     public static void addMessageGotoCache(K2Message k2Message, Integer userId) {
 
         // 获取锁
-        LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactory.DEFAULT_SYSTEM_MESSAGE_KEY);
+        LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_SYSTEM_MESSAGE_KEY.getValue());
         // 加锁
         lockPojo.getLock().lock();
         try {
@@ -91,7 +92,7 @@ public class UserMessageAppoint {
      */
     public static void clearOrReadMessageByUserIdAndState(Integer userId, String state) {
         // 获取锁
-        LockPojo pojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactory.DEFAULT_SYSTEM_MESSAGE_KEY);
+        LockPojo pojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_SYSTEM_MESSAGE_KEY.getValue());
         // 开启锁
         pojo.getLock().lock();
         try {

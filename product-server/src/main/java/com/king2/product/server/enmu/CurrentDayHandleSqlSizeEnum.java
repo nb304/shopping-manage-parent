@@ -1,15 +1,14 @@
 package com.king2.product.server.enmu;
 
-// 商品品牌类型枚举
-public enum K2ProductBrandEnmu {
+// 操作数据库的次数枚举
+public enum CurrentDayHandleSqlSizeEnum {
 
-    ZC("正常", 1),//消息未读
-    DEL("删除", 2);// 消息删除
+    EBRAND("EDIT_BRAND_KEY", 10);//修改品牌的次数
 
     private final int value;
     private final String key;
 
-    K2ProductBrandEnmu(String key, int value) {
+    CurrentDayHandleSqlSizeEnum(String key, int value) {
         this.key = key;
         this.value = value;
     }
@@ -21,4 +20,5 @@ public enum K2ProductBrandEnmu {
     public String getKey() {
         return key;
     }
+
 }

@@ -2,6 +2,7 @@ package com.king2.product.server.queue.consumer;
 
 import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * ç³»ç»Ÿç¼“å­˜å·¥å…·æ¶ˆè´¹è€…
+ * ÏµÍ³»º´æ¹¤¾ßÏû·ÑÕß
  */
 @Component
 public class SystemIndexCacheConsumer implements ApplicationRunner {
@@ -20,34 +21,34 @@ public class SystemIndexCacheConsumer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        // å¼€å¯æ–°çš„çº¿ç¨‹
+        // ¿ªÆôĞÂµÄÏß³Ì
         new Thread(() -> {
-            // ç›‘å¬ä¿¡æ¯
+            // ¼àÌıĞÅÏ¢
             while (true) {
 
-                // è·å–é”å¯¹è±¡
-                LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactory.DEFAULT_SYSTEM_MESSAGE_KEY);
-                // å¼€å¯é”
+                // »ñÈ¡Ëø¶ÔÏó
+                LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_SYSTEM_MESSAGE_KEY.getValue());
+                // ¿ªÆôËø
                 lockPojo.getLock().lock();
                 try {
-                    // å–å‡ºå…±äº«æ•°æ®å’Œå…±äº«æ•°æ®çš„åˆ é™¤flag
-                    ConcurrentHashMap<String, Date> systemIndexHashMapDataDelFlag =  // åˆ é™¤çš„æ ‡è®°
+                    // È¡³ö¹²ÏíÊı¾İºÍ¹²ÏíÊı¾İµÄÉ¾³ıflag
+                    ConcurrentHashMap<String, Date> systemIndexHashMapDataDelFlag =  // É¾³ıµÄ±ê¼Ç
                             SystemIndexCacheManage.getInstance().getSystemIndexHashMapDataDelFlag();
 
-                    ConcurrentHashMap<String, Object> systemIndexHashMapData =  // ä¿¡æ¯å…±äº«æ•°æ®
+                    ConcurrentHashMap<String, Object> systemIndexHashMapData =  // ĞÅÏ¢¹²ÏíÊı¾İ
                             SystemIndexCacheManage.getInstance().getSystemIndexHashMapData();
 
                     Date date = new Date();
-                    // éå†åˆ é™¤çš„flagæ•°æ® åˆ¤æ–­æ˜¯å¦éœ€è¦æ¸…ç©ºä¸€äº›å…±äº«æ•°æ®
+                    // ±éÀúÉ¾³ıµÄflagÊı¾İ ÅĞ¶ÏÊÇ·ñĞèÒªÇå¿ÕÒ»Ğ©¹²ÏíÊı¾İ
                     systemIndexHashMapDataDelFlag.forEach((k, v) -> {
                         if (date.getTime() - v.getTime() > 1 * 60 * 1000) {
-                            // è¯´æ˜éœ€è¦æ¸…ç©ºæ•°æ®
+                            // ËµÃ÷ĞèÒªÇå¿ÕÊı¾İ
                             systemIndexHashMapData.remove(k + "YD");
                             systemIndexHashMapData.remove(k + "WD");
                         }
                     });
 
-                    // æ¯éš”60åˆ†é’Ÿå°±å»æŸ¥è¯¢æ˜¯å¦æœ‰éœ€è¦æ¸…ç©ºçš„æ•°æ®
+                    // Ã¿¸ô60·ÖÖÓ¾ÍÈ¥²éÑ¯ÊÇ·ñÓĞĞèÒªÇå¿ÕµÄÊı¾İ
                     lockPojo.getCondition().await(60, TimeUnit.MINUTES);
                 } catch (Exception e) {
                     e.printStackTrace();

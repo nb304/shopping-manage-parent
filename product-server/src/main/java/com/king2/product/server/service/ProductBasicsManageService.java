@@ -5,24 +5,24 @@ import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“åŸºç¡€ç®¡ç†Service
+	ËµÃ÷:    ÉÌÆ·»ù´¡¹ÜÀíService
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.06   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.06   			´´½¨
 =======================================================*/
 public interface ProductBasicsManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SKU
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSKU
      * <p>
-     * å‚æ•°:
-     * skuJson          String          SKUçš„JSONæ•°æ®
-     * state            String          æœ¬æ¬¡æ˜¯å¦è¿˜éœ€è¦ç»§ç»­æ·»åŠ å•†å“ä¿¡æ¯  1éœ€è¦  2ä¸éœ€è¦
-     * productInfo      String          å•†å“çš„JSONæ•°æ®
-     * K2Member         K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * skuJson          String          SKUµÄJSONÊı¾İ
+     * state            String          ±¾´ÎÊÇ·ñ»¹ĞèÒª¼ÌĞøÌí¼ÓÉÌÆ·ĞÅÏ¢  1ĞèÒª  2²»ĞèÒª
+     * productInfo      String          ÉÌÆ·µÄJSONÊı¾İ
+     * K2Member         K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult addProductSku(String skuJson, String productInfo, String state, K2MemberAndElseInfo K2Member) throws Exception;
@@ -30,75 +30,75 @@ public interface ProductBasicsManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“é¡µé¢æ‰€éœ€è¦çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·Ò³ÃæËùĞèÒªµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * K2Member         K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * K2Member         K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult addProductPageInfo(K2MemberAndElseInfo k2Member) throws Exception;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  é€šè¿‡ç±»ç›®idè·å–å•†å“SKUæ¨¡æ¿ä¿¡æ¯
+     * ¹¦ÄÜ:  Í¨¹ıÀàÄ¿id»ñÈ¡ÉÌÆ·SKUÄ£°åĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * cId         Integer          ç±»ç›®id
+     * ²ÎÊı:
+     * cId         Integer          ÀàÄ¿id
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult getSkuInfoByCId(Integer cId);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“ä¿®æ”¹é¡µé¢å¹¶æŸ¥è¯¢å•†å“ä¿¡æ¯
+     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·ĞŞ¸ÄÒ³Ãæ²¢²éÑ¯ÉÌÆ·ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productId         Integer          éœ€è¦æŸ¥è¯¢çš„å•†å“id
+     * ²ÎÊı:
+     * productId         Integer          ĞèÒª²éÑ¯µÄÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult showEditGetProInfo(Integer productId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æŸ¥è¯¢å•†å“çš„å›¾ç‰‡ä¿¡æ¯
+     * ¹¦ÄÜ:  ²éÑ¯ÉÌÆ·µÄÍ¼Æ¬ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productId         Integer          éœ€è¦æŸ¥è¯¢çš„å•†å“id
+     * ²ÎÊı:
+     * productId         Integer          ĞèÒª²éÑ¯µÄÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult getProductImageByPId(Integer productId);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¿®æ”¹å•†å“ä¿¡æ¯
+     * ¹¦ÄÜ:  ĞŞ¸ÄÉÌÆ·ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2ProductWithBLOBs         K2ProductWithBLOBs          ä¿®æ”¹çš„å•†å“ä¿¡æ¯
-     * k2Member                   K2Member                    æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * k2ProductWithBLOBs         K2ProductWithBLOBs          ĞŞ¸ÄµÄÉÌÆ·ĞÅÏ¢
+     * k2Member                   K2Member                    ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult editProductInfo(K2ProductWithBLOBs k2ProductWithBLOBs, K2MemberAndElseInfo k2MemberAndElseInfo);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  é€»è¾‘åˆ é™¤å•†å“ä¿¡æ¯
+     * ¹¦ÄÜ:  Âß¼­É¾³ıÉÌÆ·ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productId                Integer          è¢«åˆ é™¤çš„å•†å“id
-     * k2Member                   K2Member       æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * state                    Integer          å•†å“çŠ¶æ€
+     * ²ÎÊı:
+     * productId                Integer          ±»É¾³ıµÄÉÌÆ·id
+     * k2Member                   K2Member       ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * state                    Integer          ÉÌÆ·×´Ì¬
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2MemberAndElseInfo, Integer state);

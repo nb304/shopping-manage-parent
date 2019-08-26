@@ -5,89 +5,89 @@ import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SPUç®¡ç†Service
+	ËµÃ÷:    ÉÌÆ·SPU¹ÜÀíService
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.20   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.20   			´´½¨
 =======================================================*/
 public interface ProductSpuManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æŸ¥è¯¢å•†å“çš„SPUæ“ä½œ
+     * ¹¦ÄÜ:  ²éÑ¯ÉÌÆ·µÄSPU²Ù×÷
      * <p>
-     * å‚æ•°:
-     * productId        String          å•†å“id
+     * ²ÎÊı:
+     * productId        String          ÉÌÆ·id
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult getSpuByPId(Integer productId);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  é€»è¾‘åˆ é™¤å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  Âß¼­É¾³ıÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuId        String          å•†å“çš„SPUid
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuId        String          ÉÌÆ·µÄSPUid
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult delSpuById(Integer spuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ¢å¤SPUçš„ä¿¡æ¯
+     * ¹¦ÄÜ:  »Ö¸´SPUµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuId        String          å•†å“çš„SPUid
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuId        String          ÉÌÆ·µÄSPUid
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult recoverNormal(Integer spuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ³¨é”€å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  ÅúÁ¿×¢ÏúÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuIds        String         å•†å“çš„SPUIds
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * spuIds        String         ÉÌÆ·µÄSPUIds
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult batchCancelSpu(String spuIds, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ä¿®æ”¹å•†å“å‚æ•°çš„ä¿¡æ¯
+     * ¹¦ÄÜ:  ĞŞ¸ÄÉÌÆ·²ÎÊıµÄĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * spuKey        String         å•†å“çš„SPUçš„åç§°
-     * skuValue      String         å•†å“çš„å‚æ•°å€¼
-     * productSpuId  String         å•†å“å‚æ•°çš„Id
-     * k2Member     K2Member        æ“ä½œçš„ç”¨æˆ·ä¿¡æ¯
-     * order        Integer         æ’åº
+     * ²ÎÊı:
+     * spuKey        String         ÉÌÆ·µÄSPUµÄÃû³Æ
+     * skuValue      String         ÉÌÆ·µÄ²ÎÊıÖµ
+     * productSpuId  String         ÉÌÆ·²ÎÊıµÄId
+     * k2Member     K2Member        ²Ù×÷µÄÓÃ»§ĞÅÏ¢
+     * order        Integer         ÅÅĞò
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult editSpuInfo(String spuKey, String skuValue, Integer order, Integer productSpuId, K2MemberAndElseInfo k2Member);
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SPUä¿¡æ¯
+     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSPUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * productSpuJson         String            å•†å“çš„SPUä¿¡æ¯
-     * productId              Integer           å•†å“çš„id
+     * ²ÎÊı:
+     * productSpuJson         String            ÉÌÆ·µÄSPUĞÅÏ¢
+     * productId              Integer           ÉÌÆ·µÄid
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult addProductSpu(String productSpuJson, Integer productId, K2MemberAndElseInfo k2Member);

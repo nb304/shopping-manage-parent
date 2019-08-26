@@ -3,6 +3,7 @@ package com.king2.product.server.queue.consumer;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.queue.SynchornizedProductQueue;
@@ -16,68 +17,71 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * åŒæ­¥å•†å“ä¿¡æ¯åˆ°ç¼“å­˜ä¸­
+ * Í¬²½ÉÌÆ·ĞÅÏ¢µ½»º´æÖĞ
  */
 @Component
 public class SynchronizedProductInfoQueueConsumer implements ApplicationRunner {
 
-    // æ³¨å…¥Redisè¿æ¥æ± 
+    // ×¢ÈëRedisÁ¬½Ó³Ø
     @Autowired
     private JedisPool jedisPool;
 
-    // æ³¨å…¥å•†å“åœ¨redisä¸­çš„key
+    // ×¢ÈëÉÌÆ·ÔÚredisÖĞµÄkey
     @Value("${PRODUCT_INFO_REDIS_KEY}")
     private String PRODUCT_INFO_REDIS_KEY;
 
-    // æ³¨å…¥æœ¬åœ°çš„å•†å“Mapper
+    // ×¢Èë±¾µØµÄÉÌÆ·Mapper
     @Autowired
     private ProductManageMapper productManageMapper;
 
     @Override
     public void run(ApplicationArguments args) {
 
-        // å¼€å¯ä¸€ä¸ªæ–°çš„çº¿ç¨‹
+        // ¿ªÆôÒ»¸öĞÂµÄÏß³Ì
         new Thread(() -> {
 
-            // è·å–é”å¯¹è±¡
+            // »ñÈ¡Ëø¶ÔÏó
             ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
-            ReentrantLock reentrantLock = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getLock();
-            Condition condition = instance.getLockMaps().get(instance.DEFAULT_PRODUCT_CACHE_KEY).getCondition();
+            ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getLock();
+            Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getCondition();
 
             while (true) {
                 Jedis resource = null;
+                // ¼ÓËø
+                reentrantLock.lock();
                 try {
-                    // åŠ é”
-                    reentrantLock.lock();
-                    // è·å–åŒæ­¥çš„é˜Ÿåˆ—ä¿¡æ¯
+                    System.out.println("ĞŞ¸ÄÊı¾İÄÃµ½ÁËËø");
+                    // »ñÈ¡Í¬²½µÄ¶ÓÁĞĞÅÏ¢
                     ConcurrentLinkedQueue<K2ProductWithBLOBs> queue = SynchornizedProductQueue.getInstance().getSynchronizedProductQueue();
                     if (!queue.isEmpty()) {
-                        // ä¸ç­‰äºç©ºå°±å–å‡ºä½¿ç”¨
+                        // ²»µÈÓÚ¿Õ¾ÍÈ¡³öÊ¹ÓÃ
                         K2ProductWithBLOBs poll = queue.poll();
-                        // æ¶ˆè´¹æ•°æ®
+                        // Ïû·ÑÊı¾İ
                         resource = jedisPool.getResource();
 
-                        // æŸ¥è¯¢è¯¥å•†å“çš„ä¿¡æ¯
+                        // ²éÑ¯¸ÃÉÌÆ·µÄĞÅÏ¢
                         List<ProductInfoToRedisDataDto> productByStoreId = productManageMapper.getProductByStoreId(poll.getProductStoreId(), null, 0, 1, null, null
-                                , poll.getProductId());
-                        // åˆ¤æ–­æŸ¥è¯¢å‡ºæ¥çš„å•†å“æ˜¯å¦å­˜åœ¨
+                                , poll.getProductId(), UUID.randomUUID().toString());
+                        // ÅĞ¶Ï²éÑ¯³öÀ´µÄÉÌÆ·ÊÇ·ñ´æÔÚ
                         if (!CollectionUtils.isEmpty(productByStoreId)) {
-                            // å­˜åœ¨
-                            // å°†æ•°æ®æ·»åŠ åˆ°redisä¸­å»
+                            // ´æÔÚ
+                            // ½«Êı¾İÌí¼Óµ½redisÖĞÈ¥
+                            System.out.println(productByStoreId.get(0).getBrandName());
                             resource.hset(PRODUCT_INFO_REDIS_KEY + poll.getProductStoreId(), poll.getProductNumber(), JsonUtils.objectToJson(productByStoreId.get(0)));
                         } else {
-                            // ä¸å­˜åœ¨ ç»™ç®¡ç†å‘˜å‘é€ä¿¡æ¯ æç¤ºç®¡ç†å‘˜ ä¿¡æ¯æŸ¥è¯¢å¤±è´¥
+                            // ²»´æÔÚ ¸ø¹ÜÀíÔ±·¢ËÍĞÅÏ¢ ÌáÊ¾¹ÜÀíÔ± ĞÅÏ¢²éÑ¯Ê§°Ü
 
                         }
 
                     } else {
-                        // ç­‰äºç©ºå°±ä¼‘çœ 
+                        // µÈÓÚ¿Õ¾ÍĞİÃß
                         condition.await(100, TimeUnit.MINUTES);
 
                     }

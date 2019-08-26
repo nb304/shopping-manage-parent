@@ -4,21 +4,21 @@ import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 
 /*=======================================================
-	è¯´æ˜:    ç³»ç»Ÿé¦–é¡µç®¡ç†Service
+	ËµÃ÷:    ÏµÍ³Ê×Ò³¹ÜÀíService
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.24   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.24   			´´½¨
 =======================================================*/
 public interface SystemIndexManageService {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  å•†åŸç³»ç»Ÿçš„é¦–é¡µä¿¡æ¯
+     * ¹¦ÄÜ:  ÉÌ³ÇÏµÍ³µÄÊ×Ò³ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2MemberAndElseInfo      K2MemberAndElseInfo     ç™»å…¥çš„ç”¨æˆ·ä¿¡æ¯
+     * ²ÎÊı:
+     * k2MemberAndElseInfo      K2MemberAndElseInfo     µÇÈëµÄÓÃ»§ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     SystemResult systemIndex(K2MemberAndElseInfo k2MemberAndElseInfo);

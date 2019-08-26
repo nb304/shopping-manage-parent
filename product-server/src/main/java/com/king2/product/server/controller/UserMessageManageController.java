@@ -89,8 +89,8 @@ public class UserMessageManageController {
         // 获取未读的信息
         List<K2Message> wd = UserMessageAppoint.getMessageByType(k2MemberAndElseInfo.getK2Member().getMemberId(), "WD");
         if (!CollectionUtils.isEmpty(wd)) {
-            return new SystemResult("yes");
+            return new SystemResult(200, "yes", wd);
         }
-        return new SystemResult("no");
+        return new SystemResult(200, "no");
     }
 }

@@ -6,43 +6,43 @@ import com.king2.commons.utils.FileUtil;
 import java.util.Date;
 
 /*=======================================================
-	è¯´æ˜:   å•†å“æ¨¡å—çš„æ—¥å¿—æ“ä½œå¯¹è±¡
+	ËµÃ÷:   ÉÌÆ·Ä£¿éµÄÈÕÖ¾²Ù×÷¶ÔÏó
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.08   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.08   			´´½¨
 =======================================================*/
 public class ProductServerLog {
 
-    // å®šä¹‰åˆå§‹åŒ–æ—¥å¿—çš„æ–‡ä»¶è·¯å¾„
+    // ¶¨Òå³õÊ¼»¯ÈÕÖ¾µÄÎÄ¼şÂ·¾¶
     public static final String PRODUCT_SYSTEM_INFO_FILE = FileUtil.SYSTEM_PATH + "/public/ProductLog/" + "productInitLog.txt";
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  ç³»ç»Ÿåˆå§‹åŒ–çš„LOGæ—¥å¿—
+     * ¹¦ÄÜ:  ÏµÍ³³õÊ¼»¯µÄLOGÈÕÖ¾
      * <p>
-     * å‚æ•°:
+     * ²ÎÊı:
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     public static void systemInitLog() throws Exception {
 
-        // æŸ¥è¯¢ç³»ç»Ÿæ—¥å¿—æ–‡ä»¶å¤¹æ˜¯å¦åˆ›å»ºæˆåŠŸ
+        // ²éÑ¯ÏµÍ³ÈÕÖ¾ÎÄ¼ş¼ĞÊÇ·ñ´´½¨³É¹¦
         createLogFile();
     }
 
     /**
-     * åˆ¤æ–­æ˜¯å¦è¦åˆ›å»ºæ—¥å¿—æ–‡ä»¶å¤¹
+     * ÅĞ¶ÏÊÇ·ñÒª´´½¨ÈÕÖ¾ÎÄ¼ş¼Ğ
      */
     private static void createLogFile() throws Exception {
 
-        // åˆ›å»ºæ–‡ä»¶å¤¹
+        // ´´½¨ÎÄ¼ş¼Ğ
         FileUtil.createFolder(FileUtil.SYSTEM_PATH + "/public/ProductLog");
-        // åˆ›å»ºæ–‡ä»¶
+        // ´´½¨ÎÄ¼ş
         FileUtil.createFile(PRODUCT_SYSTEM_INFO_FILE);
-        // å†™å…¥ä¿¡æ¯
+        // Ğ´ÈëĞÅÏ¢
         FileUtil.fileWrite(PRODUCT_SYSTEM_INFO_FILE,
-                "========================== å•†å“æ¨¡å—åˆå§‹åŒ–æ—¥å¿— åˆ›å»ºæ—¶é—´--" + DateUtil.formatDateTime(new Date()) + " ==========================",
+                "========================== ÉÌÆ·Ä£¿é³õÊ¼»¯ÈÕÖ¾ ´´½¨Ê±¼ä--" + DateUtil.formatDateTime(new Date()) + " ==========================",
                 true);
     }
 }

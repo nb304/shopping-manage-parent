@@ -1,6 +1,7 @@
 package com.king2.product.server.locks;
 
 import com.king2.product.server.dto.LockPojo;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,30 +9,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
-	è¯´æ˜:   å•†å“æ¨¡å—çš„é”å·¥å‚
+	ËµÃ÷:   ÉÌÆ·Ä£¿éµÄËø¹¤³§
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.14   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.14   			´´½¨
 =======================================================*/
 public class ProductQueueLockFactory {
 
-    // å•åˆ—æ¨¡å¼
+    // µ¥ÁĞÄ£Ê½
     private ProductQueueLockFactory() {
     }
 
     private static ProductQueueLockFactory productInfoQueueLock = new ProductQueueLockFactory();
 
     public static ProductQueueLockFactory getInstance() {
-        // åˆå§‹åŒ–é”
+        // ³õÊ¼»¯Ëø
         refreshLock();
         return productInfoQueueLock;
     }
 
     /**
-     * é”çš„é›†åˆ,æ˜¯ä¸€ä¸ªçº¿ç¨‹å®‰å…¨çš„HashMap
-     * keyä»£è¡¨ä¸€æŠŠé”çš„ç±»å‹ å¯ä»¥é€šè¿‡keyè·å–åˆ°é‚£æŠŠå•ä¾‹çš„é”
-     * valueæ˜¯ä¸€ä¸ªé”çš„å®ä¾‹ å°è£…ç€é”å¯¹è±¡å’Œconditionå¯¹è±¡
-     * conditionçš„ä½œç”¨å°±è·Ÿsynchronizedçš„waitå’Œnotifyæ•ˆæœä¸€è‡´
+     * ËøµÄ¼¯ºÏ,ÊÇÒ»¸öÏß³Ì°²È«µÄHashMap
+     * key´ú±íÒ»°ÑËøµÄÀàĞÍ ¿ÉÒÔÍ¨¹ıkey»ñÈ¡µ½ÄÇ°Ñµ¥ÀıµÄËø
+     * valueÊÇÒ»¸öËøµÄÊµÀı ·â×°×ÅËø¶ÔÏóºÍcondition¶ÔÏó
+     * conditionµÄ×÷ÓÃ¾Í¸úsynchronizedµÄwaitºÍnotifyĞ§¹ûÒ»ÖÂ
      */
     private static ConcurrentHashMap<String, LockPojo> lockMaps = new ConcurrentHashMap<>();
 
@@ -40,32 +41,27 @@ public class ProductQueueLockFactory {
     }
 
 
-    // å•†å“ä¿¡æ¯åŒæ­¥çš„é”çš„ç±»å‹
-    public static final String DEFAULT_PRODUCT_INFO_KEY = "PRODUC_TINFO_KEY";
-    // å•†å“åŒæ­¥åˆ°ç¼“å­˜çš„é”ç±»å‹
-    public static final String DEFAULT_PRODUCT_CACHE_KEY = "PRODUC_CACHE_KEY";
-    // å•†åŸæ¶ˆæ¯çš„åŒæ­¥ç±»å‹é”
-    public static final String DEFAULT_SYSTEM_MESSAGE_KEY = "USER_MESSAGE_KEY";
-
-    // å•†å“æ¨¡å—æœåŠ¡çš„é”ç±»å‹é›†åˆ
+    // ÉÌÆ·Ä£¿é·şÎñµÄËøÀàĞÍ¼¯ºÏ
     private static List<String> keys = new ArrayList<>();
 
-    // æä¾›Getæ–¹æ³• å¯ä»¥è®©åˆ«äººä¹Ÿè¿›è¡Œè®¾ç½®ä¿¡æ¯
+    // Ìá¹©Get·½·¨ ¿ÉÒÔÈÃ±ğÈËÒ²½øĞĞÉèÖÃĞÅÏ¢
     public List<String> getKeys() {
         return keys;
     }
 
-    // åˆ·æ–°é”
+    // Ë¢ĞÂËø
     private static void refreshLock() {
-        // åŒé‡æ ¡éªŒ
+        // Ë«ÖØĞ£Ñé
         if (lockMaps.isEmpty()) {
             synchronized (ProductQueueLockFactory.class) {
                 if (lockMaps.isEmpty()) {
-                    keys.add(DEFAULT_PRODUCT_INFO_KEY);
-                    keys.add(DEFAULT_PRODUCT_CACHE_KEY);
-                    keys.add(DEFAULT_SYSTEM_MESSAGE_KEY);
+
+                    // ¶¯Ì¬Ìí¼ÓËø¹¤³§µÄĞÅÏ¢
+                    for (int i = 0; i < ProductQueueLockFactoryTypeEnum.values().length; i++) {
+                        keys.add(ProductQueueLockFactoryTypeEnum.values()[i].getValue());
+                    }
                     for (int i = 0; i < keys.size(); i++) {
-                        // åŠ¨æ€åˆ›å»ºé”å¯¹è±¡
+                        // ¶¯Ì¬´´½¨Ëø¶ÔÏó
                         LockPojo lockPojo = new LockPojo();
                         lockPojo.setLock(new ReentrantLock());
                         lockMaps.put(keys.get(i), lockPojo);

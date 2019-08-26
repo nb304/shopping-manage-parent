@@ -10,21 +10,21 @@ import java.util.List;
 
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SPU Mapperæ¥å£
+	ËµÃ÷:    ÉÌÆ·SPU Mapper½Ó¿Ú
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.07   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.07   			´´½¨
 =======================================================*/
 public interface ProductSpuMapper {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ·»åŠ SPUçš„æ•°æ®
+     * ¹¦ÄÜ:  ÅúÁ¿Ìí¼ÓSPUµÄÊı¾İ
      * <p>
-     * å‚æ•°:
-     * list          List<K2ProductSpu>             SPUçš„é›†åˆæ•°æ®
+     * ²ÎÊı:
+     * list          List<K2ProductSpu>             SPUµÄ¼¯ºÏÊı¾İ
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     @Insert("<script>" +
@@ -38,7 +38,7 @@ public interface ProductSpuMapper {
     void batchInsertProductSpu(@Param("list") List<K2ProductSpu> list);
 
     /**
-     * æŸ¥è¯¢å•†å“SPUçš„ä¿¡æ¯æ ¹æ®å•†å“id
+     * ²éÑ¯ÉÌÆ·SPUµÄĞÅÏ¢¸ù¾İÉÌÆ·id
      *
      * @param productId
      * @return
@@ -51,7 +51,7 @@ public interface ProductSpuMapper {
     List<K2ProductSpu> getSpuByProductId(Integer productId);
 
     /**
-     * æŸ¥è¯¢æœ€å¤§çš„æ’åºå€¼
+     * ²éÑ¯×î´óµÄÅÅĞòÖµ
      *
      * @param productId
      * @return
@@ -61,7 +61,7 @@ public interface ProductSpuMapper {
 
 
     /**
-     * æ ¹æ®å•†å“çš„SPUidæŸ¥è¯¢å•†å“ä¿¡æ¯
+     * ¸ù¾İÉÌÆ·µÄSPUid²éÑ¯ÉÌÆ·ĞÅÏ¢
      *
      * @param spuId
      * @return

@@ -18,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.JedisPool;
 
+import java.io.IOException;
+
 /*=======================================================
 	说明:    商品图片上传委派类
 
@@ -46,6 +48,8 @@ public class ProductUploadImageAppoint {
     private String MINIO_USER_NAME;
     @Value("${MINIO_PASS_WORD}")
     private String MINIO_PASS_WORD;
+    @Value("${MINIO_BUCKET_NAME}")
+    private String MINIO_BUCKET_NAME;
     // 注入图片的类型
     @Value("${PRODUCT_IMAGE_TYPE}")
     private String PRODUCT_IMAGE_TYPE;
@@ -84,32 +88,14 @@ public class ProductUploadImageAppoint {
         // 遍历图片数据
         for (MultipartFile file : files) {
             // 获取到图片的类型
-            String type = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            if (!StringUtils.isEmpty(type)) {
-                if (!PRODUCT_IMAGE_TYPE.contains(type.toLowerCase())) {
-                    return new SystemResult(100, "文件类型错误", null);
-                }
-            }
-
-            // 获取图片的名称
-            StringBuilder sbName = new StringBuilder();
-            sbName.append("king2");
-            sbName.append("-");
-            sbName.append(prefix);
-            sbName.append("-");
-            // 从缓存中取出一个编号
-            ShoppingNumberPojo shoppingNumberPojo = new ShoppingNumberPojo
-                    (jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_IMAGES_REDIS_KEY, "SP", 36, restTemplate, CACHE_SERVER_URL);
-            // 调用编号接口
-            ShoppingNumberManage sp = new ShoppingNumberManage(shoppingNumberPojo, SystemCacheManage.PRODUCT_NAME_IMAGE);
-            SystemResult numberByRedisKey = sp.getNumberByRedisKey(PRODUCT_IMAGES_REDIS_KEY, 10);
-            if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
-            sbName.append(numberByRedisKey.getData());
-            sbName.append("." + type);
+            SystemResult result = checkImage(file, PRODUCT_IMAGE_TYPE);
+            if (result.getStatus() != 200) return result;
+            SystemResult imageName = getImageName("PRODUCT-INFO", result.getData() + "");
+            if (imageName.getStatus() != 200) return imageName;
 
             // 调用上传方法
-            MinioUtil util = new MinioUtil(MINIO_SERVER_URL, MINIO_USER_NAME, MINIO_PASS_WORD, "king2-product-image");
-            SystemResult systemResult = util.uploadFile(file, sbName.toString(), "image/" + type);
+            MinioUtil util = new MinioUtil(MINIO_SERVER_URL, MINIO_USER_NAME, MINIO_PASS_WORD, MINIO_BUCKET_NAME);
+            SystemResult systemResult = util.uploadFile(file, imageName.getData() + "", "image/jpge");
             if (systemResult.getStatus() != 200) return systemResult;
             if (StringUtils.isEmpty(sb.toString())) {
                 sb.append(systemResult.getData() + "");
@@ -133,4 +119,59 @@ public class ProductUploadImageAppoint {
 
         return new SystemResult(sb.toString());
     }
+
+
+    /**
+     * 校验图片是否正确
+     *
+     * @param file
+     * @param PRODUCT_IMAGE_TYPE
+     * @return
+     * @throws IOException
+     */
+    public static SystemResult checkImage(MultipartFile file, String PRODUCT_IMAGE_TYPE) throws IOException {
+        if (file == null || StringUtils.isEmpty(file.getOriginalFilename()) || file.getInputStream() == null) {
+            return new SystemResult(100, "请选择你要上传的LOGO图片");
+        } else if (file.getSize() > 10485760) {
+            return new SystemResult(100, "图片大小不能大于10Mb");
+        }
+        // 校验是否为图片
+        String type = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        if (!StringUtils.isEmpty(type)) {
+            if (!PRODUCT_IMAGE_TYPE.contains(type.toLowerCase())) {
+                return new SystemResult(100, "文件类型错误", null);
+            }
+        }
+
+        return new SystemResult(type);
+    }
+
+    /**
+     * 获取一张图片的名称
+     *
+     * @param prefix
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    public SystemResult getImageName(String prefix, String type) throws Exception {
+        // 获取图片的名称
+        StringBuilder sbName = new StringBuilder();
+        sbName.append("king2");
+        sbName.append("-");
+        sbName.append(prefix);
+        sbName.append("-");
+        // 从缓存中取出一个编号
+        ShoppingNumberPojo shoppingNumberPojo = new ShoppingNumberPojo
+                (jedisPool, SystemCacheManage.UNLOCK_REDIS_LUA, PRODUCT_IMAGES_REDIS_KEY, "SP", 36, restTemplate, CACHE_SERVER_URL);
+        // 调用编号接口
+        ShoppingNumberManage sp = new ShoppingNumberManage(shoppingNumberPojo, SystemCacheManage.PRODUCT_NAME_IMAGE);
+        SystemResult numberByRedisKey = sp.getNumberByRedisKey(PRODUCT_IMAGES_REDIS_KEY, 10);
+        if (numberByRedisKey.getStatus() != 200) return numberByRedisKey;
+        sbName.append(numberByRedisKey.getData());
+        sbName.append("." + type);
+
+        return new SystemResult(sbName.toString());
+    }
+
 }

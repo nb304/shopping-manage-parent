@@ -10,22 +10,22 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:    å•†å“SKU-key Mapperæ¥å£
+	ËµÃ÷:    ÉÌÆ·SKU-key Mapper½Ó¿Ú
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.07   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.07   			´´½¨
 =======================================================*/
 public interface ProductSkuMapper {
 
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ·»åŠ Sku-keyçš„æ•°æ®
+     * ¹¦ÄÜ:  ÅúÁ¿Ìí¼ÓSku-keyµÄÊı¾İ
      * <p>
-     * å‚æ•°:
-     * productSkuDtos          List<ProductSkuDto>            SKUPOJOçš„æ•°æ®é›†åˆ
+     * ²ÎÊı:
+     * productSkuDtos          List<ProductSkuDto>            SKUPOJOµÄÊı¾İ¼¯ºÏ
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     @Insert("<script>" +
@@ -44,12 +44,12 @@ public interface ProductSkuMapper {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ·»åŠ Sku-valueçš„æ•°æ®
+     * ¹¦ÄÜ:  ÅúÁ¿Ìí¼ÓSku-valueµÄÊı¾İ
      * <p>
-     * å‚æ•°:
-     * k2ProductSkuValues          List<K2ProductSkuValue>            SKU-vakue POJOçš„æ•°æ®é›†åˆ
+     * ²ÎÊı:
+     * k2ProductSkuValues          List<K2ProductSkuValue>            SKU-vakue POJOµÄÊı¾İ¼¯ºÏ
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     @Insert("<script>" +
@@ -65,12 +65,12 @@ public interface ProductSkuMapper {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ·»åŠ å•†å“å…¬å…±çš„SKUæ•°æ®
+     * ¹¦ÄÜ:  ÅúÁ¿Ìí¼ÓÉÌÆ·¹«¹²µÄSKUÊı¾İ
      * <p>
-     * å‚æ•°:
-     * k2ProductCommonskuses          List<K2ProductCommonskus>            å•†å“å…¬å…±çš„SKUæ•°æ®
+     * ²ÎÊı:
+     * k2ProductCommonskuses          List<K2ProductCommonskus>            ÉÌÆ·¹«¹²µÄSKUÊı¾İ
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     @Insert("<script>" +
@@ -84,12 +84,12 @@ public interface ProductSkuMapper {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ‰¹é‡æ·»åŠ å•†å“SKU-Valueçš„åº“å­˜ä»·æ ¼ä¿¡æ¯
+     * ¹¦ÄÜ:  ÅúÁ¿Ìí¼ÓÉÌÆ·SKU-ValueµÄ¿â´æ¼Û¸ñĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>            SKU-vakueçš„åº“å­˜ä»·æ ¼POJOçš„æ•°æ®é›†åˆ
+     * ²ÎÊı:
+     * k2ProductSkuPriceandkcs          List<K2ProductSkuPriceandkc>            SKU-vakueµÄ¿â´æ¼Û¸ñPOJOµÄÊı¾İ¼¯ºÏ
      * <p>
-     * è¿”å›: void
+     * ·µ»Ø: void
      * -----------------------------------------------------
      */
     @Insert("<script>" +
@@ -106,12 +106,12 @@ public interface ProductSkuMapper {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  é€šè¿‡å•†å“ç±»ç›®æŸ¥è¯¢å•†å“SKUä¿¡æ¯
+     * ¹¦ÄÜ:  Í¨¹ıÉÌÆ·ÀàÄ¿²éÑ¯ÉÌÆ·SKUĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * cId          Integer         å•†å“ç±»ç›®çš„id
+     * ²ÎÊı:
+     * cId          Integer         ÉÌÆ·ÀàÄ¿µÄid
      * <p>
-     * è¿”å›: List<K2ProductSkuKey>        ç±»ç›®æ•°æ®
+     * ·µ»Ø: List<K2ProductSkuKey>        ÀàÄ¿Êı¾İ
      * -----------------------------------------------------
      */
     @Select("SELECT product_sku_key_id,product_sku_key_name,is_system_create FROM" +
@@ -119,7 +119,7 @@ public interface ProductSkuMapper {
     List<K2ProductSkuKey> getSkuInfoByCid(Integer cId);
 
     /**
-     * æ‰¹é‡ä¿®æ”¹å•†å“çš„SKUåº“å­˜å¸åŠ›å°
+     * ÅúÁ¿ĞŞ¸ÄÉÌÆ·µÄSKU¿â´æÎüÁ¦Ğ¡
      *
      * @param k2ProductSkuPriceandkcs
      */

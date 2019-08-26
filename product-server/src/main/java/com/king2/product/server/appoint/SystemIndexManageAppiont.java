@@ -9,6 +9,7 @@ import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.dto.SystemIndexDto;
 import com.king2.product.server.enmu.K2MessageEnum;
+import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -76,7 +77,7 @@ public class SystemIndexManageAppiont {
             // 分类完成后 存入数据集合中
             // 获取锁
             ConcurrentHashMap<String, LockPojo> lockMaps = ProductQueueLockFactory.getInstance().getLockMaps();
-            LockPojo lockPojo = lockMaps.get(ProductQueueLockFactory.DEFAULT_SYSTEM_MESSAGE_KEY);
+            LockPojo lockPojo = lockMaps.get(ProductQueueLockFactoryTypeEnum.DEFAULT_SYSTEM_MESSAGE_KEY.getValue());
             Condition condition = lockPojo.getCondition();  // 锁的监听器
             ReentrantLock lock = lockPojo.getLock();  // 锁对象
             // 加锁
@@ -171,7 +172,7 @@ public class SystemIndexManageAppiont {
         if (state.equals(K2MessageEnum.DEL.getValue() + "")) {
             // 需要删除缓存的数据
             // 获取锁对象
-            LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactory.DEFAULT_SYSTEM_MESSAGE_KEY);
+            LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_SYSTEM_MESSAGE_KEY.getValue());
             // 开启锁
             lockPojo.getLock().lock();
             try {
