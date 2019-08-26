@@ -75,7 +75,6 @@ public class ProductIndexAppoint {
         // 开启锁
         reentrantLock.lock();
         try {
-            System.out.println("查询数据拿到了锁");
             // 获取redis模板
             // 查询Redis中是否存在数据
             Map<String, String> stringStringMap = redis.hgetAll(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());

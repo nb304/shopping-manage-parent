@@ -57,7 +57,6 @@ public class SynchronizedProductInfoQueueConsumer implements ApplicationRunner {
                 // 加锁
                 reentrantLock.lock();
                 try {
-                    System.out.println("修改数据拿到了锁");
                     // 获取同步的队列信息
                     ConcurrentLinkedQueue<K2ProductWithBLOBs> queue = SynchornizedProductQueue.getInstance().getSynchronizedProductQueue();
                     if (!queue.isEmpty()) {
@@ -73,7 +72,6 @@ public class SynchronizedProductInfoQueueConsumer implements ApplicationRunner {
                         if (!CollectionUtils.isEmpty(productByStoreId)) {
                             // 存在
                             // 将数据添加到redis中去
-                            System.out.println(productByStoreId.get(0).getBrandName());
                             resource.hset(PRODUCT_INFO_REDIS_KEY + poll.getProductStoreId(), poll.getProductNumber(), JsonUtils.objectToJson(productByStoreId.get(0)));
                         } else {
                             // 不存在 给管理员发送信息 提示管理员 信息查询失败

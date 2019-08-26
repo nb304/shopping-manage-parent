@@ -237,7 +237,6 @@ public class TestDemoController {
     }*/
     @RequestMapping("/user/login")
     public SystemResult login(String username, String password) {
-        System.out.println();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 
             return new SystemResult(100, "用户名密码为空", null);

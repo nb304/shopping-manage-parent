@@ -203,10 +203,13 @@ public class BrandManageServiceImpl implements BrandManageService {
             MinioUtil util = new MinioUtil(MINIO_SERVER_URL, MINIO_USER_NAME, MINIO_PASS_WORD, MINIO_BUCKET_NAME);
 
             // 判断当前图片是否是默认的 如果不是需要删除
-//            if (!k2ProductBrand.getBrandImage().equals(PRODUCT_IMAGE_NOT_DEFINITION)) {
-//                // 需要删除
-//                util.delFile(k2ProductBrand.getBrandName());
-//            }
+            if (!k2ProductBrand.getBrandImage().equals(PRODUCT_IMAGE_NOT_DEFINITION)) {
+                // 需要删除
+                String[] split = k2ProductBrand.getBrandImage().split(MINIO_BUCKET_NAME);
+                if (split.length == 2) {
+                    util.delFile(split[1].substring(1));
+                }
+            }
             // 获取名称
             SystemResult imageName = productUploadImageAppoint.getImageName("BRAND-LOGO", result.getData() + "");
             if (imageName.getStatus() != 200) return imageName;
