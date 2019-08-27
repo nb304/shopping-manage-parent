@@ -23,6 +23,8 @@ public class K2ProductCategory {
      */
     private Integer categoryIsParent;
 
+    private String categoryIsName;
+
     /**
      * 该类目的父id  ---如果为0就是一级类目
      */
@@ -33,6 +35,16 @@ public class K2ProductCategory {
      */
     private Integer categoryState;
 
+    private boolean hasChildren = true;
+
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
     /**
      * 创建该类目的用户id   ---指向用户主键表
      */
@@ -42,6 +54,8 @@ public class K2ProductCategory {
      * 该类目的创建时间
      */
     private Date categoryCreateTime;
+
+    private String createTimeStr;
 
     /**
      * 修改该类目的用户id   ---指向用户主键表
@@ -72,6 +86,22 @@ public class K2ProductCategory {
      * 保留字段5
      */
     private String retain5;
+
+    public String getCategoryIsName() {
+        return categoryIsName;
+    }
+
+    public void setCategoryIsName(String categoryIsName) {
+        this.categoryIsName = categoryIsName;
+    }
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
 
     /**
      * 类目表主键

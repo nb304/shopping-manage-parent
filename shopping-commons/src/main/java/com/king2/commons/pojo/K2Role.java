@@ -37,7 +37,7 @@ public class K2Role {
     private String updateUserName;
 
     /**
-     * 保留字段1
+     * 保留字段1  (角色的标识符)
      */
     private String retain1;
 

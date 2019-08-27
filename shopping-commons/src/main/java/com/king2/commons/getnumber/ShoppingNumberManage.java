@@ -4,6 +4,8 @@ import com.king2.commons.lock.Lock;
 import com.king2.commons.lock.impl.DfsRedisLock;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -29,6 +31,8 @@ public class ShoppingNumberManage {
     private ShoppingNumberPojo shoppingNumberPojo;
     // 编号类型
     private static String type;
+
+    protected static final Logger logger = LoggerFactory.getLogger(ShoppingNumberManage.class);
 
     /**
      * 提供商城系统生成唯一编号的操作类,最多存入36长度的编号
@@ -88,6 +92,7 @@ public class ShoppingNumberManage {
             // 重新存入redis中
             JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
         } catch (Exception e) {
+            logger.error("添加编号到Redis中失败。可能是超时引起的,报错信息：" + e);
             e.printStackTrace();
             // 添加到redis中失败了 我们就需要添加到缓存服务器中去
             if (numberQueue != null && !numberQueue.isEmpty())
@@ -183,10 +188,14 @@ public class ShoppingNumberManage {
             // 返回数据
             return new SystemResult(poll);
         } catch (Exception e) {
+            logger.error("reids连接超时,报错信息：" + e);
             e.printStackTrace();
             // 说明redis又崩了 连接失败 我们就去访问远程缓存服务器地址
             String numberByCacheServer = getNumberByCacheServer();
-            if (StringUtils.isEmpty(numberByCacheServer)) return new SystemResult(100, "程序内部异常", null);
+            if (StringUtils.isEmpty(numberByCacheServer)) {
+                logger.error("本次缓存获取编号失败,报错信息：" + e);
+                return new SystemResult(100, "程序内部异常", null);
+            }
             return new SystemResult(numberByCacheServer);
         } finally {
             // 解锁
