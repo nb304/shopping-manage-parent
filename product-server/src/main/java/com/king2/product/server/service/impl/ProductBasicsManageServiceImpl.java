@@ -217,7 +217,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult getSkuInfoByCId(Integer cId) {
+    public SystemResult getSkuInfoByCId(Integer cId, K2MemberAndElseInfo k2MemberAndElseInfo) {
 
         // 查询该商品类目是否存在
         K2ProductCategory k2ProductCategory = k2ProductCategoryMapper.selectByPrimaryKey(cId);
@@ -229,6 +229,8 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
 
         // 查找属于该商品类目的SKU信息
         List<K2ProductSkuKey> skuInfoByCid = productSkuMapper.getSkuInfoByCid(cId);
+        List<K2ProductSkuKey> skuInfoByStoreId = productSkuMapper.getSkuInfoByStoreId(cId, Integer.parseInt(k2MemberAndElseInfo.getK2Member().getRetain1()));
+        skuInfoByCid.addAll(skuInfoByStoreId);
         // 创建前端需要的模板数据
         List<ProductSkuPojo> productSkuPojos = new ArrayList<>();
         for (K2ProductSkuKey productSkuKey : skuInfoByCid) {

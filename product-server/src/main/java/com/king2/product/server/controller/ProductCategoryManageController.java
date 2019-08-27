@@ -17,10 +17,10 @@ import javax.validation.constraints.Pattern;
 
 
 /*=======================================================
-	è¯´æ˜:    å•†å“ç±»ç›®ç®¡ç†Controller
+	ËµÃ÷:    ÉÌÆ·ÀàÄ¿¹ÜÀíController
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.08.27   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.08.27   			´´½¨
 =======================================================*/
 @RestController
 @CrossOrigin
@@ -29,24 +29,24 @@ import javax.validation.constraints.Pattern;
 public class ProductCategoryManageController {
 
 
-    // æ³¨å…¥å•†å“ç±»ç›®Service
+    // ×¢ÈëÉÌÆ·ÀàÄ¿Service
     @Autowired
     private ProductCategoryManageService productCategoryManageService;
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“ç±»ç›®çš„é¦–é¡µ
+     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·ÀàÄ¿µÄÊ×Ò³
      * <p>
-     * å‚æ•°:
-     * dto              CategoryIndexManageDto              åˆ†é¡µæ•°æ®
+     * ²ÎÊı:
+     * dto              CategoryIndexManageDto              ·ÖÒ³Êı¾İ
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @RequestMapping("/index")
     public SystemResult index(HttpServletRequest request, CategoryIndexManageDto categoryIndexManageDto) {
 
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.index(k2Member, categoryIndexManageDto);
         return index;
@@ -54,37 +54,37 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ ¹æ®çˆ¶ç±»ä¿¡æ¯æŸ¥è¯¢å­ç±»çš„ç±»ç›®ä¿¡æ¯
+     * ¹¦ÄÜ:  ¸ù¾İ¸¸ÀàĞÅÏ¢²éÑ¯×ÓÀàµÄÀàÄ¿ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * parentId              String              çˆ¶ç±»ç±»ç›®çš„id
+     * ²ÎÊı:
+     * parentId              String              ¸¸ÀàÀàÄ¿µÄid
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @RequestMapping("/load/data")
-    public SystemResult loadData(@NotBlank(message = "çˆ¶ç±»diä¸èƒ½ä¸ºç©º")
+    public SystemResult loadData(@NotBlank(message = "¸¸Ààdi²»ÄÜÎª¿Õ")
                                  @Pattern(regexp = "[0-9]{1,}") String parentId) {
 
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         SystemResult index = productCategoryManageService.loadCategoryById(Integer.parseInt(parentId));
         return index;
     }
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½:  æ–°å¢å•†å“çš„ç±»ç›®ä¿¡æ¯
+     * ¹¦ÄÜ:  ĞÂÔöÉÌÆ·µÄÀàÄ¿ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * dto              AddCategoryDto              æ–°å¢çš„ç±»ç›®ä¿¡æ¯
+     * ²ÎÊı:
+     * dto              AddCategoryDto              ĞÂÔöµÄÀàÄ¿ĞÅÏ¢
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @RequestMapping("/add")
     public SystemResult add(HttpServletRequest request, @Validated AddCategoryDto dto) {
 
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.addCategory(k2Member, dto);
         return index;
@@ -93,23 +93,66 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * åŠŸèƒ½: ä¿®æ”¹å•†å“çš„ç±»ç›®ä¿¡æ¯
+     * ¹¦ÄÜ: ĞŞ¸ÄÉÌÆ·µÄÀàÄ¿ĞÅÏ¢
      * <p>
-     * å‚æ•°:
-     * dto              AddCategoryDto              ä¿®æ”¹çš„ç±»ç›®ä¿¡æ¯
-     * categoryId       String                      ä¿®æ”¹çš„ç±»ç›®id
+     * ²ÎÊı:
+     * dto              AddCategoryDto              ĞŞ¸ÄµÄÀàÄ¿ĞÅÏ¢
+     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
      * <p>
-     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
      * -----------------------------------------------------
      */
     @RequestMapping("/edit")
     public SystemResult edit(HttpServletRequest request, @Validated AddCategoryDto dto,
-                             @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
+                             @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
 
-        // è·å–ç”¨æˆ·æ•°æ®
+        // »ñÈ¡ÓÃ»§Êı¾İ
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.editCategory(k2Member, dto, Integer.parseInt(categoryId));
         return index;
     }
 
+
+    /**
+     * -----------------------------------------------------
+     * ¹¦ÄÜ: ĞŞ¸ÄÉÌÆ·µÄÀàÄ¿µÄ×´Ì¬
+     * <p>
+     * ²ÎÊı:
+     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
+     * state            String                      ±¾´ÎĞŞ¸ÄµÄ×´Ì¬
+     * <p>
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/edit/state")
+    public SystemResult editState(HttpServletRequest request,
+                                  @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId,
+                                  @NotBlank(message = "×´Ì¬²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String state) {
+
+        // »ñÈ¡ÓÃ»§Êı¾İ
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult index = productCategoryManageService.editCategoryState(k2Member, Integer.parseInt(categoryId), state);
+        return index;
+    }
+
+
+    /**
+     * -----------------------------------------------------
+     * ¹¦ÄÜ: ²é¿´ÉÌÆ·ÀàÄ¿µÄSKUĞÅÏ¢
+     * <p>
+     * ²ÎÊı:
+     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
+     * <p>
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/get/category/sku")
+    public SystemResult showCategorySku(HttpServletRequest request,
+                                        @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
+
+        // »ñÈ¡ÓÃ»§Êı¾İ
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult index = productCategoryManageService.showCategorySKUInfo(k2Member, Integer.parseInt(categoryId));
+        return index;
+    }
 }

@@ -50,7 +50,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult getSkuInfoByCId(Integer cId);
+    SystemResult getSkuInfoByCId(Integer cId , K2MemberAndElseInfo k2MemberAndElseInfo);
 
     /**
      * -----------------------------------------------------

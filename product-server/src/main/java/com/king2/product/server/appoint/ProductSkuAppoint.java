@@ -145,18 +145,22 @@ public class ProductSkuAppoint {
                 if (productSkuKey == null || productSkuKey.getSkuKeyState() != 1)
                     return new SystemResult(100, "加载失败，请刷新页面重试", null);
 
-                // 补全公共信息数据
-                K2ProductCommonskus commonskus = new K2ProductCommonskus();
-                commonskus.setCommonsSkuId(Integer.parseInt(productSkuPojo.getProductSkuKeyId()));
-                commonskus.setProductId(k2Product.getProductId());
-                k2ProductCommonskuses.add(commonskus);
-                // 本次公共的SKU值信息
-                dto.setIsSystemCreate(1);
-                dto.setProduct_sku_value(productSkuPojo.getSkuValue());
-                dto.setSkuKeyOrder(productSkuKey.getSkuKeyOrder());
-                dto.setProductSkuKeyId(productSkuKey.getProductSkuKeyId());
-                systemProductSkuDtos.add(dto);
-                continue;
+
+                // 判断是否为类目模板 如果是 才需要添加公共的信息
+                if (productSkuKey.getRetain1().equals("1")) {
+                    // 补全公共信息数据
+                    K2ProductCommonskus commonskus = new K2ProductCommonskus();
+                    commonskus.setCommonsSkuId(Integer.parseInt(productSkuPojo.getProductSkuKeyId()));
+                    commonskus.setProductId(k2Product.getProductId());
+                    k2ProductCommonskuses.add(commonskus);
+                    // 本次公共的SKU值信息
+                    dto.setIsSystemCreate(1);
+                    dto.setProduct_sku_value(productSkuPojo.getSkuValue());
+                    dto.setSkuKeyOrder(productSkuKey.getSkuKeyOrder());
+                    dto.setProductSkuKeyId(productSkuKey.getProductSkuKeyId());
+                    systemProductSkuDtos.add(dto);
+                    continue;
+                }
             }
 
             // 补全数据
@@ -170,12 +174,14 @@ public class ProductSkuAppoint {
             dto.setCreateTime(new Date());
             dto.setBelongStoreId(Integer.parseInt(k2Member.getRetain1()));
             dto.setSkuKeyOrder(++count);
+            dto.setRetain1("1");
             //SKU组的状态  ---1正常使用 2删除 3注销
             dto.setSkuKeyState(1);
             productSkuDtos.add(dto);
         }
         // 遍历完成 批量添加公共的SKU数据
-        if(!CollectionUtils.isEmpty(k2ProductCommonskuses)) productSkuKeyMapper.batchInsertCommonsSku(k2ProductCommonskuses);
+//        if (!CollectionUtils.isEmpty(k2ProductCommonskuses))
+//            productSkuKeyMapper.batchInsertCommonsSku(k2ProductCommonskuses);
 
         // 将数据封装进对象中
         ProductSkuDatas skuDatas = new ProductSkuDatas();

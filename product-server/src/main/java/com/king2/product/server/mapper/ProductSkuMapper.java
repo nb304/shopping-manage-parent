@@ -115,8 +115,22 @@ public interface ProductSkuMapper {
      * -----------------------------------------------------
      */
     @Select("SELECT product_sku_key_id,product_sku_key_name,is_system_create FROM" +
-            " k2_product_sku_key WHERE belong_category_id = #{cId} AND is_system_create = 1 AND sku_key_state = 1")
+            " k2_product_sku_key WHERE belong_category_id = #{cId} AND retain1 = 1 AND sku_key_state = 1 AND is_system_create = 1")
     List<K2ProductSkuKey> getSkuInfoByCid(Integer cId);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  通过店铺id查询商品SKU信息
+     * <p>
+     * 参数:
+     * cId          Integer         商品类目的id
+     * <p>
+     * 返回: List<K2ProductSkuKey>        类目数据
+     * -----------------------------------------------------
+     */
+    @Select("SELECT product_sku_key_id,product_sku_key_name,is_system_create FROM" +
+            " k2_product_sku_key WHERE belong_category_id = #{cId} AND retain1 = 1 AND sku_key_state = 1 AND belong_store_id = #{storedId} AND is_system_create = 2")
+    List<K2ProductSkuKey> getSkuInfoByStoreId(@Param("cId") Integer cId, @Param("storedId") Integer storeId);
 
     /**
      * 批量修改商品的SKU库存吸力小

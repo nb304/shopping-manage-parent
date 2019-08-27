@@ -104,10 +104,13 @@ public class ProductBasicsManageController {
     @GetMapping("/get/sku/info")
     @ApiOperation(value = "通过类目查询SKU信息", notes = "")
     public SystemResult getSkuInfoByCategoryId(@NotBlank(message = "类目id不能为空")
-                                               @Pattern(regexp = "[0-9]{1,}", message = "类目id的类型错误,请刷新页面重试") String categoryId) {
+                                               @Pattern(regexp = "[0-9]{1,}", message = "类目id的类型错误,请刷新页面重试") String categoryId,
+                                               HttpServletRequest request) {
 
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         // 调用服务 查询商品SKU的信息
-        SystemResult result = productBasicsManageService.getSkuInfoByCId(Integer.parseInt(categoryId));
+        SystemResult result = productBasicsManageService.getSkuInfoByCId(Integer.parseInt(categoryId), k2Member);
         return result;
     }
 

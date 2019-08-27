@@ -66,5 +66,30 @@ public interface ProductCategoryManageService {
      */
     SystemResult editCategory(K2MemberAndElseInfo k2MemberAndElseInfo, AddCategoryDto dto, Integer categoryId);
 
+    /**
+     * -----------------------------------------------------
+     * 功能:    修改商品类目的状态
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * state                        String                      类目状态
+     * categoryId                   Integer                     修改的类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult editCategoryState(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId, String state);
 
+    /**
+     * -----------------------------------------------------
+     * 功能:    显示类目的SKU信息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * categoryId                   Integer                     修改的类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult showCategorySKUInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId);
 }

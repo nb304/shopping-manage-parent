@@ -8,8 +8,10 @@ import com.king2.product.server.appoint.UserMessageAppoint;
 import com.king2.product.server.dto.AddCategoryDto;
 import com.king2.product.server.dto.CategoryIndexManageDto;
 import com.king2.product.server.dto.ProductCatrgorySiJieDto;
+import com.king2.product.server.dto.ShowCategoryOfSkuInfo;
 import com.king2.product.server.enmu.K2ProductCategoryEnum;
 import com.king2.product.server.mapper.CategoryManageMapper;
+import com.king2.product.server.mapper.ProductSkuMapper;
 import com.king2.product.server.service.ProductCategoryManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +49,10 @@ public class ProductCategoryManageServiceImpl implements ProductCategoryManageSe
     // 注入远程的商品类目Mapper
     @Autowired
     private K2ProductCategoryMapper k2ProductCategoryMapper;
+
+    // 注入商品sku-key的mapper
+    @Autowired
+    private ProductSkuMapper productSkuMapper;
 
     /**
      * -----------------------------------------------------
@@ -250,5 +256,112 @@ public class ProductCategoryManageServiceImpl implements ProductCategoryManageSe
         }
 
         return new SystemResult("ok");
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:    修改商品类目的状态
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * state                        String                      类目状态
+     * categoryId                   Integer                     修改的类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult editCategoryState(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId, String state) {
+
+        SystemResult result = editCheckCategoryInfo(k2MemberAndElseInfo, categoryId, state);
+        if (result.getStatus() != 200) return result;
+
+        // 说明校验通过 获取类目的信息
+        K2ProductCategory k2ProductCategory = (K2ProductCategory) result.getData();
+
+        // 发送SQL修改类目信息
+        k2ProductCategoryMapper.updateByPrimaryKeySelective(k2ProductCategory);
+        return new SystemResult("ok");
+    }
+
+    /**
+     * 修改类目时，查看类目信息是否符合
+     *
+     * @param k2MemberAndElseInfo
+     * @param categoryId
+     * @param state
+     * @return
+     */
+    public SystemResult editCheckCategoryInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId, String state) {
+
+        // 校验该角色是否可以进行修改类目的状态
+        boolean flag = false;
+        for (K2Role k2Role : k2MemberAndElseInfo.getK2Roles()) {
+            if (SYSTEM_ROLE_PROVE.equals(k2Role.getRetain1())) {
+                flag = true;
+            }
+        }
+        if (!flag) return new SystemResult(100, "你暂时没有权限");
+
+        // 校验该类目是否存在
+        K2ProductCategory k2ProductCategory = k2ProductCategoryMapper.selectByPrimaryKey(categoryId);
+        if (k2ProductCategory == null) return new SystemResult(100, "类目信息不存在");
+
+        // 判断本次的状态是否正常
+        if (!state.equals(K2ProductCategoryEnum.ZC.getValue() + "") && !state.equals(K2ProductCategoryEnum.TY.getValue() + "")) {
+            return new SystemResult(100, "本次状态码错误");
+        }
+
+
+        // 通过就设置值
+        k2ProductCategory.setCategoryState(Integer.parseInt(state));
+        k2ProductCategory.setCategoryUpdateUserid(k2MemberAndElseInfo.getK2Member().getMemberId());
+
+        return new SystemResult(k2ProductCategory);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:    显示类目的SKU信息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * categoryId                   Integer                     修改的类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult showCategorySKUInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId) {
+
+        // 创建返回的数据
+        ShowCategoryOfSkuInfo skuInfo = new ShowCategoryOfSkuInfo();
+
+        // 根据用户的角色判断是否需要查询店铺的SKU信息
+        boolean flag = false;
+        for (K2Role k2Role : k2MemberAndElseInfo.getK2Roles()) {
+            if (SYSTEM_ROLE_PROVE.equals(k2Role.getRetain1())) {
+                flag = true;
+            }
+        }
+
+        // 查询系统定义好的SKU信息
+        List<K2ProductSkuKey> skuInfoByCid = productSkuMapper.getSkuInfoByCid(categoryId);
+        skuInfo.setSystemSkuInfo(skuInfoByCid);
+
+        if (flag) {
+            // 需要查询店铺+系统定义好的
+            skuInfo.setEditSystemFlag(true);
+            skuInfo.setShowUserInfoFlag(false);
+        } else {
+            // 这里说明 登入的用户不是超级管理员 需要对外暴露系统+他们自己定义的SKU信息 不过系统定义好的SKU信息是不能删除的
+            skuInfo.setEditSystemFlag(false);
+            skuInfo.setShowUserInfoFlag(true);
+            // 查询用户定义好的SKU信息
+            List<K2ProductSkuKey> skuInfoByStoreId = productSkuMapper.getSkuInfoByStoreId(categoryId, Integer.parseInt(k2MemberAndElseInfo.getK2Member().getRetain1()));
+            skuInfo.setUserSkuInfo(skuInfoByStoreId);
+        }
+        // 首先查询系统定义好的
+        return new SystemResult(skuInfo);
     }
 }
