@@ -19,7 +19,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = {"com.king2.product.server.*", "com.king2.commons.getnumber"})
 public class ProductServerApplication {
 
+
     public static void main(String[] args) {
+
         SpringApplication.run(ProductServerApplication.class, args);
     }
 

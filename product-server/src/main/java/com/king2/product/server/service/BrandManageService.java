@@ -66,5 +66,19 @@ public interface BrandManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult editBrandInfo(Integer brandId,  String brandName ,K2MemberAndElseInfo k2MemberAndElseInfo );
+    SystemResult editBrandInfo(Integer brandId, String brandName, K2MemberAndElseInfo k2MemberAndElseInfo);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  修改品牌的状态
+     * <p>
+     * 参数:
+     * state                Integer         品牌状态
+     * k2MemberAndElseInfo      K2MemberAndElseInfo 操作的用户信息
+     * brandId              Integer         品牌id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult editBrandState(K2MemberAndElseInfo k2MemberAndElseInfo, Integer brandId, Integer state);
 }

@@ -92,9 +92,6 @@ public class ProductIndexAppoint {
                 }
                 // ≈≈–Ú
                 ProductInfoSort.speedinessSortByState(dtos);
-                for (ProductInfoToRedisDataDto productInfoToRedisDataDto : dtos) {
-                    System.out.println(productInfoToRedisDataDto.getBrandName());
-                }
                 showProductIndexDto.setProductInfoToRedisDataDtos(dtos);
             } else {
                 showProductIndexDto = new ShowProductIndexDto();

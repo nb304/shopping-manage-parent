@@ -115,4 +115,26 @@ public class BrandManageController {
         SystemResult result = brandManageService.editBrandInfo(Integer.parseInt(brandId), brandName, k2Member);
         return result;
     }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  修改品牌的状态
+     * <p>
+     * 参数:
+     * brandName            String                  品牌名称
+     * brandID              String                 操作的品牌Id
+     * state                String                  本次修改的状态
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @PostMapping("/edit/state")
+    public SystemResult editState(HttpServletRequest request, @NotBlank(message = "品牌名称id为空") @Pattern(regexp = "[0-9]{1,}") String brandId,
+                                  @NotBlank(message = "品牌名称id为空") @Pattern(regexp = "[0-9]{1,}") String state) {
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult result = brandManageService.editBrandState(k2Member, Integer.parseInt(brandId), Integer.parseInt(state));
+        return result;
+    }
 }

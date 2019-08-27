@@ -14,10 +14,14 @@ import com.king2.product.server.appoint.BrandManageAppoint;
 import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductUploadImageAppoint;
 import com.king2.product.server.appoint.UserMessageAppoint;
+import com.king2.product.server.controller.TestDemoController;
 import com.king2.product.server.dto.BrandIndexManageDto;
 import com.king2.product.server.enmu.K2ProductBrandEnum;
+import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.mapper.BrandManageMapper;
 import com.king2.product.server.service.BrandManageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -43,6 +47,7 @@ import java.util.UUID;
   	俞烨		2019.08.25   			创建
 =======================================================*/
 @Service
+@SuppressWarnings("all")
 public class BrandManageServiceImpl implements BrandManageService {
 
     // 注入商品品牌Mapper
@@ -76,9 +81,9 @@ public class BrandManageServiceImpl implements BrandManageService {
     // 注入上传的委托类
     @Autowired
     private ProductUploadImageAppoint productUploadImageAppoint;
-    // 注入数据库操作次数的Mapper
-    @Autowired
-    private K2CurrentDayHandleSqlSizeMapper k2CurrentDayHandleSqlSizeMapper;
+    // 注入系统超级管理员标识
+    @Value("${SYSTEM_ROLE_PROVE}")
+    private String SYSTEM_ROLE_PROVE;
     // 注入商品Mapper
     @Autowired
     private K2ProductMapper k2ProductMapper;
@@ -86,6 +91,8 @@ public class BrandManageServiceImpl implements BrandManageService {
     private TransactionDefinition transactionDefinition;
     @Autowired
     private PlatformTransactionManager platformTransactionManager;
+
+    protected static final Logger logger = LoggerFactory.getLogger(BrandManageServiceImpl.class);
 
     /**
      * -----------------------------------------------------
@@ -225,10 +232,11 @@ public class BrandManageServiceImpl implements BrandManageService {
             brandMapper.updateByPrimaryKeySelective(k2ProductBrand);
 
         } catch (Exception e) {
+            logger.error("上传图片到MINIO服务器上出错,请尽快检查问题,报错信息:" + e);
             e.printStackTrace();
             // 发生异常就要给管理员发送信息。。
             UserMessageAppoint.addMessageGotoMysql("上传图片到MINIO服务器上出错,请尽快检查问题", 1, k2MessageMapper);
-            return new SystemResult(100,"上传失败,请联系管理员");
+            return new SystemResult(100, "上传失败,请联系管理员");
         }
 
         return new SystemResult(url);
@@ -289,6 +297,48 @@ public class BrandManageServiceImpl implements BrandManageService {
     }
 
     /**
+     * -----------------------------------------------------
+     * 功能:  修改品牌的状态
+     * <p>
+     * 参数:
+     * state                Integer         品牌状态
+     * k2MemberAndElseInfo      K2MemberAndElseInfo 操作的用户信息
+     * brandId              Integer         品牌id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult editBrandState(K2MemberAndElseInfo k2MemberAndElseInfo, Integer brandId, Integer state) {
+
+        // 校验品牌信息
+        SystemResult result = checkBrandInfo(brandId, k2MemberAndElseInfo);
+        if (result.getStatus() != 200) {
+            return result;
+        } else if (!state.toString().equals(K2ProductBrandEnum.ZC.getValue() + "") &&
+                !state.toString().equals(K2ProductBrandEnum.DEL.getValue() + "")) { // 校验状态是否正确
+            return new SystemResult(100, "请勿跨浏览器操作");
+        }
+
+        // 查询该品牌的信息是否被商品引用
+        K2ProductExample example = new K2ProductExample();
+        example.createCriteria().andProductBrandIdEqualTo(brandId).andProductStateNotEqualTo(ProductStateEnum.DEL.getValue());
+        List<K2ProductWithBLOBs> k2ProductWithBLOBs = k2ProductMapper.selectByExampleWithBLOBs(example);
+        if (!CollectionUtils.isEmpty(k2ProductWithBLOBs)) return new SystemResult(100, "该品牌暂时不能删除,因为有些商品使用了该品牌。");
+
+        // 校验成功取出品牌信息
+        K2ProductBrand k2ProductBrand = (K2ProductBrand) result.getData();
+
+        // 修改品牌信息
+        k2ProductBrand.setBrandState(state);
+        k2ProductBrand.setBrandUpdateTime(new Date());
+        k2ProductBrand.setBrandUpdateUserid(k2MemberAndElseInfo.getK2Member().getMemberId());
+        k2ProductBrand.setBrandUpdateUsername(k2MemberAndElseInfo.getK2Member().getMemberAccount());
+        brandMapper.updateByPrimaryKeySelective(k2ProductBrand);
+        return new SystemResult("ok");
+    }
+
+    /**
      * 校验品牌的基本信息
      *
      * @param brandId
@@ -299,6 +349,12 @@ public class BrandManageServiceImpl implements BrandManageService {
         // 查询品牌信息是否存在
         K2ProductBrand k2ProductBrand = brandMapper.selectByPrimaryKey(brandId);
         if (k2ProductBrand == null) return new SystemResult(100, "品牌信息为空");
+
+        // 判断是否是系统超级管理员
+        for (int i = 0; i < k2MemberAndElseInfo.getK2Roles().size(); i++) {
+            k2MemberAndElseInfo.getK2Roles().get(i).getRetain1().equals(SYSTEM_ROLE_PROVE);
+            return new SystemResult(k2ProductBrand);
+        }
 
         // 判断该品牌是否属于该店家
         if (!k2ProductBrand.getBrandStoreId().toString().equals(k2MemberAndElseInfo.getK2Member().getRetain1())) {

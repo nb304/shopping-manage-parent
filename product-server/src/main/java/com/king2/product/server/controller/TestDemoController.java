@@ -15,6 +15,8 @@ import com.king2.product.server.pojo.ProductSkuPojo;
 import com.sun.net.ssl.HttpsURLConnection;
 import io.minio.MinioClient;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -48,20 +50,42 @@ public class TestDemoController {
 
     @Autowired
     private TestNumber testNumber;
+    protected static final Logger logger = LoggerFactory.getLogger(TestDemoController.class);
 
     @RequestMapping("/tt")
     public void test() {
 
-        testNumber.test();
-        System.out.println();
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("出错" + e);
+            System.out.println(Arrays.toString(e.getStackTrace()));
+
+            System.out.println(e);
+        }
+        System.out.println("项目启动了");
     }
 
 
+    public static void main(String[] args) {
 
+        List<Integer> test = new ArrayList<>();
+        for(int i = 0 ; i < 10000000; i++) {
+            test.add(i);
+        }
 
+        long l = System.currentTimeMillis();
+        int i = 0;
+        test.forEach((n) -> {
+            if(n < 100000) {
+                System.out.println(n);
+            }
+        });
+        long s = System.currentTimeMillis();
 
-
-
+        System.out.println(s - l);
+    }
 
 
 
