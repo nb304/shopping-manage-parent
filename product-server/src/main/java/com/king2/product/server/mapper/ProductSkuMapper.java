@@ -29,8 +29,8 @@ public interface ProductSkuMapper {
      * -----------------------------------------------------
      */
     @Insert("<script>" +
-            "INSERT INTO k2_product_sku_key(`product_sku_key_name`,`belong_product_id`,`belong_category_id`" +
-            ",`is_system_create`,`create_userid`,`belong_store_id`,`sku_key_state`,`create_time`,`sku_key_order` , `retain1`)" +
+            "INSERT INTO k2_product_sku_key(`product_sku_key_name`,`belong_product_id`,`belong_category_id`," +
+            "`is_system_create`,`create_userid`,`belong_store_id`,`sku_key_state`,`create_time`,`sku_key_order`,`retain1`)" +
             "VALUES" +
             "<foreach collection='list' item='item' separator=','>" +
             "<if test='item.isSystemCreate != 1'>" +
@@ -41,6 +41,29 @@ public interface ProductSkuMapper {
             "</script>")
     @Options(useGeneratedKeys = true, keyProperty = "productSkuKeyId")
     void batchInsertSkuKey(@Param("list") List<ProductSkuDto> productSkuDtos);
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  批量添加Sku-key的数据
+     * <p>
+     * 参数:
+     * productSkuDtos          List<ProductSkuDto>            SKUPOJO的数据集合
+     * <p>
+     * 返回: void
+     * -----------------------------------------------------
+     */
+    @Insert("<script>" +
+            "INSERT INTO k2_product_sku_key(`product_sku_key_name`,`belong_product_id`,`belong_category_id`," +
+            "`is_system_create`,`create_userid`,`belong_store_id`,`sku_key_state`,`create_time`,`sku_key_order`,`retain1`)" +
+            "VALUES" +
+            "<foreach collection='list' item='item' separator=','>" +
+            "(#{item.productSkuKeyName},#{item.belongProductId},#{item.belongCategoryId},#{item.isSystemCreate}," +
+            "#{item.createUserid},#{item.belongStoreId},#{item.skuKeyState},#{item.createTime},#{item.skuKeyOrder},#{item.retain1})" +
+            "</foreach>" +
+            "</script>")
+    @Options(useGeneratedKeys = true, keyProperty = "productSkuKeyId")
+    void batchInsertSkuKeyOrIsSystemCreate(@Param("list") List<ProductSkuDto> productSkuDtos);
 
     /**
      * -----------------------------------------------------

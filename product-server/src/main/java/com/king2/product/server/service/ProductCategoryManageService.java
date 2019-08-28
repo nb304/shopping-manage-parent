@@ -106,4 +106,17 @@ public interface ProductCategoryManageService {
      * -----------------------------------------------------
      */
     SystemResult manageAndAddCategoryOfSkuInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId, String skuInfoJson);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:    删除SKU的信息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * skuId                        Integer                     删除的skuId
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult delSkuInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer skuId);
 }

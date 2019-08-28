@@ -9,6 +9,7 @@ import com.king2.product.server.appoint.ProductCategoryAppoint;
 import com.king2.product.server.appoint.UserMessageAppoint;
 import com.king2.product.server.dto.*;
 import com.king2.product.server.enmu.K2ProductCategoryEnum;
+import com.king2.product.server.enmu.K2ProductSkuKeyEnum;
 import com.king2.product.server.mapper.CategoryManageMapper;
 import com.king2.product.server.mapper.ProductSkuMapper;
 import com.king2.product.server.service.ProductCategoryManageService;
@@ -400,7 +401,7 @@ public class ProductCategoryManageServiceImpl implements ProductCategoryManageSe
 
         // 查看SKU最大的排序
         Integer maxOrder = productSkuMapper.skuMaxOrder(categoryId);
-
+        maxOrder = maxOrder == null ? 0 : maxOrder;
         // 定义返回的Result
         SystemResult result = null;
         if (flag) {
@@ -414,10 +415,10 @@ public class ProductCategoryManageServiceImpl implements ProductCategoryManageSe
 
             // 查看该店铺自己添加了多少个SKU信息
             K2ProductSkuKeyExample example = new K2ProductSkuKeyExample();
-            example.createCriteria().andIsSystemCreateNotEqualTo(2)
+            example.createCriteria().andIsSystemCreateNotEqualTo(K2ProductSkuKeyEnum.SYSTEM_FLAG_NO.getValue())
                     .andBelongStoreIdEqualTo(Integer.parseInt(k2MemberAndElseInfo.getK2Member().getRetain1()))
-                    .andRetain1EqualTo("1")
-                    .andSkuKeyStateEqualTo(1);
+                    .andRetain1EqualTo(K2ProductSkuKeyEnum.IS_TEMPLATE.getValue() + "")
+                    .andSkuKeyStateEqualTo(K2ProductSkuKeyEnum.ZCSY.getValue());
             List<K2ProductSkuKey> skuKeys = k2ProductSkuKeyMapper.selectByExample(example);
             // 查询该店铺还有多少次添加商品SKU的机会
             if (CollectionUtils.isEmpty(skuKeys)) {
@@ -440,8 +441,48 @@ public class ProductCategoryManageServiceImpl implements ProductCategoryManageSe
         List<ProductSkuDto> skuSplit = (List<ProductSkuDto>) result.getData();
 
         // 批量插入数据
-        if (!CollectionUtils.isEmpty(skuSplit)) productSkuMapper.batchInsertSkuKey(skuSplit);
+        if (!CollectionUtils.isEmpty(skuSplit)) productSkuMapper.batchInsertSkuKeyOrIsSystemCreate(skuSplit);
 
         return new SystemResult(skuSplit);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:    删除SKU的信息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * skuId                        Integer                     删除的skuId
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult delSkuInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer skuId) {
+
+        // 查看当前用户是否是管理员
+        boolean flag = false;
+        for (K2Role k2Role : k2MemberAndElseInfo.getK2Roles()) {
+            if (SYSTEM_ROLE_PROVE.equals(k2Role.getRetain1())) {
+                flag = true;
+            }
+        }
+
+        // 查看SKU的信息是否存在
+        K2ProductSkuKey productSkuKey = k2ProductSkuKeyMapper.selectByPrimaryKey(skuId);
+        if (productSkuKey == null) return new SystemResult(100, "您删除的SKU信息还未保存,如果已经保存请刷新页面重试");
+
+
+        // 查看当前的用户是否删除系统定义好的 如果用户不是超级管理员 则不让他删除
+        if (productSkuKey.getIsSystemCreate() == 1 && !flag) {
+            return new SystemResult(100, "您暂时没有权利删除系统定义好的模板");
+        }
+
+        // 修改商品类目的SKU状态
+        productSkuKey.setSkuKeyState(K2ProductSkuKeyEnum.DEL.getValue());
+        k2ProductSkuKeyMapper.updateByPrimaryKeySelective(productSkuKey);
+
+        // 发送日志
+        return new SystemResult("ok");
     }
 }

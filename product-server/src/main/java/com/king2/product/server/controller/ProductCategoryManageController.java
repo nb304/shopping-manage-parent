@@ -155,4 +155,49 @@ public class ProductCategoryManageController {
         SystemResult index = productCategoryManageService.showCategorySKUInfo(k2Member, Integer.parseInt(categoryId));
         return index;
     }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能: 查看商品类目的SKU信息
+     * <p>
+     * 参数:
+     * categoryId       String                      修改的类目id
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/add/category/sku")
+    public SystemResult addCategorySku(HttpServletRequest request,
+                                       @NotBlank(message = "类目id不能为空") @Pattern(regexp = "[0-9]{1,}") String categoryId,
+                                       @NotBlank(message = "商品类目SKU不能为空") String skuInfoJson) {
+
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult index = productCategoryManageService
+                .manageAndAddCategoryOfSkuInfo(k2Member, Integer.parseInt(categoryId), skuInfoJson);
+        return index;
+    }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能: 删除商品类目的SKU信息
+     * <p>
+     * 参数:
+     * skuId       String                     删除的SKUid
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/del/category/sku")
+    public SystemResult delCategorySku(HttpServletRequest request,
+                                       @NotBlank(message = "类目id不能为空") @Pattern(regexp = "[0-9]{1,}") String skuId) {
+
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult index = productCategoryManageService
+                .delSkuInfo(k2Member, Integer.parseInt(skuId));
+        return index;
+    }
 }
