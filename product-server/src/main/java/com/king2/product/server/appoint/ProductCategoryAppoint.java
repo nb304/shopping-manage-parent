@@ -1,17 +1,22 @@
 package com.king2.product.server.appoint;
 
 import com.king2.commons.mapper.K2ProductCategoryMapper;
+import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2ProductCategory;
 import com.king2.commons.pojo.K2ProductCategoryExample;
+import com.king2.commons.pojo.K2ProductSkuKey;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductCategoryDto;
+import com.king2.product.server.dto.ProductSkuDto;
 import com.king2.product.server.dto.ShowProductAddPageDto;
 import com.king2.product.server.enmu.ProductEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*=======================================================
@@ -100,7 +105,8 @@ public class ProductCategoryAppoint {
             categoryExample.clear();
             categoryExample.createCriteria().andCategoryIsParentEqualTo(ProductEnum.PRODUCT_TWO_CATEGORY)
                     .andCategoryParentIdEqualTo(k2ProductCategory.getCategoryId())
-                    .andCategoryStateEqualTo(ProductEnum.PRODUCT_CATEGORY_TYPE1);;
+                    .andCategoryStateEqualTo(ProductEnum.PRODUCT_CATEGORY_TYPE1);
+            ;
             List<K2ProductCategory> k2ProductTwoCategories = k2ProductCategoryMapper.selectByExample(categoryExample);
 
             // 查询是否存在子类目
@@ -126,6 +132,57 @@ public class ProductCategoryAppoint {
 
         productCategoryDto.setProductCategorys(productCategoryDtos);
         return new SystemResult(productCategoryDto);
+    }
+
+    /**
+     * -----------------------------------------------------
+     * 功能:   校验类目的SKU信息模板是否正确
+     * <p>
+     * 参数:
+     * skuJsons         String         skuJson串
+     * flag             boolean        当前登入的用户是否是管理员
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    public SystemResult checkCategorySkuInfoAndReturnSkuLists(String skuJsons, boolean flag, Integer residueSize,
+                                                              Integer categoryId, K2Member k2Member, Integer order) {
+
+        // 判断JSON是否为空
+        if (StringUtils.isEmpty(skuJsons)) return new SystemResult(100, "请添加一个SKU信息");
+
+        // SKU信息存在 我们通过,将他分割
+        String[] skuSplit = skuJsons.split(",");
+        // 判断SKU的个数
+        if (skuSplit.length < 1 || (!flag && skuSplit.length > residueSize)) {
+            return new SystemResult(100, "剩余自己定义的次数为:" + residueSize + "，若不能满足您的要求，请联系管理员");
+        }
+
+
+        // 创建返回的SKU信息集合
+        List<ProductSkuDto> keys = new ArrayList<>();
+
+        // 查看SKU数据是否正确
+        for (String s : skuSplit) {
+            if (StringUtils.isEmpty(s)) {
+                return new SystemResult(100, "请将SKU信息填写完整");
+            } else if (s.length() > 50) {
+                return new SystemResult(100, "SKU的名称为1-50字符");
+            }
+            ProductSkuDto skuKey = new ProductSkuDto();
+            skuKey.setBelongCategoryId(categoryId);
+            skuKey.setProductSkuKeyName(s);
+            skuKey.setIsSystemCreate(flag ? 1 : 2);
+            skuKey.setCreateUserid(k2Member.getMemberId());
+            skuKey.setBelongStoreId(flag ? null : Integer.parseInt(k2Member.getRetain1()));
+            skuKey.setSkuKeyState(1);
+            skuKey.setSkuKeyOrder(order++);
+            skuKey.setCreateTime(new Date());
+            skuKey.setRetain1("1");
+            keys.add(skuKey);
+        }
+
+        return new SystemResult(keys);
     }
 
 }

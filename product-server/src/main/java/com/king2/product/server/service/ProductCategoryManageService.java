@@ -92,4 +92,18 @@ public interface ProductCategoryManageService {
      * -----------------------------------------------------
      */
     SystemResult showCategorySKUInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:    管理并添加类目的SKU信息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo          K2MemberAndElseInfo         操作的用户信息
+     * categoryId                   Integer                     修改的类目id
+     * skuInfoJson                  String                      新添加的SKU串
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult manageAndAddCategoryOfSkuInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer categoryId, String skuInfoJson);
 }

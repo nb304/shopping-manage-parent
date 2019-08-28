@@ -30,12 +30,12 @@ public interface ProductSkuMapper {
      */
     @Insert("<script>" +
             "INSERT INTO k2_product_sku_key(`product_sku_key_name`,`belong_product_id`,`belong_category_id`" +
-            ",`is_system_create`,`create_userid`,`belong_store_id`,`sku_key_state`,`create_time`,`sku_key_order`)" +
+            ",`is_system_create`,`create_userid`,`belong_store_id`,`sku_key_state`,`create_time`,`sku_key_order` , `retain1`)" +
             "VALUES" +
             "<foreach collection='list' item='item' separator=','>" +
             "<if test='item.isSystemCreate != 1'>" +
             "(#{item.productSkuKeyName},#{item.belongProductId},#{item.belongCategoryId},#{item.isSystemCreate}," +
-            "#{item.createUserid},#{item.belongStoreId},#{item.skuKeyState},#{item.createTime},#{item.skuKeyOrder})" +
+            "#{item.createUserid},#{item.belongStoreId},#{item.skuKeyState},#{item.createTime},#{item.skuKeyOrder},#{item.retain1})" +
             "</if>" +
             "</foreach>" +
             "</script>")
@@ -145,4 +145,13 @@ public interface ProductSkuMapper {
             "</foreach>  " +
             "</script>")
     void batchUpdate(@Param("list") List<K2ProductSkuPriceandkc> k2ProductSkuPriceandkcs);
+
+    /**
+     * 查询系统最大的SKU排序
+     *
+     * @param category
+     * @return
+     */
+    @Select("SELECT MAX(sku_key_order) FROM k2_product_sku_key WHERE belong_category_id = #{categoryId} AND is_system_create = 1")
+    Integer skuMaxOrder(Integer category);
 }
