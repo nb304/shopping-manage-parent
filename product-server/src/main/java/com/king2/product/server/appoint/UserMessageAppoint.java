@@ -72,7 +72,7 @@ public class UserMessageAppoint {
      * @param userId          用户id
      * @param k2MessageMapper 消息Mapper
      */
-    public static void addMessageGotoMysql(String message, Integer userId, K2MessageMapper k2MessageMapper) {
+    public static void addMessageGotoMysql(String message, Integer userId, K2MessageMapper k2MessageMapper) throws Exception {
         K2Message k2Message = new K2Message();
         k2Message.setUserId(userId);
         k2Message.setMessageContent(message);

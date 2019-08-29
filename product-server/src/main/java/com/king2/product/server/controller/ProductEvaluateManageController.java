@@ -3,6 +3,7 @@ package com.king2.product.server.controller;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductEvaluateIndexDto;
+import com.king2.product.server.pojo.ProductEvaluatePortPojo;
 import com.king2.product.server.service.ProductEvaluateManageService;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,28 @@ public class ProductEvaluateManageController {
         // 获取用户数据
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productEvaluateManageService.replyContent(Integer.parseInt(evalId), k2Member, content);
+        return index;
+    }
+
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  举报内容
+     * <p>
+     * 参数:
+     * evalId           String          回复的评价id
+     * content          String          回复的内容
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/report")
+    public SystemResult report(
+            @Validated ProductEvaluatePortPojo productEvaluatePortPojo, HttpServletRequest request) {
+
+        // 获取用户数据
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult index = productEvaluateManageService.reportEvaluate(productEvaluatePortPojo, k2Member);
         return index;
     }
 }

@@ -3,6 +3,7 @@ package com.king2.product.server.service;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.ProductEvaluateIndexDto;
+import com.king2.product.server.pojo.ProductEvaluatePortPojo;
 
 /*=======================================================
 	说明:   商品评价管理Service
@@ -39,4 +40,17 @@ public interface ProductEvaluateManageService {
      * -----------------------------------------------------
      */
     SystemResult replyContent(Integer evaId, K2MemberAndElseInfo k2MemberAndElseInfo, String content);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  举报评价
+     * <p>
+     * 参数:
+     * productEvaluatePortPojo         ProductEvaluatePortPojo              商品评价的举报POJO
+     * k2MemberAndElseInfo             K2MemberAndElseInfo                  操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult reportEvaluate(ProductEvaluatePortPojo productEvaluatePortPojo, K2MemberAndElseInfo k2MemberAndElseInfo);
 }

@@ -46,6 +46,7 @@ public class ShoppingNumberManage {
      * size      编号的长度
      * restTemplate 远程调用模板
      * servletUrl 远程服务器地址
+     * type      缓存服务器里面的Key
      */
     public ShoppingNumberManage(ShoppingNumberPojo shoppingNumberPojo, String type) {
         // 校验数据

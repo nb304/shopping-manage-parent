@@ -1,24 +1,35 @@
 package com.king2.product.server.service.impl;
 
+import com.king2.commons.mapper.K2MessageMapper;
 import com.king2.commons.mapper.K2ProductEvaluateMapper;
+import com.king2.commons.mapper.K2UserFeedbackMapper;
 import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.UserMessageAppoint;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.dto.ProductEvaluateIndexDto;
 import com.king2.product.server.enmu.K2ProductEvaluateEnum;
+import com.king2.product.server.enmu.ProductEvaluateReportEnum;
 import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.enmu.UserFeedbackEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductEvaluateMapper;
 import com.king2.product.server.pojo.ProductEvaluatePojo;
+import com.king2.product.server.pojo.ProductEvaluatePortPojo;
+import com.king2.product.server.pojo.ProductEvaluateRePortStatePojo;
 import com.king2.product.server.service.ProductEvaluateManageService;
+import com.king2.product.server.utlis.GetNumberByType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +55,20 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
     @Autowired
     private K2ProductEvaluateMapper k2ProductEvaluateMapper;
 
+    // 注入用户反馈信息Mapper
+    @Autowired
+    private K2UserFeedbackMapper k2UserFeedbackMapper;
+    // 注入消息Mapper
+    @Autowired
+    private K2MessageMapper k2MessageMapper;
+    // 注入编号工具类
+    @Autowired
+    private GetNumberByType getNumberByType;
+
+    private static final String FEEDBACK_NUMBER_TYPE = "FEEDBACK_NUMBER_TYPE";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductEvaluateManageServiceImpl.class);
+
     /**
      * -----------------------------------------------------
      * 功能:  显示商品评价的首页
@@ -56,7 +81,21 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
      * -----------------------------------------------------
      */
     @Override
+
     public SystemResult index(ProductEvaluateIndexDto evaluateIndexDto, K2MemberAndElseInfo k2MemberAndElseInfo) {
+
+
+        // 获取举报类型
+        // 创建举报类型集合
+        List<ProductEvaluateRePortStatePojo> productEvaluateRePortStatePojos = new ArrayList<>();
+        for (ProductEvaluateReportEnum value : ProductEvaluateReportEnum.values()) {
+            ProductEvaluateRePortStatePojo productEvaluateRePortStatePojo = new ProductEvaluateRePortStatePojo();
+            productEvaluateRePortStatePojo.setReportName(value.getKey());
+            productEvaluateRePortStatePojo.setReportValue(value.getValue() + "");
+            productEvaluateRePortStatePojos.add(productEvaluateRePortStatePojo);
+        }
+
+        evaluateIndexDto.setRePortStatePojos(productEvaluateRePortStatePojos);
 
         // 查看用户是否是管理员 如果是管理员 就查询该系统的评价信息
         Boolean adminRole = isAdminRole(SYSTEM_ROLE_PROVE, k2MemberAndElseInfo);
@@ -142,7 +181,7 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
                     .andRetain1IsNull();
             List<K2ProductEvaluateWithBLOBs> k2ProductEvaluates = k2ProductEvaluateMapper.selectByExampleWithBLOBs(example);
 
-            if (CollectionUtils.isEmpty(k2ProductEvaluates)) return new SystemResult(100,"该评价已被删除或以回复");
+            if (CollectionUtils.isEmpty(k2ProductEvaluates)) return new SystemResult(100, "该评价已被删除或以回复");
             K2ProductEvaluateWithBLOBs k2ProductEvaluate = k2ProductEvaluates.get(0);
 
             // 设置值
@@ -164,6 +203,90 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
     }
 
     /**
+     * -----------------------------------------------------
+     * 功能:  举报评价
+     * <p>
+     * 参数:
+     * productEvaluatePortPojo         ProductEvaluatePortPojo              商品评价的举报POJO
+     * k2MemberAndElseInfo             K2MemberAndElseInfo                  操作的用户信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SystemResult reportEvaluate(ProductEvaluatePortPojo productEvaluatePortPojo, K2MemberAndElseInfo k2MemberAndElseInfo) {
+
+        // 校验状态
+        SystemResult result = checkReportState(productEvaluatePortPojo);
+        if (result.getStatus() != 200) return result;
+
+        // 查看商品评价是否存在
+        K2ProductEvaluateWithBLOBs k2ProductEvaluateWithBLOBs = k2ProductEvaluateMapper.selectByPrimaryKey(productEvaluatePortPojo.getReportEvId());
+        if (k2ProductEvaluateWithBLOBs == null) return new SystemResult(100, "评价不存在,请刷新页面");
+
+        // 查看该评价是否属于该用户
+        if (!k2ProductEvaluateWithBLOBs.getBelongStoreId().toString().equals(k2MemberAndElseInfo.getK2Member().getRetain1())) {
+            return new SystemResult(100, "请勿修改别人的评价信息");
+        }
+
+        // 插入反馈信息
+        SystemResult result1 = insertUserFeedback(productEvaluatePortPojo, k2MemberAndElseInfo, result.getData() + "");
+
+        // 判断是否插入成功
+        if (result1.getStatus() != 200) return result1;
+
+        // 插入成功给用户发送信息
+        try {
+            UserMessageAppoint.addMessageGotoMysql
+                    ("您的举报已提交成功,举报的内容:'" + productEvaluatePortPojo.getReportContent() + "',举报类型:'" + result.getData() + "' , 本次举报的编号为:'" + result1.getData() + "',如有后续疑问请联系管理员。"
+                            , k2MemberAndElseInfo.getK2Member().getMemberId(), k2MessageMapper);
+        } catch (Exception e) {
+            LOGGER.error("给用户发送信息出错，错误信息:" + e);
+            throw new RuntimeException("系统异常");
+        }
+
+
+        return new SystemResult("ok");
+    }
+
+    /**
+     * 插入用户信息
+     *
+     * @param productEvaluatePortPojo
+     * @param k2MemberAndElseInfo
+     * @param msg
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public SystemResult insertUserFeedback(ProductEvaluatePortPojo productEvaluatePortPojo, K2MemberAndElseInfo k2MemberAndElseInfo, String msg) {
+        // 插入新的用户反馈信息
+        K2UserFeedback userFeedback = new K2UserFeedback();
+        userFeedback.setCreateTime(new Date());
+        // 获取反馈编号
+        String number = "";
+        try {
+            SystemResult fe = getNumberByType.getNumber(FEEDBACK_NUMBER_TYPE, 30, "FE");
+            number = fe.getData() + "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("获取反馈编号出错,错误信息:" + e);
+            return new SystemResult(100, "系统正忙,请稍后重试");
+        }
+
+        userFeedback.setUserFeedbackNumber(number);
+        userFeedback.setUserId(k2MemberAndElseInfo.getK2Member().getMemberId());
+        userFeedback.setUserName(k2MemberAndElseInfo.getK2Member().getMemberAccount());
+        userFeedback.setUserConnection(k2MemberAndElseInfo.getK2Member().getMemberEmail());
+        userFeedback.setFeedbackContent(productEvaluatePortPojo.getReportContent() + "---举报类型为:" + msg);
+        userFeedback.setUserFeedbackState(UserFeedbackEnum.CLZ.getValue());
+
+        // 插入反馈信息
+        k2UserFeedbackMapper.insert(userFeedback);
+        return new SystemResult(number);
+    }
+
+    /**
      * 校验登入的用户是否是管理员
      *
      * @param SYSTEM_ROLE_PROVE
@@ -182,6 +305,31 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
         }
 
         return false;
+    }
+
+
+    /**
+     * 校验举报的状态是否正确
+     *
+     * @param productEvaluatePortPojo
+     * @return
+     */
+    public static SystemResult checkReportState(ProductEvaluatePortPojo productEvaluatePortPojo) {
+        // 校验状态
+        String msg = "";
+        if (productEvaluatePortPojo.getReportState() == null) {
+            return new SystemResult(100, "评价的状态为空");
+        } else if (productEvaluatePortPojo.getReportState().toString().equals(ProductEvaluateReportEnum.EYCP.getValue() + "")) {
+            msg = ProductEvaluateReportEnum.EYCP.getKey();
+        } else if (productEvaluatePortPojo.getReportState().toString().equals(ProductEvaluateReportEnum.EYSD.getValue() + "")) {
+            msg = ProductEvaluateReportEnum.EYSD.getKey();
+        } else if (productEvaluatePortPojo.getReportState().toString().equals(ProductEvaluateReportEnum.THWX.getValue() + "")) {
+            msg = ProductEvaluateReportEnum.THWX.getKey();
+        } else {
+            return new SystemResult(100, "评价状态错误");
+        }
+
+        return new SystemResult(msg);
     }
 
     /**

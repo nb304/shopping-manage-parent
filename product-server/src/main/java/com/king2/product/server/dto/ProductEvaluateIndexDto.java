@@ -1,5 +1,7 @@
 package com.king2.product.server.dto;
 
+import com.king2.product.server.pojo.ProductEvaluateRePortStatePojo;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -26,6 +28,9 @@ public class ProductEvaluateIndexDto {
     // 当前分页的数据
     private List productEvaluateDatas;
 
+    // 举报类型
+    private List<ProductEvaluateRePortStatePojo> rePortStatePojos;
+
     // 当前选中的是好评还是差评
     private Integer isHZCState;
 
@@ -49,6 +54,15 @@ public class ProductEvaluateIndexDto {
 
     // 结束时间
     private Date endTime;
+
+
+    public List<ProductEvaluateRePortStatePojo> getRePortStatePojos() {
+        return rePortStatePojos;
+    }
+
+    public void setRePortStatePojos(List<ProductEvaluateRePortStatePojo> rePortStatePojos) {
+        this.rePortStatePojos = rePortStatePojos;
+    }
 
     public Integer getCurrentPage() {
         return currentPage;

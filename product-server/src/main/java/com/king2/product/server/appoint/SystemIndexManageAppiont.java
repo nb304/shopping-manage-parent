@@ -233,6 +233,12 @@ public class SystemIndexManageAppiont {
                     .get(SystemIndexCacheManage.PRODUCT_INDEX_USER_MESSAGE_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId() + "_WD");
             List<K2Message> k2Messages_YD = (List<K2Message>) SystemIndexCacheManage.getInstance().getSystemIndexHashMapData()
                     .get(SystemIndexCacheManage.PRODUCT_INDEX_USER_MESSAGE_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId() + "_YD");
+            if(CollectionUtils.isEmpty(k2Messages_YD)) {
+                k2Messages_YD = new ArrayList<>();
+            }
+            if(CollectionUtils.isEmpty(k2Messages_WD)) {
+                k2Messages_WD = new ArrayList<>();
+            }
             // 遍历数据 然后将数据更换到已读当中去
             if (!CollectionUtils.isEmpty(k2Messages_WD)) {
                 for (int i = 0; i < k2Messages_WD.size(); i++) {
