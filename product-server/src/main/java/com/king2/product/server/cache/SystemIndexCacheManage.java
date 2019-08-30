@@ -28,12 +28,14 @@ public class SystemIndexCacheManage {
     public static final String PRODUCT_INDEX_NARBAR_KEY = "PRODUCT_INDEX_NARBAR_KEY";
     // 用户的消息key
     public static final String PRODUCT_INDEX_USER_MESSAGE_KEY = "PRODUCT_INDEX_USER_MESSAGE_KEY";
+    // 用户消息的唯一IdKey
+    public static final String MESSAGE_NUMBER_ONLY_KEY = "MESSAGE_NUMBER_ONLY_KEY";
 
     /**
      * 创建商城首页的缓存结构
      */
     private ConcurrentHashMap<String, Object> systemIndexHashMapData = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String , Date> systemIndexHashMapDataDelFlag = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Date> systemIndexHashMapDataDelFlag = new ConcurrentHashMap<>();
 
 
     public ConcurrentHashMap<String, Date> getSystemIndexHashMapDataDelFlag() {

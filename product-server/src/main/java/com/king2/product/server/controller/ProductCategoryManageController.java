@@ -2,6 +2,7 @@ package com.king2.product.server.controller;
 
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.CookieUtils;
 import com.king2.product.server.dto.AddCategoryDto;
 import com.king2.product.server.dto.CategoryIndexManageDto;
 import com.king2.product.server.service.ProductCategoryManageService;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -23,7 +26,6 @@ import javax.validation.constraints.Pattern;
   	俞烨		2019.08.27   			创建
 =======================================================*/
 @RestController
-@CrossOrigin
 @RequestMapping("/product/category")
 @Validated
 public class ProductCategoryManageController {
@@ -44,8 +46,13 @@ public class ProductCategoryManageController {
      * -----------------------------------------------------
      */
     @RequestMapping("/index")
-    public SystemResult index(HttpServletRequest request, CategoryIndexManageDto categoryIndexManageDto) {
+    public SystemResult index(HttpServletRequest request, HttpServletResponse response, CategoryIndexManageDto categoryIndexManageDto) {
 
+        Cookie cookie = new Cookie("123", "213");
+
+        cookie.setPath("/");
+        cookie.setDomain("192.168.0.143");
+        response.addCookie(cookie);
         // 获取用户数据
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.index(k2Member, categoryIndexManageDto);

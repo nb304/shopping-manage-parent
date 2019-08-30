@@ -7,7 +7,8 @@ public enum ProductQueueLockFactoryTypeEnum {
     DEFAULT_PRODUCT_CACHE_KEY("商品信息缓存同步锁", "PRODUC_CACHE_KEY"),// 商品信息缓存同步锁
     DEFAULT_SYSTEM_MESSAGE_KEY("商城消息同步锁", "USER_MESSAGE_KEY"), //商城消息的同步类型锁
     DEFAULT_FUNCTION_MYSQL_SIZE_KEY("操作数据库次数的锁类型", "MYSQL_SIZE_KEY"), // 操作数据库次数的锁类型
-    PRODUCT_EVALUATE_KEY("用户回复的锁类型", "CONTENT_USER");;
+    PRODUCT_EVALUATE_KEY("用户回复的锁类型", "CONTENT_USER"),
+    MESSAGE_ID_ONLY_KEY("用户消息的唯一IDKey", "MESSAGE_NUMBER_ONLY_KEY_LOCK");
 
     private final String value;
     private final String key;

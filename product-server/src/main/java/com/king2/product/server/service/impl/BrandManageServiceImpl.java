@@ -9,6 +9,7 @@ import com.king2.commons.pojo.K2ProductBrand;
 import com.king2.commons.pojo.K2ProductExample;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.GetErrorInfo;
 import com.king2.commons.utils.MinioUtil;
 import com.king2.product.server.appoint.BrandManageAppoint;
 import com.king2.product.server.appoint.ProductBasicsAppoint;
@@ -233,6 +234,7 @@ public class BrandManageServiceImpl implements BrandManageService {
 
         } catch (Exception e) {
             logger.error("上传图片到MINIO服务器上出错,请尽快检查问题,报错信息:" + e);
+            logger.error(GetErrorInfo.getTrace(e));
             e.printStackTrace();
             // 发生异常就要给管理员发送信息。。
             UserMessageAppoint.addMessageGotoMysql("上传图片到MINIO服务器上出错,请尽快检查问题", 1, k2MessageMapper);

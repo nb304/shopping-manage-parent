@@ -5,6 +5,7 @@ import com.king2.commons.mapper.K2ProductEvaluateMapper;
 import com.king2.commons.mapper.K2UserFeedbackMapper;
 import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.GetErrorInfo;
 import com.king2.product.server.appoint.UserMessageAppoint;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.dto.ProductEvaluateIndexDto;
@@ -231,7 +232,7 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
         }
 
         // 插入反馈信息
-        SystemResult result1 = insertUserFeedback(productEvaluatePortPojo, k2MemberAndElseInfo, result.getData() + "");
+        SystemResult result1 = insertUserFeedback(productEvaluatePortPojo, k2MemberAndElseInfo, result.getData() + "", k2ProductEvaluateWithBLOBs.getOrderNumber());
 
         // 判断是否插入成功
         if (result1.getStatus() != 200) return result1;
@@ -243,9 +244,15 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
                             , k2MemberAndElseInfo.getK2Member().getMemberId(), k2MessageMapper);
         } catch (Exception e) {
             LOGGER.error("给用户发送信息出错，错误信息:" + e);
+            LOGGER.error(GetErrorInfo.getTrace(e));
             throw new RuntimeException("系统异常");
         }
 
+        // 修改原来的评价的信息
+        k2ProductEvaluateWithBLOBs.setRetain3(productEvaluatePortPojo.getReportContent());
+        k2ProductEvaluateWithBLOBs.setRetain4(productEvaluatePortPojo.getReportState() + "");
+        k2ProductEvaluateWithBLOBs.setRetain5(UserMessageAppoint.sdf.format(new Date()));
+        k2ProductEvaluateMapper.updateByPrimaryKeySelective(k2ProductEvaluateWithBLOBs);
 
         return new SystemResult("ok");
     }
@@ -259,7 +266,8 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public SystemResult insertUserFeedback(ProductEvaluatePortPojo productEvaluatePortPojo, K2MemberAndElseInfo k2MemberAndElseInfo, String msg) {
+    public SystemResult insertUserFeedback
+    (ProductEvaluatePortPojo productEvaluatePortPojo, K2MemberAndElseInfo k2MemberAndElseInfo, String msg, String order) {
         // 插入新的用户反馈信息
         K2UserFeedback userFeedback = new K2UserFeedback();
         userFeedback.setCreateTime(new Date());
@@ -271,6 +279,7 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("获取反馈编号出错,错误信息:" + e);
+            LOGGER.error(GetErrorInfo.getTrace(e));
             return new SystemResult(100, "系统正忙,请稍后重试");
         }
 
@@ -278,7 +287,7 @@ public class ProductEvaluateManageServiceImpl implements ProductEvaluateManageSe
         userFeedback.setUserId(k2MemberAndElseInfo.getK2Member().getMemberId());
         userFeedback.setUserName(k2MemberAndElseInfo.getK2Member().getMemberAccount());
         userFeedback.setUserConnection(k2MemberAndElseInfo.getK2Member().getMemberEmail());
-        userFeedback.setFeedbackContent(productEvaluatePortPojo.getReportContent() + "---举报类型为:" + msg);
+        userFeedback.setFeedbackContent(productEvaluatePortPojo.getReportContent() + "---举报类型为:" + msg + "---订单编号为:" + order);
         userFeedback.setUserFeedbackState(UserFeedbackEnum.CLZ.getValue());
 
         // 插入反馈信息

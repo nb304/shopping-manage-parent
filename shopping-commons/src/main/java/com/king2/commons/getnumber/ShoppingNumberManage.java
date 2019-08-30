@@ -3,6 +3,7 @@ package com.king2.commons.getnumber;
 import com.king2.commons.lock.Lock;
 import com.king2.commons.lock.impl.DfsRedisLock;
 import com.king2.commons.result.SystemResult;
+import com.king2.commons.utils.GetErrorInfo;
 import com.king2.commons.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,7 @@ public class ShoppingNumberManage {
             JEDIS.set(shoppingNumberPojo.getNUMBER_REDIS_KEY(), JsonUtils.objectToJson(numberQueue));
         } catch (Exception e) {
             logger.error("添加编号到Redis中失败。可能是超时引起的,报错信息：" + e);
+            logger.error(GetErrorInfo.getTrace(e));
             e.printStackTrace();
             // 添加到redis中失败了 我们就需要添加到缓存服务器中去
             if (numberQueue != null && !numberQueue.isEmpty())
@@ -190,11 +192,13 @@ public class ShoppingNumberManage {
             return new SystemResult(poll);
         } catch (Exception e) {
             logger.error("reids连接超时,报错信息：" + e);
+            logger.error(GetErrorInfo.getTrace(e));
             e.printStackTrace();
             // 说明redis又崩了 连接失败 我们就去访问远程缓存服务器地址
             String numberByCacheServer = getNumberByCacheServer();
             if (StringUtils.isEmpty(numberByCacheServer)) {
                 logger.error("本次缓存获取编号失败,报错信息：" + e);
+                logger.error(GetErrorInfo.getTrace(e));
                 return new SystemResult(100, "程序内部异常", null);
             }
             return new SystemResult(numberByCacheServer);

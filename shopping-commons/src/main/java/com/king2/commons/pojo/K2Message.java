@@ -24,12 +24,12 @@ public class K2Message {
     private Integer state;
 
     /**
-     * 保留字段1
+     * 保留字段1   是否需要插入数据库的信息  1是 2否
      */
     private String retain1;
 
     /**
-     * 保留字段2
+     * 保留字段2    id的key
      */
     private String retain2;
 

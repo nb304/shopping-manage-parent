@@ -15,6 +15,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import redis.clients.jedis.JedisPool;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -33,16 +34,36 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
     @Autowired
     private JedisPool jedisPool;
 
+    private boolean flag = true;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        String origin = request.getHeader("Origin");
+        response.setHeader("Access-Control-Allow-Origin", origin);
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
         // *************************************** 测试部分
+        String user = CookieUtils.getCookieValue(request, "user");
         K2MemberAndElseInfo info = new K2MemberAndElseInfo();
-        K2Member k2Member2 = new K2Member();
-        k2Member2.setMemberAccount("luqiqi");
-        k2Member2.setRetain1("1");
-        k2Member2.setMemberId(1);
-        info.setK2Member(k2Member2);
+        if (StringUtils.isEmpty(user)) {
+            K2Member k2Member2 = new K2Member();
+            k2Member2.setMemberAccount("luqiqi");
+            k2Member2.setRetain1("1");
+            k2Member2.setMemberId(1);
+            info.setK2Member(k2Member2);
+            flag = false;
+        } else {
+            K2Member k2Member2 = new K2Member();
+            k2Member2.setMemberAccount("ziqing");
+            k2Member2.setRetain1("1");
+            k2Member2.setMemberId(2);
+            info.setK2Member(k2Member2);
+            flag = true;
+        }
+
 
         // 创建角色
         List<K2Role> roles = new ArrayList<>();
@@ -52,8 +73,7 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         roles.add(role);
         info.setK2Roles(roles);
         request.setAttribute("user", info);
-        if (k2Member2 != null) return true;
-
+        if (roles != null) return true;
         // *************************************** 第一部分的校验
         // 获取浏览器的头
         String XRequested = request.getHeader("X-Requested-With");
