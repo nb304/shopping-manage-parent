@@ -1,25 +1,15 @@
 package com.king2.product.server.service.impl;
 
-import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
-import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
-import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.appoint.ProductIndexAppoint;
 import com.king2.product.server.dto.ProductIndexDto;
-import com.king2.product.server.dto.ProductInfoToRedisDataDto;
-import com.king2.product.server.dto.ProductStateDto;
+import com.king2.product.server.dto.SystemStateDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
 import com.king2.product.server.enmu.ProductStateEnum;
-import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.service.ProductIndexManageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,10 +43,10 @@ public class ProductIndexManageServiceImpl implements ProductIndexManageService 
     public SystemResult index(K2MemberAndElseInfo k2MemberAndElseInfo, ProductIndexDto dto) {
 
         // ·â×°ÉÌÆ·×´Ì¬
-        List<ProductStateDto> stateDtos = new ArrayList<>();
+        List<SystemStateDto> stateDtos = new ArrayList<>();
         ProductStateEnum[] values = ProductStateEnum.values();
         for (int i = 0; i < values.length; i++) {
-            ProductStateDto stateDto = new ProductStateDto();
+            SystemStateDto stateDto = new SystemStateDto();
             stateDto.setKey(values[i].getKey());
             stateDto.setValue(values[i].getValue());
             stateDtos.add(stateDto);

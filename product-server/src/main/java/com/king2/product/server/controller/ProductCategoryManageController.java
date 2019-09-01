@@ -51,7 +51,7 @@ public class ProductCategoryManageController {
         Cookie cookie = new Cookie("123", "213");
 
         cookie.setPath("/");
-        cookie.setDomain("192.168.0.143");
+        cookie.setDomain("192.168.124.5");
         response.addCookie(cookie);
         // 获取用户数据
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");

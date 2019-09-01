@@ -1,7 +1,7 @@
 package com.king2.product.server.dto;
 
-// 商品状态Dto
-public class ProductStateDto {
+// 系统状态Dto
+public class SystemStateDto {
 
     private String key;
     private int value;

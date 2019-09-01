@@ -79,7 +79,6 @@ public class UserManageUtil {
             String userJson = jedis.hget(account, token);
             // 判断是否存在该用户信息
             if (StringUtils.isEmpty(userJson)) {
-                jedis.close();
                 return new SystemResult(100, "该账号在其他地方登录", null);
             }
             // 将用户Json转换成用户对象

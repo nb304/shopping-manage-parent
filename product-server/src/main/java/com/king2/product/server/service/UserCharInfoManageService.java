@@ -22,4 +22,18 @@ public interface UserCharInfoManageService {
      * -----------------------------------------------------
      */
     SystemResult index(K2MemberAndElseInfo k2MemberAndElseInfo);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:   发送消息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo      K2MemberAndElseInfo     发送者的信息
+     * receiveId                Integer                 接收者的id
+     * chatInfo                 String                  发送的信息
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult sendChatInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer receiveId, String chatInfo);
 }

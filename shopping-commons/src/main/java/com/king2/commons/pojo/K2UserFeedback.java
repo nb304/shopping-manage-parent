@@ -34,7 +34,7 @@ public class K2UserFeedback {
     private String userConnection;
 
     /**
-     * 反馈单号的状态  ---1处理中 2未处理 3已处理 4删除
+     * 反馈单号的状态  ---1处理中  2已处理 3删除
      */
     private Integer userFeedbackState;
 
@@ -44,7 +44,7 @@ public class K2UserFeedback {
     private Integer userFeedbackResult;
 
     /**
-     * 保留字段1
+     * 保留字段1  处理人的名称
      */
     private String retain1;
 
@@ -52,6 +52,10 @@ public class K2UserFeedback {
      * 保留字段2
      */
     private String retain2;
+
+    private String image;
+
+    private String uName;
 
     /**
      * 保留字段3
@@ -68,13 +72,71 @@ public class K2UserFeedback {
      */
     private String retain5;
 
+    private String stateStr;
+
+    private String createTimeStr;
+
+
+    private String replayContent;
+    private Date replayTime;
+
+    public String getReplayContent() {
+        return replayContent;
+    }
+
+    public void setReplayContent(String replayContent) {
+        this.replayContent = replayContent;
+    }
+
+    public Date getReplayTime() {
+        return replayTime;
+    }
+
+    public void setReplayTime(Date replayTime) {
+        this.replayTime = replayTime;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
     /**
      * 问题描述
      */
     private String feedbackContent;
 
+    public String getStateStr() {
+        return stateStr;
+    }
+
+    public void setStateStr(String stateStr) {
+        this.stateStr = stateStr;
+    }
+
+
     /**
      * 用户反馈表主键
+     *
      * @return user_feedback_id 用户反馈表主键
      */
     public Integer getUserFeedbackId() {
@@ -83,6 +145,7 @@ public class K2UserFeedback {
 
     /**
      * 用户反馈表主键
+     *
      * @param userFeedbackId 用户反馈表主键
      */
     public void setUserFeedbackId(Integer userFeedbackId) {
@@ -91,6 +154,7 @@ public class K2UserFeedback {
 
     /**
      * 用户反馈单号
+     *
      * @return user_feedback_number 用户反馈单号
      */
     public String getUserFeedbackNumber() {
@@ -99,6 +163,7 @@ public class K2UserFeedback {
 
     /**
      * 用户反馈单号
+     *
      * @param userFeedbackNumber 用户反馈单号
      */
     public void setUserFeedbackNumber(String userFeedbackNumber) {
@@ -107,6 +172,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的用户id  ---指向用户主键
+     *
      * @return user_id 反馈的用户id  ---指向用户主键
      */
     public Integer getUserId() {
@@ -115,6 +181,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的用户id  ---指向用户主键
+     *
      * @param userId 反馈的用户id  ---指向用户主键
      */
     public void setUserId(Integer userId) {
@@ -123,6 +190,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的用户名称 ---冗余字段
+     *
      * @return user_name 反馈的用户名称 ---冗余字段
      */
     public String getUserName() {
@@ -131,6 +199,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的用户名称 ---冗余字段
+     *
      * @param userName 反馈的用户名称 ---冗余字段
      */
     public void setUserName(String userName) {
@@ -139,6 +208,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的时间
+     *
      * @return create_time 反馈的时间
      */
     public Date getCreateTime() {
@@ -147,6 +217,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈的时间
+     *
      * @param createTime 反馈的时间
      */
     public void setCreateTime(Date createTime) {
@@ -155,6 +226,7 @@ public class K2UserFeedback {
 
     /**
      * 联系方式 ---空等于无法联系
+     *
      * @return user_connection 联系方式 ---空等于无法联系
      */
     public String getUserConnection() {
@@ -163,6 +235,7 @@ public class K2UserFeedback {
 
     /**
      * 联系方式 ---空等于无法联系
+     *
      * @param userConnection 联系方式 ---空等于无法联系
      */
     public void setUserConnection(String userConnection) {
@@ -171,6 +244,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈单号的状态  ---1处理中 2未处理 3已处理 4删除
+     *
      * @return user_feedback_state 反馈单号的状态  ---1处理中 2未处理 3已处理 4删除
      */
     public Integer getUserFeedbackState() {
@@ -179,6 +253,7 @@ public class K2UserFeedback {
 
     /**
      * 反馈单号的状态  ---1处理中 2未处理 3已处理 4删除
+     *
      * @param userFeedbackState 反馈单号的状态  ---1处理中 2未处理 3已处理 4删除
      */
     public void setUserFeedbackState(Integer userFeedbackState) {
@@ -187,6 +262,7 @@ public class K2UserFeedback {
 
     /**
      * 处理人的用户id  ---指向用户主键表
+     *
      * @return user_feedback_result 处理人的用户id  ---指向用户主键表
      */
     public Integer getUserFeedbackResult() {
@@ -195,6 +271,7 @@ public class K2UserFeedback {
 
     /**
      * 处理人的用户id  ---指向用户主键表
+     *
      * @param userFeedbackResult 处理人的用户id  ---指向用户主键表
      */
     public void setUserFeedbackResult(Integer userFeedbackResult) {
@@ -203,6 +280,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段1
+     *
      * @return retain1 保留字段1
      */
     public String getRetain1() {
@@ -211,6 +289,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段1
+     *
      * @param retain1 保留字段1
      */
     public void setRetain1(String retain1) {
@@ -219,6 +298,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段2
+     *
      * @return retain2 保留字段2
      */
     public String getRetain2() {
@@ -227,6 +307,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段2
+     *
      * @param retain2 保留字段2
      */
     public void setRetain2(String retain2) {
@@ -235,6 +316,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段3
+     *
      * @return retain3 保留字段3
      */
     public String getRetain3() {
@@ -243,6 +325,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段3
+     *
      * @param retain3 保留字段3
      */
     public void setRetain3(String retain3) {
@@ -251,6 +334,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段4
+     *
      * @return retain4 保留字段4
      */
     public String getRetain4() {
@@ -259,6 +343,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段4
+     *
      * @param retain4 保留字段4
      */
     public void setRetain4(String retain4) {
@@ -267,6 +352,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段5
+     *
      * @return retain5 保留字段5
      */
     public String getRetain5() {
@@ -275,6 +361,7 @@ public class K2UserFeedback {
 
     /**
      * 保留字段5
+     *
      * @param retain5 保留字段5
      */
     public void setRetain5(String retain5) {
@@ -283,6 +370,7 @@ public class K2UserFeedback {
 
     /**
      * 问题描述
+     *
      * @return feedback_content 问题描述
      */
     public String getFeedbackContent() {
@@ -291,6 +379,7 @@ public class K2UserFeedback {
 
     /**
      * 问题描述
+     *
      * @param feedbackContent 问题描述
      */
     public void setFeedbackContent(String feedbackContent) {

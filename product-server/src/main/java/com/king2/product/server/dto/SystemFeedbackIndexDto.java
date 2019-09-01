@@ -2,10 +2,14 @@ package com.king2.product.server.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
-// 商品品牌首页数据Dto
-public class BrandIndexManageDto {
+/**
+ * 系统通知主页
+ */
+public class SystemFeedbackIndexDto {
+
 
     // 当前页数
     @NotNull(message = "当前页数不能为空")
@@ -22,9 +26,17 @@ public class BrandIndexManageDto {
     // 分页索引数据
     private Integer index;
     // 当前分页的数据
-    private List brandDatas;
+    private List systemFeedBackDatas;
 
-    private String brandName;
+    // 系统通知状态表
+    private List<SystemStateDto> systemStateDtos;
+
+    // 开始日期
+    private String startTimeStr;
+    private Date startTime;
+
+    // 选中的状态信息
+    private Integer state;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -66,20 +78,43 @@ public class BrandIndexManageDto {
         this.index = index;
     }
 
-    public List getBrandDatas() {
-        return brandDatas;
+    public List getSystemFeedBackDatas() {
+        return systemFeedBackDatas;
     }
 
-    public void setBrandDatas(List brandDatas) {
-        this.brandDatas = brandDatas;
+    public void setSystemFeedBackDatas(List systemFeedBackDatas) {
+        this.systemFeedBackDatas = systemFeedBackDatas;
     }
 
-    public String getBrandName() {
-        return brandName;
+    public List<SystemStateDto> getSystemStateDtos() {
+        return systemStateDtos;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setSystemStateDtos(List<SystemStateDto> systemStateDtos) {
+        this.systemStateDtos = systemStateDtos;
     }
 
+    public String getStartTimeStr() {
+        return startTimeStr;
+    }
+
+    public void setStartTimeStr(String startTimeStr) {
+        this.startTimeStr = startTimeStr;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 }
