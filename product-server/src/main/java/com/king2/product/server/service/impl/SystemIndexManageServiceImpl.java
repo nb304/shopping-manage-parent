@@ -5,6 +5,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.SystemIndexManageAppiont;
 import com.king2.product.server.service.SystemIndexManageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /*=======================================================
@@ -20,6 +21,7 @@ public class SystemIndexManageServiceImpl implements SystemIndexManageService {
     // 注入首页管理委托类
     @Autowired
     private SystemIndexManageAppiont systemIndexManageAppiont;
+
     /**
      * -----------------------------------------------------
      * 功能:  商城系统的首页信息

@@ -161,6 +161,7 @@ public class UserFeedbackManageServiceImpl implements UserFeedbackManageService 
             // 修改对应的信息
             userFeedback.setUserFeedbackState(UserFeedbackEnum.YCL.getValue());
             userFeedback.setUserFeedbackResult(k2MemberAndElseInfo.getK2Member().getMemberId());
+            userFeedback.setRetain1(k2MemberAndElseInfo.getK2Member().getMemberAccount());
             k2UserFeedbackMapper.updateByPrimaryKeySelective(userFeedback);
 
             // 插入对应的处理信息
@@ -234,7 +235,7 @@ public class UserFeedbackManageServiceImpl implements UserFeedbackManageService 
      * feedBackId         Integer        反馈的信息id
      * k2MemberAndElseInfo              K2MemberAndElseInfo 操作的用户
      * <p>
-     * 返回: SystemResult              返回调用者的数据
+     * 返回: SystemResult              返回调用者的数c据
      * -----------------------------------------------------
      */
     @Override

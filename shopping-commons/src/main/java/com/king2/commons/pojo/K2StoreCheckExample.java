@@ -74,7 +74,7 @@ public class K2StoreCheckExample {
     }
 
     /**
-     * k2_store_check 2019-08-06
+     * k2_store_check 2019-09-02
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -397,52 +397,62 @@ public class K2StoreCheckExample {
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneEqualTo(Integer value) {
+        public Criteria andStoreCheckPhoneEqualTo(String value) {
             addCriterion("store_check_phone =", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneNotEqualTo(Integer value) {
+        public Criteria andStoreCheckPhoneNotEqualTo(String value) {
             addCriterion("store_check_phone <>", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneGreaterThan(Integer value) {
+        public Criteria andStoreCheckPhoneGreaterThan(String value) {
             addCriterion("store_check_phone >", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckPhoneGreaterThanOrEqualTo(String value) {
             addCriterion("store_check_phone >=", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneLessThan(Integer value) {
+        public Criteria andStoreCheckPhoneLessThan(String value) {
             addCriterion("store_check_phone <", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneLessThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckPhoneLessThanOrEqualTo(String value) {
             addCriterion("store_check_phone <=", value, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneIn(List<Integer> values) {
+        public Criteria andStoreCheckPhoneLike(String value) {
+            addCriterion("store_check_phone like", value, "storeCheckPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckPhoneNotLike(String value) {
+            addCriterion("store_check_phone not like", value, "storeCheckPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckPhoneIn(List<String> values) {
             addCriterion("store_check_phone in", values, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneNotIn(List<Integer> values) {
+        public Criteria andStoreCheckPhoneNotIn(List<String> values) {
             addCriterion("store_check_phone not in", values, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckPhoneBetween(String value1, String value2) {
             addCriterion("store_check_phone between", value1, value2, "storeCheckPhone");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckPhoneNotBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckPhoneNotBetween(String value1, String value2) {
             addCriterion("store_check_phone not between", value1, value2, "storeCheckPhone");
             return (Criteria) this;
         }
@@ -457,52 +467,62 @@ public class K2StoreCheckExample {
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardEqualTo(Integer value) {
+        public Criteria andStoreCheckCardEqualTo(String value) {
             addCriterion("store_check_card =", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardNotEqualTo(Integer value) {
+        public Criteria andStoreCheckCardNotEqualTo(String value) {
             addCriterion("store_check_card <>", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardGreaterThan(Integer value) {
+        public Criteria andStoreCheckCardGreaterThan(String value) {
             addCriterion("store_check_card >", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckCardGreaterThanOrEqualTo(String value) {
             addCriterion("store_check_card >=", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardLessThan(Integer value) {
+        public Criteria andStoreCheckCardLessThan(String value) {
             addCriterion("store_check_card <", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardLessThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckCardLessThanOrEqualTo(String value) {
             addCriterion("store_check_card <=", value, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardIn(List<Integer> values) {
+        public Criteria andStoreCheckCardLike(String value) {
+            addCriterion("store_check_card like", value, "storeCheckCard");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckCardNotLike(String value) {
+            addCriterion("store_check_card not like", value, "storeCheckCard");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckCardIn(List<String> values) {
             addCriterion("store_check_card in", values, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardNotIn(List<Integer> values) {
+        public Criteria andStoreCheckCardNotIn(List<String> values) {
             addCriterion("store_check_card not in", values, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckCardBetween(String value1, String value2) {
             addCriterion("store_check_card between", value1, value2, "storeCheckCard");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckCardNotBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckCardNotBetween(String value1, String value2) {
             addCriterion("store_check_card not between", value1, value2, "storeCheckCard");
             return (Criteria) this;
         }
@@ -517,52 +537,62 @@ public class K2StoreCheckExample {
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbEqualTo(Integer value) {
+        public Criteria andStoreCheckZfbEqualTo(String value) {
             addCriterion("store_check_zfb =", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbNotEqualTo(Integer value) {
+        public Criteria andStoreCheckZfbNotEqualTo(String value) {
             addCriterion("store_check_zfb <>", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbGreaterThan(Integer value) {
+        public Criteria andStoreCheckZfbGreaterThan(String value) {
             addCriterion("store_check_zfb >", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckZfbGreaterThanOrEqualTo(String value) {
             addCriterion("store_check_zfb >=", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbLessThan(Integer value) {
+        public Criteria andStoreCheckZfbLessThan(String value) {
             addCriterion("store_check_zfb <", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbLessThanOrEqualTo(Integer value) {
+        public Criteria andStoreCheckZfbLessThanOrEqualTo(String value) {
             addCriterion("store_check_zfb <=", value, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbIn(List<Integer> values) {
+        public Criteria andStoreCheckZfbLike(String value) {
+            addCriterion("store_check_zfb like", value, "storeCheckZfb");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckZfbNotLike(String value) {
+            addCriterion("store_check_zfb not like", value, "storeCheckZfb");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreCheckZfbIn(List<String> values) {
             addCriterion("store_check_zfb in", values, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbNotIn(List<Integer> values) {
+        public Criteria andStoreCheckZfbNotIn(List<String> values) {
             addCriterion("store_check_zfb not in", values, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckZfbBetween(String value1, String value2) {
             addCriterion("store_check_zfb between", value1, value2, "storeCheckZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreCheckZfbNotBetween(Integer value1, Integer value2) {
+        public Criteria andStoreCheckZfbNotBetween(String value1, String value2) {
             addCriterion("store_check_zfb not between", value1, value2, "storeCheckZfb");
             return (Criteria) this;
         }
@@ -1369,7 +1399,7 @@ public class K2StoreCheckExample {
     }
 
     /**
-     * k2_store_check 2019-08-06
+     * k2_store_check 2019-09-02
      */
     public static class Criterion {
         private String condition;
