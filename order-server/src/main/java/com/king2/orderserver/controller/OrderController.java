@@ -33,7 +33,7 @@ public class OrderController {
     @ApiImplicitParam(name = "order", value = "一个订单信息体", dataType = "Order")
     @PostMapping("/setOrder")
     public SystemResult setOrder(@RequestBody Order order){
-        order.setOId(order.getOId()+"江西先锋软件职业技术学院");
+        //order.setOId(order.getOId()+"江西先锋软件职业技术学院");
         return SystemResult.ok(order);
     }
 
