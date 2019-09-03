@@ -3,7 +3,7 @@ package com.king2.product.server.queue.consumer;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.queue.SynchornizedProductQueue;

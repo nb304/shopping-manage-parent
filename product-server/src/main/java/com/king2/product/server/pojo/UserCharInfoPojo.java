@@ -3,7 +3,7 @@ package com.king2.product.server.pojo;
 import java.util.Date;
 
 // 用户聊天的POJO类
-public class UserCharInfoPojo {
+public class UserCharInfoPojo implements Comparable<UserCharInfoPojo> {
 
 
     // 本次消息的Id
@@ -22,6 +22,21 @@ public class UserCharInfoPojo {
     private String name;
     // 发送者的头像
     private String image;
+
+    private boolean flag;
+
+    @Override
+    public int compareTo(UserCharInfoPojo o) {
+        return ((Long) this.createTime.getTime()).intValue() - ((Long) o.getCreateTime().getTime()).intValue();
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public String getName() {
         return name;

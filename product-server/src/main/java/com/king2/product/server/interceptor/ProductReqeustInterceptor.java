@@ -22,15 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*=======================================================
-	è¯´æ˜:   å•†åŸæ¨¡å—åå°æ‹¦æˆªå™¨
+	ËµÃ÷:   ÉÌ³ÇÄ£¿éºóÌ¨À¹½ØÆ÷
 
-	ä½œè€…		æ—¶é—´					æ³¨é‡Š
-  	ä¿çƒ¨		2019.8.9   			åˆ›å»º
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.8.9   			´´½¨
 
 =======================================================*/
 public class ProductReqeustInterceptor implements HandlerInterceptor {
 
-    // æ³¨å…¥RedisPoolè¿æ¥æ± 
+    // ×¢ÈëRedisPoolÁ¬½Ó³Ø
     @Autowired
     private JedisPool jedisPool;
 
@@ -44,71 +44,83 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("P3P", "CP=\"CAO PSA OUR\"");
 
-        // *************************************** æµ‹è¯•éƒ¨åˆ†
-        String user = CookieUtils.getCookieValue(request, "123");
+        // *************************************** ²âÊÔ²¿·Ö
+        String user = CookieUtils.getCookieValue(request, "userKey");
         K2MemberAndElseInfo info = new K2MemberAndElseInfo();
         K2Member k2Member2 = new K2Member();
-        k2Member2.setMemberAccount("luqiqi");
-        k2Member2.setRetain1("1");
-        k2Member2.setMemberId(1);
+
+        if(!StringUtils.isEmpty(user)) {
+            k2Member2.setMemberAccount("luqiqi");
+            k2Member2.setRetain1("1");
+            k2Member2.setMemberId(1);
+            k2Member2.setMemberName("Â¹ÆßÆß");
+            k2Member2.setMemberPortrait("http://39.105.41.2:9000/king2-product-image/king2-BRAND-LOGO-SP7FD5F6064FF9907DD1A16D0FE8EB593295.jpg");
+        } else {
+            k2Member2.setMemberAccount("ziqing");
+            k2Member2.setRetain1("1");
+            k2Member2.setMemberId(2);
+            k2Member2.setMemberName("×ÓÇà");
+            k2Member2.setMemberPortrait("http://39.105.41.2:9000/king2-product-image/king2-BRAND-LOGO-SP6FB4BB1542D59224599FB3313E80254051.png");
+        }
+
         info.setK2Member(k2Member2);
 
-        // åˆ›å»ºè§’è‰²
+        // ´´½¨½ÇÉ«
         List<K2Role> roles = new ArrayList<>();
         K2Role role = new K2Role();
-        role.setCreateUserName("è¶…çº§ç®¡ç†å‘˜");
+        role.setCreateUserName("³¬¼¶¹ÜÀíÔ±");
         role.setRetain1("KING2_SYSTEM_ADMIN");
         roles.add(role);
         info.setK2Roles(roles);
         request.setAttribute("user", info);
         if (roles != null) return true;
-        // *************************************** ç¬¬ä¸€éƒ¨åˆ†çš„æ ¡éªŒ
-        // è·å–æµè§ˆå™¨çš„å¤´
+        // *************************************** µÚÒ»²¿·ÖµÄĞ£Ñé
+        // »ñÈ¡ä¯ÀÀÆ÷µÄÍ·
         String XRequested = request.getHeader("X-Requested-With");
         /*if (StringUtils.isEmpty(XRequested))
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(100, "è¯·å‹¿è·¨æµè§ˆå™¨", null)));*/
+            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(100, "ÇëÎğ¿çä¯ÀÀÆ÷", null)));*/
 
 
-        // è·å–ç”¨æˆ·å­˜åœ¨äºCookieçš„tokenä¿¡æ¯
+        // »ñÈ¡ÓÃ»§´æÔÚÓÚCookieµÄtokenĞÅÏ¢
         String token = CookieUtils.getCookieValue(request, UserManageUtil.USER_COOKIE_TOKEN, true);
-        // è·å–ç”¨æˆ·å­˜åœ¨äºCookieçš„è´¦å·ä¿¡æ¯
+        // »ñÈ¡ÓÃ»§´æÔÚÓÚCookieµÄÕËºÅĞÅÏ¢
         String userName = CookieUtils.getCookieValue(request, UserManageUtil.USER_COOKIE_USERNAME, true);
-        // åˆ¤æ–­æ•°æ®æ˜¯å¦æ­£ç¡®
+        // ÅĞ¶ÏÊı¾İÊÇ·ñÕıÈ·
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(userName)) {
-            // tokenä¸ºç©º ç”¨æˆ·æ²¡æœ‰ç™»å½•
-            // åˆ¤æ–­æ˜¯å¦æ˜¯AJAXè®¿é—®
+            // tokenÎª¿Õ ÓÃ»§Ã»ÓĞµÇÂ¼
+            // ÅĞ¶ÏÊÇ·ñÊÇAJAX·ÃÎÊ
             if ("XMLHttpRequest".equals(XRequested)) {
-                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(206, "ç”¨æˆ·æœªç™»å½•", null)));
+                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(206, "ÓÃ»§Î´µÇÂ¼", null)));
             } else {
-                // ç”¨æˆ·æœªç™»å½•
-                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "ç”¨æˆ·æœªç™»å½•", null)));
+                // ÓÃ»§Î´µÇÂ¼
+                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "ÓÃ»§Î´µÇÂ¼", null)));
             }
             return false;
         }
 
 
-        // *************************************** ç¬¬äºŒéƒ¨åˆ†çš„æ ¡éªŒ
-        // è¯´æ˜æœ‰æ•°æ® æŸ¥è¯¢redisä¸­æ˜¯å¦å­˜åœ¨æ•°æ®
+        // *************************************** µÚ¶ş²¿·ÖµÄĞ£Ñé
+        // ËµÃ÷ÓĞÊı¾İ ²éÑ¯redisÖĞÊÇ·ñ´æÔÚÊı¾İ
         UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
         SystemResult getUserInfo = userManageUtil.getUserInfoByAccountAndToken(userName, token);
         if (getUserInfo.getStatus() != 200) response.getWriter().write(JsonUtils.objectToJson(getUserInfo));
 
-        // åœ¨redisä¸­æŸ¥è¯¢åˆ°è¯¥ç”¨æˆ·çš„æ•°æ® æ‹¿å‡ºæ¥ç”¨ç¬¬ä¸€æ¬¡å­˜è¿›å»çš„MACå’Œç°åœ¨è¯·æ±‚è¿‡æ¥çš„MACåœ°å€ç›¸æ¯”è¾ƒ é˜²æ­¢Cookieç›—ç”¨
+        // ÔÚredisÖĞ²éÑ¯µ½¸ÃÓÃ»§µÄÊı¾İ ÄÃ³öÀ´ÓÃµÚÒ»´Î´æ½øÈ¥µÄMACºÍÏÖÔÚÇëÇó¹ıÀ´µÄMACµØÖ·Ïà±È½Ï ·ÀÖ¹CookieµÁÓÃ
         String requestMac = NetworkUtil.getHostMacAddress(request);
-        // æˆ–å¾—ç”¨æˆ·æ•°æ®
+        // »òµÃÓÃ»§Êı¾İ
         K2Member k2Member = (K2Member) getUserInfo.getData();
-        // æ¯”è¾ƒMACåœ°å€
+        // ±È½ÏMACµØÖ·
         if (StringUtils.isEmpty(k2Member.getReqeustUserMac()) || StringUtils.isEmpty(requestMac)) {
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "ç”¨æˆ·æœªç™»å½•", null)));
+            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "ÓÃ»§Î´µÇÂ¼", null)));
             return false;
         }
-        // ç›—ç”¨token è¡Œä¸ºè¶…è¿‡10æ¬¡ å°é”IP+MACåœ°å€
+        // µÁÓÃtoken ĞĞÎª³¬¹ı10´Î ·âËøIP+MACµØÖ·
         if (!k2Member.getReqeustUserMac().equals(requestMac)) {
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(208, "ç›—ç”¨token", null)));
+            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(208, "µÁÓÃtoken", null)));
             return false;
         }
 
-        // æ ¡éªŒæˆåŠŸ è·å–åˆ°äº†ç”¨æˆ·çš„æ•°æ® k2Member
+        // Ğ£Ñé³É¹¦ »ñÈ¡µ½ÁËÓÃ»§µÄÊı¾İ k2Member
         request.setAttribute("user", k2Member);
         return true;
     }

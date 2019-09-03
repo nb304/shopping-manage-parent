@@ -36,4 +36,17 @@ public interface UserCharInfoManageService {
      * -----------------------------------------------------
      */
     SystemResult sendChatInfo(K2MemberAndElseInfo k2MemberAndElseInfo, Integer receiveId, String chatInfo);
+
+    /**
+     * -----------------------------------------------------
+     * 功能:   查询消息
+     * <p>
+     * 参数:
+     * k2MemberAndElseInfo      K2MemberAndElseInfo     发送者的信息
+     * getId                   Integer                  需要获取的用户id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult getChatInfoByGetId(Integer getId, K2MemberAndElseInfo k2MemberAndElseInfo);
 }

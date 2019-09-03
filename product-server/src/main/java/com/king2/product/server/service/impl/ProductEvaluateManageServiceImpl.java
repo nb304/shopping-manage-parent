@@ -11,7 +11,7 @@ import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.dto.ProductEvaluateIndexDto;
 import com.king2.product.server.enmu.K2ProductEvaluateEnum;
 import com.king2.product.server.enmu.ProductEvaluateReportEnum;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.enmu.UserFeedbackEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductEvaluateMapper;

@@ -5,7 +5,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.FileUtil;
 import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductInfoQueueAppoint;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.queue.ProductSuccessQueue;
 import org.springframework.beans.factory.annotation.Autowired;

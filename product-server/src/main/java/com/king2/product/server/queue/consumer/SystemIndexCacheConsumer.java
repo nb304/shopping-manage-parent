@@ -2,7 +2,7 @@ package com.king2.product.server.queue.consumer;
 
 import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

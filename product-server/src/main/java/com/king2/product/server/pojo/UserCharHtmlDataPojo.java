@@ -13,6 +13,16 @@ public class UserCharHtmlDataPojo {
     private String content;
     // 未读消息
     private Integer notReadSize;
+    // 时间
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public Integer getUserId() {
         return userId;

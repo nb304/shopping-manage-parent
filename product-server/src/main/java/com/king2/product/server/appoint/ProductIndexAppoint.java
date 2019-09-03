@@ -6,14 +6,12 @@ import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.dto.ProductIndexDto;
 import com.king2.product.server.dto.ProductInfoToRedisDataDto;
 import com.king2.product.server.dto.ShowProductIndexDto;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.sort.ProductInfoSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -28,77 +26,77 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
-	ËµÃ÷:    ÉÌÆ·Ê×Ò³¹ÜÀíÎ¯ÅÉÀà
+	Ëµï¿½ï¿½:    ï¿½ï¿½Æ·ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½Î¯ï¿½ï¿½ï¿½ï¿½
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.08.12   			´´½¨
+	ï¿½ï¿½ï¿½ï¿½		Ê±ï¿½ï¿½					×¢ï¿½ï¿½
+  	ï¿½ï¿½ï¿½ï¿½		2019.08.12   			ï¿½ï¿½ï¿½ï¿½
 =======================================================*/
 @Component
 public class ProductIndexAppoint {
 
-    // ×¢ÈëÉÌÆ·ÔÚredisÖÐµÄkey
+    // ×¢ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½redisï¿½Ðµï¿½key
     @Value("${PRODUCT_INFO_REDIS_KEY}")
     private String PRODUCT_INFO_REDIS_KEY;
 
-    // ×¢ÈëredisÄ£°å
+    // ×¢ï¿½ï¿½redisÄ£ï¿½ï¿½
     @Autowired
     private JedisPool jedisPool;
 
-    // ×¢ÈëÉÌÆ·Mapper
+    // ×¢ï¿½ï¿½ï¿½ï¿½Æ·Mapper
     @Autowired
     private ProductManageMapper productManageMapper;
 
-    // ×¢ÈëÃ¿¸öÉÌ¼ÒÔÚredisÖÐ´æÈëµÄÉÌÆ·×î´óÖµ
+    // ×¢ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½redisï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Öµ
     @Value("${PRODUCT_GOTO_REDIS_MAX_SIZE}")
     private Integer PRODUCT_GOTO_REDIS_MAX_SIZE;
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: »ñÈ¡ÉÌÆ·´æÔÚÓÚredisÖÐµÄÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½redisï¿½Ðµï¿½ï¿½ï¿½Ï¢
      * <p>
-     * ²ÎÊý:
-     * k2Member          K2Member         ²Ù×÷µÄÓÃ»§ÐÅÏ¢
-     * dto               ProductIndexDto  Ìõ¼þÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½:
+     * k2Member          K2Member         ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
+     * dto               ProductIndexDto  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊý¾Ý
+     * ï¿½ï¿½ï¿½ï¿½: SystemResult               ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½
      * -----------------------------------------------------
      */
     public SystemResult getProductInfoByQuery(K2Member k2Member, ProductIndexDto dto) {
 
-        // ÉÌÆ·ÐÅÏ¢
+        // ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
         ShowProductIndexDto showProductIndexDto = null;
         final Jedis redis = jedisPool.getResource();
-        // »ñÈ¡Ëø
+        // ï¿½ï¿½È¡ï¿½ï¿½
         ProductQueueLockFactory instance = ProductQueueLockFactory.getInstance();
         ReentrantLock reentrantLock = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getLock();
         Condition condition = instance.getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_PRODUCT_CACHE_KEY.getValue()).getCondition();
-        // ¿ªÆôËø
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         reentrantLock.lock();
         try {
-            // »ñÈ¡redisÄ£°å
-            // ²éÑ¯RedisÖÐÊÇ·ñ´æÔÚÊý¾Ý
+            // ï¿½ï¿½È¡redisÄ£ï¿½ï¿½
+            // ï¿½ï¿½Ñ¯Redisï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Map<String, String> stringStringMap = redis.hgetAll(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1());
             String productStrInfo = redis.get(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1() + "_DTO_VALUE");
-            // ÅÐ¶ÏredisÖÐÉÌÆ·ÐÅÏ¢ÊÇ·ñÎª¿Õ
+            // ï¿½Ð¶ï¿½redisï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ï¿½Ç·ï¿½Îªï¿½ï¿½
             if (!CollectionUtils.isEmpty(stringStringMap) && !StringUtils.isEmpty(productStrInfo)) {
-                // redisÖÐÓÐÊý¾Ý ½«Êý¾Ý×ª»»³ÉÄ£°å
+                // redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
                 showProductIndexDto = JsonUtils.jsonToPojo(productStrInfo, ShowProductIndexDto.class);
                 showProductIndexDto.setTotalSize(stringStringMap.size());
-                // ´´½¨ÉÌÆ·ÐÅÏ¢
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
                 List<ProductInfoToRedisDataDto> dtos = new ArrayList<>();
-                // »ñÈ¡MapÀïÃæµÄÖµ
+                // ï¿½ï¿½È¡Mapï¿½ï¿½ï¿½ï¿½ï¿½Öµ
                 for (Map.Entry<String, String> productInfo : stringStringMap.entrySet()) {
                     dtos.add(JsonUtils.jsonToPojo(productInfo.getValue(), ProductInfoToRedisDataDto.class));
                 }
-                // ÅÅÐò
+                // ï¿½ï¿½ï¿½ï¿½
                 ProductInfoSort.speedinessSortByState(dtos);
                 showProductIndexDto.setProductInfoToRedisDataDtos(dtos);
             } else {
                 showProductIndexDto = new ShowProductIndexDto();
-                // ²éÑ¯¸ÃËùÓÐÉÌÆ·ÌõÊý
+                // ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
                 Integer maxSize = productManageMapper.getProductCountByStoreId(Integer.parseInt(k2Member.getRetain1()), null, null);
                 showProductIndexDto.setTotalSize(maxSize);
-                // redisÖÐÃ»ÓÐÊý¾Ý´ÓÊý¾ÝÖÐ²éÑ¯Êý¾Ý ²¢±£´æµ½Redisµ±ÖÐÈ¥
+                // redisï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½æµ½Redisï¿½ï¿½ï¿½ï¿½È¥
                 List<ProductInfoToRedisDataDto> productByStoreId = productManageMapper.getProductByStoreId
                         (
                                 Integer.parseInt(k2Member.getRetain1()),
@@ -110,7 +108,7 @@ public class ProductIndexAppoint {
                         );
                 productByStoreId.forEach((n) -> {
                     n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName());
-                    // ÍùredisÐ´ÈëMapÀàÐÍµÄÊý¾Ý½á¹¹
+                    // ï¿½ï¿½redisÐ´ï¿½ï¿½Mapï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ý½á¹¹
                     try {
                         redis.hset(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1(), n.getProductNumber(), JsonUtils.objectToJson(n));
                     } catch (Exception e) {
@@ -118,11 +116,11 @@ public class ProductIndexAppoint {
                     }
 
                 });
-                // ¶Ô×´Ì¬½øÐÐÅÅÐò
+                // ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 ProductInfoSort.speedinessSortByState(productByStoreId);
                 showProductIndexDto.setProductInfoToRedisDataDtos(productByStoreId);
 
-                // ´æÈëredis
+                // ï¿½ï¿½ï¿½ï¿½redis
                 redis.set(PRODUCT_INFO_REDIS_KEY + k2Member.getRetain1() + "_DTO_VALUE", JsonUtils.objectToJson(showProductIndexDto));
             }
         } catch (Exception e) {
@@ -136,59 +134,59 @@ public class ProductIndexAppoint {
     }
 
 
-    // »ñÈ¡±¾´ÎÇëÇóµÄÉÌÆ·ÐÅÏ¢¼¯ºÏ
+    // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
     public SystemResult getCurrentRequestProductInfos(K2Member k2Member, ProductIndexDto dto,
                                                       List<ProductInfoToRedisDataDto> productDatas) {
 
-        // ÅÐ¶Ï±¾´Î²éÑ¯µÄÊý¾ÝÊÇ·ñÒÑ¾­³¬³öÉÌÆ·µÄÊýÁ¿
+        // ï¿½Ð¶Ï±ï¿½ï¿½Î²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (dto.getCurrentPage() > dto.getTotlaPage()) {
             dto.setCurrentPage(dto.getTotlaPage());
         }
 
-        // »ñÈ¡±¾´ÎµÄÊý¾ÝË÷Òý
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         int index = (dto.getCurrentPage() - 1) * dto.getCurrentSize() == -1 ? 0 : (dto.getCurrentPage() - 1) * dto.getCurrentSize();
-        // »ñÈ¡½áÊøË÷Òý
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         int endIndex = index + dto.getCurrentSize();
 
-        // ´´½¨ÊÇ·ñÈ¥Êý¾Ý¿â²éÑ¯Êý¾ÝµÄFlag
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½È¥ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ýµï¿½Flag
         boolean getMysqlFlag = false;
-        // ÅÐ¶Ï½áÊøË÷ÒýÊÇ·ñ´óÓÚ´æÔÚredisÖÐµÄÊýÁ¿
+        // ï¿½Ð¶Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½redisï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
         if (endIndex > PRODUCT_GOTO_REDIS_MAX_SIZE) {
-            // ËµÃ÷½ÓÏÂÀ´ÒªÈ¥Êý¾Ý¿âÖÐ²éÑ¯ÐÅÏ¢
+            // Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÈ¥ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ð²ï¿½Ñ¯ï¿½ï¿½Ï¢
             getMysqlFlag = true;
-        } else if (!StringUtils.isEmpty(dto.getProductName())) { // ÅÐ¶ÏÊÇ·ñÒª²éÑ¯Ãû³Æ ÐèÒª²éÑ¯Ãû³Æ¾ÍÒªÈ¥Êý¾Ý¿â²éÕÒ
+        } else if (!StringUtils.isEmpty(dto.getProductName())) { // ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Òªï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Æ¾ï¿½ÒªÈ¥ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½
             getMysqlFlag = true;
             dto.setProductName("%" + dto.getProductName() + "%");
-        } else if (!"0".equals(dto.getState())) { // ÅÐ¶ÏÊÇ·ñ²éÑ¯¿â´æ³ä×ãºÍ¿â´æ²»×ã  Èç¹ûÐèÒª¾ÍÈ¥²éÑ¯Êý¾Ý¿â
+        } else if (!"0".equals(dto.getState())) { // ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½æ²»ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¥ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¿ï¿½
             getMysqlFlag = true;
         }
 
-        // ´´½¨Êý¾ÝµÄ¼¯ºÏ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÄ¼ï¿½ï¿½ï¿½
         List<ProductInfoToRedisDataDto> currentProductInfos = new ArrayList<>();
         if (getMysqlFlag) {
-            // È¥Êý¾Ý¿â²éÑ¯Êý¾Ý
+            // È¥ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
             currentProductInfos = productManageMapper.getProductByStoreId(Integer.parseInt(k2Member.getRetain1()),
                     Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()),
                     index, dto.getCurrentSize(), null,
                     StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null, UUID.randomUUID().toString()
             );
             currentProductInfos.forEach((n) -> n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName()));
-            // ²éÑ¯×ÜÌõÊý
+            // ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Integer productCountByStoreId = productManageMapper.getProductCountByStoreId(Integer.parseInt(k2Member.getRetain1()),
                     StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(),
                     Integer.parseInt(dto.getState()) == 0 ? null : Integer.parseInt(dto.getState()));
             dto.setTotalSize(productCountByStoreId);
             dto.setTotlaPage((currentProductInfos.size() + (dto.getCurrentSize() + 1)) / dto.getCurrentSize());
         } else {
-            // ´ÓredisÖÐÈ¡³öÊý¾Ý
-            // ÅÐ¶Ï±¾´ÎÐèÒªµÄÊý¾ÝÊÇ·ñÊÇÈ«²¿
+            // ï¿½ï¿½redisï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ï¿½Ð¶Ï±ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È«ï¿½ï¿½
             if (productDatas.size() < endIndex) {
-                // ½«´Ó¸Ã¼¯ºÏµÄindeË÷Òýµ½½áÊøµÄÊý¾ÝÈ«²¿·µ»Ø
+                // ï¿½ï¿½ï¿½Ó¸Ã¼ï¿½ï¿½Ïµï¿½indeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 for (int i = index; i < productDatas.size(); i++) {
                     currentProductInfos.add(productDatas.get(i));
                 }
             } else {
-                // ¸ù¾ÝÆðÊ¼Ë÷ÒýºÍ½áÊøË÷Òý»ñÈ¡Êý¾Ý
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
                 for (int i = index; i < endIndex; i++) {
                     currentProductInfos.add(productDatas.get(i));
                 }

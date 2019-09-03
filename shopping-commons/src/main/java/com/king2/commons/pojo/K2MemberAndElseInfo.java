@@ -11,8 +11,16 @@ public class K2MemberAndElseInfo {
     // 角色信息
     private List<K2Role> k2Roles;
 
-    
+    // 本次的token信息
+    private String currentToken;
 
+    public String getCurrentToken() {
+        return currentToken;
+    }
+
+    public void setCurrentToken(String currentToken) {
+        this.currentToken = currentToken;
+    }
 
     public K2Member getK2Member() {
         return k2Member;

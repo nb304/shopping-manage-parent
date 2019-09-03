@@ -2,22 +2,13 @@ package com.king2.product.server.controller;
 
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
-import com.king2.product.server.cache.UserCharInfoCacheManage;
-import com.king2.product.server.pojo.UserCharInfoPojo;
 import com.king2.product.server.service.UserCharInfoManageService;
-import com.king2.product.server.service.impl.UserCharInfoManageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /*=======================================================
 	说明:    用户聊天记录管理Controller
@@ -28,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/char/info")
 @Validated
-public class UserCharInfoManageController {
+public class UserChatInfoManageController {
 
     // 注入聊天记录Service
     @Autowired
@@ -55,6 +46,9 @@ public class UserCharInfoManageController {
     public SystemResult sendMessage(HttpServletRequest request, Integer receiveId, String message) {
 
         // 获取用户数据
+        K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult result = userCharInfoManageService.sendChatInfo(k2MemberAndElseInfo, receiveId, message);
+        /*// 获取用户数据
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
         // 获取用户全部新的数据
         SystemResult newCharInfoAll = UserCharInfoManageServiceImpl.getNewCharInfoAll(receiveId);
@@ -93,7 +87,15 @@ public class UserCharInfoManageController {
         newChatInfo.put(UserCharInfoManageServiceImpl.USER_CHAR_INFO_KEY + "_" +
                 receiveId + "_" + k2MemberAndElseInfo.getK2Member().getMemberId(), userCharInfoPojos);
         // 重新写入
-        UserCharInfoCacheManage.getInstance().getNewMessageDatas().put(UserCharInfoManageServiceImpl.USER_CHAR_INFO_KEY + "_" + receiveId, newChatInfo);
-        return new SystemResult("写入完成");
+        UserCharInfoCacheManage.getInstance().getNewMessageDatas().put(UserCharInfoManageServiceImpl.USER_CHAR_INFO_KEY + "_" + receiveId, newChatInfo);*/
+        return result;
+    }
+
+    @RequestMapping("/get")
+    public SystemResult get(HttpServletRequest request , Integer getId) {
+        // 获取用户数据
+        K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult chatInfoByGetId = userCharInfoManageService.getChatInfoByGetId(getId, k2MemberAndElseInfo);
+        return chatInfoByGetId;
     }
 }

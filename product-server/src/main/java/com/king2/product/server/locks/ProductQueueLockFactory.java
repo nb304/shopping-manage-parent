@@ -1,7 +1,6 @@
 package com.king2.product.server.locks;
 
 import com.king2.product.server.dto.LockPojo;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;

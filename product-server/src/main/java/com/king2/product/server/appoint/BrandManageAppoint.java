@@ -5,39 +5,39 @@ import com.king2.commons.result.SystemResult;
 import com.king2.product.server.cache.CurrentDayHandleSqlSizeCache;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.enmu.CurrentDayHandleSqlSizeEnum;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /*=======================================================
-	ËµÃ÷:    ÉÌÆ·Æ·ÅÆÎ¯ÍÐÀà
+	Ëµï¿½ï¿½:    ï¿½ï¿½Æ·Æ·ï¿½ï¿½Î¯ï¿½ï¿½ï¿½ï¿½
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.08.25   			´´½¨
+	ï¿½ï¿½ï¿½ï¿½		Ê±ï¿½ï¿½					×¢ï¿½ï¿½
+  	ï¿½ï¿½ï¿½ï¿½		2019.08.25   			ï¿½ï¿½ï¿½ï¿½
 =======================================================*/
 public class BrandManageAppoint {
 
 
     /**
-     * ¼ì²éÊÇ·ñ¿ÉÒÔÐÞ¸ÄÉÌÆ·Æ·ÅÆµÄÊý¾Ý
+     * ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½Æ·Æ·ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½
      *
      * @return
      */
     public static SystemResult checkIfEditBrand(String storeId) {
 
-        // »ñÈ¡Ëø×ÊÔ´
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ô´
         LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_FUNCTION_MYSQL_SIZE_KEY.getValue());
-        // ¿ªÆôËø
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         lockPojo.getLock().lock();
         try {
-            // »ñÈ¡²Ù×÷´ÎÊýµÄÊý¾ÝÐÅÏ¢
+            // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             ConcurrentHashMap<String, K2CurrentDayHandleSqlSize> dataMaps = CurrentDayHandleSqlSizeCache.getInstance().getDataMaps();
-            // ²é¿´ÊÇ·ñ°üº¬
+            // ï¿½é¿´ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
             if (!dataMaps.containsKey(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId)) {
                 K2CurrentDayHandleSqlSize size = new K2CurrentDayHandleSqlSize();
                 size.setEditBrandSize(0);
-                // ÖØÐÂÐ´Èë»º´æÖÐ
+                // ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ë»ºï¿½ï¿½ï¿½ï¿½
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, size);
                 return new SystemResult("ok");
             }
@@ -45,22 +45,22 @@ public class BrandManageAppoint {
             if (k2CurrentDayHandleSqlSize == null) {
                 K2CurrentDayHandleSqlSize size = new K2CurrentDayHandleSqlSize();
                 size.setEditBrandSize(0);
-                // ÖØÐÂÐ´Èë»º´æÖÐ
+                // ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ë»ºï¿½ï¿½ï¿½ï¿½
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, size);
                 return new SystemResult("ok");
             } else if (k2CurrentDayHandleSqlSize.getEditBrandSize() >= CurrentDayHandleSqlSizeEnum.EBRAND.getValue()) {
-                return new SystemResult(202, "Äúµ±ÌìÐÞ¸ÄÉÌÆ·µÄ´ÎÊýÉÏÏÞ,Ã¿Ìì×î¶à¿ÉÒÔÐÞ¸Ä:" + CurrentDayHandleSqlSizeEnum.EBRAND.getValue() + "´Î");
+                return new SystemResult(202, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½:" + CurrentDayHandleSqlSizeEnum.EBRAND.getValue() + "ï¿½ï¿½");
             } else {
-                // Ð¡ÓÚ¾ÍÈ¡³öÊý¾Ý+1 ÖØÐÂÐ´Èë»º´æÖÐ
+                // Ð¡ï¿½Ú¾ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+1 ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ë»ºï¿½ï¿½ï¿½ï¿½
                 k2CurrentDayHandleSqlSize.setEditBrandSize(k2CurrentDayHandleSqlSize.getEditBrandSize() + 1);
-                // ÖØÐÂÐ´Èë»º´æÖÐ
+                // ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ë»ºï¿½ï¿½ï¿½ï¿½
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, k2CurrentDayHandleSqlSize);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // ½âËø
+            // ï¿½ï¿½ï¿½ï¿½
             lockPojo.getLock().unlock();
         }
 

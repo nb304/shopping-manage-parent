@@ -7,7 +7,7 @@ import com.king2.commons.utils.GetErrorInfo;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

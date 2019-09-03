@@ -4,7 +4,7 @@ import com.king2.commons.mapper.K2MessageMapper;
 import com.king2.product.server.cache.SystemIndexCacheManage;
 import com.king2.product.server.dto.LockPojo;
 import com.king2.product.server.enmu.K2MessageEnum;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.commons.pojo.K2Message;
 import org.springframework.util.CollectionUtils;

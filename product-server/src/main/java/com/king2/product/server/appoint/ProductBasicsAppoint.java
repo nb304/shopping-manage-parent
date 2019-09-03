@@ -9,7 +9,7 @@ import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.product.server.cache.SystemCacheManage;
 import com.king2.product.server.dto.ProductInfoDto;
-import com.king2.product.server.enmu.ProductQueueLockFactoryTypeEnum;
+import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
