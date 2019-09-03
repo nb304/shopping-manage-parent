@@ -11,6 +11,7 @@ import com.king2.commons.pojo.King2SensitivityLexicon;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.enmu.K2MessageEnum;
 import com.king2.product.server.enmu.ProductStateEnum;
+import com.king2.product.server.enmu.SystemFeedbackEnum;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -176,11 +177,12 @@ public class ProductInfoQueueAppoint {
         K2SystemFeedback systemFeedback = new K2SystemFeedback();
         systemFeedback.setFeedbackNumber(UUID.randomUUID().toString().replaceAll("-", ""));
         systemFeedback.setFeedbackContent("您添加商品的审核通知已下发,请通过查看'我的信息','商品管理'查看新的信息。");
-        systemFeedback.setIsCommon(1);
+        systemFeedback.setIsCommon(SystemFeedbackEnum.IS_COMMONS_NO.getValue());
         systemFeedback.setBelongUserId(k2ProductWithBLOBs.getProductCreateUserid());
         systemFeedback.setFeedbackUsername("系统通知");
         systemFeedback.setFeedbackState(K2MessageEnum.WD.getValue());
         systemFeedback.setCreateTime(new Date());
+        systemFeedback.setRetain1(k2ProductWithBLOBs.getProductStoreId() + "");
         k2SystemFeedbackMapper.insert(systemFeedback);
 
         // 商品信息没有通过  通知缓存队列更新数据

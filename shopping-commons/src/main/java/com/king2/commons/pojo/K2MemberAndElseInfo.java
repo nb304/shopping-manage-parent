@@ -11,6 +11,8 @@ public class K2MemberAndElseInfo {
     // 角色信息
     private List<K2Role> k2Roles;
 
+    
+
 
     public K2Member getK2Member() {
         return k2Member;

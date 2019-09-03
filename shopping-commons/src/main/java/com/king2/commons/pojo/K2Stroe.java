@@ -4,378 +4,378 @@ import java.util.Date;
 
 public class K2Stroe {
     /**
-     * åº—é“ºè¡¨çš„ä¸»é”®id
+     * µêÆÌ±íµÄÖ÷¼üid
      */
     private Integer stroeId;
 
     /**
-     * åº—é“ºçš„åç§°
+     * µêÆÌµÄÃû³Æ
      */
     private String stroeName;
 
     /**
-     * åº—é“ºçš„å¤´åƒ
+     * µêÆÌµÄÍ·Ïñ
      */
     private String storeImage;
 
     /**
-     * åº—é“ºçš„LOGOå›¾åƒ
+     * µêÆÌµÄLOGOÍ¼Ïñ
      */
     private String storeLogoImage;
 
     /**
-     * è¯¥åº—é“ºå±äºå“ªä¸ªç”¨æˆ·  ---æŒ‡å‘ç”¨æˆ·è¡¨ä¸»é”®
+     * ¸ÃµêÆÌÊôÓÚÄÄ¸öÓÃ»§  ---Ö¸ÏòÓÃ»§±íÖ÷¼ü
      */
     private Integer belongUserId;
 
     /**
-     * è¯¥åº—é“ºçš„æ”¯ä»˜å®è´¦æˆ·
+     * ¸ÃµêÆÌµÄÖ§¸¶±¦ÕË»§
      */
-    private Integer storeProceedsZfb;
+    private String storeProceedsZfb;
 
     /**
-     * åº—é“ºçš„æè¿°
+     * µêÆÌµÄÃèÊö
      */
     private String storeDescribe;
 
     /**
-     * åº—é•¿çš„æ‰‹æœºå·ç 
+     * µê³¤µÄÊÖ»úºÅÂë
      */
-    private Integer storePhone;
+    private String storePhone;
 
     /**
-     * åº—é“ºçš„çŠ¶æ€  ---1å¼€ä¸šä¸­ 2å…³é—­
+     * µêÆÌµÄ×´Ì¬  ---1¿ªÒµÖĞ 2¹Ø±Õ
      */
     private Integer storeState;
 
     /**
-     * ç”¨æˆ·çš„ç­‰çº§åˆ†ç±»  ---æŒ‡å‘åº—é“ºåˆ†ç±»è¡¨ä¸»é”®
+     * ÓÃ»§µÄµÈ¼¶·ÖÀà  ---Ö¸ÏòµêÆÌ·ÖÀà±íÖ÷¼ü
      */
     private Integer storeLeven;
 
     /**
-     * åˆ›å»ºæ—¶é—´
+     * ´´½¨Ê±¼ä
      */
     private Date createTime;
 
     /**
-     * å€’é—­æ—¶é—´
+     * µ¹±ÕÊ±¼ä
      */
     private Date gointoTime;
 
     /**
-     * åº—é“ºçš„æŠ¼é‡‘
+     * µêÆÌµÄÑº½ğ
      */
     private Integer storeCash;
 
     /**
-     * ä¿ç•™å­—æ®µ1
+     * ±£Áô×Ö¶Î1
      */
     private String retain1;
 
     /**
-     * ä¿ç•™å­—æ®µ2
+     * ±£Áô×Ö¶Î2
      */
     private String retain2;
 
     /**
-     * ä¿ç•™å­—æ®µ3
+     * ±£Áô×Ö¶Î3
      */
     private String retain3;
 
     /**
-     * ä¿ç•™å­—æ®µ4
+     * ±£Áô×Ö¶Î4
      */
     private String retain4;
 
     /**
-     * ä¿ç•™å­—æ®µ5
+     * ±£Áô×Ö¶Î5
      */
     private String retain5;
 
     /**
-     * åº—é“ºè¡¨çš„ä¸»é”®id
-     * @return stroe_id åº—é“ºè¡¨çš„ä¸»é”®id
+     * µêÆÌ±íµÄÖ÷¼üid
+     * @return stroe_id µêÆÌ±íµÄÖ÷¼üid
      */
     public Integer getStroeId() {
         return stroeId;
     }
 
     /**
-     * åº—é“ºè¡¨çš„ä¸»é”®id
-     * @param stroeId åº—é“ºè¡¨çš„ä¸»é”®id
+     * µêÆÌ±íµÄÖ÷¼üid
+     * @param stroeId µêÆÌ±íµÄÖ÷¼üid
      */
     public void setStroeId(Integer stroeId) {
         this.stroeId = stroeId;
     }
 
     /**
-     * åº—é“ºçš„åç§°
-     * @return stroe_name åº—é“ºçš„åç§°
+     * µêÆÌµÄÃû³Æ
+     * @return stroe_name µêÆÌµÄÃû³Æ
      */
     public String getStroeName() {
         return stroeName;
     }
 
     /**
-     * åº—é“ºçš„åç§°
-     * @param stroeName åº—é“ºçš„åç§°
+     * µêÆÌµÄÃû³Æ
+     * @param stroeName µêÆÌµÄÃû³Æ
      */
     public void setStroeName(String stroeName) {
         this.stroeName = stroeName == null ? null : stroeName.trim();
     }
 
     /**
-     * åº—é“ºçš„å¤´åƒ
-     * @return store_image åº—é“ºçš„å¤´åƒ
+     * µêÆÌµÄÍ·Ïñ
+     * @return store_image µêÆÌµÄÍ·Ïñ
      */
     public String getStoreImage() {
         return storeImage;
     }
 
     /**
-     * åº—é“ºçš„å¤´åƒ
-     * @param storeImage åº—é“ºçš„å¤´åƒ
+     * µêÆÌµÄÍ·Ïñ
+     * @param storeImage µêÆÌµÄÍ·Ïñ
      */
     public void setStoreImage(String storeImage) {
         this.storeImage = storeImage == null ? null : storeImage.trim();
     }
 
     /**
-     * åº—é“ºçš„LOGOå›¾åƒ
-     * @return store_logo_image åº—é“ºçš„LOGOå›¾åƒ
+     * µêÆÌµÄLOGOÍ¼Ïñ
+     * @return store_logo_image µêÆÌµÄLOGOÍ¼Ïñ
      */
     public String getStoreLogoImage() {
         return storeLogoImage;
     }
 
     /**
-     * åº—é“ºçš„LOGOå›¾åƒ
-     * @param storeLogoImage åº—é“ºçš„LOGOå›¾åƒ
+     * µêÆÌµÄLOGOÍ¼Ïñ
+     * @param storeLogoImage µêÆÌµÄLOGOÍ¼Ïñ
      */
     public void setStoreLogoImage(String storeLogoImage) {
         this.storeLogoImage = storeLogoImage == null ? null : storeLogoImage.trim();
     }
 
     /**
-     * è¯¥åº—é“ºå±äºå“ªä¸ªç”¨æˆ·  ---æŒ‡å‘ç”¨æˆ·è¡¨ä¸»é”®
-     * @return belong_user_id è¯¥åº—é“ºå±äºå“ªä¸ªç”¨æˆ·  ---æŒ‡å‘ç”¨æˆ·è¡¨ä¸»é”®
+     * ¸ÃµêÆÌÊôÓÚÄÄ¸öÓÃ»§  ---Ö¸ÏòÓÃ»§±íÖ÷¼ü
+     * @return belong_user_id ¸ÃµêÆÌÊôÓÚÄÄ¸öÓÃ»§  ---Ö¸ÏòÓÃ»§±íÖ÷¼ü
      */
     public Integer getBelongUserId() {
         return belongUserId;
     }
 
     /**
-     * è¯¥åº—é“ºå±äºå“ªä¸ªç”¨æˆ·  ---æŒ‡å‘ç”¨æˆ·è¡¨ä¸»é”®
-     * @param belongUserId è¯¥åº—é“ºå±äºå“ªä¸ªç”¨æˆ·  ---æŒ‡å‘ç”¨æˆ·è¡¨ä¸»é”®
+     * ¸ÃµêÆÌÊôÓÚÄÄ¸öÓÃ»§  ---Ö¸ÏòÓÃ»§±íÖ÷¼ü
+     * @param belongUserId ¸ÃµêÆÌÊôÓÚÄÄ¸öÓÃ»§  ---Ö¸ÏòÓÃ»§±íÖ÷¼ü
      */
     public void setBelongUserId(Integer belongUserId) {
         this.belongUserId = belongUserId;
     }
 
     /**
-     * è¯¥åº—é“ºçš„æ”¯ä»˜å®è´¦æˆ·
-     * @return store_proceeds_zfb è¯¥åº—é“ºçš„æ”¯ä»˜å®è´¦æˆ·
+     * ¸ÃµêÆÌµÄÖ§¸¶±¦ÕË»§
+     * @return store_proceeds_zfb ¸ÃµêÆÌµÄÖ§¸¶±¦ÕË»§
      */
-    public Integer getStoreProceedsZfb() {
+    public String getStoreProceedsZfb() {
         return storeProceedsZfb;
     }
 
     /**
-     * è¯¥åº—é“ºçš„æ”¯ä»˜å®è´¦æˆ·
-     * @param storeProceedsZfb è¯¥åº—é“ºçš„æ”¯ä»˜å®è´¦æˆ·
+     * ¸ÃµêÆÌµÄÖ§¸¶±¦ÕË»§
+     * @param storeProceedsZfb ¸ÃµêÆÌµÄÖ§¸¶±¦ÕË»§
      */
-    public void setStoreProceedsZfb(Integer storeProceedsZfb) {
-        this.storeProceedsZfb = storeProceedsZfb;
+    public void setStoreProceedsZfb(String storeProceedsZfb) {
+        this.storeProceedsZfb = storeProceedsZfb == null ? null : storeProceedsZfb.trim();
     }
 
     /**
-     * åº—é“ºçš„æè¿°
-     * @return store_describe åº—é“ºçš„æè¿°
+     * µêÆÌµÄÃèÊö
+     * @return store_describe µêÆÌµÄÃèÊö
      */
     public String getStoreDescribe() {
         return storeDescribe;
     }
 
     /**
-     * åº—é“ºçš„æè¿°
-     * @param storeDescribe åº—é“ºçš„æè¿°
+     * µêÆÌµÄÃèÊö
+     * @param storeDescribe µêÆÌµÄÃèÊö
      */
     public void setStoreDescribe(String storeDescribe) {
         this.storeDescribe = storeDescribe == null ? null : storeDescribe.trim();
     }
 
     /**
-     * åº—é•¿çš„æ‰‹æœºå·ç 
-     * @return store_phone åº—é•¿çš„æ‰‹æœºå·ç 
+     * µê³¤µÄÊÖ»úºÅÂë
+     * @return store_phone µê³¤µÄÊÖ»úºÅÂë
      */
-    public Integer getStorePhone() {
+    public String getStorePhone() {
         return storePhone;
     }
 
     /**
-     * åº—é•¿çš„æ‰‹æœºå·ç 
-     * @param storePhone åº—é•¿çš„æ‰‹æœºå·ç 
+     * µê³¤µÄÊÖ»úºÅÂë
+     * @param storePhone µê³¤µÄÊÖ»úºÅÂë
      */
-    public void setStorePhone(Integer storePhone) {
-        this.storePhone = storePhone;
+    public void setStorePhone(String storePhone) {
+        this.storePhone = storePhone == null ? null : storePhone.trim();
     }
 
     /**
-     * åº—é“ºçš„çŠ¶æ€  ---1å¼€ä¸šä¸­ 2å…³é—­
-     * @return store_state åº—é“ºçš„çŠ¶æ€  ---1å¼€ä¸šä¸­ 2å…³é—­
+     * µêÆÌµÄ×´Ì¬  ---1¿ªÒµÖĞ 2¹Ø±Õ
+     * @return store_state µêÆÌµÄ×´Ì¬  ---1¿ªÒµÖĞ 2¹Ø±Õ
      */
     public Integer getStoreState() {
         return storeState;
     }
 
     /**
-     * åº—é“ºçš„çŠ¶æ€  ---1å¼€ä¸šä¸­ 2å…³é—­
-     * @param storeState åº—é“ºçš„çŠ¶æ€  ---1å¼€ä¸šä¸­ 2å…³é—­
+     * µêÆÌµÄ×´Ì¬  ---1¿ªÒµÖĞ 2¹Ø±Õ
+     * @param storeState µêÆÌµÄ×´Ì¬  ---1¿ªÒµÖĞ 2¹Ø±Õ
      */
     public void setStoreState(Integer storeState) {
         this.storeState = storeState;
     }
 
     /**
-     * ç”¨æˆ·çš„ç­‰çº§åˆ†ç±»  ---æŒ‡å‘åº—é“ºåˆ†ç±»è¡¨ä¸»é”®
-     * @return store_leven ç”¨æˆ·çš„ç­‰çº§åˆ†ç±»  ---æŒ‡å‘åº—é“ºåˆ†ç±»è¡¨ä¸»é”®
+     * ÓÃ»§µÄµÈ¼¶·ÖÀà  ---Ö¸ÏòµêÆÌ·ÖÀà±íÖ÷¼ü
+     * @return store_leven ÓÃ»§µÄµÈ¼¶·ÖÀà  ---Ö¸ÏòµêÆÌ·ÖÀà±íÖ÷¼ü
      */
     public Integer getStoreLeven() {
         return storeLeven;
     }
 
     /**
-     * ç”¨æˆ·çš„ç­‰çº§åˆ†ç±»  ---æŒ‡å‘åº—é“ºåˆ†ç±»è¡¨ä¸»é”®
-     * @param storeLeven ç”¨æˆ·çš„ç­‰çº§åˆ†ç±»  ---æŒ‡å‘åº—é“ºåˆ†ç±»è¡¨ä¸»é”®
+     * ÓÃ»§µÄµÈ¼¶·ÖÀà  ---Ö¸ÏòµêÆÌ·ÖÀà±íÖ÷¼ü
+     * @param storeLeven ÓÃ»§µÄµÈ¼¶·ÖÀà  ---Ö¸ÏòµêÆÌ·ÖÀà±íÖ÷¼ü
      */
     public void setStoreLeven(Integer storeLeven) {
         this.storeLeven = storeLeven;
     }
 
     /**
-     * åˆ›å»ºæ—¶é—´
-     * @return create_time åˆ›å»ºæ—¶é—´
+     * ´´½¨Ê±¼ä
+     * @return create_time ´´½¨Ê±¼ä
      */
     public Date getCreateTime() {
         return createTime;
     }
 
     /**
-     * åˆ›å»ºæ—¶é—´
-     * @param createTime åˆ›å»ºæ—¶é—´
+     * ´´½¨Ê±¼ä
+     * @param createTime ´´½¨Ê±¼ä
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     /**
-     * å€’é—­æ—¶é—´
-     * @return gointo_time å€’é—­æ—¶é—´
+     * µ¹±ÕÊ±¼ä
+     * @return gointo_time µ¹±ÕÊ±¼ä
      */
     public Date getGointoTime() {
         return gointoTime;
     }
 
     /**
-     * å€’é—­æ—¶é—´
-     * @param gointoTime å€’é—­æ—¶é—´
+     * µ¹±ÕÊ±¼ä
+     * @param gointoTime µ¹±ÕÊ±¼ä
      */
     public void setGointoTime(Date gointoTime) {
         this.gointoTime = gointoTime;
     }
 
     /**
-     * åº—é“ºçš„æŠ¼é‡‘
-     * @return store_cash åº—é“ºçš„æŠ¼é‡‘
+     * µêÆÌµÄÑº½ğ
+     * @return store_cash µêÆÌµÄÑº½ğ
      */
     public Integer getStoreCash() {
         return storeCash;
     }
 
     /**
-     * åº—é“ºçš„æŠ¼é‡‘
-     * @param storeCash åº—é“ºçš„æŠ¼é‡‘
+     * µêÆÌµÄÑº½ğ
+     * @param storeCash µêÆÌµÄÑº½ğ
      */
     public void setStoreCash(Integer storeCash) {
         this.storeCash = storeCash;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ1
-     * @return retain1 ä¿ç•™å­—æ®µ1
+     * ±£Áô×Ö¶Î1
+     * @return retain1 ±£Áô×Ö¶Î1
      */
     public String getRetain1() {
         return retain1;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ1
-     * @param retain1 ä¿ç•™å­—æ®µ1
+     * ±£Áô×Ö¶Î1
+     * @param retain1 ±£Áô×Ö¶Î1
      */
     public void setRetain1(String retain1) {
         this.retain1 = retain1 == null ? null : retain1.trim();
     }
 
     /**
-     * ä¿ç•™å­—æ®µ2
-     * @return retain2 ä¿ç•™å­—æ®µ2
+     * ±£Áô×Ö¶Î2
+     * @return retain2 ±£Áô×Ö¶Î2
      */
     public String getRetain2() {
         return retain2;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ2
-     * @param retain2 ä¿ç•™å­—æ®µ2
+     * ±£Áô×Ö¶Î2
+     * @param retain2 ±£Áô×Ö¶Î2
      */
     public void setRetain2(String retain2) {
         this.retain2 = retain2 == null ? null : retain2.trim();
     }
 
     /**
-     * ä¿ç•™å­—æ®µ3
-     * @return retain3 ä¿ç•™å­—æ®µ3
+     * ±£Áô×Ö¶Î3
+     * @return retain3 ±£Áô×Ö¶Î3
      */
     public String getRetain3() {
         return retain3;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ3
-     * @param retain3 ä¿ç•™å­—æ®µ3
+     * ±£Áô×Ö¶Î3
+     * @param retain3 ±£Áô×Ö¶Î3
      */
     public void setRetain3(String retain3) {
         this.retain3 = retain3 == null ? null : retain3.trim();
     }
 
     /**
-     * ä¿ç•™å­—æ®µ4
-     * @return retain4 ä¿ç•™å­—æ®µ4
+     * ±£Áô×Ö¶Î4
+     * @return retain4 ±£Áô×Ö¶Î4
      */
     public String getRetain4() {
         return retain4;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ4
-     * @param retain4 ä¿ç•™å­—æ®µ4
+     * ±£Áô×Ö¶Î4
+     * @param retain4 ±£Áô×Ö¶Î4
      */
     public void setRetain4(String retain4) {
         this.retain4 = retain4 == null ? null : retain4.trim();
     }
 
     /**
-     * ä¿ç•™å­—æ®µ5
-     * @return retain5 ä¿ç•™å­—æ®µ5
+     * ±£Áô×Ö¶Î5
+     * @return retain5 ±£Áô×Ö¶Î5
      */
     public String getRetain5() {
         return retain5;
     }
 
     /**
-     * ä¿ç•™å­—æ®µ5
-     * @param retain5 ä¿ç•™å­—æ®µ5
+     * ±£Áô×Ö¶Î5
+     * @param retain5 ±£Áô×Ö¶Î5
      */
     public void setRetain5(String retain5) {
         this.retain5 = retain5 == null ? null : retain5.trim();

@@ -7,9 +7,9 @@
     <result column="store_image" property="storeImage" jdbcType="VARCHAR" />
     <result column="store_logo_image" property="storeLogoImage" jdbcType="VARCHAR" />
     <result column="belong_user_id" property="belongUserId" jdbcType="INTEGER" />
-    <result column="store_proceeds_zfb" property="storeProceedsZfb" jdbcType="INTEGER" />
+    <result column="store_proceeds_zfb" property="storeProceedsZfb" jdbcType="VARCHAR" />
     <result column="store_describe" property="storeDescribe" jdbcType="VARCHAR" />
-    <result column="store_phone" property="storePhone" jdbcType="INTEGER" />
+    <result column="store_phone" property="storePhone" jdbcType="VARCHAR" />
     <result column="store_state" property="storeState" jdbcType="INTEGER" />
     <result column="store_leven" property="storeLeven" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -123,8 +123,8 @@
       retain3, retain4, retain5
       )
     values (#{stroeId,jdbcType=INTEGER}, #{stroeName,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR}, 
-      #{storeLogoImage,jdbcType=VARCHAR}, #{belongUserId,jdbcType=INTEGER}, #{storeProceedsZfb,jdbcType=INTEGER}, 
-      #{storeDescribe,jdbcType=VARCHAR}, #{storePhone,jdbcType=INTEGER}, #{storeState,jdbcType=INTEGER}, 
+      #{storeLogoImage,jdbcType=VARCHAR}, #{belongUserId,jdbcType=INTEGER}, #{storeProceedsZfb,jdbcType=VARCHAR}, 
+      #{storeDescribe,jdbcType=VARCHAR}, #{storePhone,jdbcType=VARCHAR}, #{storeState,jdbcType=INTEGER}, 
       #{storeLeven,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{gointoTime,jdbcType=TIMESTAMP}, 
       #{storeCash,jdbcType=INTEGER}, #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, 
       #{retain3,jdbcType=VARCHAR}, #{retain4,jdbcType=VARCHAR}, #{retain5,jdbcType=VARCHAR}
@@ -205,13 +205,13 @@
         #{belongUserId,jdbcType=INTEGER},
       </if>
       <if test="storeProceedsZfb != null" >
-        #{storeProceedsZfb,jdbcType=INTEGER},
+        #{storeProceedsZfb,jdbcType=VARCHAR},
       </if>
       <if test="storeDescribe != null" >
         #{storeDescribe,jdbcType=VARCHAR},
       </if>
       <if test="storePhone != null" >
-        #{storePhone,jdbcType=INTEGER},
+        #{storePhone,jdbcType=VARCHAR},
       </if>
       <if test="storeState != null" >
         #{storeState,jdbcType=INTEGER},
@@ -270,13 +270,13 @@
         belong_user_id = #{record.belongUserId,jdbcType=INTEGER},
       </if>
       <if test="record.storeProceedsZfb != null" >
-        store_proceeds_zfb = #{record.storeProceedsZfb,jdbcType=INTEGER},
+        store_proceeds_zfb = #{record.storeProceedsZfb,jdbcType=VARCHAR},
       </if>
       <if test="record.storeDescribe != null" >
         store_describe = #{record.storeDescribe,jdbcType=VARCHAR},
       </if>
       <if test="record.storePhone != null" >
-        store_phone = #{record.storePhone,jdbcType=INTEGER},
+        store_phone = #{record.storePhone,jdbcType=VARCHAR},
       </if>
       <if test="record.storeState != null" >
         store_state = #{record.storeState,jdbcType=INTEGER},
@@ -320,9 +320,9 @@
       store_image = #{record.storeImage,jdbcType=VARCHAR},
       store_logo_image = #{record.storeLogoImage,jdbcType=VARCHAR},
       belong_user_id = #{record.belongUserId,jdbcType=INTEGER},
-      store_proceeds_zfb = #{record.storeProceedsZfb,jdbcType=INTEGER},
+      store_proceeds_zfb = #{record.storeProceedsZfb,jdbcType=VARCHAR},
       store_describe = #{record.storeDescribe,jdbcType=VARCHAR},
-      store_phone = #{record.storePhone,jdbcType=INTEGER},
+      store_phone = #{record.storePhone,jdbcType=VARCHAR},
       store_state = #{record.storeState,jdbcType=INTEGER},
       store_leven = #{record.storeLeven,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -353,13 +353,13 @@
         belong_user_id = #{belongUserId,jdbcType=INTEGER},
       </if>
       <if test="storeProceedsZfb != null" >
-        store_proceeds_zfb = #{storeProceedsZfb,jdbcType=INTEGER},
+        store_proceeds_zfb = #{storeProceedsZfb,jdbcType=VARCHAR},
       </if>
       <if test="storeDescribe != null" >
         store_describe = #{storeDescribe,jdbcType=VARCHAR},
       </if>
       <if test="storePhone != null" >
-        store_phone = #{storePhone,jdbcType=INTEGER},
+        store_phone = #{storePhone,jdbcType=VARCHAR},
       </if>
       <if test="storeState != null" >
         store_state = #{storeState,jdbcType=INTEGER},
@@ -400,9 +400,9 @@
       store_image = #{storeImage,jdbcType=VARCHAR},
       store_logo_image = #{storeLogoImage,jdbcType=VARCHAR},
       belong_user_id = #{belongUserId,jdbcType=INTEGER},
-      store_proceeds_zfb = #{storeProceedsZfb,jdbcType=INTEGER},
+      store_proceeds_zfb = #{storeProceedsZfb,jdbcType=VARCHAR},
       store_describe = #{storeDescribe,jdbcType=VARCHAR},
-      store_phone = #{storePhone,jdbcType=INTEGER},
+      store_phone = #{storePhone,jdbcType=VARCHAR},
       store_state = #{storeState,jdbcType=INTEGER},
       store_leven = #{storeLeven,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

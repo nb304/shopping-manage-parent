@@ -74,7 +74,7 @@ public class K2StroeExample {
     }
 
     /**
-     * k2_stroe 2019-08-06
+     * k2_stroe 2019-09-02
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -457,52 +457,62 @@ public class K2StroeExample {
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbEqualTo(Integer value) {
+        public Criteria andStoreProceedsZfbEqualTo(String value) {
             addCriterion("store_proceeds_zfb =", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbNotEqualTo(Integer value) {
+        public Criteria andStoreProceedsZfbNotEqualTo(String value) {
             addCriterion("store_proceeds_zfb <>", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbGreaterThan(Integer value) {
+        public Criteria andStoreProceedsZfbGreaterThan(String value) {
             addCriterion("store_proceeds_zfb >", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStoreProceedsZfbGreaterThanOrEqualTo(String value) {
             addCriterion("store_proceeds_zfb >=", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbLessThan(Integer value) {
+        public Criteria andStoreProceedsZfbLessThan(String value) {
             addCriterion("store_proceeds_zfb <", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbLessThanOrEqualTo(Integer value) {
+        public Criteria andStoreProceedsZfbLessThanOrEqualTo(String value) {
             addCriterion("store_proceeds_zfb <=", value, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbIn(List<Integer> values) {
+        public Criteria andStoreProceedsZfbLike(String value) {
+            addCriterion("store_proceeds_zfb like", value, "storeProceedsZfb");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreProceedsZfbNotLike(String value) {
+            addCriterion("store_proceeds_zfb not like", value, "storeProceedsZfb");
+            return (Criteria) this;
+        }
+
+        public Criteria andStoreProceedsZfbIn(List<String> values) {
             addCriterion("store_proceeds_zfb in", values, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbNotIn(List<Integer> values) {
+        public Criteria andStoreProceedsZfbNotIn(List<String> values) {
             addCriterion("store_proceeds_zfb not in", values, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbBetween(Integer value1, Integer value2) {
+        public Criteria andStoreProceedsZfbBetween(String value1, String value2) {
             addCriterion("store_proceeds_zfb between", value1, value2, "storeProceedsZfb");
             return (Criteria) this;
         }
 
-        public Criteria andStoreProceedsZfbNotBetween(Integer value1, Integer value2) {
+        public Criteria andStoreProceedsZfbNotBetween(String value1, String value2) {
             addCriterion("store_proceeds_zfb not between", value1, value2, "storeProceedsZfb");
             return (Criteria) this;
         }
@@ -587,52 +597,62 @@ public class K2StroeExample {
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneEqualTo(Integer value) {
+        public Criteria andStorePhoneEqualTo(String value) {
             addCriterion("store_phone =", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneNotEqualTo(Integer value) {
+        public Criteria andStorePhoneNotEqualTo(String value) {
             addCriterion("store_phone <>", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneGreaterThan(Integer value) {
+        public Criteria andStorePhoneGreaterThan(String value) {
             addCriterion("store_phone >", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneGreaterThanOrEqualTo(Integer value) {
+        public Criteria andStorePhoneGreaterThanOrEqualTo(String value) {
             addCriterion("store_phone >=", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneLessThan(Integer value) {
+        public Criteria andStorePhoneLessThan(String value) {
             addCriterion("store_phone <", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneLessThanOrEqualTo(Integer value) {
+        public Criteria andStorePhoneLessThanOrEqualTo(String value) {
             addCriterion("store_phone <=", value, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneIn(List<Integer> values) {
+        public Criteria andStorePhoneLike(String value) {
+            addCriterion("store_phone like", value, "storePhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorePhoneNotLike(String value) {
+            addCriterion("store_phone not like", value, "storePhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorePhoneIn(List<String> values) {
             addCriterion("store_phone in", values, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneNotIn(List<Integer> values) {
+        public Criteria andStorePhoneNotIn(List<String> values) {
             addCriterion("store_phone not in", values, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneBetween(Integer value1, Integer value2) {
+        public Criteria andStorePhoneBetween(String value1, String value2) {
             addCriterion("store_phone between", value1, value2, "storePhone");
             return (Criteria) this;
         }
 
-        public Criteria andStorePhoneNotBetween(Integer value1, Integer value2) {
+        public Criteria andStorePhoneNotBetween(String value1, String value2) {
             addCriterion("store_phone not between", value1, value2, "storePhone");
             return (Criteria) this;
         }
@@ -1299,7 +1319,7 @@ public class K2StroeExample {
     }
 
     /**
-     * k2_stroe 2019-08-06
+     * k2_stroe 2019-09-02
      */
     public static class Criterion {
         private String condition;

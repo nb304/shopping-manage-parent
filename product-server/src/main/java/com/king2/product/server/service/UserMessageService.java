@@ -37,4 +37,5 @@ public interface UserMessageService {
      * -----------------------------------------------------
      */
     SystemResult clearOrReadMessage(String state, Integer userId);
+
 }

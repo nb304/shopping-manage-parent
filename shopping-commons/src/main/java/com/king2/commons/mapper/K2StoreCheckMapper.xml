@@ -6,9 +6,9 @@
     <result column="store_check_number" property="storeCheckNumber" jdbcType="VARCHAR" />
     <result column="store_check_storeName" property="storeCheckStorename" jdbcType="VARCHAR" />
     <result column="store_check_name" property="storeCheckName" jdbcType="VARCHAR" />
-    <result column="store_check_phone" property="storeCheckPhone" jdbcType="INTEGER" />
-    <result column="store_check_card" property="storeCheckCard" jdbcType="INTEGER" />
-    <result column="store_check_zfb" property="storeCheckZfb" jdbcType="INTEGER" />
+    <result column="store_check_phone" property="storeCheckPhone" jdbcType="VARCHAR" />
+    <result column="store_check_card" property="storeCheckCard" jdbcType="VARCHAR" />
+    <result column="store_check_zfb" property="storeCheckZfb" jdbcType="VARCHAR" />
     <result column="store_check_user_id" property="storeCheckUserId" jdbcType="INTEGER" />
     <result column="store_check_username" property="storeCheckUsername" jdbcType="VARCHAR" />
     <result column="store_check_state" property="storeCheckState" jdbcType="INTEGER" />
@@ -125,8 +125,8 @@
       retain1, retain2, retain3, 
       retain4, retain5)
     values (#{storeCheckId,jdbcType=INTEGER}, #{storeCheckNumber,jdbcType=VARCHAR}, #{storeCheckStorename,jdbcType=VARCHAR}, 
-      #{storeCheckName,jdbcType=VARCHAR}, #{storeCheckPhone,jdbcType=INTEGER}, #{storeCheckCard,jdbcType=INTEGER}, 
-      #{storeCheckZfb,jdbcType=INTEGER}, #{storeCheckUserId,jdbcType=INTEGER}, #{storeCheckUsername,jdbcType=VARCHAR}, 
+      #{storeCheckName,jdbcType=VARCHAR}, #{storeCheckPhone,jdbcType=VARCHAR}, #{storeCheckCard,jdbcType=VARCHAR}, 
+      #{storeCheckZfb,jdbcType=VARCHAR}, #{storeCheckUserId,jdbcType=INTEGER}, #{storeCheckUsername,jdbcType=VARCHAR}, 
       #{storeCheckState,jdbcType=INTEGER}, #{storeCheckDisposeId,jdbcType=INTEGER}, #{storeCheckDisposeName,jdbcType=VARCHAR}, 
       #{storeCheckCreateTime,jdbcType=TIMESTAMP}, #{storeCheckHandleTime,jdbcType=TIMESTAMP}, 
       #{retain1,jdbcType=VARCHAR}, #{retain2,jdbcType=VARCHAR}, #{retain3,jdbcType=VARCHAR}, 
@@ -207,13 +207,13 @@
         #{storeCheckName,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckPhone != null" >
-        #{storeCheckPhone,jdbcType=INTEGER},
+        #{storeCheckPhone,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckCard != null" >
-        #{storeCheckCard,jdbcType=INTEGER},
+        #{storeCheckCard,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckZfb != null" >
-        #{storeCheckZfb,jdbcType=INTEGER},
+        #{storeCheckZfb,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckUserId != null" >
         #{storeCheckUserId,jdbcType=INTEGER},
@@ -275,13 +275,13 @@
         store_check_name = #{record.storeCheckName,jdbcType=VARCHAR},
       </if>
       <if test="record.storeCheckPhone != null" >
-        store_check_phone = #{record.storeCheckPhone,jdbcType=INTEGER},
+        store_check_phone = #{record.storeCheckPhone,jdbcType=VARCHAR},
       </if>
       <if test="record.storeCheckCard != null" >
-        store_check_card = #{record.storeCheckCard,jdbcType=INTEGER},
+        store_check_card = #{record.storeCheckCard,jdbcType=VARCHAR},
       </if>
       <if test="record.storeCheckZfb != null" >
-        store_check_zfb = #{record.storeCheckZfb,jdbcType=INTEGER},
+        store_check_zfb = #{record.storeCheckZfb,jdbcType=VARCHAR},
       </if>
       <if test="record.storeCheckUserId != null" >
         store_check_user_id = #{record.storeCheckUserId,jdbcType=INTEGER},
@@ -330,9 +330,9 @@
       store_check_number = #{record.storeCheckNumber,jdbcType=VARCHAR},
       store_check_storeName = #{record.storeCheckStorename,jdbcType=VARCHAR},
       store_check_name = #{record.storeCheckName,jdbcType=VARCHAR},
-      store_check_phone = #{record.storeCheckPhone,jdbcType=INTEGER},
-      store_check_card = #{record.storeCheckCard,jdbcType=INTEGER},
-      store_check_zfb = #{record.storeCheckZfb,jdbcType=INTEGER},
+      store_check_phone = #{record.storeCheckPhone,jdbcType=VARCHAR},
+      store_check_card = #{record.storeCheckCard,jdbcType=VARCHAR},
+      store_check_zfb = #{record.storeCheckZfb,jdbcType=VARCHAR},
       store_check_user_id = #{record.storeCheckUserId,jdbcType=INTEGER},
       store_check_username = #{record.storeCheckUsername,jdbcType=VARCHAR},
       store_check_state = #{record.storeCheckState,jdbcType=INTEGER},
@@ -362,13 +362,13 @@
         store_check_name = #{storeCheckName,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckPhone != null" >
-        store_check_phone = #{storeCheckPhone,jdbcType=INTEGER},
+        store_check_phone = #{storeCheckPhone,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckCard != null" >
-        store_check_card = #{storeCheckCard,jdbcType=INTEGER},
+        store_check_card = #{storeCheckCard,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckZfb != null" >
-        store_check_zfb = #{storeCheckZfb,jdbcType=INTEGER},
+        store_check_zfb = #{storeCheckZfb,jdbcType=VARCHAR},
       </if>
       <if test="storeCheckUserId != null" >
         store_check_user_id = #{storeCheckUserId,jdbcType=INTEGER},
@@ -414,9 +414,9 @@
     set store_check_number = #{storeCheckNumber,jdbcType=VARCHAR},
       store_check_storeName = #{storeCheckStorename,jdbcType=VARCHAR},
       store_check_name = #{storeCheckName,jdbcType=VARCHAR},
-      store_check_phone = #{storeCheckPhone,jdbcType=INTEGER},
-      store_check_card = #{storeCheckCard,jdbcType=INTEGER},
-      store_check_zfb = #{storeCheckZfb,jdbcType=INTEGER},
+      store_check_phone = #{storeCheckPhone,jdbcType=VARCHAR},
+      store_check_card = #{storeCheckCard,jdbcType=VARCHAR},
+      store_check_zfb = #{storeCheckZfb,jdbcType=VARCHAR},
       store_check_user_id = #{storeCheckUserId,jdbcType=INTEGER},
       store_check_username = #{storeCheckUsername,jdbcType=VARCHAR},
       store_check_state = #{storeCheckState,jdbcType=INTEGER},

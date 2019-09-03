@@ -1,7 +1,5 @@
 package com.king2.product.server.dto;
 
-import com.king2.product.server.enmu.ProductStateEnum;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -29,7 +27,7 @@ public class ProductIndexDto {
     private List productDatas;
 
     // 商品状态的集合信息
-    private List<ProductStateDto> states;
+    private List<SystemStateDto> states;
 
     // 条件 列表
     private String productName;
@@ -102,11 +100,11 @@ public class ProductIndexDto {
     }
 
 
-    public List<ProductStateDto> getStates() {
+    public List<SystemStateDto> getStates() {
         return states;
     }
 
-    public void setStates(List<ProductStateDto> states) {
+    public void setStates(List<SystemStateDto> states) {
         this.states = states;
     }
 }

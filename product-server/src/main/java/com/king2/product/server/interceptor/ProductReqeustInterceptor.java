@@ -34,8 +34,6 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
     @Autowired
     private JedisPool jedisPool;
 
-    private boolean flag = true;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -44,26 +42,16 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("P3P", "CP=\"CAO PSA OUR\"");
 
         // *************************************** 测试部分
-        String user = CookieUtils.getCookieValue(request, "user");
+        String user = CookieUtils.getCookieValue(request, "123");
         K2MemberAndElseInfo info = new K2MemberAndElseInfo();
-        if (StringUtils.isEmpty(user)) {
-            K2Member k2Member2 = new K2Member();
-            k2Member2.setMemberAccount("luqiqi");
-            k2Member2.setRetain1("1");
-            k2Member2.setMemberId(1);
-            info.setK2Member(k2Member2);
-            flag = false;
-        } else {
-            K2Member k2Member2 = new K2Member();
-            k2Member2.setMemberAccount("ziqing");
-            k2Member2.setRetain1("1");
-            k2Member2.setMemberId(2);
-            info.setK2Member(k2Member2);
-            flag = true;
-        }
-
+        K2Member k2Member2 = new K2Member();
+        k2Member2.setMemberAccount("luqiqi");
+        k2Member2.setRetain1("1");
+        k2Member2.setMemberId(1);
+        info.setK2Member(k2Member2);
 
         // 创建角色
         List<K2Role> roles = new ArrayList<>();

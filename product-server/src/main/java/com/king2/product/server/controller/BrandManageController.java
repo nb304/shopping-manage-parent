@@ -7,6 +7,7 @@ import com.king2.product.server.service.BrandManageService;
 import io.swagger.models.auth.In;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ import javax.validation.constraints.Pattern;
 	作者		时间					注释
   	俞烨		2019.08.06   			创建
 =======================================================*/
-@RestController
+@RestController(value = "213123")
 @RequestMapping("/brand")
 @CrossOrigin
 @Validated
