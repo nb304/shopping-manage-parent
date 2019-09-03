@@ -29,7 +29,7 @@ mybatis:
     map-underscore-to-camel-case: true
 
 # 配置对应的数据库查询数据打印信息
-logging:
-  level: com.king2.login.server.mapper: debug
+#logging:
+#  level: com.king2.login.server.mapper: debug
 
 
