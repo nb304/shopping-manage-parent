@@ -11,33 +11,33 @@ import com.king2.product.server.locks.ProductQueueLockFactory;
 import java.util.concurrent.ConcurrentHashMap;
 
 /*=======================================================
-	˵��:    ��ƷƷ��ί����
+	???:    ???????????
 
-	����		ʱ��					ע��
-  	����		2019.08.25   			����
+	????		???					???
+  	????		2019.08.25   			????
 =======================================================*/
 public class BrandManageAppoint {
 
 
     /**
-     * ����Ƿ�����޸���ƷƷ�Ƶ�����
+     * ???????????????????????
      *
      * @return
      */
     public static SystemResult checkIfEditBrand(String storeId) {
 
-        // ��ȡ����Դ
+        // ????????
         LockPojo lockPojo = ProductQueueLockFactory.getInstance().getLockMaps().get(ProductQueueLockFactoryTypeEnum.DEFAULT_FUNCTION_MYSQL_SIZE_KEY.getValue());
-        // ������
+        // ??????
         lockPojo.getLock().lock();
         try {
-            // ��ȡ����������������Ϣ
+            // ????????????????????
             ConcurrentHashMap<String, K2CurrentDayHandleSqlSize> dataMaps = CurrentDayHandleSqlSizeCache.getInstance().getDataMaps();
-            // �鿴�Ƿ����
+            // ????????
             if (!dataMaps.containsKey(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId)) {
                 K2CurrentDayHandleSqlSize size = new K2CurrentDayHandleSqlSize();
                 size.setEditBrandSize(0);
-                // ����д�뻺����
+                // ????��??????
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, size);
                 return new SystemResult("ok");
             }
@@ -45,22 +45,22 @@ public class BrandManageAppoint {
             if (k2CurrentDayHandleSqlSize == null) {
                 K2CurrentDayHandleSqlSize size = new K2CurrentDayHandleSqlSize();
                 size.setEditBrandSize(0);
-                // ����д�뻺����
+                // ????��??????
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, size);
                 return new SystemResult("ok");
             } else if (k2CurrentDayHandleSqlSize.getEditBrandSize() >= CurrentDayHandleSqlSizeEnum.EBRAND.getValue()) {
-                return new SystemResult(202, "�������޸���Ʒ�Ĵ�������,ÿ���������޸�:" + CurrentDayHandleSqlSizeEnum.EBRAND.getValue() + "��");
+                return new SystemResult(202, "?????????????????????,????????????:" + CurrentDayHandleSqlSizeEnum.EBRAND.getValue() + "??");
             } else {
-                // С�ھ�ȡ������+1 ����д�뻺����
+                // ��??????????+1 ????��??????
                 k2CurrentDayHandleSqlSize.setEditBrandSize(k2CurrentDayHandleSqlSize.getEditBrandSize() + 1);
-                // ����д�뻺����
+                // ????��??????
                 dataMaps.put(CurrentDayHandleSqlSizeEnum.EBRAND.getKey() + "_" + storeId, k2CurrentDayHandleSqlSize);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // ����
+            // ????
             lockPojo.getLock().unlock();
         }
 

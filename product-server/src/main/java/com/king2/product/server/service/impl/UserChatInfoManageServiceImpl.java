@@ -73,8 +73,8 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
         SystemResult result = foreachChatInfoReturnDto(newCharInfo, null, false);
         charInfoDto.setNewCharInfo((List<UserCharHtmlDataPojo>) result.getData());
         // 遍历旧的聊天数据
-        SystemResult result2 = foreachChatInfoReturnDto(oldCharInfo, newCharInfo, false);
-        charInfoDto.setNewCharInfo((List<UserCharHtmlDataPojo>) result.getData());
+        SystemResult result2 = foreachChatInfoReturnDto(oldCharInfo, newCharInfo, true);
+        charInfoDto.setOldCharInfo((List<UserCharHtmlDataPojo>) result2.getData());
 
         return new SystemResult(charInfoDto);
     }
@@ -109,7 +109,7 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
             newChatInfoGotoWriteReceiveNewChatInfoData(k2Member, k2MemberAndElseInfo, chatInfo);
 
             // 将新消息写入发送者的旧数据结构中
-            newChatInfoGotoWriteSendUserOldChatInfoData(receiveId, k2MemberAndElseInfo, chatInfo);
+            newChatInfoGotoWriteSendUserOldChatInfoData(k2Member, k2MemberAndElseInfo, chatInfo);
         } catch (Exception e) {
             LOGGER.error("发送消息时出错,报错信息:" + e);
             LOGGER.error(GetErrorInfo.getTrace(e));
@@ -168,16 +168,17 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
 
         // 判断该用户的历史数据是否为空
         if (CollectionUtils.isEmpty(oldChatInfoMaps)) {
-            oldChatInfoMaps = new ConcurrentHashMap<>();
             // 用户的Map集合为空 重新写入信息 以防空指针异常
-            if (oldChatInfoMaps == null)
-                addChatInfo(USER_CHAR_INFO_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId(), oldChatInfoMaps, "new");
+            if (oldChatInfoMaps == null) {
+                oldChatInfoMaps = new ConcurrentHashMap<>();
+                addChatInfo(USER_CHAR_INFO_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId(), oldChatInfoMaps, "old");
+            }
             if (CollectionUtils.isEmpty(newChatInfoMaps)) {
                 return new SystemResult(new ArrayList<>());
             }
         }
 
-        // 取出属于这个GetId的聊天信息
+        // 取出属于这个GetId的聊天记录
         List<UserCharInfoPojo> pojos = null;
         if (!oldChatInfoMaps.containsKey(USER_CHAR_INFO_KEY + "_" + getId)) {
             pojos = new ArrayList<>();
@@ -185,12 +186,13 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
             pojos = oldChatInfoMaps.get(USER_CHAR_INFO_KEY + "_" + getId);
         }
 
-        // 判断新的数据是否等于空
-        // 如果新的数据为空 则将旧的数据返回给页面 旧的数据是不用排序的 因为是排序后的数据
+        // 判断新消息的数据是否等于空
+        // 如果新消息的数据为空 则将旧的数据返回给页面 旧的数据是不用排序的 因为是排序后的数据
         if (CollectionUtils.isEmpty(newChatInfoMaps)) {
-            newChatInfoMaps = new ConcurrentHashMap<String, List<UserCharInfoPojo>>();
-            if (newChatInfoMaps == null)
-                addChatInfo(USER_CHAR_INFO_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId(), newChatInfoMaps, "old");
+            if (newChatInfoMaps == null) {
+                newChatInfoMaps = new ConcurrentHashMap<String, List<UserCharInfoPojo>>();
+                addChatInfo(USER_CHAR_INFO_KEY + "_" + k2MemberAndElseInfo.getK2Member().getMemberId(), newChatInfoMaps, "new");
+            }
             return CollectionUtils.isEmpty(pojos) ? new SystemResult(new ArrayList<>()) :
                     new SystemResult(pojos);
         } else if (!CollectionUtils.isEmpty(newChatInfoMaps) &&
@@ -223,7 +225,7 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
      * @param memberAndElseInfo
      * @param chatInfo
      */
-    public static void newChatInfoGotoWriteSendUserOldChatInfoData(Integer receiveId, K2MemberAndElseInfo memberAndElseInfo, String chatInfo) {
+    public static void newChatInfoGotoWriteSendUserOldChatInfoData(K2Member k2Member, K2MemberAndElseInfo memberAndElseInfo, String chatInfo) {
 
         // 获取发送者的旧信息数据结构
         SystemResult oldCharInfoAll = getOldCharInfoAll(memberAndElseInfo.getK2Member().getMemberId());
@@ -232,12 +234,12 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
         // 判断是否等于空
         if (CollectionUtils.isEmpty(oldChatInfoMaps)) {
             oldChatInfoMaps = new ConcurrentHashMap<String, List<UserCharInfoPojo>>();
-            addChatInfo(USER_CHAR_INFO_KEY + "_" + receiveId, oldChatInfoMaps, "old");
+            addChatInfo(USER_CHAR_INFO_KEY + "_" + memberAndElseInfo.getK2Member().getMemberId(), oldChatInfoMaps, "old");
         }
 
         // 取出该发送者在接收者的信息
         List<UserCharInfoPojo> oldCharInfoPojos = null;
-        String sendUserKeyOld = USER_CHAR_INFO_KEY + "_" + receiveId;
+        String sendUserKeyOld = USER_CHAR_INFO_KEY + "_" + memberAndElseInfo.getK2Member().getMemberId();
         if (oldChatInfoMaps.containsKey(sendUserKeyOld)) {
             oldCharInfoPojos = oldChatInfoMaps.get(sendUserKeyOld);
         }
@@ -248,9 +250,11 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
         UserCharInfoPojo pojo = new UserCharInfoPojo();
         pojo.setState(UserChatInfoStateEnum.ZC.getValue());
         pojo.setSendUserId(memberAndElseInfo.getK2Member().getMemberId());
-        pojo.setReceiveUserId(receiveId);
+        pojo.setReceiveUserId(k2Member.getMemberId());
         pojo.setName(memberAndElseInfo.getK2Member().getMemberName());
+        pojo.setReName(k2Member.getMemberName());
         pojo.setImage(memberAndElseInfo.getK2Member().getMemberPortrait());
+        pojo.setReImage(memberAndElseInfo.getK2Member().getMemberPortrait());
         pojo.setCreateTime(new Date());
         pojo.setChaoInfoMessage(chatInfo);
         pojo.setCharId(123);
@@ -266,7 +270,7 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
     public static void newChatInfoGotoWriteReceiveNewChatInfoData(K2Member k2Member, K2MemberAndElseInfo memberAndElseInfo, String chatInfo) {
         // 取出接收者在缓存数据中的新消息数据结构
         SystemResult newCharInfoAll = getNewCharInfoAll(k2Member.getMemberId());
-        ConcurrentHashMap<String, List<UserCharInfoPojo>> newChatInfoMaps =  // 属于该用户的聊天记录数据结构
+        ConcurrentHashMap<String, List<UserCharInfoPojo>> newChatInfoMaps =  // 获取接收者的新消息的缓存结构
                 (ConcurrentHashMap<String, List<UserCharInfoPojo>>) newCharInfoAll.getData();
         // 判断是否等于空
         if (CollectionUtils.isEmpty(newChatInfoMaps)) {
@@ -289,8 +293,10 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
         pojo.setState(UserChatInfoStateEnum.ZC.getValue());
         pojo.setSendUserId(memberAndElseInfo.getK2Member().getMemberId());
         pojo.setReceiveUserId(k2Member.getMemberId());
-        pojo.setImage(k2Member.getMemberPortrait());
+        pojo.setImage(memberAndElseInfo.getK2Member().getMemberPortrait());
+        pojo.setReImage(k2Member.getMemberPortrait());
         pojo.setName(memberAndElseInfo.getK2Member().getMemberName());
+        pojo.setReName(k2Member.getMemberName());
         pojo.setCreateTime(new Date());
         pojo.setChaoInfoMessage(chatInfo);
         pojo.setCharId(123);
@@ -333,7 +339,10 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
                     if (CollectionUtils.isEmpty(entry.getValue())) {
                         continue;
                     } else if (!CollectionUtils.isEmpty(newChatInfo) && newChatInfo.containsKey(entry.getKey())) {
-                        continue;
+                        if (newChatInfo.get(entry.getKey()).size() > 0) {
+                            continue;
+                        }
+
                     }
                 }
                 UserCharHtmlDataPojo pojo = new UserCharHtmlDataPojo();
@@ -341,7 +350,7 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
                 pojo.setContent(entry.getValue().get(entry.getValue().size() - 1).getChaoInfoMessage());
                 pojo.setImage(entry.getValue().get(entry.getValue().size() - 1).getImage());
                 pojo.setName(entry.getValue().get(entry.getValue().size() - 1).getName());
-                pojo.setNotReadSize(entry.getValue().size());
+                if (!sFlag) pojo.setNotReadSize(entry.getValue().size());
                 pojo.setUserId(entry.getValue().get(entry.getValue().size() - 1).getSendUserId());
                 pojo.setTime(sdf.format(entry.getValue().get(entry.getValue().size() - 1).getCreateTime()));
                 dataPojos.add(pojo);

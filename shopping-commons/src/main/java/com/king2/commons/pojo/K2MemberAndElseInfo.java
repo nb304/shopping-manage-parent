@@ -1,5 +1,6 @@
 package com.king2.commons.pojo;
 
+import java.util.Date;
 import java.util.List;
 
 // 用户的其他信息
@@ -13,6 +14,17 @@ public class K2MemberAndElseInfo {
 
     // 本次的token信息
     private String currentToken;
+
+    // 最后一次登录的日期
+    private Date lastLoginTime;
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 
     public String getCurrentToken() {
         return currentToken;

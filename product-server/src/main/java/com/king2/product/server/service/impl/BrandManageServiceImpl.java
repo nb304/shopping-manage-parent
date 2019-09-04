@@ -126,7 +126,7 @@ public class BrandManageServiceImpl implements BrandManageService {
         if (dto.getCurrentPage() > totalPage) dto.setCurrentPage(totalPage);
 
         // 计算出索引值
-        int index = (dto.getCurrentPage() - 1) * dto.getCurrentSize();
+        int index = (dto.getCurrentPage() - 1) <= 0 ? 0 : (dto.getCurrentPage() - 1) * dto.getCurrentSize();
 
 
         // 查询数据

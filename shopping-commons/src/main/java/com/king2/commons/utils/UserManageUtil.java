@@ -73,13 +73,13 @@ public class UserManageUtil {
             jedis = jedisPool.getResource();
             // 判断accout是否为空
             if (StringUtils.isEmpty(account) || StringUtils.isEmpty(token)) {
-                return null;
+                return new SystemResult(100, "用户为登入");
             }
             // 获取用户在redis中的信息
             String userJson = jedis.hget(account, token);
             // 判断是否存在该用户信息
             if (StringUtils.isEmpty(userJson)) {
-                return new SystemResult(100, "该账号在其他地方登录", null);
+                return new SystemResult(100, "用户信息已经失效。", null);
             }
             // 将用户Json转换成用户对象
             K2MemberAndElseInfo k2Member = JsonUtils.jsonToPojo(userJson, K2MemberAndElseInfo.class);

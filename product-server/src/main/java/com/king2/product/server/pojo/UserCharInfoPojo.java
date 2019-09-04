@@ -20,10 +20,31 @@ public class UserCharInfoPojo implements Comparable<UserCharInfoPojo> {
     private Integer state;
     // 发送者的名称
     private String name;
+    // 接收者的名称
+    private String reName;
     // 发送者的头像
     private String image;
+    // 接收者的头像
+    private String reImage;
 
     private boolean flag;
+
+
+    public String getReName() {
+        return reName;
+    }
+
+    public void setReName(String reName) {
+        this.reName = reName;
+    }
+
+    public String getReImage() {
+        return reImage;
+    }
+
+    public void setReImage(String reImage) {
+        this.reImage = reImage;
+    }
 
     @Override
     public int compareTo(UserCharInfoPojo o) {

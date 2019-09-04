@@ -4,6 +4,7 @@ import com.king2.commons.mapper.K2MemberMapper;
 import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2MemberExample;
+import com.king2.commons.pojo.K2Role;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.GetErrorInfo;
 import com.king2.commons.utils.MD5Utils;
@@ -46,7 +47,7 @@ public class LoginManageServiceImpl implements LoginManageService {
         // 状态==200 说明缓存中存在该用户的数据信息 并且账号密码通过了验证 返回值是一个用户的数据信息
         if (checkCacheResult.getStatus() == 200) {
             // 取出信息
-            K2Member member = (K2Member) checkCacheResult.getData();
+            K2MemberAndElseInfo member = (K2MemberAndElseInfo) checkCacheResult.getData();
 
             // 将用户数据重新存入redis中
             SystemResult result = null;
@@ -67,7 +68,7 @@ public class LoginManageServiceImpl implements LoginManageService {
         if (checkMySqlInfoResult.getStatus() != 200) return checkMySqlInfoResult;
 
         // 校验成功 说明用户登入成功了 checkMySqlInfoResult返回的data中携带了该用户的账号信息
-        K2Member data = (K2Member) checkMySqlInfoResult.getData();
+        K2MemberAndElseInfo data = (K2MemberAndElseInfo) checkMySqlInfoResult.getData();
 
         // 这里提两个思路
         // 1、你可以生成用户token并返回给用户  提醒用户登录成功 然后创建一个安全的线程将用户信息存入reids和本地缓存中
@@ -113,7 +114,22 @@ public class LoginManageServiceImpl implements LoginManageService {
             return new SystemResult(100, "用户名或密码错误!!");
         }
 
-        return new SystemResult(k2Members.get(0));
+        // 生成假数据
+        K2MemberAndElseInfo elseInfo = new K2MemberAndElseInfo();
+        elseInfo.setK2Member(k2Members.get(0));
+        // 角色信息
+        List<K2Role> roles = new ArrayList<>();
+        K2Role role = new K2Role();
+        role.setCreateUserName("超级管理员");
+        role.setRetain1("KING2_SYSTEM_ADMIN");
+        roles.add(role);
+        elseInfo.setK2Roles(roles);
+        // 生成token信息
+        // token规则你可以自己定义
+        String token = MD5Utils.md5(elseInfo.getK2Member().getMemberAccount() + new Date().getTime() + UUID.randomUUID().toString());
+        elseInfo.setCurrentToken(token);
+
+        return new SystemResult(elseInfo);
     }
 
     /**
@@ -123,24 +139,18 @@ public class LoginManageServiceImpl implements LoginManageService {
      * @return
      * @throws Exception
      */
-    public SystemResult userInfoGotoRedisCache(K2Member k2Member, HttpServletRequest request) throws Exception {
+    public SystemResult userInfoGotoRedisCache(K2MemberAndElseInfo k2Member, HttpServletRequest request) throws Exception {
 
         // 创建Redis中需要的数据结构
         K2MemberAndElseInfo k2MemberAndElseInfo = new K2MemberAndElseInfo();
-        k2Member.setReqeustUserMac(NetworkUtil.getHostMacAddress(request));
-        k2MemberAndElseInfo.setK2Member(k2Member);
-        // 角色信息
-        k2MemberAndElseInfo.setK2Roles(new ArrayList<>());
+        k2Member.getK2Member().setReqeustUserMac(NetworkUtil.getHostMacAddress(request));
 
-        // 生成token信息
-        // token规则你可以自己定义
-        String token = MD5Utils.md5(k2Member.getMemberAccount() + new Date().getTime() + UUID.randomUUID().toString());
+
         // 调用UserUtil的刷新工具
         UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
-        SystemResult refresh = userManageUtil.refresh(k2MemberAndElseInfo, token);
 
         // 这里的refresh会返回本次登入的状态 详情看方法内部
-        k2MemberAndElseInfo.setCurrentToken(token);
+        SystemResult refresh = userManageUtil.refresh(k2Member, k2Member.getCurrentToken());
         return refresh;
     }
 
@@ -150,13 +160,12 @@ public class LoginManageServiceImpl implements LoginManageService {
      * @param k2Member
      * @return
      */
-    public static void userInfoAddToCache(K2Member k2Member) {
+    public static void userInfoAddToCache(K2MemberAndElseInfo k2Member) {
         // 需要锁
         UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
         // 由于instance是单例的 所以可以直接用来当锁使用
         synchronized (instance) {
-
-            instance.getUserCacheHashMapDatas().put(k2Member.getMemberAccount(), k2Member);
+            instance.getUserCacheHashMapDatas().put(k2Member.getK2Member().getMemberAccount(), k2Member);
         }
     }
 
@@ -176,7 +185,7 @@ public class LoginManageServiceImpl implements LoginManageService {
 
 
             // 用户的数据信息
-            ConcurrentHashMap<String, K2Member> userCacheHashMapDatas =
+            ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas =
                     instance.getUserCacheHashMapDatas();
 
             // 判断缓存信息是否存在该用户
@@ -187,11 +196,11 @@ public class LoginManageServiceImpl implements LoginManageService {
             }
 
             // 用户存在缓存的信息  如果用户进行改密码等其他敏感数据的操作  记住删除缓存的数据信息
-            K2Member k2Member = userCacheHashMapDatas.get(username);
+            K2MemberAndElseInfo k2Member = userCacheHashMapDatas.get(username);
             if (k2Member == null) return new SystemResult(100, "缓存数据不存在数据");
 
             // 比较密码
-            if (!password.equals(k2Member.getMemberPassword())) {
+            if (!password.equals(k2Member.getK2Member().getMemberPassword())) {
                 return new SystemResult(100, "用户名或密码错误!!");
             }
 

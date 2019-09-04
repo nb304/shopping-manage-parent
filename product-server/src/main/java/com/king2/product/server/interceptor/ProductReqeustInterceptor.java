@@ -9,6 +9,8 @@ import com.king2.commons.utils.CookieUtils;
 import com.king2.commons.utils.JsonUtils;
 import com.king2.commons.utils.NetworkUtil;
 import com.king2.commons.utils.UserManageUtil;
+import com.king2.product.server.appoint.ProductReqeustInterceptorAppoint;
+import com.king2.product.server.cache.UserInfoCacheManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,10 +35,14 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
     // 注入RedisPool连接池
     @Autowired
     private JedisPool jedisPool;
+    // 注入拦截器
+    @Autowired
+    private ProductReqeustInterceptorAppoint productReqeustInterceptorAppoint;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        // 开启跨域和接受Cookie信息
         String origin = request.getHeader("Origin");
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "*");
@@ -44,84 +50,46 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("P3P", "CP=\"CAO PSA OUR\"");
 
-        // *************************************** 测试部分
-        String user = CookieUtils.getCookieValue(request, "userKey");
-        K2MemberAndElseInfo info = new K2MemberAndElseInfo();
-        K2Member k2Member2 = new K2Member();
-
-        if(!StringUtils.isEmpty(user)) {
-            k2Member2.setMemberAccount("luqiqi");
-            k2Member2.setRetain1("1");
-            k2Member2.setMemberId(1);
-            k2Member2.setMemberName("鹿七七");
-            k2Member2.setMemberPortrait("http://39.105.41.2:9000/king2-product-image/king2-BRAND-LOGO-SP7FD5F6064FF9907DD1A16D0FE8EB593295.jpg");
-        } else {
-            k2Member2.setMemberAccount("ziqing");
-            k2Member2.setRetain1("1");
-            k2Member2.setMemberId(2);
-            k2Member2.setMemberName("子青");
-            k2Member2.setMemberPortrait("http://39.105.41.2:9000/king2-product-image/king2-BRAND-LOGO-SP6FB4BB1542D59224599FB3313E80254051.png");
-        }
-
-        info.setK2Member(k2Member2);
-
-        // 创建角色
-        List<K2Role> roles = new ArrayList<>();
-        K2Role role = new K2Role();
-        role.setCreateUserName("超级管理员");
-        role.setRetain1("KING2_SYSTEM_ADMIN");
-        roles.add(role);
-        info.setK2Roles(roles);
-        request.setAttribute("user", info);
-        if (roles != null) return true;
-        // *************************************** 第一部分的校验
         // 获取浏览器的头
         String XRequested = request.getHeader("X-Requested-With");
-        /*if (StringUtils.isEmpty(XRequested))
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(100, "请勿跨浏览器", null)));*/
 
+        //************************************ 第一部分的简单校验
 
-        // 获取用户存在于Cookie的token信息
-        String token = CookieUtils.getCookieValue(request, UserManageUtil.USER_COOKIE_TOKEN, true);
-        // 获取用户存在于Cookie的账号信息
-        String userName = CookieUtils.getCookieValue(request, UserManageUtil.USER_COOKIE_USERNAME, true);
-        // 判断数据是否正确
-        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(userName)) {
-            // token为空 用户没有登录
-            // 判断是否是AJAX访问
-            if ("XMLHttpRequest".equals(XRequested)) {
-                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(206, "用户未登录", null)));
-            } else {
-                // 用户未登录
-                response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "用户未登录", null)));
-            }
+        // 判断用户是否携带Cookie信息
+        SystemResult checkCookieResult = ProductReqeustInterceptorAppoint.reqeustUserIfCarryCookie(request);
+        if (checkCookieResult.getStatus() != 200) {
+            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested);
             return false;
         }
 
 
-        // *************************************** 第二部分的校验
-        // 说明有数据 查询redis中是否存在数据
-        UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
-        SystemResult getUserInfo = userManageUtil.getUserInfoByAccountAndToken(userName, token);
-        if (getUserInfo.getStatus() != 200) response.getWriter().write(JsonUtils.objectToJson(getUserInfo));
-
-        // 在redis中查询到该用户的数据 拿出来用第一次存进去的MAC和现在请求过来的MAC地址相比较 防止Cookie盗用
-        String requestMac = NetworkUtil.getHostMacAddress(request);
-        // 或得用户数据
-        K2Member k2Member = (K2Member) getUserInfo.getData();
-        // 比较MAC地址
-        if (StringUtils.isEmpty(k2Member.getReqeustUserMac()) || StringUtils.isEmpty(requestMac)) {
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(207, "用户未登录", null)));
-            return false;
+        //************************************ 第二部分的校验
+        // 第一步部分校验通过 取出数据 校验本地缓存是否存在数据
+        SystemResult checkCacheResult = ProductReqeustInterceptorAppoint.checkCacheIfExistUserInfo(checkCookieResult.getData());
+        if (checkCacheResult.getStatus() == 200) {
+            // 缓存数据存在数据就直接通过 如果不存在数据 就需要进行第三步校验 去redis中查询数据
+            request.setAttribute("user", checkCacheResult.getData());
+            return true;
         }
-        // 盗用token 行为超过10次 封锁IP+MAC地址
-        if (!k2Member.getReqeustUserMac().equals(requestMac)) {
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(208, "盗用token", null)));
+
+        //************************************ 第三部分的校验
+        // 第二步没有查询到缓存中有该用户的信息 我们就需要去redis中查询数据信息 如果连redis中都不存在信息
+        // 说明该用户没有登录
+        // 如果redis中存在该用户的信息 就将该用户的信息存入本地的缓存中 这样就可以减少操作redis的次数
+        SystemResult checkRedisIsResult = productReqeustInterceptorAppoint.checkRedisIsExistUserInfo(checkCookieResult.getData());
+        if (checkRedisIsResult.getStatus() != 200) {
+            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested);
             return false;
         }
 
-        // 校验成功 获取到了用户的数据 k2Member
-        request.setAttribute("user", k2Member);
+        //************************************ 第四步存入缓存
+        // 说明通过了校验 需要将用户信息存入缓存数据中
+        UserInfoCacheManage instance = UserInfoCacheManage.getInstance();
+        synchronized (instance) {
+            String[] cookies = (String[]) checkCookieResult.getData();
+            instance.getUserInfoCacheMapDatas().put(cookies[0], (K2MemberAndElseInfo) checkRedisIsResult.getData());
+        }
+        request.setAttribute("user", checkRedisIsResult.getData());
         return true;
     }
 

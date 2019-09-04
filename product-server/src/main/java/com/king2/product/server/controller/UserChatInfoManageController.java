@@ -3,12 +3,15 @@ package com.king2.product.server.controller;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.service.UserCharInfoManageService;
+import com.king2.product.server.service.UserChatInfoManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /*=======================================================
 	说明:    用户聊天记录管理Controller
@@ -25,6 +28,11 @@ public class UserChatInfoManageController {
     @Autowired
     private UserCharInfoManageService userCharInfoManageService;
 
+
+    // 注入聊天记录Service2
+    @Autowired
+    private UserChatInfoManageService userChatInfoManageService;
+
     /**
      * -----------------------------------------------------
      * 功能:  显示聊天记录首页 并准备数据
@@ -38,16 +46,19 @@ public class UserChatInfoManageController {
     public SystemResult index(HttpServletRequest request) {
         // 获取用户数据
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
-        SystemResult index = userCharInfoManageService.index(k2MemberAndElseInfo);
+        SystemResult index = userChatInfoManageService.index(k2MemberAndElseInfo);
         return index;
     }
 
     @RequestMapping("/send/message")
     public SystemResult sendMessage(HttpServletRequest request, Integer receiveId, String message) {
 
-        // 获取用户数据
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
-        SystemResult result = userCharInfoManageService.sendChatInfo(k2MemberAndElseInfo, receiveId, message);
+        SystemResult result = userChatInfoManageService.sendMessage(receiveId, k2MemberAndElseInfo, message);
+
+        // 获取用户数据
+//        K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
+//        SystemResult result = userCharInfoManageService.sendChatInfo(k2MemberAndElseInfo, receiveId, message);
         /*// 获取用户数据
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
         // 获取用户全部新的数据
@@ -91,11 +102,22 @@ public class UserChatInfoManageController {
         return result;
     }
 
+    /**
+     * -----------------------------------------------------
+     * 功能:  获取用户之间的消息
+     * <p>
+     * 参数:
+     * getId        String          需要获取的用户id
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
     @RequestMapping("/get")
-    public SystemResult get(HttpServletRequest request , Integer getId) {
+    public SystemResult get(HttpServletRequest request,
+                            @NotBlank(message = "查询的id不能为空") @Pattern(regexp = "[0-9]{1,}") String getId) {
         // 获取用户数据
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
-        SystemResult chatInfoByGetId = userCharInfoManageService.getChatInfoByGetId(getId, k2MemberAndElseInfo);
+        SystemResult chatInfoByGetId = userChatInfoManageService.get(Integer.parseInt(getId), k2MemberAndElseInfo);
         return chatInfoByGetId;
     }
 }

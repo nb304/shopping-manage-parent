@@ -1,6 +1,7 @@
 package com.king2.login.server.cache;
 
 import com.king2.commons.pojo.K2Member;
+import com.king2.commons.pojo.K2MemberAndElseInfo;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,14 +16,14 @@ public class UserLoginCacheManage2 {
         return userLoginCacheManage2;
     }
 
-    private ConcurrentHashMap<String, K2Member> userCacheHashMapDatas = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas = new ConcurrentHashMap<>();
 
 
-    public ConcurrentHashMap<String, K2Member> getUserCacheHashMapDatas() {
+    public ConcurrentHashMap<String, K2MemberAndElseInfo> getUserCacheHashMapDatas() {
         return userCacheHashMapDatas;
     }
 
-    public void setUserCacheHashMapDatas(ConcurrentHashMap<String, K2Member> userCacheHashMapDatas) {
+    public void setUserCacheHashMapDatas(ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas) {
         this.userCacheHashMapDatas = userCacheHashMapDatas;
     }
 }
