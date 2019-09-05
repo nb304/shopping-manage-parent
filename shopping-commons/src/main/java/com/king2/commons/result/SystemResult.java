@@ -3,6 +3,7 @@ package com.king2.commons.result;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*================================================================
@@ -11,7 +12,7 @@ import java.util.List;
 作者          时间            注释
 温为菁       2018.5.22	     创建
 ==================================================================*/
-public class SystemResult {
+public class SystemResult implements Serializable {
 
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();

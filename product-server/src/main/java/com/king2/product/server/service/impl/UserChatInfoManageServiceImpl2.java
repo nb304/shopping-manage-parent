@@ -14,15 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
+@SuppressWarnings("all")
 public class UserChatInfoManageServiceImpl2 implements UserChatInfoManageService {
 
     // 注入用户管理Mapper
     @Autowired
     private K2MemberMapper k2MemberMapper;
+
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     /**
      * -----------------------------------------------------
@@ -39,7 +43,53 @@ public class UserChatInfoManageServiceImpl2 implements UserChatInfoManageService
         // 创建显示的数据结构
         UserCharInfoDto charInfoDto = new UserCharInfoDto();
 
-        // 获取该用户的所有消息集合
+
+        // 取得该登录的用户全部的消息集合
+        ConcurrentHashMap<String, UserChatCacheInfoDto> chatInfoAllById =
+                UserChatInfoManageAppoint.getChatInfoAllById(k2MemberAndElseInfo.getK2Member().getMemberId());
+
+        // 判断数据集合是否存在数据信息
+        if (!CollectionUtils.isEmpty(chatInfoAllById)) {
+            List<UserCharHtmlDataPojo> newPojo = new ArrayList<>();
+            List<UserCharHtmlDataPojo> oldPojo = new ArrayList<>();
+
+            // 遍历数据集合,取得数据信息
+            for (Map.Entry<String, UserChatCacheInfoDto> map : chatInfoAllById.entrySet()) {
+                // 本次的新消息数据
+                List<UserCharInfoPojo> newChatInfos = map.getValue().getNewChatInfos();
+                if (!CollectionUtils.isEmpty(newChatInfos)) {
+                    // 不等于空的话 说明只要操作新数据信息就行了  旧的数据信息就可以不用操作了
+                    // 要问为什么？？？  你觉得有人给你发了新的消息 你在好友列表里 能看到旧消息吗？
+
+                    // 获取最后一个新的消息
+                    UserCharInfoPojo charInfoPojo = newChatInfos.get(newChatInfos.size() - 1);
+                    UserCharHtmlDataPojo htmlDataPojo = charInfoPojo.getHtmlDataPojo();
+                    // 注入信息
+                    htmlDataPojo.setTime(UserChatInfoManageServiceImpl.sdf.format(charInfoPojo.getCreateTime()));
+                    htmlDataPojo.setContent(charInfoPojo.getChaoInfoMessage());
+                    htmlDataPojo.setNotReadSize(newChatInfos.size());
+                    // 填入新的消息
+                    newPojo.add(htmlDataPojo);
+                } else {
+                    // 说明没有新的消息 取出旧消息就行了
+                    List<UserCharInfoPojo> oldChatInfos = map.getValue().getOldChatInfos();
+                    // 最后一条旧消息
+                    UserCharInfoPojo charInfoPojo = oldChatInfos.get(oldChatInfos.size() - 1);
+                    UserCharHtmlDataPojo htmlDataPojo = charInfoPojo.getHtmlDataPojo();
+                    // 注入信息
+                    htmlDataPojo.setNotReadSize(null);
+                    htmlDataPojo.setTime(UserChatInfoManageServiceImpl.sdf.format(charInfoPojo.getCreateTime()));
+                    htmlDataPojo.setContent(charInfoPojo.getChaoInfoMessage());
+                    oldPojo.add(htmlDataPojo);
+                }
+            }
+
+            charInfoDto.setNewCharInfo(newPojo);
+            charInfoDto.setOldCharInfo(oldPojo);
+        }
+
+
+        /*// 获取该用户的所有消息集合
         ConcurrentHashMap<String, UserChatCacheInfoDto> chatInfoAllById =
                 UserChatInfoManageAppoint.getChatInfoAllById(k2MemberAndElseInfo.getK2Member().getMemberId());
 
@@ -75,7 +125,7 @@ public class UserChatInfoManageServiceImpl2 implements UserChatInfoManageService
 
             charInfoDto.setOldCharInfo(oldPojo);
             charInfoDto.setNewCharInfo(newPojo);
-        }
+        }*/
         return new SystemResult(charInfoDto);
     }
 
@@ -128,12 +178,117 @@ public class UserChatInfoManageServiceImpl2 implements UserChatInfoManageService
         if (member == null) return new SystemResult(100, "用户不存在");
 
         // 将新消息写入接收者的新消息里
-        newChatInfoGotoWriteReceiveNewChatInfoData(message, member, k2MemberAndElseInfo.getK2Member(), "new");
+        goGoMessageNewInfo(message, k2MemberAndElseInfo.getK2Member(), member, true);
 
         // 将新消息写入发送者的旧消息里
-        newChatInfoGotoWriteReceiveNewChatInfoData(message, member, k2MemberAndElseInfo.getK2Member(), "old");
+        goGoMessageOldInfo(message, k2MemberAndElseInfo.getK2Member(), member, true);
 
         return new SystemResult("ok");
+    }
+
+    public static void goGoMessageOldInfo(String message, K2Member sendMember, K2Member reMember, boolean flag) {
+
+        // 将发送的消息存入发送者的旧消息数据集合中去
+        // 取得发送者在这个系统缓存里与全部人的聊天信息
+        ConcurrentHashMap<String, UserChatCacheInfoDto> sendMemberAllInfo =
+                UserChatInfoManageAppoint.getChatInfoAllById(sendMember.getMemberId());
+
+        // 取得发送者和接收者的消息数据
+        // 将发送者的全部信息数据集合(reMemberAllInfo) 通过接收者的ID进行筛选
+        // 就能筛选出该发送者和接收者的全部信息  全部信息包含
+        // (newInfo新消息数据集合)、(oldInfo旧消息数据集合)
+        UserChatCacheInfoDto sendMemberDuiReMemberAllInfo =
+                UserChatInfoManageAppoint.getUserInfoById(sendMemberAllInfo, sendMember.getMemberId(), reMember.getMemberId());
+
+        // 取出该发送者的旧消息
+        // 这里的旧消息指的是 发送者与接收者的旧消息数据集合
+        List<UserCharInfoPojo> oldChatInfos = sendMemberDuiReMemberAllInfo.getOldChatInfos();
+
+
+        // 填写本次发送的数据信息
+        UserCharInfoPojo charInfoPojo = new UserCharInfoPojo();
+        charInfoPojo.setChaoInfoMessage(message);
+        charInfoPojo.setReceiveUserId(reMember.getMemberId());
+        charInfoPojo.setSendUserId(sendMember.getMemberId());
+        charInfoPojo.setImage(sendMember.getMemberPortrait());
+        charInfoPojo.setCreateTime(new Date());
+        charInfoPojo.setReName(reMember.getMemberName());
+        charInfoPojo.setName(sendMember.getMemberName());
+        charInfoPojo.setReImage(reMember.getMemberPortrait());
+        charInfoPojo.setCreateTimeStr(sdf.format(charInfoPojo.getCreateTime()));
+        charInfoPojo.setFlag(true);
+        UserCharHtmlDataPojo htmlDataPojo = new UserCharHtmlDataPojo();
+        htmlDataPojo.setName(reMember.getMemberName());
+        htmlDataPojo.setImage(reMember.getMemberPortrait());
+        htmlDataPojo.setCreateTime(new Date());
+        htmlDataPojo.setUserId(reMember.getMemberId());
+        charInfoPojo.setHtmlDataPojo(htmlDataPojo);
+
+        // 将数据重新写入发送者的旧消息数据集合中
+        oldChatInfos.add(charInfoPojo);
+        sendMemberDuiReMemberAllInfo.setOldChatInfos(oldChatInfos);
+
+        // 将数据重新写入接收者的全部数据集合中
+        sendMemberAllInfo.put(UserChatInfoManageAppoint.CHAT_INFO_CHCHE_KEY + "_" + reMember.getMemberId(), sendMemberDuiReMemberAllInfo);
+        UserChatInfoManageAppoint.writeChatInfoAllById(sendMember.getMemberId(), sendMemberAllInfo);
+    }
+
+    /**
+     * 将新消息存入接收者的新数据集合中去
+     *
+     * @param message
+     * @param sendMember
+     * @param reMember
+     * @param flag
+     */
+    public static void goGoMessageNewInfo(String message, K2Member sendMember, K2Member reMember, boolean flag) {
+
+        // 需要将发送者发出的消息 存入接收者的新消息数据中
+        // 然后将发送者的小心 存入发送者的旧消息数据中
+
+
+        // 取得了接收者全部的消息
+        // 这里的全部消息指的是 接收者在这个系统里与全部人的消息集合
+        ConcurrentHashMap<String, UserChatCacheInfoDto> reMemberAllInfo =
+                UserChatInfoManageAppoint.getChatInfoAllById(reMember.getMemberId());
+
+        // 取得接收者和发送者的消息数据
+        // 将接收者的全部信息数据集合(reMemberAllInfo) 通过发送者的ID进行筛选
+        // 就能筛选出该接收者和发送者的全部信息  全部信息包含
+        // (newInfo新消息数据集合)、(oldInfo旧消息数据集合)
+        UserChatCacheInfoDto reMemberDuiSendMemberAllInfo =
+                UserChatInfoManageAppoint.getUserInfoById(reMemberAllInfo, reMember.getMemberId(), sendMember.getMemberId());
+
+        // 取出该接收者的新消息
+        // 这里的新新消息指的是 接收者没有查看的新消息数据集合
+        List<UserCharInfoPojo> newChatInfos = reMemberDuiSendMemberAllInfo.getNewChatInfos();
+
+        // 填写本次发送的数据信息
+        UserCharInfoPojo charInfoPojo = new UserCharInfoPojo();
+        charInfoPojo.setChaoInfoMessage(message);
+        charInfoPojo.setReceiveUserId(reMember.getMemberId());
+        charInfoPojo.setSendUserId(sendMember.getMemberId());
+        charInfoPojo.setImage(sendMember.getMemberPortrait());
+        charInfoPojo.setCreateTime(new Date());
+        charInfoPojo.setReName(reMember.getMemberName());
+        charInfoPojo.setCreateTimeStr(sdf.format(charInfoPojo.getCreateTime()));
+        charInfoPojo.setName(sendMember.getMemberName());
+        charInfoPojo.setReImage(reMember.getMemberPortrait());
+        charInfoPojo.setFlag(false);
+        UserCharHtmlDataPojo htmlDataPojo = new UserCharHtmlDataPojo();
+        htmlDataPojo.setName(sendMember.getMemberName());
+        htmlDataPojo.setImage(sendMember.getMemberPortrait());
+        htmlDataPojo.setCreateTime(new Date());
+        htmlDataPojo.setUserId(sendMember.getMemberId());
+        charInfoPojo.setHtmlDataPojo(htmlDataPojo);
+
+        // 将数据重新写入新消息数据集合中
+        newChatInfos.add(charInfoPojo);
+        reMemberDuiSendMemberAllInfo.setNewChatInfos(newChatInfos);
+
+        // 将数据重新写入接收者的全部数据集合中
+        reMemberAllInfo.put(UserChatInfoManageAppoint.CHAT_INFO_CHCHE_KEY + "_" + sendMember.getMemberId(), reMemberDuiSendMemberAllInfo);
+        UserChatInfoManageAppoint.writeChatInfoAllById(reMember.getMemberId(), reMemberAllInfo);
     }
 
     /**

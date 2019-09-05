@@ -1,9 +1,13 @@
 package com.king2.product.server.controller;
 
+import com.king2.commons.pojo.K2Member;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2Message;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.UserMessageAppoint;
+import com.king2.product.server.dto.ReqeustDynamicGetInfo;
+import com.king2.product.server.dto.UserCharInfoDto;
+import com.king2.product.server.service.UserChatInfoManageService;
 import com.king2.product.server.service.UserMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +34,9 @@ public class UserMessageManageController {
     // 注入用户消息Service
     @Autowired
     private UserMessageService userMessageService;
+    // 注入聊天主页Service
+    @Autowired
+    private UserChatInfoManageService userChatInfoManageService;
 
     /**
      * -----------------------------------------------------
@@ -88,9 +95,18 @@ public class UserMessageManageController {
 
         // 获取未读的信息
         List<K2Message> wd = UserMessageAppoint.getMessageByType(k2MemberAndElseInfo.getK2Member().getMemberId(), "WD");
+        // 每次请求动态加载的数据
+        ReqeustDynamicGetInfo getInfo = new ReqeustDynamicGetInfo();
+        K2Member k2Member = k2MemberAndElseInfo.getK2Member();
+        k2Member.setMemberPassword(null);
+        getInfo.setK2Member(k2Member);
+        getInfo.setWd(wd);
+        // 查询聊天信息
+        SystemResult index = userChatInfoManageService.index(k2MemberAndElseInfo);
+        getInfo.setUserCharInfoDto((UserCharInfoDto) index.getData());
         if (!CollectionUtils.isEmpty(wd)) {
-            return new SystemResult(200, "yes", wd);
+            return new SystemResult(200, "yes", getInfo);
         }
-        return new SystemResult(200, "no");
+        return new SystemResult(200, "no", getInfo);
     }
 }

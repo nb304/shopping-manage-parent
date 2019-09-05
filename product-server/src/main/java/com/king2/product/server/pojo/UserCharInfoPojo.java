@@ -26,9 +26,29 @@ public class UserCharInfoPojo implements Comparable<UserCharInfoPojo> {
     private String image;
     // 接收者的头像
     private String reImage;
-
+    // 是否是自己发送的
     private boolean flag;
+    // 时间
+    private String createTimeStr;
 
+    public String getCreateTimeStr() {
+        return createTimeStr;
+    }
+
+    public void setCreateTimeStr(String createTimeStr) {
+        this.createTimeStr = createTimeStr;
+    }
+
+    private UserCharHtmlDataPojo htmlDataPojo;
+
+
+    public UserCharHtmlDataPojo getHtmlDataPojo() {
+        return htmlDataPojo;
+    }
+
+    public void setHtmlDataPojo(UserCharHtmlDataPojo htmlDataPojo) {
+        this.htmlDataPojo = htmlDataPojo;
+    }
 
     public String getReName() {
         return reName;

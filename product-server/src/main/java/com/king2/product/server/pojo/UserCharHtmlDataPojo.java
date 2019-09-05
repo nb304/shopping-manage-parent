@@ -1,5 +1,7 @@
 package com.king2.product.server.pojo;
 
+import java.util.Date;
+
 // 用户聊天记录页面显示的POJO类
 public class UserCharHtmlDataPojo {
 
@@ -15,6 +17,27 @@ public class UserCharHtmlDataPojo {
     private Integer notReadSize;
     // 时间
     private String time;
+
+    private Date createTime;
+
+    // 卡片的Class
+    private String clazz = "el-card is-hover-shadow";
+
+    public String getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(String clazz) {
+        this.clazz = clazz;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public String getTime() {
         return time;

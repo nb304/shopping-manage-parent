@@ -323,7 +323,7 @@ public class UserChatInfoManageServiceImpl implements UserCharInfoManageService 
      * @param sFlag
      * @return
      */
-    public static final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("M/d HH:mm");
 
     public static SystemResult foreachChatInfoReturnDto(
             ConcurrentHashMap<String, List<UserCharInfoPojo>> chatInfo,

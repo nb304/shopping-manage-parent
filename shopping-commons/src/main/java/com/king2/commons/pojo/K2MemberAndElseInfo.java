@@ -15,8 +15,19 @@ public class K2MemberAndElseInfo {
     // 本次的token信息
     private String currentToken;
 
+    // 以前的token
+    private String oldToken;
+
     // 最后一次登录的日期
     private Date lastLoginTime;
+
+    public String getOldToken() {
+        return oldToken;
+    }
+
+    public void setOldToken(String oldToken) {
+        this.oldToken = oldToken;
+    }
 
     public Date getLastLoginTime() {
         return lastLoginTime;

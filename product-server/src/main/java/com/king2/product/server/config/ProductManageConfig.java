@@ -18,7 +18,8 @@ public class ProductManageConfig implements WebMvcConfigurer {
     @Bean
     @LoadBalanced
     public RestTemplate getRestTemplate() {
-        return new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate;
     }
 
     // 注入拦截器
@@ -31,6 +32,7 @@ public class ProductManageConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(productReqeustInterceptor())
-                .addPathPatterns("/**").excludePathPatterns("/swagger-ui");
+                .addPathPatterns("/**").excludePathPatterns("/swagger-ui")
+                .excludePathPatterns("/**/cloud");
     }
 }

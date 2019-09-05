@@ -226,8 +226,8 @@ public class ShoppingNumberManage {
         // 调用远程服务 将数据带入缓存服务器中
         MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
         requestEntity.add("queueJson", JsonUtils.objectToJson(numberQueue));
-        SystemResult result = restTemplate.postForObject(servlerUrl + "/cache/number/add?type=" + type, requestEntity, SystemResult.class);
-        return result;
+        String result = restTemplate.postForObject(servlerUrl + "/cache/number/add/cloud?type=" + type, requestEntity, String.class);
+        return JsonUtils.jsonToPojo(result, SystemResult.class);
     }
 
     /**
@@ -239,10 +239,11 @@ public class ShoppingNumberManage {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    public String getNumberByCacheServer() {
+    public String getNumberByCacheServer() throws Exception {
 
         // 调用远程服务器 获取数据
-        SystemResult result = shoppingNumberPojo.getRestTemplate().postForObject(shoppingNumberPojo.getServletUrl() + "/cache/number/get?type=" + type, null, SystemResult.class);
+        String strings = shoppingNumberPojo.getRestTemplate().postForObject(shoppingNumberPojo.getServletUrl() + "/cache/number/get/cloud?type=" + type, null, String.class);
+        SystemResult result = JsonUtils.jsonToPojo(strings, SystemResult.class);
         if (result.getStatus() == 200) {
             return result.getData().toString();
         }

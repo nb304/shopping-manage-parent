@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,8 @@ public class LoginManageServiceImpl implements LoginManageService {
     private K2MemberMapper k2MemberMapper;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private RestTemplate restTemplate;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginManageServiceImpl.class);
 
@@ -59,6 +62,14 @@ public class LoginManageServiceImpl implements LoginManageService {
                 e.printStackTrace();
             }
             // 返回信息  状态==200或者201说明登入成功 登入成功后 会携带本地的token 需要我们手动写回客户端
+            if (result.getStatus() == 201) {
+                // 说明是顶号行为  我们需要比较最近登入的IP地址 判断是否需要锁定账号
+                K2MemberAndElseInfo data = (K2MemberAndElseInfo) result.getData();
+
+                // 调用远程服务 删除个个服务对应的用户缓存信息
+                // 删除商品服务的缓存信息
+                restTemplate.postForObject("http://KING2-PRODUCT-MANAGE-7778/user/cache/del/cloud?token=" + data.getOldToken(), null, String.class);
+            }
             return result;
         }
 
@@ -142,7 +153,6 @@ public class LoginManageServiceImpl implements LoginManageService {
     public SystemResult userInfoGotoRedisCache(K2MemberAndElseInfo k2Member, HttpServletRequest request) throws Exception {
 
         // 创建Redis中需要的数据结构
-        K2MemberAndElseInfo k2MemberAndElseInfo = new K2MemberAndElseInfo();
         k2Member.getK2Member().setReqeustUserMac(NetworkUtil.getHostMacAddress(request));
 
 
@@ -170,6 +180,18 @@ public class LoginManageServiceImpl implements LoginManageService {
     }
 
     /**
+     * 删除用户在缓存中的数据
+     */
+    public static void delUserCaCheInfo(String account) {
+        // 需要锁
+        UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
+        // 由于instance是单例的 所以可以直接用来当锁使用
+        synchronized (instance) {
+            instance.getUserCacheHashMapDatas().remove(account);
+        }
+    }
+
+    /**
      * 校验缓存信息的用户数据信息
      *
      * @param username
@@ -182,7 +204,6 @@ public class LoginManageServiceImpl implements LoginManageService {
         UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
         // 由于instance是单例的 所以可以直接用来当锁使用
         synchronized (instance) {
-
 
             // 用户的数据信息
             ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas =
@@ -204,6 +225,10 @@ public class LoginManageServiceImpl implements LoginManageService {
                 return new SystemResult(100, "用户名或密码错误!!");
             }
 
+            k2Member.setOldToken(k2Member.getCurrentToken());
+            // token规则你可以自己定义
+            String token = MD5Utils.md5(k2Member.getK2Member().getMemberAccount() + new Date().getTime() + UUID.randomUUID().toString());
+            k2Member.setCurrentToken(token);
             return new SystemResult(k2Member);
         }
 

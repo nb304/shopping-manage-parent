@@ -36,7 +36,7 @@ public class NumberCacheManage {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    @PostMapping("/cache/number/add")
+    @PostMapping("/cache/number/add/cloud")
     @ApiOperation(value = "往缓存服务器添加编号", notes = "")
     @ApiImplicitParams
             ({
@@ -74,7 +74,7 @@ public class NumberCacheManage {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    @PostMapping("/cache/number/get")
+    @PostMapping("/cache/number/get/cloud")
     @ApiOperation(value = "往缓存服务器获取一个编号", notes = "")
     @ApiImplicitParams
             ({
