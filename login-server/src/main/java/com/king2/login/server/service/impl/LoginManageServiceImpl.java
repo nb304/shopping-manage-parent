@@ -17,10 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,110 +43,121 @@ public class LoginManageServiceImpl implements LoginManageService {
 
 
     @Override
-    public SystemResult login(String username, String password, HttpServletRequest request) {
+    public SystemResult login(String username, String password, HttpServletRequest request, String code) throws IOException {
 
-        // æˆ‘è¿™è¾¹å°±åªè¿›è¡ŒæŸ¥è¯¢ç”¨æˆ·æ˜¯å¦å­˜åœ¨ ä»–çš„è§’è‰²ä¿¡æ¯å’Œå…¶ä»–çš„ä¿¡æ¯ æˆ‘å°±ä¸æŸ¥è¯¢äº†
+        // ¼ÓËø
+        synchronized (LOGGER) {
 
-        // æ ¡éªŒç¼“å­˜æ•°æ®æ˜¯å¦å­˜åœ¨è¯¥ç”¨æˆ·çš„ä¿¡æ¯
-        SystemResult checkCacheResult = checkCacheIsUserInfo(username, password);
-        // çŠ¶æ€==200 è¯´æ˜ç¼“å­˜ä¸­å­˜åœ¨è¯¥ç”¨æˆ·çš„æ•°æ®ä¿¡æ¯ å¹¶ä¸”è´¦å·å¯†ç é€šè¿‡äº†éªŒè¯ è¿”å›å€¼æ˜¯ä¸€ä¸ªç”¨æˆ·çš„æ•°æ®ä¿¡æ¯
-        if (checkCacheResult.getStatus() == 200) {
-            // å–å‡ºä¿¡æ¯
-            K2MemberAndElseInfo member = (K2MemberAndElseInfo) checkCacheResult.getData();
+            // »ñÈ¡µ½ÑéÖ¤ÂëµÄ»º´æ½á¹¹
+            ConcurrentHashMap<String, String> codeHashMap = UserLoginCacheManage2.getInstance().getCodeHashMap();
+            // ²é¿´ÑéÖ¤ÂëÊÇ·ñÕıÈ·
+            String sessionKey = NetworkUtil.getHostIpAddress(request);
+            String sessionCode = codeHashMap.get(sessionKey);
+            if (StringUtils.isEmpty(sessionCode) || !sessionCode.toUpperCase().equals(code)) {
+                return new SystemResult(100, "ÑéÖ¤Âë´íÎó,ÇëÖØĞÂ»ñÈ¡¡£");
+            }
+            codeHashMap.remove(sessionKey);
+            // ÎÒÕâ±ß¾ÍÖ»½øĞĞ²éÑ¯ÓÃ»§ÊÇ·ñ´æÔÚ ËûµÄ½ÇÉ«ĞÅÏ¢ºÍÆäËûµÄĞÅÏ¢ ÎÒ¾Í²»²éÑ¯ÁË
+            // Ğ£Ñé»º´æÊı¾İÊÇ·ñ´æÔÚ¸ÃÓÃ»§µÄĞÅÏ¢
+            SystemResult checkCacheResult = checkCacheIsUserInfo(username, password);
+            // ×´Ì¬==200 ËµÃ÷»º´æÖĞ´æÔÚ¸ÃÓÃ»§µÄÊı¾İĞÅÏ¢ ²¢ÇÒÕËºÅÃÜÂëÍ¨¹ıÁËÑéÖ¤ ·µ»ØÖµÊÇÒ»¸öÓÃ»§µÄÊı¾İĞÅÏ¢
+            if (checkCacheResult.getStatus() == 200) {
+                // È¡³öĞÅÏ¢
+                K2MemberAndElseInfo member = (K2MemberAndElseInfo) checkCacheResult.getData();
 
-            // å°†ç”¨æˆ·æ•°æ®é‡æ–°å­˜å…¥redisä¸­
+                // ½«ÓÃ»§Êı¾İÖØĞÂ´æÈëredisÖĞ
+                SystemResult result = null;
+                try {
+                    result = userInfoGotoRedisCache(member, request);
+                } catch (Exception e) {
+                    LOGGER.error("½«ÓÃ»§ĞÅÏ¢´æÈëredisÖĞ³ö´í,´íÎóĞÅÏ¢:" + e);
+                    LOGGER.error(GetErrorInfo.getTrace(e));
+                    e.printStackTrace();
+                }
+                // ·µ»ØĞÅÏ¢  ×´Ì¬==200»òÕß201ËµÃ÷µÇÈë³É¹¦ µÇÈë³É¹¦ºó »áĞ¯´ø±¾µØµÄtoken ĞèÒªÎÒÃÇÊÖ¶¯Ğ´»Ø¿Í»§¶Ë
+                if (result.getStatus() == 201) {
+                    // ËµÃ÷ÊÇ¶¥ºÅĞĞÎª  ÎÒÃÇĞèÒª±È½Ï×î½üµÇÈëµÄIPµØÖ· ÅĞ¶ÏÊÇ·ñĞèÒªËø¶¨ÕËºÅ
+                    K2MemberAndElseInfo data = (K2MemberAndElseInfo) result.getData();
+
+                    // µ÷ÓÃÔ¶³Ì·şÎñ É¾³ı¸ö¸ö·şÎñ¶ÔÓ¦µÄÓÃ»§»º´æĞÅÏ¢
+                    // É¾³ıÉÌÆ··şÎñµÄ»º´æĞÅÏ¢
+                    restTemplate.postForObject("http://KING2-PRODUCT-MANAGE-7778/user/cache/del/cloud?token=" + data.getOldToken(), null, String.class);
+                }
+                return result;
+            }
+
+            // ËµÃ÷»º´æÖĞÃ»ÓĞ¸ÃÓÃ»§µÄÊı¾İĞÅÏ¢ ÎÒÃÇĞèÒª²éÑ¯Êı¾İ¿âÖĞµÄĞÅÏ¢
+            SystemResult checkMySqlInfoResult =
+                    cacheNotFoundUserInfoCurrentGotoMySqlGetInfo(username, password);
+            if (checkMySqlInfoResult.getStatus() != 200) return checkMySqlInfoResult;
+
+            // Ğ£Ñé³É¹¦ ËµÃ÷ÓÃ»§µÇÈë³É¹¦ÁË checkMySqlInfoResult·µ»ØµÄdataÖĞĞ¯´øÁË¸ÃÓÃ»§µÄÕËºÅĞÅÏ¢
+            K2MemberAndElseInfo data = (K2MemberAndElseInfo) checkMySqlInfoResult.getData();
+
+            // ÕâÀïÌáÁ½¸öË¼Â·
+            // 1¡¢Äã¿ÉÒÔÉú³ÉÓÃ»§token²¢·µ»Ø¸øÓÃ»§  ÌáĞÑÓÃ»§µÇÂ¼³É¹¦ È»ºó´´½¨Ò»¸ö°²È«µÄÏß³Ì½«ÓÃ»§ĞÅÏ¢´æÈëreidsºÍ±¾µØ»º´æÖĞ
+            //      1¡¢1´æºÍÈ¡µÄ¹ı³ÌÖĞÊÇÒ»¶¨Òª¼ÓËøµÄ ·ñÔò»á³öÏÖÊı¾İ°²È«µÄÒş»¼
+            // 2¡¢Ò»ÌõÏß×ßÏÂÈ¥
+
+            // ÎÒÏÖÔÚÑ¡ÔñµÚ¶şÖÖ°ì·¨
             SystemResult result = null;
             try {
-                result = userInfoGotoRedisCache(member, request);
+
+                // ½«ÓÃ»§ĞÅÏ¢´æÈë±¾µØµÄ»º´æÊı¾İ
+                userInfoAddToCache(data);
+
+                // ´æÈë³É¹¦ºó ´æÈëredisÖĞ
+                result = userInfoGotoRedisCache(data, request);
             } catch (Exception e) {
-                LOGGER.error("å°†ç”¨æˆ·ä¿¡æ¯å­˜å…¥redisä¸­å‡ºé”™,é”™è¯¯ä¿¡æ¯:" + e);
-                LOGGER.error(GetErrorInfo.getTrace(e));
                 e.printStackTrace();
             }
-            // è¿”å›ä¿¡æ¯  çŠ¶æ€==200æˆ–è€…201è¯´æ˜ç™»å…¥æˆåŠŸ ç™»å…¥æˆåŠŸå ä¼šæºå¸¦æœ¬åœ°çš„token éœ€è¦æˆ‘ä»¬æ‰‹åŠ¨å†™å›å®¢æˆ·ç«¯
-            if (result.getStatus() == 201) {
-                // è¯´æ˜æ˜¯é¡¶å·è¡Œä¸º  æˆ‘ä»¬éœ€è¦æ¯”è¾ƒæœ€è¿‘ç™»å…¥çš„IPåœ°å€ åˆ¤æ–­æ˜¯å¦éœ€è¦é”å®šè´¦å·
-                K2MemberAndElseInfo data = (K2MemberAndElseInfo) result.getData();
 
-                // è°ƒç”¨è¿œç¨‹æœåŠ¡ åˆ é™¤ä¸ªä¸ªæœåŠ¡å¯¹åº”çš„ç”¨æˆ·ç¼“å­˜ä¿¡æ¯
-                // åˆ é™¤å•†å“æœåŠ¡çš„ç¼“å­˜ä¿¡æ¯
-                restTemplate.postForObject("http://KING2-PRODUCT-MANAGE-7778/user/cache/del/cloud?token=" + data.getOldToken(), null, String.class);
-            }
+
             return result;
         }
-
-        // è¯´æ˜ç¼“å­˜ä¸­æ²¡æœ‰è¯¥ç”¨æˆ·çš„æ•°æ®ä¿¡æ¯ æˆ‘ä»¬éœ€è¦æŸ¥è¯¢æ•°æ®åº“ä¸­çš„ä¿¡æ¯
-        SystemResult checkMySqlInfoResult =
-                cacheNotFoundUserInfoCurrentGotoMySqlGetInfo(username, password);
-        if (checkMySqlInfoResult.getStatus() != 200) return checkMySqlInfoResult;
-
-        // æ ¡éªŒæˆåŠŸ è¯´æ˜ç”¨æˆ·ç™»å…¥æˆåŠŸäº† checkMySqlInfoResultè¿”å›çš„dataä¸­æºå¸¦äº†è¯¥ç”¨æˆ·çš„è´¦å·ä¿¡æ¯
-        K2MemberAndElseInfo data = (K2MemberAndElseInfo) checkMySqlInfoResult.getData();
-
-        // è¿™é‡Œæä¸¤ä¸ªæ€è·¯
-        // 1ã€ä½ å¯ä»¥ç”Ÿæˆç”¨æˆ·tokenå¹¶è¿”å›ç»™ç”¨æˆ·  æé†’ç”¨æˆ·ç™»å½•æˆåŠŸ ç„¶ååˆ›å»ºä¸€ä¸ªå®‰å…¨çš„çº¿ç¨‹å°†ç”¨æˆ·ä¿¡æ¯å­˜å…¥reidså’Œæœ¬åœ°ç¼“å­˜ä¸­
-        //      1ã€1å­˜å’Œå–çš„è¿‡ç¨‹ä¸­æ˜¯ä¸€å®šè¦åŠ é”çš„ å¦åˆ™ä¼šå‡ºç°æ•°æ®å®‰å…¨çš„éšæ‚£
-        // 2ã€ä¸€æ¡çº¿èµ°ä¸‹å»
-
-        // æˆ‘ç°åœ¨é€‰æ‹©ç¬¬äºŒç§åŠæ³•
-        SystemResult result = null;
-        try {
-
-            // å°†ç”¨æˆ·ä¿¡æ¯å­˜å…¥æœ¬åœ°çš„ç¼“å­˜æ•°æ®
-            userInfoAddToCache(data);
-
-            // å­˜å…¥æˆåŠŸå å­˜å…¥redisä¸­
-            result = userInfoGotoRedisCache(data, request);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return result;
     }
 
     /**
-     * åœ¨ç¼“å­˜ä¸­æ²¡æœ‰æ‰¾åˆ°è¯¥ç”¨æˆ·çš„ä¿¡æ¯  ç°åœ¨æˆ‘ä»¬å»å¾€æ•°æ®åº“æŸ¥è¯¢è¯¥ç”¨æˆ·çš„ä¿¡æ¯
+     * ÔÚ»º´æÖĞÃ»ÓĞÕÒµ½¸ÃÓÃ»§µÄĞÅÏ¢  ÏÖÔÚÎÒÃÇÈ¥ÍùÊı¾İ¿â²éÑ¯¸ÃÓÃ»§µÄĞÅÏ¢
      *
      * @return
      */
     public SystemResult cacheNotFoundUserInfoCurrentGotoMySqlGetInfo(String username, String password) {
 
-        // æŸ¥è¯¢æ•°æ®åº“çš„ä¿¡æ¯
+        // ²éÑ¯Êı¾İ¿âµÄĞÅÏ¢
         K2MemberExample example = new K2MemberExample();
         example.createCriteria().andMemberAccountEqualTo(username);
         List<K2Member> k2Members = k2MemberMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(k2Members)) {
-            // è¯´æ˜ç”¨æˆ·åå­˜åœ¨ æ¯”è¾ƒå¯†ç 
+            // ËµÃ÷ÓÃ»§Ãû´æÔÚ ±È½ÏÃÜÂë
             K2Member member = k2Members.get(0);
-            // åŠ å¯†è§„åˆ™è‡ªå·±å®šä¹‰
+            // ¼ÓÃÜ¹æÔò×Ô¼º¶¨Òå
             if (!password.equals(member.getMemberPassword())) {
-                return new SystemResult(100, "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!!");
+                return new SystemResult(100, "ÓÃ»§Ãû»òÃÜÂë´íÎó!!");
             }
         } else {
-            return new SystemResult(100, "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!!");
+            return new SystemResult(100, "ÓÃ»§Ãû»òÃÜÂë´íÎó!!");
         }
 
-        // ç”Ÿæˆå‡æ•°æ®
+        // Éú³É¼ÙÊı¾İ
         K2MemberAndElseInfo elseInfo = new K2MemberAndElseInfo();
         elseInfo.setK2Member(k2Members.get(0));
-        // è§’è‰²ä¿¡æ¯
+        // ½ÇÉ«ĞÅÏ¢
         List<K2Role> roles = new ArrayList<>();
         K2Role role = new K2Role();
-        role.setCreateUserName("è¶…çº§ç®¡ç†å‘˜");
+        role.setCreateUserName("³¬¼¶¹ÜÀíÔ±");
         role.setRetain1("KING2_SYSTEM_ADMIN");
         roles.add(role);
         elseInfo.setK2Roles(roles);
-        // ç”Ÿæˆtokenä¿¡æ¯
-        // tokenè§„åˆ™ä½ å¯ä»¥è‡ªå·±å®šä¹‰
+        // Éú³ÉtokenĞÅÏ¢
+        // token¹æÔòÄã¿ÉÒÔ×Ô¼º¶¨Òå
         String token = MD5Utils.md5(elseInfo.getK2Member().getMemberAccount() + new Date().getTime() + UUID.randomUUID().toString());
         elseInfo.setCurrentToken(token);
-
         return new SystemResult(elseInfo);
     }
 
     /**
-     * å°†ç”¨æˆ·æ•°æ®é‡æ–°å­˜å…¥redisä¸­
+     * ½«ÓÃ»§Êı¾İÖØĞÂ´æÈëredisÖĞ
      *
      * @param k2Member
      * @return
@@ -152,81 +165,81 @@ public class LoginManageServiceImpl implements LoginManageService {
      */
     public SystemResult userInfoGotoRedisCache(K2MemberAndElseInfo k2Member, HttpServletRequest request) throws Exception {
 
-        // åˆ›å»ºRedisä¸­éœ€è¦çš„æ•°æ®ç»“æ„
-        k2Member.getK2Member().setReqeustUserMac(NetworkUtil.getHostMacAddress(request));
+        // ´´½¨RedisÖĞĞèÒªµÄÊı¾İ½á¹¹
+        // k2Member.getK2Member().setReqeustUserMac(NetworkUtil.getHostMacAddress(request));
 
 
-        // è°ƒç”¨UserUtilçš„åˆ·æ–°å·¥å…·
+        // µ÷ÓÃUserUtilµÄË¢ĞÂ¹¤¾ß
         UserManageUtil userManageUtil = new UserManageUtil(jedisPool);
 
-        // è¿™é‡Œçš„refreshä¼šè¿”å›æœ¬æ¬¡ç™»å…¥çš„çŠ¶æ€ è¯¦æƒ…çœ‹æ–¹æ³•å†…éƒ¨
+        // ÕâÀïµÄrefresh»á·µ»Ø±¾´ÎµÇÈëµÄ×´Ì¬ ÏêÇé¿´·½·¨ÄÚ²¿
         SystemResult refresh = userManageUtil.refresh(k2Member, k2Member.getCurrentToken());
         return refresh;
     }
 
     /**
-     * å°†ç”¨æˆ·ä¿¡æ¯å­˜å…¥æœ¬åœ°ç¼“å­˜
+     * ½«ÓÃ»§ĞÅÏ¢´æÈë±¾µØ»º´æ
      *
      * @param k2Member
      * @return
      */
     public static void userInfoAddToCache(K2MemberAndElseInfo k2Member) {
-        // éœ€è¦é”
+        // ĞèÒªËø
         UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
-        // ç”±äºinstanceæ˜¯å•ä¾‹çš„ æ‰€ä»¥å¯ä»¥ç›´æ¥ç”¨æ¥å½“é”ä½¿ç”¨
+        // ÓÉÓÚinstanceÊÇµ¥ÀıµÄ ËùÒÔ¿ÉÒÔÖ±½ÓÓÃÀ´µ±ËøÊ¹ÓÃ
         synchronized (instance) {
             instance.getUserCacheHashMapDatas().put(k2Member.getK2Member().getMemberAccount(), k2Member);
         }
     }
 
     /**
-     * åˆ é™¤ç”¨æˆ·åœ¨ç¼“å­˜ä¸­çš„æ•°æ®
+     * É¾³ıÓÃ»§ÔÚ»º´æÖĞµÄÊı¾İ
      */
     public static void delUserCaCheInfo(String account) {
-        // éœ€è¦é”
+        // ĞèÒªËø
         UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
-        // ç”±äºinstanceæ˜¯å•ä¾‹çš„ æ‰€ä»¥å¯ä»¥ç›´æ¥ç”¨æ¥å½“é”ä½¿ç”¨
+        // ÓÉÓÚinstanceÊÇµ¥ÀıµÄ ËùÒÔ¿ÉÒÔÖ±½ÓÓÃÀ´µ±ËøÊ¹ÓÃ
         synchronized (instance) {
             instance.getUserCacheHashMapDatas().remove(account);
         }
     }
 
     /**
-     * æ ¡éªŒç¼“å­˜ä¿¡æ¯çš„ç”¨æˆ·æ•°æ®ä¿¡æ¯
+     * Ğ£Ñé»º´æĞÅÏ¢µÄÓÃ»§Êı¾İĞÅÏ¢
      *
      * @param username
      * @param password
      * @return
      */
     public static SystemResult checkCacheIsUserInfo(String username, String password) {
-        // è·å–ç¼“å­˜æ•°æ®
-        // éœ€è¦é”
+        // »ñÈ¡»º´æÊı¾İ
+        // ĞèÒªËø
         UserLoginCacheManage2 instance = UserLoginCacheManage2.getInstance();
-        // ç”±äºinstanceæ˜¯å•ä¾‹çš„ æ‰€ä»¥å¯ä»¥ç›´æ¥ç”¨æ¥å½“é”ä½¿ç”¨
+        // ÓÉÓÚinstanceÊÇµ¥ÀıµÄ ËùÒÔ¿ÉÒÔÖ±½ÓÓÃÀ´µ±ËøÊ¹ÓÃ
         synchronized (instance) {
 
-            // ç”¨æˆ·çš„æ•°æ®ä¿¡æ¯
+            // ÓÃ»§µÄÊı¾İĞÅÏ¢
             ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas =
                     instance.getUserCacheHashMapDatas();
 
-            // åˆ¤æ–­ç¼“å­˜ä¿¡æ¯æ˜¯å¦å­˜åœ¨è¯¥ç”¨æˆ·
+            // ÅĞ¶Ï»º´æĞÅÏ¢ÊÇ·ñ´æÔÚ¸ÃÓÃ»§
             if (CollectionUtils.isEmpty(userCacheHashMapDatas)) {
-                return new SystemResult(100, "ç¼“å­˜æ•°æ®ä¸å­˜åœ¨æ•°æ®");
+                return new SystemResult(100, "»º´æÊı¾İ²»´æÔÚÊı¾İ");
             } else if (!userCacheHashMapDatas.containsKey(username)) {
-                return new SystemResult(100, "ç¼“å­˜æ•°æ®ä¸å­˜åœ¨æ•°æ®");
+                return new SystemResult(100, "»º´æÊı¾İ²»´æÔÚÊı¾İ");
             }
 
-            // ç”¨æˆ·å­˜åœ¨ç¼“å­˜çš„ä¿¡æ¯  å¦‚æœç”¨æˆ·è¿›è¡Œæ”¹å¯†ç ç­‰å…¶ä»–æ•æ„Ÿæ•°æ®çš„æ“ä½œ  è®°ä½åˆ é™¤ç¼“å­˜çš„æ•°æ®ä¿¡æ¯
+            // ÓÃ»§´æÔÚ»º´æµÄĞÅÏ¢  Èç¹ûÓÃ»§½øĞĞ¸ÄÃÜÂëµÈÆäËûÃô¸ĞÊı¾İµÄ²Ù×÷  ¼Ç×¡É¾³ı»º´æµÄÊı¾İĞÅÏ¢
             K2MemberAndElseInfo k2Member = userCacheHashMapDatas.get(username);
-            if (k2Member == null) return new SystemResult(100, "ç¼“å­˜æ•°æ®ä¸å­˜åœ¨æ•°æ®");
+            if (k2Member == null) return new SystemResult(100, "»º´æÊı¾İ²»´æÔÚÊı¾İ");
 
-            // æ¯”è¾ƒå¯†ç 
+            // ±È½ÏÃÜÂë
             if (!password.equals(k2Member.getK2Member().getMemberPassword())) {
-                return new SystemResult(100, "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!!");
+                return new SystemResult(100, "ÓÃ»§Ãû»òÃÜÂë´íÎó!!");
             }
 
             k2Member.setOldToken(k2Member.getCurrentToken());
-            // tokenè§„åˆ™ä½ å¯ä»¥è‡ªå·±å®šä¹‰
+            // token¹æÔòÄã¿ÉÒÔ×Ô¼º¶¨Òå
             String token = MD5Utils.md5(k2Member.getK2Member().getMemberAccount() + new Date().getTime() + UUID.randomUUID().toString());
             k2Member.setCurrentToken(token);
             return new SystemResult(k2Member);

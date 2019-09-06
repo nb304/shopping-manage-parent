@@ -2,46 +2,100 @@ package com.king2.login.server.controller;
 
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.result.SystemResult;
-import com.king2.commons.utils.MACUtil;
 import com.king2.commons.utils.NetworkUtil;
+import com.king2.login.server.cache.UserLoginCacheManage2;
 import com.king2.login.server.service.LoginManageService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
+import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
+/*=======================================================
+	ËµÃ÷:    ÓÃ»§µÇÈë¹ÜÀíController
+
+	×÷Õß		Ê±¼ä					×¢ÊÍ
+  	ÓáìÇ		2019.09.06   		´´½¨
+=======================================================*/
 @RestController
 @RequestMapping("/member")
 @Validated
 @CrossOrigin
 public class LoginManageController {
 
+    // ×¢ÈëÓÃ»§µÇÈëService
     @Autowired
     private LoginManageService loginManageService;
 
+    /**
+     * -----------------------------------------------------
+     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·Æ·ÅÆµÄÊ×Ò³
+     * <p>
+     * ²ÎÊı:
+     * username         String          ÓÃ»§Ãû
+     * password         String          ÃÜÂë
+     * <p>
+     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * -----------------------------------------------------
+     */
     @RequestMapping("/login")
-    public SystemResult login(@NotBlank(message = "ç”¨æˆ·åä¸èƒ½ä¸ºç©º") String username,
-                              @NotBlank(message = "å¯†ç ä¸èƒ½ä¸ºç©º") String password,
-                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public SystemResult login(@NotBlank(message = "ÓÃ»§Ãû²»ÄÜÎª¿Õ")
+                              @Length(max = 11, message = "ÓÃ»§Ãû´íÎó") String username,
+                              @NotBlank(message = "ÃÜÂë²»ÄÜÎª¿Õ") String password,
+                              HttpServletRequest request,
+                              @NotBlank(message = "ÑéÖ¤Âë²»ÄÜÎª¿Õ")
+                              @Length(max = 4, min = 4, message = "ÑéÖ¤Âë´íÎó") String code) throws Exception {
 
-        // è°ƒç”¨service
-        SystemResult login = loginManageService.login(username, password, request);
+
+        // µ÷ÓÃservice
+        SystemResult login = loginManageService.login(username, password, request, code);
         if (login.getStatus() == 200 || login.getStatus() == 201) {
-            // è¯´æ˜ç™»å…¥æˆåŠŸ
-            // éœ€è¦å†™å›Cookieä¿¡æ¯
+            // ËµÃ÷µÇÈë³É¹¦
+            // ĞèÒªĞ´»ØCookieĞÅÏ¢
             String[] cookieInfos = new String[2];
             K2MemberAndElseInfo data = (K2MemberAndElseInfo) login.getData();
             cookieInfos[0] = data.getCurrentToken();
             cookieInfos[1] = username;
+            System.out.println(data.getCurrentToken());
             login.setData(cookieInfos);
         }
 
         return login;
+    }
+
+    /**
+     * -----------------------------------------------------
+     * ¹¦ÄÜ:  Éú³ÉÑéÖ¤Âë
+     * <p>
+     * ²ÎÊı:
+     * <p>
+     * ·µ»Ø: String              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/code")
+    public String set(HttpServletRequest request) throws IOException {
+
+        // »ñÈ¡µ½ÑéÖ¤ÂëµÄ»º´æ½á¹¹
+        ConcurrentHashMap<String, String> codeHashMap = UserLoginCacheManage2.getInstance().getCodeHashMap();
+        // ÑéÖ¤Âë
+        StringBuffer code = new StringBuffer();
+        // ÑéÖ¤ÂëµÚÒ»²¿·Ö
+        String codeOne = new Date().getTime() + "";
+        code.append((codeOne).substring(codeOne.length() - 2));
+        // ÑéÖ¤ÂëµÚ¶ş²¿·Ö
+        String codeTwo = UUID.randomUUID().toString();
+        code.append((codeTwo).substring(codeTwo.length() - 2));
+        // ´æÈë»º´æ½á¹¹ÖĞ ÒòÎª¿çÓò²»ÄÜÊµÏÖSession¹²Ïí µÃ½èÖúÓÚ»º´æ¹¤¾ß
+        codeHashMap.put(NetworkUtil.getHostIpAddress(request), code.toString());
+        return code.toString().toUpperCase();
     }
 }

@@ -58,7 +58,7 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         // 判断用户是否携带Cookie信息
         SystemResult checkCookieResult = ProductReqeustInterceptorAppoint.reqeustUserIfCarryCookie(request);
         if (checkCookieResult.getStatus() != 200) {
-            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested);
+            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested, false);
             return false;
         }
 
@@ -78,7 +78,7 @@ public class ProductReqeustInterceptor implements HandlerInterceptor {
         // 如果redis中存在该用户的信息 就将该用户的信息存入本地的缓存中 这样就可以减少操作redis的次数
         SystemResult checkRedisIsResult = productReqeustInterceptorAppoint.checkRedisIsExistUserInfo(checkCookieResult.getData());
         if (checkRedisIsResult.getStatus() != 200) {
-            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested);
+            ProductReqeustInterceptorAppoint.checkNotPass(response, XRequested , true);
             return false;
         }
 

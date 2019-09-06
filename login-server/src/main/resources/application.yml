@@ -1,6 +1,9 @@
 #设置当前的端口号
 server:
   port: 8889
+  servlet:
+    session:
+      timeout: 3600s
 
 spring:
   profiles:

@@ -16,8 +16,8 @@ public class UserLoginCacheManage2 {
         return userLoginCacheManage2;
     }
 
+    //  用户的信息缓存结构
     private ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas = new ConcurrentHashMap<>();
-
 
     public ConcurrentHashMap<String, K2MemberAndElseInfo> getUserCacheHashMapDatas() {
         return userCacheHashMapDatas;
@@ -25,5 +25,16 @@ public class UserLoginCacheManage2 {
 
     public void setUserCacheHashMapDatas(ConcurrentHashMap<String, K2MemberAndElseInfo> userCacheHashMapDatas) {
         this.userCacheHashMapDatas = userCacheHashMapDatas;
+    }
+
+    // 登入的验证码缓存结构
+    private ConcurrentHashMap<String, String> codeHashMap = new ConcurrentHashMap<>();
+
+    public ConcurrentHashMap<String, String> getCodeHashMap() {
+        return codeHashMap;
+    }
+
+    public void setCodeHashMap(ConcurrentHashMap<String, String> codeHashMap) {
+        this.codeHashMap = codeHashMap;
     }
 }

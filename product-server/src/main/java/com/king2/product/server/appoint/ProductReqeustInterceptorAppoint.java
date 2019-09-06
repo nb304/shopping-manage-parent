@@ -100,9 +100,9 @@ public class ProductReqeustInterceptorAppoint {
             if (CollectionUtils.isEmpty(userInfoCacheMapDatas)) {
                 if (userInfoCacheMapDatas == null) instance.setUserInfoCacheMapDatas(new ConcurrentHashMap<>());
                 // 说明缓存数据没有用户信息
-                return new SystemResult(100, "缓存数据没有用户信息");
+                return new SystemResult(201, "缓存数据没有用户信息");
             } else if (!userInfoCacheMapDatas.containsKey(cookies[0])) {
-                return new SystemResult(100, "缓存数据没有用户信息");
+                return new SystemResult(201, "缓存数据没有用户信息");
             }
 
             // 到这里 说明缓存数据中存在用户的信息 取出缓存数据中的信息 比较登录前存入的MAC地址是否一致
@@ -120,12 +120,12 @@ public class ProductReqeustInterceptorAppoint {
      * @param XRequested
      * @throws Exception
      */
-    public static void checkNotPass(HttpServletResponse response, String XRequested) throws Exception {
+    public static void checkNotPass(HttpServletResponse response, String XRequested, boolean flag) throws Exception {
 
-        if ("XMLHttpRequest".equals(XRequested)) {
-            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(401, "用户未登录", null)));
+        // 是否携带了Cookie信息 如果携带了 说明是被顶号了
+        if (flag) {
+            response.getWriter().write(JsonUtils.objectToJson(new SystemResult(201, "用户未登录", null)));
         } else {
-            // 用户未登录
             response.getWriter().write(JsonUtils.objectToJson(new SystemResult(401, "用户未登录", null)));
         }
     }
