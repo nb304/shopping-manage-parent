@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.Date;
@@ -38,11 +37,12 @@ public class LoginManageController {
 
     /**
      * -----------------------------------------------------
-     * 功能:  显示商品品牌的首页
+     * 功能:  SSO单点登录系统
      * <p>
      * 参数:
      * username         String          用户名
      * password         String          密码
+     * code             String          验证码
      * <p>
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
@@ -65,7 +65,6 @@ public class LoginManageController {
             K2MemberAndElseInfo data = (K2MemberAndElseInfo) login.getData();
             cookieInfos[0] = data.getCurrentToken();
             cookieInfos[1] = username;
-            System.out.println(data.getCurrentToken());
             login.setData(cookieInfos);
         }
 

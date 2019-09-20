@@ -414,7 +414,9 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     public SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2Member, Integer state) {
 
         // 校验商品状态是否正确
-        if (state != 1 && state != 3) return new SystemResult(100, "错误错误错误,请刷新页面重试", null);
+        if (state != ProductStateEnum.SJ.getValue() && state != ProductStateEnum.DEL.getValue()
+                && state != ProductStateEnum.XJ.getValue())
+            return new SystemResult(100, "错误错误错误,请刷新页面重试", null);
 
         // 查询该商品信息是否存在
         K2ProductWithBLOBs productWithBLOBs = k2ProductMapper.selectByPrimaryKey(productId);
@@ -425,7 +427,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         if (result.getStatus() != 200) return result;
 
         // 修改商品在数据库中的数据
-        productWithBLOBs.setProductState(state == 3 ? ProductStateEnum.DEL.getValue() : ProductStateEnum.SJ.getValue());
+        productWithBLOBs.setProductState(state);
         productWithBLOBs.setProductUpdateTime(new Date());
         productWithBLOBs.setProductUpdateUserid(k2Member.getK2Member().getMemberId());
         productWithBLOBs.setProductUpdateUsername(k2Member.getK2Member().getMemberAccount());
@@ -433,6 +435,19 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
 
         // 修改成功后 向队列发送同步数据
         ProductBasicsAppoint.addSynchronizedProductGotoCache(productWithBLOBs);
-        return new SystemResult(state == 3 ? "你需要删除的商品信息已经提交,请等待系统确认。" : "你需要恢复的商品信息已经提交,请等待系统确认。");
+        // 如果是恢复商品的话 需要进行二次审核
+        if (state == ProductStateEnum.SJ.getValue()) {
+            ProductBasicsAppoint.addProductInfoQueue(productWithBLOBs);
+        }
+
+        String message = "";
+        if (state == ProductStateEnum.DEL.getValue()) {
+            message = "你需要删除的商品信息已经提交,请等待系统确认";
+        } else if (state == ProductStateEnum.SJ.getValue()) {
+            message = "你需要恢复的商品信息已经提交,请等待系统确认。";
+        } else {
+            message = "你需要下架的商品信息已经提交,请等待系统确认。";
+        }
+        return new SystemResult(message);
     }
 }

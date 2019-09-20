@@ -107,6 +107,12 @@ public class ProductIndexAppoint {
                                 StringUtils.isEmpty(dto.getProductName()) ? null : dto.getProductName(), null, UUID.randomUUID().toString()
                         );
                 productByStoreId.forEach((n) -> {
+                    if (!StringUtils.isEmpty(n.getProductImage())) {
+                        n.setProductImage(n.getProductImage().split(",")[0]);
+                    }
+
+                    n.setProductCreateTimeStr(UserMessageAppoint.sdf.format(n.getProductCreateTime()));
+
                     n.setCategoryName(n.getCategoryName() + " / " + n.getTwoCateName());
                     // 往redis写入Map类型的数据结构
                     try {

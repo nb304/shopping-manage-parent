@@ -26,22 +26,23 @@ public interface ProductManageMapper {
      * @return
      */
     @Select("<script>" +
-            "SELECT * FROM (" +
             "SELECT " +
-            "p.`product_id`,p.`product_name` ,s.`stroe_name` belong_store_name, " +
-            "p.`product_state`,p.`product_create_userid`, p.`product_update_username`, " +
-            "p.`product_update_userid`,p.`product_number` ,pb.`brand_name`, p.`product_two_category_id`, " +
-            "p.`product_create_username`, SUM(kc.`product_sku_kc`) total_kc , pc.`category_name` " +
-            "FROM " +
-            "k2_product p , k2_product_sku_priceandkc kc , k2_product_brand pb , k2_stroe s ,k2_product_category pc " +
-            "WHERE " +
-            "#{randomString} =  #{randomString} AND " +
-            "p.`product_id` = kc.`belong_product_id` AND " +
-            "p.`product_brand_id` = pb.`brand_id` AND " +
+            "p.`product_id` , p.`product_number` , p.`product_name` , pb.`brand_name` , SUM(kc.`product_sku_kc`) totalKc,\n " +
+            "s.`stroe_name` , \n" +
+            "p.`product_state` , p.`product_create_time` , p.`product_create_username` , p.`product_update_username`  ,\n" +
+            "p.`product_create_userid` , p.`product_update_userid` , \n " +
+            "p.`product_image` , p.`product_points` , cc.`category_name` , cc2.`category_name`  twoCateName ,\n " +
+            "cc2.`category_id` productTwoCategoryId\n" +
+            "FROM \n" +
+            "k2_product p LEFT JOIN k2_product_sku_priceandkc kc ON p.`product_id` = kc.`belong_product_id`\n" +
+            "LEFT JOIN k2_product_brand pb ON p.`product_brand_id` = pb.`brand_id` \n" +
+            "LEFT JOIN k2_stroe s ON p.`product_store_id` = s.`stroe_id`\n" +
+            "LEFT JOIN k2_product_category cc ON p.`product_one_category_id` = cc.`category_id`\n" +
+            "LEFT JOIN k2_product_category cc2 ON p.`product_two_category_id` = cc2.`category_id`\n" +
+            "<where>" +
             "<if test='storeId != null'>" +
-            "p.`product_store_id` =  #{storeId} AND " +
+            "p.`product_store_id` =  #{storeId} " +
             "</if>" +
-            "p.`product_one_category_id` = pc.`category_id` " +
             "<if test='state != null and state != 0'>" +
             "AND p.product_state = #{state} " +
             "</if>" +
@@ -51,16 +52,13 @@ public interface ProductManageMapper {
             "<if test='productId != null'>" +
             "AND p.`product_id` = #{productId} " +
             "</if>" +
-            "GROUP BY p.`product_id` " +
             "<if test='kc != null'>" +
             "HAVING total_kc &gt; #{kc} " +
             "</if>" +
-            "ORDER BY product_update_time DESC " +
+            "</where>" +
+            "GROUP BY p.`product_id` " +
+            "ORDER BY p.product_update_time DESC " +
             "LIMIT #{index} , #{maxTotal}" +
-            ")a1 , " +
-            "(" +
-            "SELECT pc.`category_id`,pc.`category_name` `twoCateName` FROM k2_product_category pc" +
-            ")a2 WHERE a1.`product_two_category_id` = a2.`category_id` " +
             "</script>")
     List<ProductInfoToRedisDataDto> getProductByStoreId(@Param("storeId") Integer storeId, @Param("state") Integer state, @Param("index") Integer index,
                                                         @Param("maxTotal") Integer maxTotal, @Param("kc") Integer kc, @Param("productName") String productName,

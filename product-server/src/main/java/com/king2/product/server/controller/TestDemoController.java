@@ -66,7 +66,7 @@ public class TestDemoController {
     }
 
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         String aa = "2019/12/12 10:59:59";
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -74,7 +74,7 @@ public class TestDemoController {
         SimpleDateFormat sdf = new SimpleDateFormat("M/d HH:mm");
         System.out.println(sdf.format(date));
 
-        /*String host = "https://cdcxdxjk.market.alicloudapi.com";
+        /* String host = "https://cdcxdxjk.market.alicloudapi.com";
         String path = "/chuangxin/dxjk";
         String method = "POST";
         String appcode = "12692ac2df484b67bacbd5594f480ca4";

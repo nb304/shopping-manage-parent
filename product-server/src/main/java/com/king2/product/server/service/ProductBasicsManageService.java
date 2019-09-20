@@ -102,4 +102,7 @@ public interface ProductBasicsManageService {
      * -----------------------------------------------------
      */
     SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2MemberAndElseInfo, Integer state);
+
+
+
 }

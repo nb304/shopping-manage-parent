@@ -1,5 +1,7 @@
 package com.king2.product.server.dto;
 
+import java.util.Date;
+
 /**
  * 商品信息在Redis中的数据结构体
  */
@@ -34,6 +36,45 @@ public class ProductInfoToRedisDataDto {
     private String categoryName;
     // 商品二级类目的名称
     private String twoCateName;
+    // 商品图片
+    private String productImage;
+    // 商品的买点
+    private String productPoints;
+    // 商品的创建时间
+    private Date productCreateTime;
+    private String productCreateTimeStr;
+
+    public String getProductPoints() {
+        return productPoints;
+    }
+
+    public void setProductPoints(String productPoints) {
+        this.productPoints = productPoints;
+    }
+
+    public Date getProductCreateTime() {
+        return productCreateTime;
+    }
+
+    public void setProductCreateTime(Date productCreateTime) {
+        this.productCreateTime = productCreateTime;
+    }
+
+    public String getProductCreateTimeStr() {
+        return productCreateTimeStr;
+    }
+
+    public void setProductCreateTimeStr(String productCreateTimeStr) {
+        this.productCreateTimeStr = productCreateTimeStr;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
 
     public String getTwoCateName() {
         return twoCateName;

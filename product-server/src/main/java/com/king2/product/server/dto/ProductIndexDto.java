@@ -1,5 +1,7 @@
 package com.king2.product.server.dto;
 
+import org.springframework.util.StringUtils;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -48,6 +50,10 @@ public class ProductIndexDto {
     }
 
     public void setState(String state) {
+        if (StringUtils.isEmpty(state)) {
+            this.state = "0";
+            return;
+        }
         this.state = state;
     }
 

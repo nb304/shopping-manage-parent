@@ -29,19 +29,40 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/*=======================================================
+	说明:    用户登入管理Service实现类
+
+	作者		时间					注释
+  	俞烨		2019.09.06   		创建
+=======================================================*/
 @Service
 public class LoginManageServiceImpl implements LoginManageService {
 
+    // 用户的Mapper
     @Autowired
     private K2MemberMapper k2MemberMapper;
+    // jedis连接池
     @Autowired
     private JedisPool jedisPool;
+    // 远程连接工具
     @Autowired
     private RestTemplate restTemplate;
 
+    // 日志信息
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginManageServiceImpl.class);
 
-
+    /**
+     * -----------------------------------------------------
+     * 功能:  SSO单点登录系统
+     * <p>
+     * 参数:
+     * username         String          用户名
+     * password         String          密码
+     * code             String          验证码
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
     @Override
     public SystemResult login(String username, String password, HttpServletRequest request, String code) throws IOException {
 
@@ -53,10 +74,9 @@ public class LoginManageServiceImpl implements LoginManageService {
             // 查看验证码是否正确
             String sessionKey = NetworkUtil.getHostIpAddress(request);
             String sessionCode = codeHashMap.get(sessionKey);
-            if (StringUtils.isEmpty(sessionCode) || !sessionCode.toUpperCase().equals(code)) {
+            if (StringUtils.isEmpty(sessionCode) || !sessionCode.toUpperCase().equals(code.toUpperCase())) {
                 return new SystemResult(100, "验证码错误,请重新获取。");
             }
-            codeHashMap.remove(sessionKey);
             // 我这边就只进行查询用户是否存在 他的角色信息和其他的信息 我就不查询了
             // 校验缓存数据是否存在该用户的信息
             SystemResult checkCacheResult = checkCacheIsUserInfo(username, password);
@@ -83,6 +103,8 @@ public class LoginManageServiceImpl implements LoginManageService {
                     // 删除商品服务的缓存信息
                     restTemplate.postForObject("http://KING2-PRODUCT-MANAGE-7778/user/cache/del/cloud?token=" + data.getOldToken(), null, String.class);
                 }
+
+                codeHashMap.remove(sessionKey);
                 return result;
             }
 
@@ -112,7 +134,7 @@ public class LoginManageServiceImpl implements LoginManageService {
                 e.printStackTrace();
             }
 
-
+            codeHashMap.remove(sessionKey);
             return result;
         }
     }
