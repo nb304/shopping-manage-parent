@@ -20,10 +20,10 @@ import javax.validation.constraints.Pattern;
 
 
 /*=======================================================
-	ËµÃ÷:    ÉÌÆ·ÀàÄ¿¹ÜÀíController
+	è¯´æ˜:    å•†å“ç±»ç›®ç®¡ç†Controller
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.08.27   			´´½¨
+	ä½œè€…		æ—¶é—´					æ³¨é‡Š
+  	ä¿çƒ¨		2019.08.27   			åˆ›å»º
 =======================================================*/
 @RestController
 @RequestMapping("/product/category")
@@ -31,18 +31,18 @@ import javax.validation.constraints.Pattern;
 public class ProductCategoryManageController {
 
 
-    // ×¢ÈëÉÌÆ·ÀàÄ¿Service
+    // æ³¨å…¥å•†å“ç±»ç›®Service
     @Autowired
     private ProductCategoryManageService productCategoryManageService;
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·ÀàÄ¿µÄÊ×Ò³
+     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“ç±»ç›®çš„é¦–é¡µ
      * <p>
-     * ²ÎÊı:
-     * dto              CategoryIndexManageDto              ·ÖÒ³Êı¾İ
+     * å‚æ•°:
+     * dto              CategoryIndexManageDto              åˆ†é¡µæ•°æ®
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/index")
@@ -53,7 +53,7 @@ public class ProductCategoryManageController {
         cookie.setPath("/");
         cookie.setDomain("192.168.124.5");
         response.addCookie(cookie);
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.index(k2Member, categoryIndexManageDto);
         return index;
@@ -61,37 +61,37 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ¸ù¾İ¸¸ÀàĞÅÏ¢²éÑ¯×ÓÀàµÄÀàÄ¿ĞÅÏ¢
+     * åŠŸèƒ½:  æ ¹æ®çˆ¶ç±»ä¿¡æ¯æŸ¥è¯¢å­ç±»çš„ç±»ç›®ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * parentId              String              ¸¸ÀàÀàÄ¿µÄid
+     * å‚æ•°:
+     * parentId              String              çˆ¶ç±»ç±»ç›®çš„id
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/load/data")
-    public SystemResult loadData(@NotBlank(message = "¸¸Ààdi²»ÄÜÎª¿Õ")
+    public SystemResult loadData(@NotBlank(message = "çˆ¶ç±»diä¸èƒ½ä¸ºç©º")
                                  @Pattern(regexp = "[0-9]{1,}") String parentId) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         SystemResult index = productCategoryManageService.loadCategoryById(Integer.parseInt(parentId));
         return index;
     }
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ĞÂÔöÉÌÆ·µÄÀàÄ¿ĞÅÏ¢
+     * åŠŸèƒ½:  æ–°å¢å•†å“çš„ç±»ç›®ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * dto              AddCategoryDto              ĞÂÔöµÄÀàÄ¿ĞÅÏ¢
+     * å‚æ•°:
+     * dto              AddCategoryDto              æ–°å¢çš„ç±»ç›®ä¿¡æ¯
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/add")
     public SystemResult add(HttpServletRequest request, @Validated AddCategoryDto dto) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.addCategory(k2Member, dto);
         return index;
@@ -100,20 +100,20 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: ĞŞ¸ÄÉÌÆ·µÄÀàÄ¿ĞÅÏ¢
+     * åŠŸèƒ½: ä¿®æ”¹å•†å“çš„ç±»ç›®ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * dto              AddCategoryDto              ĞŞ¸ÄµÄÀàÄ¿ĞÅÏ¢
-     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
+     * å‚æ•°:
+     * dto              AddCategoryDto              ä¿®æ”¹çš„ç±»ç›®ä¿¡æ¯
+     * categoryId       String                      ä¿®æ”¹çš„ç±»ç›®id
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/edit")
     public SystemResult edit(HttpServletRequest request, @Validated AddCategoryDto dto,
-                             @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
+                             @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.editCategory(k2Member, dto, Integer.parseInt(categoryId));
         return index;
@@ -122,21 +122,21 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: ĞŞ¸ÄÉÌÆ·µÄÀàÄ¿µÄ×´Ì¬
+     * åŠŸèƒ½: ä¿®æ”¹å•†å“çš„ç±»ç›®çš„çŠ¶æ€
      * <p>
-     * ²ÎÊı:
-     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
-     * state            String                      ±¾´ÎĞŞ¸ÄµÄ×´Ì¬
+     * å‚æ•°:
+     * categoryId       String                      ä¿®æ”¹çš„ç±»ç›®id
+     * state            String                      æœ¬æ¬¡ä¿®æ”¹çš„çŠ¶æ€
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/edit/state")
     public SystemResult editState(HttpServletRequest request,
-                                  @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId,
-                                  @NotBlank(message = "×´Ì¬²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String state) {
+                                  @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String categoryId,
+                                  @NotBlank(message = "çŠ¶æ€ä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String state) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.editCategoryState(k2Member, Integer.parseInt(categoryId), state);
         return index;
@@ -145,19 +145,19 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: ²é¿´ÉÌÆ·ÀàÄ¿µÄSKUĞÅÏ¢
+     * åŠŸèƒ½: æŸ¥çœ‹å•†å“ç±»ç›®çš„SKUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
+     * å‚æ•°:
+     * categoryId       String                      ä¿®æ”¹çš„ç±»ç›®id
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/get/category/sku")
     public SystemResult showCategorySku(HttpServletRequest request,
-                                        @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
+                                        @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String categoryId) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService.showCategorySKUInfo(k2Member, Integer.parseInt(categoryId));
         return index;
@@ -166,20 +166,20 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: ²é¿´ÉÌÆ·ÀàÄ¿µÄSKUĞÅÏ¢
+     * åŠŸèƒ½: æŸ¥çœ‹å•†å“ç±»ç›®çš„SKUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * categoryId       String                      ĞŞ¸ÄµÄÀàÄ¿id
+     * å‚æ•°:
+     * categoryId       String                      ä¿®æ”¹çš„ç±»ç›®id
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/add/category/sku")
     public SystemResult addCategorySku(HttpServletRequest request,
-                                       @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String categoryId,
-                                       @NotBlank(message = "ÉÌÆ·ÀàÄ¿SKU²»ÄÜÎª¿Õ") String skuInfoJson) {
+                                       @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String categoryId,
+                                       @NotBlank(message = "å•†å“ç±»ç›®SKUä¸èƒ½ä¸ºç©º") String skuInfoJson) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService
                 .manageAndAddCategoryOfSkuInfo(k2Member, Integer.parseInt(categoryId), skuInfoJson);
@@ -189,19 +189,19 @@ public class ProductCategoryManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ: É¾³ıÉÌÆ·ÀàÄ¿µÄSKUĞÅÏ¢
+     * åŠŸèƒ½: åˆ é™¤å•†å“ç±»ç›®çš„SKUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * skuId       String                     É¾³ıµÄSKUid
+     * å‚æ•°:
+     * skuId       String                     åˆ é™¤çš„SKUid
      * <p>
-     * ·µ»Ø: SystemResult              ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult              è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/del/category/sku")
     public SystemResult delCategorySku(HttpServletRequest request,
-                                       @NotBlank(message = "ÀàÄ¿id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String skuId) {
+                                       @NotBlank(message = "ç±»ç›®idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String skuId) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = productCategoryManageService
                 .delSkuInfo(k2Member, Integer.parseInt(skuId));

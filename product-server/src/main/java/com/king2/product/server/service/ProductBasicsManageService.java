@@ -3,6 +3,7 @@ package com.king2.product.server.service;
 import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
+import com.king2.product.server.dto.AddProductDto;
 
 /*=======================================================
 	说明:    商品基础管理Service
@@ -11,6 +12,19 @@ import com.king2.commons.result.SystemResult;
   	俞烨		2019.08.06   			创建
 =======================================================*/
 public interface ProductBasicsManageService {
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品
+     * <p>
+     * 参数:
+     * K2Member         K2MemberAndElseInfo        操作的用户信息
+     * AddProductDto    dto                        添加的商品信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto);
 
     /**
      * -----------------------------------------------------
@@ -50,7 +64,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult getSkuInfoByCId(Integer cId , K2MemberAndElseInfo k2MemberAndElseInfo);
+    SystemResult getSkuInfoByCId(Integer cId, K2MemberAndElseInfo k2MemberAndElseInfo);
 
     /**
      * -----------------------------------------------------
@@ -102,7 +116,6 @@ public interface ProductBasicsManageService {
      * -----------------------------------------------------
      */
     SystemResult delProductInfo(Integer productId, K2MemberAndElseInfo k2MemberAndElseInfo, Integer state);
-
 
 
 }

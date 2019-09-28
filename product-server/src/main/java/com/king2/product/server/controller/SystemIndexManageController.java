@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /*=======================================================
-	ËµÃ÷:    ÉÌ³ÇÏµÍ³Ê×Ò³Controller
+	è¯´æ˜:    å•†åŸç³»ç»Ÿé¦–é¡µController
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.08.24   			´´½¨
+	ä½œè€…		æ—¶é—´					æ³¨é‡Š
+  	ä¿çƒ¨		2019.08.24   			åˆ›å»º
 =======================================================*/
 @RestController
 @RequestMapping("/shop")
@@ -23,24 +23,24 @@ import javax.servlet.http.HttpServletRequest;
 @Validated
 public class SystemIndexManageController {
 
-    // ×¢ÈëÉÌÆ·Ê×Ò³Service
+    // æ³¨å…¥å•†å“é¦–é¡µService
     @Autowired
     private SystemIndexManageService systemIndexManageService;
 
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ÉÌ³ÇÏµÍ³µÄÊ×Ò³
+     * åŠŸèƒ½:  å•†åŸç³»ç»Ÿçš„é¦–é¡µ
      * <p>
-     * ²ÎÊı:
+     * å‚æ•°:
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @GetMapping("/index")
     public SystemResult index(HttpServletRequest request) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2MemberAndElseInfo = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = systemIndexManageService.systemIndex(k2MemberAndElseInfo);
         return result;

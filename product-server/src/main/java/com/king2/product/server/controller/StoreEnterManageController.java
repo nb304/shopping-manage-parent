@@ -14,34 +14,34 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /*=======================================================
-	ËµÃ÷:    µêÆÌÈë×¤¹ÜÀíController
+	è¯´æ˜:    åº—é“ºå…¥é©»ç®¡ç†Controller
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.09.02   		´´½¨
+	ä½œè€…		æ—¶é—´					æ³¨é‡Š
+  	ä¿çƒ¨		2019.09.02   		åˆ›å»º
 =======================================================*/
 @RestController
 @Validated
 @RequestMapping("/store/enter")
 public class StoreEnterManageController {
 
-    // ×¢ÈëµêÆÌÈë×¤Service
+    // æ³¨å…¥åº—é“ºå…¥é©»Service
     @Autowired
     private StoreEnterManageService storeEnterManageService;
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ÏÔÊ¾ÉÌÆ·Èë×¤µÄÖ÷Ò³ĞÅÏ¢
+     * åŠŸèƒ½:  æ˜¾ç¤ºå•†å“å…¥é©»çš„ä¸»é¡µä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * dto              StoreEntryIndexDto          ·ÖÒ³µÄÊı¾İĞÅÏ¢
+     * å‚æ•°:
+     * dto              StoreEntryIndexDto          åˆ†é¡µçš„æ•°æ®ä¿¡æ¯
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/index")
     public SystemResult index(HttpServletRequest request, @Validated StoreEntryIndexDto indexDto) {
 
-        // »ñÈ¡µÇÂ¼µÄÓÃ»§ĞÅÏ¢
+        // è·å–ç™»å½•çš„ç”¨æˆ·ä¿¡æ¯
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = storeEnterManageService.index(indexDto, k2Member);
         return index;
@@ -49,22 +49,22 @@ public class StoreEnterManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  Í¨¹ı×´Ì¬ĞŞ¸ÄµêÆÌÈë×¤µÄĞÅÏ¢
+     * åŠŸèƒ½:  é€šè¿‡çŠ¶æ€ä¿®æ”¹åº—é“ºå…¥é©»çš„ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * storeEnterId         Integer                 µêÆÌÈë×¤µÄid
-     * state                Integer                 ×´Ì¬
-     * content              String                  Èç¹û×´Ì¬Îª¾Ü¾ø  ÄÇÃ´¾Ü¾øµÄÀíÓÉÊÇÊ²Ã´
+     * å‚æ•°:
+     * storeEnterId         Integer                 åº—é“ºå…¥é©»çš„id
+     * state                Integer                 çŠ¶æ€
+     * content              String                  å¦‚æœçŠ¶æ€ä¸ºæ‹’ç»  é‚£ä¹ˆæ‹’ç»çš„ç†ç”±æ˜¯ä»€ä¹ˆ
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @RequestMapping("/edit/state")
     public SystemResult editState(HttpServletRequest request,
-                                  @NotBlank(message = "×´Ì¬²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String state,
-                                  @NotBlank(message = "µêÆÌid²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}") String storeEnterId, String content) {
+                                  @NotBlank(message = "çŠ¶æ€ä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String state,
+                                  @NotBlank(message = "åº—é“ºidä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}") String storeEnterId, String content) {
 
-        // »ñÈ¡µÇÂ¼µÄÓÃ»§ĞÅÏ¢
+        // è·å–ç™»å½•çš„ç”¨æˆ·ä¿¡æ¯
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult index = storeEnterManageService.editEnterState(k2Member,
                 Integer.parseInt(storeEnterId), Integer.parseInt(state), content);

@@ -4,10 +4,7 @@ import com.king2.commons.mapper.*;
 import com.king2.commons.pojo.*;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.*;
-import com.king2.product.server.dto.ProductImageDto;
-import com.king2.product.server.dto.ShowEditProductDto;
-import com.king2.product.server.dto.ShowEditProductInfoDto;
-import com.king2.product.server.dto.ShowProductAddPageDto;
+import com.king2.product.server.dto.*;
 import com.king2.product.server.enmu.ProductEnum;
 import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
@@ -105,6 +102,22 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     // 注入消息Mapper
     @Autowired
     private K2MessageMapper k2MessageMapper;
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品
+     * <p>
+     * 参数:
+     * K2Member         K2MemberAndElseInfo        操作的用户信息
+     * AddProductDto    dto                        添加的商品信息
+     * <p>
+     * 返回: SystemResult              返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @Override
+    public SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto) {
+        return null;
+    }
 
     /**
      * -----------------------------------------------------
@@ -387,7 +400,7 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
         // 修改商品简述的信息
         K2ProductSketch sketch = new K2ProductSketch();
         sketch.setProductSketchId(k2ProductWithBLOBs.getProductSketchId());
-        sketch.setProductSketchValue(k2ProductWithBLOBs.getProductSketchContentl());
+        sketch.setProductSketchValue(k2ProductWithBLOBs.getProductSketchContent());
         k2ProductSketchMapper.updateByPrimaryKeySelective(sketch);
 
 

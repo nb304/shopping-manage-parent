@@ -4,6 +4,7 @@ import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.ProductUploadImageAppoint;
+import com.king2.product.server.dto.AddProductDto;
 import com.king2.product.server.service.ProductBasicsManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -50,7 +51,7 @@ public class ProductBasicsManageController {
      * 返回: SystemResult               返回调用者的数据
      * -----------------------------------------------------
      */
-    @ApiImplicitParams
+    /*@ApiImplicitParams
             ({
                     @ApiImplicitParam(name = "skuJson", value = "商品SKU的JSON数据串", required = true, dataType = "string"),
                     @ApiImplicitParam(name = "productJson", value = "本次的商品的JSON数据", required = true, dataType = "string"),
@@ -69,6 +70,24 @@ public class ProductBasicsManageController {
         // 调用商品服务
         SystemResult systemResult = productBasicsManageService.addProductSku(skuJson, productJson, state, k2Member);
         return systemResult;
+    }*/
+
+    /**
+     * -----------------------------------------------------
+     * 功能:  添加商品的SKU
+     * <p>
+     * 参数:
+     * productDto           AddProductDto           本次添加的商品信息
+     * <p>
+     * 返回: SystemResult               返回调用者的数据
+     * -----------------------------------------------------
+     */
+    @RequestMapping("/add")
+    public SystemResult addProduct(@Validated AddProductDto productDto, HttpServletRequest request) {
+
+        // 获取登录的用户信息
+
+        return null;
     }
 
     /**

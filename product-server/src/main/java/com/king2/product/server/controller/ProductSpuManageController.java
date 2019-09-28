@@ -14,10 +14,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /*=======================================================
-	ËµÃ÷:    ÉÌÆ·SPU¹ÜÀíController
+	è¯´æ˜:    å•†å“SPUç®¡ç†Controller
 
-	×÷Õß		Ê±¼ä					×¢ÊÍ
-  	ÓáìÇ		2019.08.20   			´´½¨
+	ä½œè€…		æ—¶é—´					æ³¨é‡Š
+  	ä¿çƒ¨		2019.08.20   			åˆ›å»º
 =======================================================*/
 @RestController
 @RequestMapping("/product/spu")
@@ -25,42 +25,42 @@ import javax.validation.constraints.Pattern;
 @CrossOrigin
 public class ProductSpuManageController {
 
-    // ×¢ÈëÉÌÆ·SPUService
+    // æ³¨å…¥å•†å“SPUService
     @Autowired
     private ProductSpuManageService productSpuManageService;
 
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ²éÑ¯ÉÌÆ·µÄSPU²Ù×÷
+     * åŠŸèƒ½:  æŸ¥è¯¢å•†å“çš„SPUæ“ä½œ
      * <p>
-     * ²ÎÊı:
-     * productId        String          ÉÌÆ·id
+     * å‚æ•°:
+     * productId        String          å•†å“id
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @GetMapping("/get/{productId}")
-    public SystemResult get(@PathVariable("productId") @NotBlank(message = "ÉÌÆ·id²»ÄÜÎª¿Õ")
-                            @Pattern(regexp = "[0-9]{1,}", message = "ÀàĞÍ´íÎó") String productId) {
+    public SystemResult get(@PathVariable("productId") @NotBlank(message = "å•†å“idä¸èƒ½ä¸ºç©º")
+                            @Pattern(regexp = "[0-9]{1,}", message = "ç±»å‹é”™è¯¯") String productId) {
         SystemResult spuByPId = productSpuManageService.getSpuByPId(Integer.parseInt(productId));
         return spuByPId;
     }
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  É¾³ıÉÌÆ·µÄSPUĞÅÏ¢
+     * åŠŸèƒ½:  åˆ é™¤å•†å“çš„SPUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * spuId        String          ÉÌÆ·µÄSPUid
+     * å‚æ•°:
+     * spuId        String          å•†å“çš„SPUid
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @PostMapping("/del")
-    public SystemResult del(@NotBlank(message = "ÉÌÆ·SpuId²»ÄÜÎª¿Õ")
-                            @Pattern(regexp = "[0-9]{1,}", message = "ÀàĞÍ´íÎó") String productSpuId, HttpServletRequest request) {
-        // »ñÈ¡ÓÃ»§Êı¾İ
+    public SystemResult del(@NotBlank(message = "å•†å“SpuIdä¸èƒ½ä¸ºç©º")
+                            @Pattern(regexp = "[0-9]{1,}", message = "ç±»å‹é”™è¯¯") String productSpuId, HttpServletRequest request) {
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.delSpuById(Integer.parseInt(productSpuId), k2Member);
         return result;
@@ -69,18 +69,18 @@ public class ProductSpuManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  »Ö¸´SPUµÄĞÅÏ¢
+     * åŠŸèƒ½:  æ¢å¤SPUçš„ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * spuId        String          ÉÌÆ·µÄSPUid
+     * å‚æ•°:
+     * spuId        String          å•†å“çš„SPUid
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @PostMapping("/normal")
-    public SystemResult normal(@NotBlank(message = "ÉÌÆ·SpuId²»ÄÜÎª¿Õ")
-                               @Pattern(regexp = "[0-9]{1,}", message = "ÀàĞÍ´íÎó") String productSpuId, HttpServletRequest request) {
-        // »ñÈ¡ÓÃ»§Êı¾İ
+    public SystemResult normal(@NotBlank(message = "å•†å“SpuIdä¸èƒ½ä¸ºç©º")
+                               @Pattern(regexp = "[0-9]{1,}", message = "ç±»å‹é”™è¯¯") String productSpuId, HttpServletRequest request) {
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.recoverNormal(Integer.parseInt(productSpuId), k2Member);
         return result;
@@ -88,17 +88,17 @@ public class ProductSpuManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ÅúÁ¿×¢ÏúÉÌÆ·µÄSPUĞÅÏ¢
+     * åŠŸèƒ½:  æ‰¹é‡æ³¨é”€å•†å“çš„SPUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * spuIds        String         ÉÌÆ·µÄSPUIds
+     * å‚æ•°:
+     * spuIds        String         å•†å“çš„SPUIds
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @PostMapping("/cancel")
-    public SystemResult batchCancelSpu(@NotBlank(message = "ÇëÑ¡ÔñÄãÒª×¢ÏúµÄÉÌÆ·SPUĞÅÏ¢") String spuIds, HttpServletRequest request) {
-        // »ñÈ¡ÓÃ»§Êı¾İ
+    public SystemResult batchCancelSpu(@NotBlank(message = "è¯·é€‰æ‹©ä½ è¦æ³¨é”€çš„å•†å“SPUä¿¡æ¯") String spuIds, HttpServletRequest request) {
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.batchCancelSpu(spuIds, k2Member);
         return result;
@@ -106,25 +106,25 @@ public class ProductSpuManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  ĞŞ¸ÄÉÌÆ·²ÎÊıµÄĞÅÏ¢
+     * åŠŸèƒ½:  ä¿®æ”¹å•†å“å‚æ•°çš„ä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * spuKey        String         ÉÌÆ·µÄSPUµÄÃû³Æ
-     * skuValue      String         ÉÌÆ·µÄ²ÎÊıÖµ
-     * productSpuId  String         ÉÌÆ·²ÎÊıµÄId
-     * order        Integer         ÅÅĞò
+     * å‚æ•°:
+     * spuKey        String         å•†å“çš„SPUçš„åç§°
+     * skuValue      String         å•†å“çš„å‚æ•°å€¼
+     * productSpuId  String         å•†å“å‚æ•°çš„Id
+     * order        Integer         æ’åº
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @PostMapping("/edit")
-    public SystemResult edit(@NotBlank(message = "ÇëÌîĞ´ÉÌÆ·²ÎÊıµÄÃû³Æ") @Length(min = 1, max = 20, message = "ÉÌÆ·²ÎÊıµÄÃû³Æ³¤¶ÈÎª1-20×Ö·û") String productSpuName,
-                             @NotBlank(message = "ÇëÌîĞ´ÉÌÆ·²ÎÊıµÄÖµ") @Length(min = 1, max = 100, message = "ÉÌÆ·²ÎÊıµÄÖµ³¤¶ÈÎª1-100×Ö·û") String productSpuValue,
-                             @NotBlank(message = "ÇëÌîĞ´ÉÌÆ·µÄÅÅĞò") @Length(min = 1, max = 100000, message = "ÉÌÆ·²ÎÊıµÄÅÅĞò³¤¶ÈÎª1-10000×Ö·û")
-                             @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·ÅÅĞòµÄ¹æÔòÎªÊı×Ö") String productSpuOrder,
-                             @NotBlank(message = "ÇëÌîĞ´ÉÌÆ·²ÎÊıId") @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·²ÎÊıIdµÄ¹æÔòÎªÊı×Ö") String productSpuId,
+    public SystemResult edit(@NotBlank(message = "è¯·å¡«å†™å•†å“å‚æ•°çš„åç§°") @Length(min = 1, max = 20, message = "å•†å“å‚æ•°çš„åç§°é•¿åº¦ä¸º1-20å­—ç¬¦") String productSpuName,
+                             @NotBlank(message = "è¯·å¡«å†™å•†å“å‚æ•°çš„å€¼") @Length(min = 1, max = 100, message = "å•†å“å‚æ•°çš„å€¼é•¿åº¦ä¸º1-100å­—ç¬¦") String productSpuValue,
+                             @NotBlank(message = "è¯·å¡«å†™å•†å“çš„æ’åº") @Length(min = 1, max = 100000, message = "å•†å“å‚æ•°çš„æ’åºé•¿åº¦ä¸º1-10000å­—ç¬¦")
+                             @Pattern(regexp = "[0-9]{1,}", message = "å•†å“æ’åºçš„è§„åˆ™ä¸ºæ•°å­—") String productSpuOrder,
+                             @NotBlank(message = "è¯·å¡«å†™å•†å“å‚æ•°Id") @Pattern(regexp = "[0-9]{1,}", message = "å•†å“å‚æ•°Idçš„è§„åˆ™ä¸ºæ•°å­—") String productSpuId,
                              HttpServletRequest request) {
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
         SystemResult result = productSpuManageService.editSpuInfo(productSpuName, productSpuValue, Integer.parseInt(productSpuOrder),
                 Integer.parseInt(productSpuId), k2Member);
@@ -134,22 +134,22 @@ public class ProductSpuManageController {
 
     /**
      * -----------------------------------------------------
-     * ¹¦ÄÜ:  Ìí¼ÓÉÌÆ·µÄSPUĞÅÏ¢
+     * åŠŸèƒ½:  æ·»åŠ å•†å“çš„SPUä¿¡æ¯
      * <p>
-     * ²ÎÊı:
-     * productSpuJson             String           SPUµÄJSONÊı¾İ
-     * productId                  String           ÉÌÆ·id
+     * å‚æ•°:
+     * productSpuJson             String           SPUçš„JSONæ•°æ®
+     * productId                  String           å•†å“id
      * <p>
-     * ·µ»Ø: SystemResult               ·µ»Øµ÷ÓÃÕßµÄÊı¾İ
+     * è¿”å›: SystemResult               è¿”å›è°ƒç”¨è€…çš„æ•°æ®
      * -----------------------------------------------------
      */
     @PostMapping("/add")
-    public SystemResult addProductSpu(@NotBlank(message = "ÉÌÆ·SPUÊı¾İ²»ÄÜÎª¿Õ") String productSpuJson,
-                                      @NotBlank(message = "ÉÌÆ·Id²»ÄÜÎª¿Õ") @Pattern(regexp = "[0-9]{1,}", message = "ÉÌÆ·IDÀàĞÍ´íÎó") String productId, HttpServletRequest request) {
+    public SystemResult addProductSpu(@NotBlank(message = "å•†å“SPUæ•°æ®ä¸èƒ½ä¸ºç©º") String productSpuJson,
+                                      @NotBlank(message = "å•†å“Idä¸èƒ½ä¸ºç©º") @Pattern(regexp = "[0-9]{1,}", message = "å•†å“IDç±»å‹é”™è¯¯") String productId, HttpServletRequest request) {
 
-        // »ñÈ¡ÓÃ»§Êı¾İ
+        // è·å–ç”¨æˆ·æ•°æ®
         K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
-        // µ÷ÓÃ·şÎñ ²åÈëSPUÊı¾İ
+        // è°ƒç”¨æœåŠ¡ æ’å…¥SPUæ•°æ®
         SystemResult result = productSpuManageService.addProductSpu(productSpuJson, Integer.parseInt(productId), k2Member);
         return result;
     }
