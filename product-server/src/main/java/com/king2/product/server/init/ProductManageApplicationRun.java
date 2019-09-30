@@ -5,9 +5,14 @@ import com.king2.commons.getnumber.ShoppingNumberManage;
 import com.king2.commons.getnumber.ShoppingNumberPojo;
 import com.king2.commons.lock.Lock;
 import com.king2.commons.lock.impl.DfsRedisLock;
+import com.king2.commons.mapper.K2StroeMapper;
+import com.king2.commons.pojo.K2Stroe;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.FileUtil;
 import com.king2.product.server.cache.SystemCacheManage;
+import com.king2.product.server.dto.LockPojo;
+import com.king2.product.server.locks.ProductServerStroeManageLockFactory;
+import com.king2.product.server.locks.ProductServerStroeManageLockFactoryTypeEnum;
 import com.king2.product.server.log.ProductServerLog;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
 	说明:    商品管理模块的初始化
@@ -45,6 +53,10 @@ public class ProductManageApplicationRun implements ApplicationRunner {
     @Value("${CACHE_SERVER_URL}")
     private String CACHE_SERVER_URL;
 
+    // 注入店铺Mapper
+    @Autowired
+    private K2StroeMapper k2StroeMapper;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -59,8 +71,38 @@ public class ProductManageApplicationRun implements ApplicationRunner {
 
         // 开启定时添加商品编号的功能
         timerAddProductNumber(20, jedisPool, PRODUCT_NUMBER_REDIS_KEY, restTemplate, CACHE_SERVER_URL);
+
+        // 系统初始化 我们就要去创建关于这个系统的所以店铺的锁
+        refreshStoreLock();
     }
 
+
+    /**
+     * 初始化店铺锁
+     */
+    public void refreshStoreLock() {
+
+        // 获取 商品服务模块 根据店铺类型创建锁的数据
+        ProductServerStroeManageLockFactory instance = ProductServerStroeManageLockFactory.getInstance();
+        // 开启锁 因为其他地方有可能也会调用
+        synchronized (instance) {
+            // 获取锁的信息
+            ConcurrentHashMap<String, LockPojo> lockMaps = instance.getLockMaps();
+            // 查询所有的店铺
+            List<K2Stroe> k2Stroes = k2StroeMapper.selectByExample(null);
+            // 遍历店铺添加信息
+            for (K2Stroe k2Stroe : k2Stroes) {
+                // 遍历锁的类型
+                for (ProductServerStroeManageLockFactoryTypeEnum value : ProductServerStroeManageLockFactoryTypeEnum.values()) {
+                    LockPojo pojo = new LockPojo();
+                    pojo.setLock(new ReentrantLock());
+                    lockMaps.put(value.getValue() + "_" + k2Stroe.getStroeId(), pojo);
+                }
+            }
+        }
+
+
+    }
 
     /**
      * 定义查询是否需要添加商品编号

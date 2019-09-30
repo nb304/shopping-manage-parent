@@ -5,6 +5,7 @@ import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.appoint.ProductUploadImageAppoint;
 import com.king2.product.server.dto.AddProductDto;
+import com.king2.product.server.exception.CheckValueException;
 import com.king2.product.server.service.ProductBasicsManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -83,11 +84,12 @@ public class ProductBasicsManageController {
      * -----------------------------------------------------
      */
     @RequestMapping("/add")
-    public SystemResult addProduct(@Validated AddProductDto productDto, HttpServletRequest request) {
+    public SystemResult addProduct(@Validated AddProductDto productDto, HttpServletRequest request)  throws CheckValueException {
 
         // 获取登录的用户信息
-
-        return null;
+        K2MemberAndElseInfo k2Member = (K2MemberAndElseInfo) request.getAttribute("user");
+        SystemResult result = productBasicsManageService.addProduct(k2Member, productDto);
+        return result;
     }
 
     /**

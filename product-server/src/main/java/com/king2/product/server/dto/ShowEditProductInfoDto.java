@@ -17,7 +17,7 @@ public class ShowEditProductInfoDto {
     private String productPoints;
     private Integer productOrderRule;
     private String productUnit;
-    private String productSketchContentl;
+    private String productSketchContent;
     private Date nextUpdateTime;
     private Date lastUpdateTime;
     private String lastUpdateUserNaem;
@@ -51,12 +51,12 @@ public class ShowEditProductInfoDto {
         this.productSupportDay = productSupportDay;
     }
 
-    public String getProductSketchContentl() {
-        return productSketchContentl;
+    public String getProductSketchContent() {
+        return productSketchContent;
     }
 
-    public void setProductSketchContentl(String productSketchContentl) {
-        this.productSketchContentl = productSketchContentl;
+    public void setProductSketchContent(String productSketchContent) {
+        this.productSketchContent = productSketchContent;
     }
 
     public String getNextTimeStr() {

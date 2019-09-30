@@ -1,10 +1,12 @@
 package com.king2.product.server.queue.consumer;
 
+import com.king2.commons.mapper.K2ProductMapper;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.FileUtil;
 import com.king2.product.server.appoint.ProductBasicsAppoint;
 import com.king2.product.server.appoint.ProductInfoQueueAppoint;
+import com.king2.product.server.enmu.ProductStateEnum;
 import com.king2.product.server.locks.ProductQueueLockFactoryTypeEnum;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.queue.ProductSuccessQueue;
@@ -29,6 +31,10 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
     // 注入商品校验委派类
     @Autowired
     private ProductInfoQueueAppoint productInfoQueueAppoint;
+
+    // 注入商品Mapper
+    @Autowired
+    private K2ProductMapper k2ProductMapper;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -78,6 +84,8 @@ public class ProductInfoQueueConsumer implements ApplicationRunner {
                                     "审核商品信息出错，请及时处理。----时间:" + new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss").format(new Date()),
                                     true);
                         } else if (productIsPassResult.getStatus() == 200) {
+                            product.setProductState(ProductStateEnum.SJ.getValue());
+                            k2ProductMapper.updateByPrimaryKeySelective(product);
                             // 审核成功
                             // 将信息存到缓存服务器中去
                             // 商品信息没有通过  通知缓存队列更新数据

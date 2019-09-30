@@ -8,7 +8,9 @@ import com.king2.commons.pojo.K2ProductSkuKey;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.commons.utils.*;
+import com.king2.product.server.appoint.ProductAddAppoint;
 import com.king2.product.server.cache.SystemCacheManage;
+import com.king2.product.server.dto.AddProductDto;
 import com.king2.product.server.dto.ProductInfoDto;
 import com.king2.product.server.locks.ProductQueueLockFactory;
 import com.king2.product.server.pojo.ProductSkuPojo;
@@ -68,48 +70,57 @@ public class TestDemoController {
 
     public static void main(String[] args) throws Exception {
 
-        String aa = "2019/12/12 10:59:59";
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = sdf2.parse(aa);
-        SimpleDateFormat sdf = new SimpleDateFormat("M/d HH:mm");
-        System.out.println(sdf.format(date));
+//        //请求的url
+//        URL url = null;
+//        //请求的输入流
+//        BufferedReader in = null;
+//        //输入流的缓冲
+//        StringBuffer sb = new StringBuffer();
+//        try {
+//            String APPID = "wx03102189484c953b";
+//            String SECRET = "89bb20a182e5722a06e5a4a5c7e3df75";
+//            String js_code = "033QHnh00at7pI1gcje00gcuh00QHnho";
+//            url = new URL(
+//                    "https://api.weixin.qq.com/sns/jscode2session?appid=" + APPID + "&secret=" + SECRET + "&js_code="+js_code+"&grant_type=authorization_code");
+//            in = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+//            String str = null;
+//            //一行一行进行读入
+//            while ((str = in.readLine()) != null) {
+//                sb.append(str);
+//            }
+//
+//            System.out.println(sb.toString());
+//        } catch (Exception ex) {
+//
+//        } finally {
+//            try {
+//                if (in != null) {
+//                    in.close(); //关闭流
+//                }
+//            } catch (IOException ex) {
+//
+//            }
+//        }
 
-        /* String host = "https://cdcxdxjk.market.alicloudapi.com";
-        String path = "/chuangxin/dxjk";
-        String method = "POST";
-        String appcode = "12692ac2df484b67bacbd5594f480ca4";
-        Map<String, String> headers = new HashMap<String, String>();
-        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-        headers.put("Authorization", "APPCODE " + appcode);
-        Map<String, String> querys = new HashMap<String, String>();
-        //测试可用默认短信模板,测试模板为专用模板不可修改,如需自定义短信内容或改动任意字符,请联系旺旺或QQ726980650进行申请
-        querys.put("content", "【King2商城】你的验证码是：581234，3分钟内有效！");
-        querys.put("mobile", "13027229061");
-        Map<String, String> bodys = new HashMap<String, String>();
-
-
-        try {
-            *//**
-         * 重要提示如下:
-         * HttpUtils请从
-         * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
-         * 下载
-         *
-         * 相应的依赖请参照
-         * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
-         *//*
-            HttpResponse httpResponse = HttpUtils.doPost(host, path, method, headers, querys, bodys);
-            System.out.println(httpResponse.toString());
-            //获取response的body
-            //System.out.println(EntityUtils.toString(response.getEntity()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
     }
 
+    public static int throws1() {
+        throws2();
+        return 1;
+    }
 
+    public static int throws2() {
+        throws3();
+        return 2;
 
+    }
+
+    public static int throws3() {
+
+        new SystemResult().build(100, "ok");
+        int ad = 1 / 0;
+        return 3;
+    }
 
 
 

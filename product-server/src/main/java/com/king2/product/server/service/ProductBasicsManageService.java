@@ -4,6 +4,7 @@ import com.king2.commons.pojo.K2MemberAndElseInfo;
 import com.king2.commons.pojo.K2ProductWithBLOBs;
 import com.king2.commons.result.SystemResult;
 import com.king2.product.server.dto.AddProductDto;
+import com.king2.product.server.exception.CheckValueException;
 
 /*=======================================================
 	说明:    商品基础管理Service
@@ -24,7 +25,7 @@ public interface ProductBasicsManageService {
      * 返回: SystemResult              返回调用者的数据
      * -----------------------------------------------------
      */
-    SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto);
+    SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto) throws CheckValueException;
 
     /**
      * -----------------------------------------------------

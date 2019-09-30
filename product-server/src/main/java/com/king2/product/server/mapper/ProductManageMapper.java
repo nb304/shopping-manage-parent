@@ -91,7 +91,7 @@ public interface ProductManageMapper {
             "p.`product_bazaar_price` , p.`product_system_price` , " +
             "p.`product_if_support` , p.`product_support_day` ,\n" +
             "p.`product_points` , p.`product_order_rule` , p.`product_unit` , \n" +
-            "s.product_sketch_id productSketchId , s.`product_sketch_value` productSketchContentl," +
+            "s.product_sketch_id productSketchId , s.`product_sketch_value` productSketchContent," +
             "e.next_update_time nextUpdateTime, e.last_update_time lastUpdateTime, \n" +
             "e.last_update_user_naem lastUpdateUserNaem FROM \n" +
             "k2_product p LEFT JOIN k2_product_sketch s \n" +
@@ -109,4 +109,13 @@ public interface ProductManageMapper {
      */
     @Select("SELECT product_image FROM k2_product WHERE product_id = #{productId}")
     String getProductImageById(Integer productId);
+
+    /**
+     * 查询该店铺最大的排序
+     *
+     * @param storeId
+     * @return
+     */
+    @Select("SELECT MAX(product_order_rule) FROM k2_product WHERE product_store_id = #{storeId}")
+    Integer getProductMaxOrderByStoreId(Integer storeId);
 }

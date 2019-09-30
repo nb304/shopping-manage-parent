@@ -7,14 +7,11 @@ import com.king2.product.server.appoint.*;
 import com.king2.product.server.dto.*;
 import com.king2.product.server.enmu.ProductEnum;
 import com.king2.product.server.enmu.ProductStateEnum;
-import com.king2.product.server.locks.ProductQueueLockFactory;
+import com.king2.product.server.exception.CheckValueException;
 import com.king2.product.server.mapper.ProductManageMapper;
 import com.king2.product.server.mapper.ProductSkuMapper;
-import com.king2.product.server.mapper.ProductSpuMapper;
-import com.king2.product.server.queue.ProductSuccessQueue;
-import com.king2.product.server.queue.SynchornizedProductQueue;
-import com.king2.product.server.service.ProductBasicsManageService;
 import com.king2.product.server.pojo.ProductSkuPojo;
+import com.king2.product.server.service.ProductBasicsManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,8 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 /*=======================================================
 	说明:    商品基础管理Service实现类
@@ -103,6 +98,10 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
     @Autowired
     private K2MessageMapper k2MessageMapper;
 
+    // 注入商品添加委托类
+    @Autowired
+    private ProductAddAppoint productAddAppoint;
+
     /**
      * -----------------------------------------------------
      * 功能:  添加商品
@@ -115,8 +114,11 @@ public class ProductBasicsManageServiceImpl implements ProductBasicsManageServic
      * -----------------------------------------------------
      */
     @Override
-    public SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto) {
-        return null;
+    @Transactional(rollbackFor = Exception.class)
+    public SystemResult addProduct(K2MemberAndElseInfo k2MemberAndElseInfo, AddProductDto dto) throws CheckValueException {
+
+        SystemResult result = productAddAppoint.checkProductInfo(dto, k2MemberAndElseInfo);
+        return result;
     }
 
     /**

@@ -81,4 +81,16 @@ public class GlobalExceptionHandler {
         // 返回错误信息
         return SystemResult.build(100, validResult.iterator().next().getMessage());
     }
+
+
+    @ExceptionHandler(value = CheckValueException.class)
+    @ResponseBody
+    public SystemResult CheckValueException(HttpServletRequest request,
+                                            CheckValueException exception) {
+        // 执行校验，获得校验结果
+        String message = exception.getMessage();
+        // 返回错误信息
+        return SystemResult.build(100, message);
+    }
+
 }
